@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-label="Lentago Labs — Production that shows up when the need does.">
   <defs>
-    <!-- The only gradient in the system: the hero 150deg #0e2b28 -> #1c4a44 -->
+    <!-- The only gradient in the system: the hero 150deg #0e2b1a -> #1b4b2e -->
     <linearGradient id="hero" x1="0.08" y1="0" x2="0.86" y2="1">
-      <stop offset="0" stop-color="#0e2b28"></stop>
-      <stop offset="1" stop-color="#1c4a44"></stop>
+      <stop offset="0" stop-color="#0e2b1a"></stop>
+      <stop offset="1" stop-color="#1b4b2e"></stop>
     </linearGradient>
     <clipPath id="frame"><rect width="1280" height="320"></rect></clipPath>
   </defs>
@@ -12,7 +12,7 @@
     <rect width="1280" height="320" fill="url(#hero)"></rect>
 
     <!-- Faint topographic contour lines (copper, ~8-14% opacity) -->
-    <g fill="none" stroke="#c2643c" stroke-width="1.5">
+    <g fill="none" stroke="#E0A81C" stroke-width="1.5">
       <path d="M820 360 C 940 250, 1080 250, 1220 330" stroke-opacity="0.10"></path>
       <path d="M820 340 C 950 215, 1090 215, 1240 300" stroke-opacity="0.12"></path>
       <path d="M830 322 C 965 182, 1100 182, 1255 272" stroke-opacity="0.14"></path>
@@ -40,7 +40,7 @@
         <path d="M32 31C31 24 33 17 32 11" transform="rotate(288 32 32)"></path>
         <path d="M32 31C31 27 33 23 32 19" transform="rotate(324 32 32)"></path>
       </g>
-      <g fill="#c2643c" fill-opacity="0.13">
+      <g fill="#E0A81C" fill-opacity="0.13">
         <circle cx="32" cy="10" r="2.1"></circle>
         <circle cx="32" cy="18" r="2.1" transform="rotate(36 32 32)"></circle>
         <circle cx="32" cy="10" r="2.1" transform="rotate(72 32 32)"></circle>
@@ -56,22 +56,22 @@
     </g>
 
     <!-- Bottom accent rule, copper -->
-    <rect x="0" y="316" width="1280" height="4" fill="#c2643c"></rect>
+    <rect x="0" y="316" width="1280" height="4" fill="#E0A81C"></rect>
 
     <!-- Eyebrow (mono, uppercase, tracked) -->
-    <text x="82" y="120" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="16" fill="#8fb0a8" letter-spacing="5">PRACTICE · EST. 1997 · INFRASTRUCTURE OPS</text>
+    <text x="82" y="120" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="16" fill="#9fb0aa" letter-spacing="5">PRACTICE · EST. 1997 · INFRASTRUCTURE OPS</text>
 
     <!-- Brand lockup: blossom mark + wordmark -->
     <g transform="translate(80,150) scale(0.90625)">
       <rect width="64" height="64" rx="14" fill="#f3f0e8"></rect>
-      <g fill="#fffefb" stroke="#1c4a44" stroke-width="2.2" stroke-linejoin="round">
+      <g fill="#fffefb" stroke="#1b4b2e" stroke-width="2.2" stroke-linejoin="round">
         <path d="M32 31C24 31 19 26 19 18C19 10 25 5 32 5C39 5 45 10 45 18C45 26 40 31 32 31Z"></path>
         <path d="M32 31C24 31 19 26 19 18C19 10 25 5 32 5C39 5 45 10 45 18C45 26 40 31 32 31Z" transform="rotate(72 32 32)"></path>
         <path d="M32 31C24 31 19 26 19 18C19 10 25 5 32 5C39 5 45 10 45 18C45 26 40 31 32 31Z" transform="rotate(144 32 32)"></path>
         <path d="M32 31C24 31 19 26 19 18C19 10 25 5 32 5C39 5 45 10 45 18C45 26 40 31 32 31Z" transform="rotate(216 32 32)"></path>
         <path d="M32 31C24 31 19 26 19 18C19 10 25 5 32 5C39 5 45 10 45 18C45 26 40 31 32 31Z" transform="rotate(288 32 32)"></path>
       </g>
-      <g stroke="#0e2b28" stroke-width="1.4" stroke-linecap="round" fill="none">
+      <g stroke="#0e2b1a" stroke-width="1.4" stroke-linecap="round" fill="none">
         <path d="M32 31C31 24 33 17 32 11"></path>
         <path d="M32 31C31 27 33 23 32 19" transform="rotate(36 32 32)"></path>
         <path d="M32 31C31 24 33 17 32 11" transform="rotate(72 32 32)"></path>
@@ -83,7 +83,7 @@
         <path d="M32 31C31 24 33 17 32 11" transform="rotate(288 32 32)"></path>
         <path d="M32 31C31 27 33 23 32 19" transform="rotate(324 32 32)"></path>
       </g>
-      <g fill="#c2643c">
+      <g fill="#E0A81C">
         <circle cx="32" cy="10" r="2.3"></circle>
         <circle cx="32" cy="18" r="2.3" transform="rotate(36 32 32)"></circle>
         <circle cx="32" cy="10" r="2.3" transform="rotate(72 32 32)"></circle>
@@ -95,14 +95,14 @@
         <circle cx="32" cy="10" r="2.3" transform="rotate(288 32 32)"></circle>
         <circle cx="32" cy="18" r="2.3" transform="rotate(324 32 32)"></circle>
       </g>
-      <circle cx="32" cy="32" r="4.4" fill="#fffefb" stroke="#1c4a44" stroke-width="1.4"></circle>
+      <circle cx="32" cy="32" r="4.4" fill="#fffefb" stroke="#1b4b2e" stroke-width="1.4"></circle>
     </g>
     <text x="156" y="197" font-family="'Space Grotesk', system-ui, sans-serif" font-weight="700" font-size="58" fill="#f3f0e8" letter-spacing="-2">Lentago Labs</text>
 
     <!-- Tagline -->
-    <text x="82" y="250" font-family="'Space Grotesk', system-ui, sans-serif" font-size="26" fill="#cdbfae" letter-spacing="-0.5">Production that shows up when the need does.</text>
+    <text x="82" y="250" font-family="'Space Grotesk', system-ui, sans-serif" font-size="26" fill="#cdd6d0" letter-spacing="-0.5">Production that shows up when the need does.</text>
 
     <!-- Field-prompt line (mono): copper triangulation marker + lentago, never :> -->
-    <text x="82" y="290" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="15"><tspan fill="#c2643c">▲</tspan><tspan fill="#8fb0a8"> lentago</tspan><tspan fill="#7a988f"> runbook.md  ·  build it · break it · operate it</tspan></text>
+    <text x="82" y="290" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="15"><tspan fill="#E0A81C">▲</tspan><tspan fill="#9fb0aa"> lentago</tspan><tspan fill="#748983"> runbook.md  ·  build it · break it · operate it</tspan></text>
   </g>
 </svg>
