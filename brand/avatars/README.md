@@ -4,7 +4,7 @@ Canonical GitHub avatar marks for the Lentago Labs identity. The org mark is the
 brand **blossom** — a five-petal field-flower (limestone petals carried by teal
 contour outlines, a spray of stamens tipped in copper anthers, and a pale center)
 set in a deep-teal chip, per the
-[Lentago Labs brand contract](https://github.com/lentago/lentagolabs-dev/blob/main/BRAND.md).
+[Lentago Labs brand contract](https://github.com/lentago/site-lentago-dev/blob/main/BRAND.md).
 It comes in a **rounded** (avatar) and a **square** (sharp-corner) variant. The
 blossom replaced the former benchmark-disk mark in the "Tidewater" system.
 
@@ -47,7 +47,7 @@ blossom is drawn (pure SVG geometry — five 72°-rotated petals, ten stamens, a
 pale center) — no font dependency. The `<cjp:>` personal mark keeps its own navy `#1c3552` · orange
 `#e08438` · cream `#faf7f2` palette in JetBrains Mono 700, lowercase.
 
-Full palette + mark rationale: `lentago/lentagolabs-dev` → `BRAND.md` and
+Full palette + mark rationale: `lentago/site-lentago-dev` → `BRAND.md` and
 `public/design-system/tokens/`.
 
 ## Notes
@@ -58,7 +58,7 @@ Full palette + mark rationale: `lentago/lentagolabs-dev` → `BRAND.md` and
   them faithfully (these were rendered headless at 512×512 with transparent
   corners). The `<cjp:>` lettermark PNG needs the self-hosted JetBrains Mono, so
   it is rendered via headless Chrome (harness + history in
-  `lentago/pitzilabs-dev` → `lab/brand-assets/`).
+  `lentago/site-pitzilabs-dev` → `lab/brand-assets/`).
 - **GitHub avatars are a manual upload** — there is no API/`gh` path. Org →
   Org Settings → Profile → avatar; personal → Settings → Profile → Profile picture.
 - The org mark is centered to survive GitHub's circle-crop.
