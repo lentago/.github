@@ -1,5 +1,7 @@
 # .github — Lentago Labs org defaults
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/lentago/.github)
+
 This is the Lentago Labs organization's special `.github` repository. GitHub reads
 org-level defaults from here.
 
