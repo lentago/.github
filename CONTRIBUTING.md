@@ -7,7 +7,7 @@ Thanks for your interest. These are the org-wide defaults for every
 ## What these repos are
 
 Lentago Labs is a one-operator infrastructure practice. Most repos here are
-live homelab infrastructure, portfolio/demo platforms, or the tooling that
+live Lentago lab infrastructure, portfolio/demo platforms, or the tooling that
 operates them — not community projects with a roadmap looking for maintainers.
 External contributions are welcome, but scope them accordingly: small, focused
 changes land easily; large ones need a conversation first.

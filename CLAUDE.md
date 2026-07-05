@@ -42,7 +42,7 @@ org-level operator tooling that governs the rest of the fleet.
   from here: `dotgithub/fleet-ops/fleet-apply.sh`. See `fleet-ops/README.md`.
 - **`archive/`** — local-only holding pen, **`.gitignore`d so it is never
   published**. Holds relocated scratchpads (e.g. the interactive Lentago Labs
-  portfolio mockup) that embed homelab LAN topology and therefore must not land
+  portfolio mockup) that embed Lentago lab LAN topology and therefore must not land
   in this **public** repo. Keep this dir out of git.
 
 Note: only `profile/`, the root community-health files, `ISSUE_TEMPLATE/`,
