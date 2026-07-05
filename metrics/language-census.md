@@ -17,7 +17,7 @@ refresh in the [Update log](#update-log).
 > `CLAUDE.md` / PR-workflow text is counted once, not once per repo.
 >
 > **Repos in scope (15):** `bullpen`, `.github`, `firewalla-axiom-pipeline`,
-> `foundry-platform-demo`, `homeassistant-config`, `homelab-observability`,
+> `foundry-platform-demo`, `homeassistant-config`, `drosera`,
 > `ice-cream-book`, `lentagolabs-dev`, `music-curator`, `office-presence`,
 > `pitzilabs-dev`, `reference-checker`, `repo-template`, `shared-workflows`,
 > `workstation-bootstrap`.
@@ -74,7 +74,7 @@ the code that actually executes ranks:
 
 - **JSON leads but carries no logic** — it's HA entity/device/dashboard registry
   snapshots (`homeassistant-config`), Grafana dashboard JSON
-  (`homelab-observability`), and `package.json`-style config. Discount it as data
+  (`drosera`), and `package.json`-style config. Discount it as data
   and the picture is Markdown docs over a Shell → JS/Astro → Terraform code base.
 - **HTML is output, not source** — the 6,179 lines are dominated by
   `reference-checker`'s committed `reports/*.html` (rendered analysis outputs);
