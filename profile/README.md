@@ -44,6 +44,20 @@
 | **CI/CD & supply chain** | OIDC, plan-on-PR, no long-lived credentials. |
 | **AI-augmented delivery** | A Claude agent fleet that builds and reviews — directed by humans, who own every merge. |
 
+<br/>
+
+### 🌿 &nbsp; The suite
+
+<sub>Each system splits a platform-agnostic core from per-source clients — the current build is always <i>the first client</i>, never the product.</sub>
+
+| | |
+| :-- | :-- |
+| [**solidago**](https://github.com/lentago/solidago) | Reference three-tier AWS platform — 100% Terraform: VPC, ECS Fargate, RDS, WAF. |
+| [**drosera**](https://github.com/lentago/drosera) | Git-driven observability into Grafana Cloud — one Alloy container, Terraform-provisioned dashboards. |
+| [**kalmia**](https://github.com/lentago/kalmia) | Idempotent provisioning for workstations, VMs, and containers. |
+| [**claytonia**](https://github.com/lentago/claytonia) | Self-hosted agent fleet — drop a job, get a reviewed PR back. |
+| [**betula**](https://github.com/lentago/betula) | Full-volume log capture &amp; archive → Axiom, at zero query cost. |
+
 <div align="center">
 <sub><b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US &nbsp;·&nbsp; remote · async-friendly</sub>
 </div>
