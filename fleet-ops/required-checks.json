@@ -1,0 +1,28 @@
+{
+  "_comment": [
+    "Per-repo required status-check contexts, layered onto each repo's `main`",
+    "branch ruleset by `fleet-apply.sh --require-checks`. Origin: lentago/.github#27",
+    "(rulesets had no required checks, so `gh pr merge --auto` could not arm and a",
+    "red plan/lint blocked nothing).",
+    "",
+    "Contexts are the EXACT GitHub check-run names, captured from live PR check",
+    "runs — NOT workflow names or job display names. Note the surprises: the",
+    "reusable ShellCheck check reports as 'shellcheck / shellcheck' (caller-job /",
+    "reusable-job), and kalmia's ansible-lint reports as 'ansible-lint' (the job",
+    "id), not 'Ansible Lint' (the workflow name).",
+    "",
+    "HARD RULE: never list a context whose workflow is path-filtered at the `on:`",
+    "level — a required check whose workflow never triggers is held 'Expected'",
+    "forever and deadlocks every non-matching PR. The terraform repos solve this",
+    "with an always-on `gate` job (see each repo's terraform.yml). Only list",
+    "checks that report on EVERY PR (or that skip at the job level, which counts",
+    "as passing). See fleet-ops/README.md § Required status checks."
+  ],
+  "checks": {
+    "kalmia": ["gate", "ansible-lint", "shellcheck / shellcheck"],
+    "drosera": ["gate", "shellcheck / shellcheck"],
+    "solidago": ["gate"],
+    "site-lentago-dev": ["Build"],
+    "claytonia": ["shellcheck / shellcheck"]
+  }
+}

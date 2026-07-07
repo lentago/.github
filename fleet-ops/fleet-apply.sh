@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================================
 # fleet-apply.sh — enforce Lentago Labs fleet repo settings that GitHub templates
-# and branch rulesets do NOT carry: merge-button options and the topic spine.
+# and branch rulesets do NOT carry: merge-button options, the topic spine, and
+# the per-repo required status checks (required-checks.json).
 #
 #   ./fleet-apply.sh                 # check ALL non-archived org repos (read-only)
 #   ./fleet-apply.sh --apply         # apply merge/topic fixes to ALL repos
@@ -9,25 +10,38 @@
 #   ./fleet-apply.sh --apply --repo NAME
 #   ./fleet-apply.sh --prune-branches         # delete merged-residue branches fleet-wide
 #   ./fleet-apply.sh --prune-branches --repo NAME
+#   ./fleet-apply.sh --require-checks         # set required status checks per required-checks.json
+#   ./fleet-apply.sh --require-checks --repo NAME
 #
-# Read-only by default. Only --apply (settings) and --prune-branches (branch
-# deletion) mutate; they are independent flags so the destructive branch sweep
-# is always opt-in. delete_branch_on_merge auto-removes a head branch when its
-# PR merges going forward, but it does NOT retroactively clean branches whose PR
-# merged before the setting was enabled, nor abandoned no-PR branches — this scan
-# closes that gap. Branch protection is intentionally NOT managed here — that's
-# the org-level `fleet-baseline` ruleset (org-ruleset.json) plus per-repo rulesets
-# that add required status checks. This script reports ruleset presence but never
-# changes it.
+# Read-only by default. Only --apply (settings), --prune-branches (branch
+# deletion) and --require-checks (ruleset required-check rule) mutate; they are
+# independent flags so each destructive action is opt-in. delete_branch_on_merge
+# auto-removes a head branch when its PR merges going forward, but it does NOT
+# retroactively clean branches whose PR merged before the setting was enabled,
+# nor abandoned no-PR branches — the branch scan closes that gap. The base
+# branch protection (PR-required, squash-only, no force-push/deletion) is the
+# per-repo `main` ruleset created by --apply; the required *status checks* layer
+# on top of it is --require-checks (see "Required status checks" below).
+#
+# Required status checks (lentago/.github#27): the fleet rulesets used to define
+# no required checks, so `gh pr merge --auto --squash` could not arm ("clean
+# status") and a red plan/lint blocked nothing. required-checks.json maps each
+# repo to the EXACT check-run contexts to require. --require-checks applies that
+# map, but ONLY after a preflight confirms each context has actually reported on
+# a recent PR — requiring a context whose workflow never triggers deadlocks the
+# repo (see README § Required status checks and the rollout order there).
 # ============================================================================
 set -euo pipefail
 
 ORG=lentago
 MODE=check
 PRUNE=0
+REQUIRE=0
 ONLY=""
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 SPINE_TOPICS=(lentago claude)
+CHECKS_MAP="$SCRIPT_DIR/required-checks.json"
+ACTIONS_APP_ID=15368   # GitHub Actions app — integration_id for required-check contexts
 # Sentinel: the copy-pasted review prompt that caused a fleet-wide regression.
 # Any repo other than workstation-bootstrap carrying this is mis-customized.
 BOILERPLATE='bash bootstrap scripts for Linux workstations'
@@ -37,6 +51,7 @@ while [ $# -gt 0 ]; do
     --apply) MODE=apply ;;
     --check) MODE=check ;;
     --prune-branches) PRUNE=1 ;;
+    --require-checks) REQUIRE=1 ;;
     --repo)  ONLY="${2:?--repo needs a name}"; shift ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
@@ -44,7 +59,73 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-echo "fleet-apply: mode=$MODE$([ "$PRUNE" = 1 ] && echo ' prune-branches=on') org=$ORG ${ONLY:+repo=$ONLY}"
+# --- required-status-check helpers (issue #27) ------------------------------
+
+# Current required-check contexts on a repo's `main` branch ruleset (may be empty).
+required_contexts() {
+  local r="$1" id
+  id=$(gh api "repos/$ORG/$r/rulesets" \
+        --jq '.[] | select(.target=="branch" and .name=="main") | .id' 2>/dev/null | head -1)
+  [ -z "$id" ] && return
+  gh api "repos/$ORG/$r/rulesets/$id" \
+    --jq '.rules[]? | select(.type=="required_status_checks") | .parameters.required_status_checks[].context' \
+    2>/dev/null || true
+}
+
+# Check-run names present on the repo's most recent PR head — the evidence that a
+# context's workflow actually runs. Guards --require-checks against typos and
+# premature flips. (Proves the workflow runs, NOT that it is merged to main —
+# that ordering is the operator's job per the README.)
+seen_contexts() {
+  local r="$1" n sha
+  n=$(gh pr list --repo "$ORG/$r" --state all --limit 1 --json number --jq '.[0].number' 2>/dev/null)
+  [ -z "$n" ] && return
+  sha=$(gh api "repos/$ORG/$r/pulls/$n" --jq '.head.sha' 2>/dev/null)
+  [ -z "$sha" ] && return
+  gh api "repos/$ORG/$r/commits/$sha/check-runs" --jq '.check_runs[].name' 2>/dev/null | sort -u
+}
+
+# Layer the mapped required-check contexts onto a repo's `main` ruleset.
+require_checks_apply() {
+  local r="$1"; shift
+  local -a want=("$@")
+  local id
+  id=$(gh api "repos/$ORG/$r/rulesets" \
+        --jq '.[] | select(.target=="branch" and .name=="main") | .id' 2>/dev/null | head -1)
+  if [ -z "$id" ]; then
+    echo "      ! $r: no main branch ruleset (run --apply first) — skipping required checks"
+    return 1
+  fi
+  local -a seen=() unseen=()
+  mapfile -t seen < <(seen_contexts "$r")
+  local w
+  for w in "${want[@]}"; do
+    printf '%s\n' "${seen[@]}" | grep -qxF "$w" || unseen+=("$w")
+  done
+  if [ ${#unseen[@]} -gt 0 ]; then
+    echo "      ! $r: context(s) never seen on a recent PR: [${unseen[*]}]"
+    echo "        refusing to require them (would deadlock). Land + run the producing workflow on main first."
+    return 1
+  fi
+  local checks_json body
+  checks_json=$(printf '%s\n' "${want[@]}" \
+    | jq -R --argjson id "$ACTIONS_APP_ID" '{context: ., integration_id: $id}' | jq -s '.')
+  body=$(gh api "repos/$ORG/$r/rulesets/$id" | jq --argjson checks "$checks_json" '
+    { name, target, enforcement,
+      bypass_actors: (.bypass_actors // []),
+      conditions,
+      rules: ( [ .rules[] | select(.type != "required_status_checks") ]
+               + [ { type: "required_status_checks",
+                     parameters: { strict_required_status_checks_policy: false,
+                                   do_not_enforce_on_create: false,
+                                   required_status_checks: $checks } } ] ) }')
+  printf '%s' "$body" | gh api -X PUT "repos/$ORG/$r/rulesets/$id" --input - >/dev/null \
+    && echo "      → required checks set on $r: [${want[*]}]"
+}
+
+# ----------------------------------------------------------------------------
+
+echo "fleet-apply: mode=$MODE$([ "$PRUNE" = 1 ] && echo ' prune-branches=on')$([ "$REQUIRE" = 1 ] && echo ' require-checks=on') org=$ORG ${ONLY:+repo=$ONLY}"
 echo
 
 if [ -n "$ONLY" ]; then
@@ -56,6 +137,7 @@ fi
 drift_total=0
 pruned_total=0
 orphan_total=0
+checks_missing_total=0
 
 for r in $repos; do
   # --- merge-button settings (also grab default branch for the residue scan) ---
@@ -98,6 +180,23 @@ for r in $repos; do
     [ "$rs_count" = "0" ] && ruleset_missing=1
   fi
 
+  # --- required status checks vs the required-checks.json map (issue #27) ---
+  declare -a want_checks=() have_checks=() missing_checks=()
+  if [ -f "$CHECKS_MAP" ]; then
+    mapfile -t want_checks < <(jq -r --arg r "$r" '.checks[$r][]? // empty' "$CHECKS_MAP" 2>/dev/null)
+  fi
+  checks_note=""
+  if [ ${#want_checks[@]} -gt 0 ] && [ "$ruleset_missing" -eq 0 ] && [ "$rs_count" != "n/a (private/plan)" ]; then
+    mapfile -t have_checks < <(required_contexts "$r")
+    for w in "${want_checks[@]}"; do
+      printf '%s\n' "${have_checks[@]}" | grep -qxF "$w" || missing_checks+=("$w")
+    done
+    if [ ${#missing_checks[@]} -gt 0 ]; then
+      checks_note=" ⧗ req-checks missing=[${missing_checks[*]}]"
+      checks_missing_total=$((checks_missing_total+1))
+    fi
+  fi
+
   # --- informational: boilerplate review-prompt guard ---
   warn=""
   if [ "$r" != "workstation-bootstrap" ]; then
@@ -133,7 +232,7 @@ for r in $repos; do
 
   # --- report / apply ---
   if [ ${#fixes[@]} -eq 0 ] && [ ${#add_topics[@]} -eq 0 ] && [ -z "$warn" ] && [ "$ruleset_missing" -eq 0 ] \
-     && [ ${#residue[@]} -eq 0 ] && [ ${#orphans[@]} -eq 0 ]; then
+     && [ ${#residue[@]} -eq 0 ] && [ ${#orphans[@]} -eq 0 ] && [ ${#missing_checks[@]} -eq 0 ]; then
     printf '  ✓ %-26s settings ok (branch rulesets: %s)%s\n' "$r" "$rs_count" "$auto_note"
   else
     drift_total=$((drift_total+1))
@@ -147,6 +246,7 @@ for r in $repos; do
     [ ${#orphans[@]} -gt 0 ]    && printf 'orphan-branches=[%s] ' "${orphans[*]}"
     [ -n "$warn" ]              && printf '%s' "$warn"
     [ -n "$auto_note" ]        && printf '%s' "$auto_note"
+    [ -n "$checks_note" ]      && printf '%s' "$checks_note"
     printf '\n'
     if [ "$MODE" = apply ]; then
       [ ${#fixes[@]} -gt 0 ] && gh repo edit "$ORG/$r" "${fixes[@]}" >/dev/null
@@ -155,7 +255,7 @@ for r in $repos; do
         gh api -X POST "repos/$ORG/$r/rulesets" --input "$SCRIPT_DIR/repo-ruleset.json" >/dev/null \
           && echo "      → created main branch ruleset"
       fi
-      echo "      → applied (note: review_prompt warnings are NOT auto-fixed — edit by hand)"
+      echo "      → applied (note: review_prompt warnings and required checks are NOT touched by --apply)"
     fi
     if [ "$PRUNE" = 1 ] && [ ${#residue[@]} -gt 0 ]; then
       for b in "${residue[@]}"; do
@@ -165,7 +265,13 @@ for r in $repos; do
     fi
     [ ${#orphans[@]} -gt 0 ] && echo "      → orphan branch(es) left for manual review (no PR — verify content landed on main before deleting)"
   fi
-  unset fixes add_topics residue orphans
+
+  # --require-checks mutates independently of MODE (like --prune-branches).
+  if [ "$REQUIRE" = 1 ] && [ ${#want_checks[@]} -gt 0 ]; then
+    require_checks_apply "$r" "${want_checks[@]}"
+  fi
+
+  unset fixes add_topics residue orphans want_checks have_checks missing_checks
 done
 
 echo
@@ -173,6 +279,11 @@ if [ "$PRUNE" = 1 ]; then
   echo "branch prune complete — $pruned_total merged-residue branch(es) deleted; $orphan_total orphan(s) left for manual review."
 elif [ "$pruned_total" -gt 0 ] || [ "$orphan_total" -gt 0 ]; then
   echo "branch scan — $pruned_total merged-residue branch(es) prunable (re-run with --prune-branches), $orphan_total orphan(s) need manual review."
+fi
+if [ "$REQUIRE" = 1 ]; then
+  echo "require-checks complete."
+elif [ "$checks_missing_total" -gt 0 ]; then
+  echo "required-checks — $checks_missing_total repo(s) missing mapped checks. After each producing workflow is merged to main & observed green on a PR, run: $0 --require-checks"
 fi
 if [ "$MODE" = check ]; then
   echo "check complete — $drift_total repo(s) with drift. Re-run with --apply to fix merge/topics."
