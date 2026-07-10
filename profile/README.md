@@ -50,13 +50,28 @@
 
 <sub>Each system splits a platform-agnostic core from per-source clients — the current build is always <i>the first client</i>, never the product.</sub>
 
-| | | |
-| :--: | :-- | :-- |
-| <img src="./assets/marks/solidago-mark-square.svg" width="26" height="26" alt="" /> | [**solidago**](https://github.com/lentago/solidago) | Reference three-tier AWS platform — 100% Terraform: VPC, ECS Fargate, RDS, WAF. |
-| <img src="./assets/marks/drosera-mark-square.svg" width="26" height="26" alt="" /> | [**drosera**](https://github.com/lentago/drosera) | Git-driven observability into Grafana Cloud — one Alloy container, Terraform-provisioned dashboards. |
-| <img src="./assets/marks/kalmia-mark-square.svg" width="26" height="26" alt="" /> | [**kalmia**](https://github.com/lentago/kalmia) | Idempotent provisioning for workstations, VMs, and containers. |
-| <img src="./assets/marks/claytonia-mark-square.svg" width="26" height="26" alt="" /> | [**claytonia**](https://github.com/lentago/claytonia) | Self-hosted agent fleet — drop a job, get a reviewed PR back. |
-| <img src="./assets/marks/betula-mark-square.svg" width="26" height="26" alt="" /> | [**betula**](https://github.com/lentago/betula) | Full-volume log capture &amp; archive → Axiom, at zero query cost. |
+<table>
+<tr>
+<td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a></td>
+<td>Reference three-tier AWS platform — 100% Terraform: VPC, ECS Fargate, RDS, WAF.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a></td>
+<td>Git-driven observability into Grafana Cloud — one Alloy container, Terraform-provisioned dashboards.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/kalmia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/kalmia"><b>kalmia</b></a></td>
+<td>Idempotent provisioning for workstations, VMs, and containers.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a></td>
+<td>Self-hosted agent fleet — drop a job, get a reviewed PR back.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a></td>
+<td>Full-volume log capture &amp; archive → Axiom, at zero query cost.</td>
+</tr>
+</table>
 
 <div align="center">
 <sub><b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US &nbsp;·&nbsp; remote · async-friendly</sub>
