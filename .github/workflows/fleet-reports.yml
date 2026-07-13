@@ -1,0 +1,77 @@
+name: Weekly fleet reports
+
+# Regenerates metrics/code-census.md and fleet-reports/fleet-issue-report.md from
+# the fleet's public state and opens an auto-merging refresh PR.
+#
+# Auth: the org disallows GITHUB_TOKEN from creating PRs, so this uses a
+# fine-grained PAT stored as the repo secret FLEET_REPORTS_TOKEN (resource owner
+# `lentago`, repo `.github`, permissions Contents + Pull requests: write). The
+# generator's cross-repo reads work because every lentago repo is public.
+
+on:
+  schedule:
+    # Mondays 12:00 UTC = 08:00 EDT (07:00 EST). GitHub runs schedules in UTC.
+    - cron: "0 12 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fleet-reports
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.FLEET_REPORTS_TOKEN }}
+    steps:
+      - name: Require the PAT secret
+        run: |
+          if [ -z "${{ secrets.FLEET_REPORTS_TOKEN }}" ]; then
+            echo "::error::FLEET_REPORTS_TOKEN is not set. Create a fine-grained PAT" \
+                 "(owner lentago, repo .github, Contents + Pull requests: write) and" \
+                 "store it: gh secret set FLEET_REPORTS_TOKEN --repo lentago/.github"
+            exit 1
+          fi
+
+      - name: Checkout .github
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.FLEET_REPORTS_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install cloc
+        run: sudo apt-get update -q && sudo apt-get install -y cloc
+
+      - name: Regenerate reports
+        run: python3 metrics/generate-fleet-reports.py --out-dir .
+
+      - name: Open auto-merging PR if anything changed
+        run: |
+          set -euo pipefail
+          FILES="metrics/code-census.md fleet-reports/fleet-issue-report.md"
+          if git diff --quiet -- $FILES; then
+            echo "No changes this week — nothing to publish."
+            exit 0
+          fi
+          D=$(date -u +%F)
+          BR="fleet-reports-refresh-$D"
+          git config user.name  "lentago-fleet-bot"
+          git config user.email "chris@lentago.dev"
+          git switch -c "$BR"
+          git add $FILES
+          git commit -m "Weekly fleet reports refresh — $D" \
+                     -m "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
+          git push -u origin "$BR"
+          gh pr create --base main --head "$BR" \
+            --title "Weekly fleet reports refresh — $D" \
+            --body "Automated weekly regeneration of \`metrics/code-census.md\` and \`fleet-reports/fleet-issue-report.md\` from public GitHub metadata + \`cloc\`. Produced by \`.github/workflows/fleet-reports.yml\`."
+          # Arm auto-merge; fall back to an immediate squash if auto-merge can't arm.
+          gh pr merge "$BR" --auto --squash --delete-branch \
+            || gh pr merge "$BR" --squash --delete-branch
