@@ -127,6 +127,12 @@ the fleet's public state, linked from the org profile under **Fleet in numbers**
 Scope is the **active** `lentago` repos (archived repos are frozen and excluded;
 GitHub's listing endpoints don't surface archived repos anyway). Regenerate with
 `python3 metrics/generate-fleet-reports.py --out-dir .` (needs `git`, `gh`, `cloc`).
-A **weekly cloud routine** (Claude Code Routines, Mondays) runs it and opens a
-refresh PR; the numbers are meant to be overwritten in place, with git history as
-the archive. Requires `pull_request` on `main`, so it lands as a PR, not a push.
+
+**Weekly automation:** `.github/workflows/fleet-reports.yml` runs the generator on
+a schedule (Mondays) and opens an auto-merging refresh PR — reports overwrite in
+place, git history is the archive. Because the org disallows `GITHUB_TOKEN` from
+creating PRs, the workflow authenticates with a **fine-grained PAT** stored as the
+repo secret **`FLEET_REPORTS_TOKEN`** (owner `lentago`, repo `.github`, Contents +
+Pull requests: write). The generator's cross-repo reads work over the public repos
+regardless of PAT scope. If the secret is missing the workflow fails fast with a
+setup hint. Rotate/replace the token by resetting that secret.
