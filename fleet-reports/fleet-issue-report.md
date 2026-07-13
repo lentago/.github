@@ -3,11 +3,11 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from public GitHub metadata (issues + merged PRs) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-13 19:55 UTC · Scope: all issues across the `lentago` org · Activity window: last 7 days (since 2026-07-06).
+**Generated:** 2026-07-13 21:14 UTC · Scope: all issues across the `lentago` org · Activity window: last 7 days (since 2026-07-06).
 
 | Open issues | Repos with open issues | PRs merged (7d) | Issues closed (7d) | Issues opened (7d) |
 |---:|---:|---:|---:|---:|
-| **39** | 9 | 80 | 27 | 6 |
+| **39** | 9 | 82 | 27 | 6 |
 
 ## Open issues by repo
 
@@ -97,8 +97,10 @@
 
 ## Activity — last 7 days
 
-**80 PRs merged**
+**82 PRs merged**
 
+- 2026-07-13 · [.github#36](https://github.com/lentago/.github/pull/36) — Add scheduled GitHub Actions workflow for the weekly fleet reports
+- 2026-07-13 · [.github#35](https://github.com/lentago/.github/pull/35) — Add weekly fleet-reports automation + link from org profile
 - 2026-07-13 · [homeassistant-config#506](https://github.com/lentago/homeassistant-config/pull/506) — Silence UGREEN NAS metrics: recorder-exclude sensors + drop NAS dashboard cards
 - 2026-07-13 · [music-curator#32](https://github.com/lentago/music-curator/pull/32) — feat: Spotify data-availability spec + periodic Web API harvester (n8n)
 - 2026-07-13 · [music-curator#37](https://github.com/lentago/music-curator/pull/37) — chore: gitignore .spotify operator secrets file on main
