@@ -112,17 +112,18 @@ section. When refreshing, update **all three** together: the table, the
 
 ## Weekly fleet reports (automated)
 
-`metrics/generate-fleet-reports.py` regenerates two GitHub-rendered reports from
-the fleet's public state, linked from the org profile under **Fleet in numbers**:
+`metrics/generate-fleet-reports.py` regenerates a single GitHub-rendered report,
+**`fleet-reports/fleet-report.md`**, linked from the org profile under **Fleet in
+numbers**. It has two parts from the fleet's public state:
 
-- **`metrics/code-census.md`** — a *re-cut* of the language census that counts
-  `CLAUDE.md`-family instruction markdown (+ reference-checker prompt-programs) as
-  natural-language code, and reports documentation / content / data separately.
-  Distinct from the canonical `language-census.md`; the two intentionally differ.
-- **`fleet-reports/fleet-issue-report.md`** — open issues by repo + a 7-day
-  merge/close activity snapshot, from public GitHub metadata only. This is the
-  public, auto-generated sibling of the LAN-only editorial issue report (the
-  older `fleet-reports/2026-07-01-*.md` archive is the hand-written kind).
+- **Issues** — open issues by repo + a 7-day merge/close activity snapshot, from
+  public GitHub metadata only. The public, auto-generated sibling of the LAN-only
+  editorial report (the older `fleet-reports/2026-07-01-*.md` archive is the
+  hand-written kind).
+- **Code census** — a *re-cut* of the language census that counts `CLAUDE.md`-family
+  instruction markdown (+ reference-checker prompt-programs) as natural-language
+  code, and reports documentation / content / data separately. Distinct from the
+  canonical `metrics/language-census.md`; the two intentionally differ.
 
 Scope is the **active** `lentago` repos (archived repos are frozen and excluded;
 GitHub's listing endpoints don't surface archived repos anyway). Regenerate with
