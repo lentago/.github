@@ -3,15 +3,15 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-13 21:51 UTC · Scope: the **13 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 7 days (since 2026-07-06).
+**Generated:** 2026-07-13 21:53 UTC · Scope: the **13 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 7 days (since 2026-07-06).
 
 ## Snapshot
 
 | Open issues | PRs merged (7d) | Issues closed (7d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **39** | 83 | 27 | **36,336** | 3,077 (18 files) |
+| **39** | 84 | 27 | **34,495** | 3,078 (18 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**3,077 lines** across 18 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**3,078 lines** across 18 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
@@ -103,8 +103,9 @@ The fleet's hand-maintained natural-language instruction surface (**3,077 lines*
 
 ## Activity — last 7 days
 
-**83 PRs merged**
+**84 PRs merged**
 
+- 2026-07-13 · [.github#38](https://github.com/lentago/.github/pull/38) — Combine the fleet reports into a single fleet-report.md
 - 2026-07-13 · [.github#37](https://github.com/lentago/.github/pull/37) — Weekly fleet reports refresh — 2026-07-13
 - 2026-07-13 · [.github#36](https://github.com/lentago/.github/pull/36) — Add scheduled GitHub Actions workflow for the weekly fleet reports
 - 2026-07-13 · [.github#35](https://github.com/lentago/.github/pull/35) — Add weekly fleet-reports automation + link from org profile
@@ -231,26 +232,24 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 8,581 | 25 | 23.6% |
-| 2 | YAML | 8,121 | 127 | 22.3% |
-| 3 | HCL | 5,425 | 99 | 14.9% |
-| 4 | Shell (Bourne + Bash) | 4,569 | 54 | 12.6% |
-| 5 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,077 | 18 | 8.5% |
-| 6 | Python | 2,754 | 19 | 7.6% |
-| 7 | Astro | 1,325 | 11 | 3.6% |
-| 8 | JSX | 851 | 10 | 2.3% |
-| 9 | JavaScript | 773 | 7 | 2.1% |
-| 10 | TypeScript | 304 | 7 | 0.8% |
-| 11 | Jinja Template | 261 | 4 | 0.7% |
-| 12 | CSS | 258 | 7 | 0.7% |
-| 13 | Other (TOML / Dockerfile / …) | 37 | 5 | 0.1% |
-| | **CODE TOTAL** | **36,336** | **393** | 100% |
+| 1 | JSON | 8,325 | 25 | 24.1% |
+| 2 | YAML | 8,121 | 127 | 23.5% |
+| 3 | HCL | 5,425 | 99 | 15.7% |
+| 4 | Shell (Bourne + Bash) | 4,569 | 54 | 13.2% |
+| 5 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,078 | 18 | 8.9% |
+| 6 | Python | 2,754 | 19 | 8.0% |
+| 7 | JSX | 851 | 10 | 2.5% |
+| 8 | JavaScript | 773 | 7 | 2.2% |
+| 9 | TypeScript | 304 | 7 | 0.9% |
+| 10 | CSS | 258 | 7 | 0.7% |
+| 11 | Other (TOML / Dockerfile / …) | 37 | 5 | 0.1% |
+| | **CODE TOTAL** | **34,495** | **378** | 100% |
 | — | _Data / exports — excluded_ | 85,159 | 19 | — |
 | — | _Generated (lockfiles, SVG) — excluded_ | 12,645 | 25 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (14 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,626 lines**
+- **Hygiene family** (14 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,627 lines**
 - **Prompt-programs** (4 files · reference-checker auditors): **1,451 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -260,7 +259,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | homeassistant-config | `CLAUDE.md` | 399 |
 | shared-workflows | `CLAUDE.md` | 181 |
 | betula | `CLAUDE.md` | 156 |
-| .github | `CLAUDE.md` | 114 |
+| .github | `CLAUDE.md` | 115 |
 | site-lentago-dev | `CLAUDE.md` | 108 |
 | solidago | `CLAUDE.md` | 99 |
 | site-icecreamtofightwith-com | `CLAUDE.md` | 98 |
@@ -271,7 +270,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | music-curator | `CLAUDE.md` | 61 |
 | claytonia | `CLAUDE.md` | 57 |
 | repo-template | `CLAUDE.md` | 22 |
-| **14 files** | | **1,626** |
+| **14 files** | | **1,627** |
 
 #### Prompt-programs — natural language *is* the logic
 
@@ -283,37 +282,37 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | reference-checker | `prompts/v3-auditor.md` | 69 |
 | **4 files** | | **1,451** |
 
-_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,626**, not 3,077._
+_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,627**, not 3,078._
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| drosera | 9,298 | 161 | 667 | 0 | 0 |
+| drosera | 9,156 | 161 | 667 | 0 | 0 |
 | homeassistant-config | 6,495 | 399 | 1,090 | 0 | 17,420 |
 | solidago | 5,831 | 99 | 1,690 | 0 | 0 |
-| site-icecreamtofightwith-com | 3,232 | 98 | 594 | 6,008 | 0 |
-| kalmia | 2,243 | 94 | 463 | 0 | 0 |
+| site-icecreamtofightwith-com | 2,041 | 98 | 594 | 6,008 | 0 |
+| kalmia | 1,982 | 94 | 463 | 0 | 0 |
 | claytonia | 1,736 | 57 | 520 | 0 | 0 |
-| music-curator | 1,618 | 61 | 866 | 7,909 | 62,565 |
 | reference-checker | 1,587 | 1,527 | 731 | 669 | 5,174 |
-| site-lentago-dev | 1,555 | 108 | 360 | 0 | 0 |
+| music-curator | 1,504 | 61 | 866 | 7,909 | 62,565 |
+| site-lentago-dev | 1,421 | 108 | 360 | 0 | 0 |
 | betula | 1,288 | 156 | 923 | 0 | 0 |
-| .github | 817 | 114 | 371 | 165 | 0 |
+| .github | 818 | 115 | 370 | 442 | 0 |
 | shared-workflows | 571 | 181 | 83 | 0 | 0 |
 | repo-template | 65 | 22 | 46 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **26,584 lines of Markdown across 725 files**; only 11.6% is instruction-code.
+The fleet carries **26,861 lines of Markdown across 726 files**; only 11.5% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 3,077 | 18 | **counted as code** |
-| Content / data | 14,751 | 623 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 8,404 | 69 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 3,078 | 18 | **counted as code** |
+| Content / data | 15,028 | 624 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 8,403 | 69 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **26,584** | **725** | |
+| **All Markdown** | **26,861** | **726** | |
 
 ---
 
