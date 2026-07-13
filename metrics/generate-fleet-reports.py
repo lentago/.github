@@ -20,7 +20,7 @@ If --source-dir is given and contains the clones, they're reused (fast local run
 Otherwise every lentago repo is shallow-cloned into --work-dir (default: a temp dir).
 Requires: git, gh (authenticated), cloc.
 """
-import argparse, json, os, subprocess, sys, tempfile, shutil
+import argparse, json, os, re, subprocess, sys, tempfile, shutil
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 
@@ -381,17 +381,115 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L.append("")
     return "\n".join(L)
 
+# ---------------------------------------------------------------- incident register
+# Incident reports are harvested from local Lentago lab activity (the /incident-digest
+# playbook) and dropped into fleet-reports/incidents/<YYYY-MM-DD>-<slug>.md out-of-band
+# (by a local session, not this generator). This builds the public register that indexes
+# them — the incident sibling of fleet-report.md. It reads only local files, so it needs
+# neither gh nor cloc and runs under --incidents-only.
+INCIDENTS_DIR = ("fleet-reports", "incidents")
+
+def _strip_md(s):
+    s = re.sub(r"`([^`]*)`", r"\1", s)
+    s = re.sub(r"\*\*([^*]*)\*\*", r"\1", s)
+    s = re.sub(r"\*([^*]*)\*", r"\1", s)
+    s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", s)  # [text](url) -> text
+    return s.replace("&amp;", "&").strip()
+
+def _first_sentence(text, limit=240):
+    text = re.sub(r"\s+", " ", text).strip()
+    m = re.search(r"(.+?[.!?])(\s|$)", text)
+    s = m.group(1) if m else text
+    if len(s) > limit:
+        s = s[:limit].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
+    return s
+
+def parse_incident(path):
+    """Extract (title, summary) from an incident report. Robust to the /incident-digest
+    template: '# Incident Digest — <Title>, YYYY-MM-DD' then a '## TL;DR' or '## Summary'."""
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+    title = os.path.basename(path)
+    for line in text.splitlines():
+        if line.startswith("# "):
+            title = line[2:].strip()
+            break
+    title = re.sub(r"^Incident (Digest|Report)\s*[—:-]\s*", "", title)
+    title = re.sub(r",?\s*\d{4}-\d{2}-\d{2}\s*$", "", title).strip()
+    summary = ""
+    m = re.search(r"^#{2,}\s*(TL;DR|Summary)\s*$", text, re.M | re.I)
+    body = text[m.end():] if m else text
+    for para in re.split(r"\n\s*\n", body):
+        p = para.strip()
+        if not p or p[0] in "#>|-*!" or p[:2].rstrip().isdigit():
+            continue
+        summary = _first_sentence(_strip_md(p))
+        break
+    return title, summary
+
+def build_incident_register(out_dir, ts):
+    inc_dir = os.path.join(out_dir, *INCIDENTS_DIR)
+    entries = []
+    if os.path.isdir(inc_dir):
+        for fn in os.listdir(inc_dir):
+            if not fn.endswith(".md") or fn.lower() in ("readme.md", "index.md"):
+                continue
+            m = re.match(r"(\d{4}-\d{2}-\d{2})-.+\.md$", fn)
+            date = m.group(1) if m else "—"
+            title, summary = parse_incident(os.path.join(inc_dir, fn))
+            entries.append((date, title, summary, fn))
+    entries.sort(key=lambda e: (e[0], e[3]), reverse=True)
+    n = len(entries)
+    L = []
+    L.append("# Lentago Labs Incident Register")
+    L.append("")
+    L.append("> [!NOTE]")
+    L.append("> **Co-authored with [Claude](https://claude.ai)** (the `/incident-digest` playbook). "
+             "A chronological register of incident reports harvested from local Lentago lab activity "
+             "and published as a periodic fleet report. Each row links to the full write-up under "
+             "[`fleet-reports/incidents/`](incidents/). Unlike the "
+             "[fleet report](fleet-report.md), these are published **verbatim** and *do* include "
+             "homelab-internal architecture detail — but never credentials, keys, or secrets.")
+    L.append("")
+    L.append(f"**Generated:** {ts} · **{n} incident{'' if n == 1 else 's'} logged.**")
+    L.append("")
+    if not entries:
+        L.append("_No incident reports logged yet._")
+        L.append("")
+    else:
+        L.append("| Date | Incident | Summary |")
+        L.append("|------|----------|---------|")
+        for date, title, summary, fn in entries:
+            L.append(f"| {date} | [{_esc(title)}](incidents/{fn}) | {_esc(summary)} |")
+        L.append("")
+    L.append("_Generated with Claude Code (Repo Claude)._")
+    L.append("")
+    return "\n".join(L)
+
 # ---------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out-dir", required=True, help="dotgithub checkout root to write into")
     ap.add_argument("--source-dir", default=None, help="dir of existing repo clones to reuse")
     ap.add_argument("--work-dir", default=None, help="scratch dir for shallow clones")
+    ap.add_argument("--incidents-only", action="store_true",
+                    help="regenerate only fleet-reports/incidents.md from local report files "
+                         "(no gh/cloc needed — used when a new incident report is filed)")
     args = ap.parse_args()
 
     now = datetime.now(timezone.utc)
     ts = now.strftime("%Y-%m-%d %H:%M UTC")
     cutoff = (now - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    out = args.out_dir
+    os.makedirs(os.path.join(out, "fleet-reports"), exist_ok=True)
+
+    # Incident register — cheap (local files only), so always regenerated first.
+    with open(os.path.join(out, "fleet-reports", "incidents.md"), "w") as f:
+        f.write(build_incident_register(out, ts))
+    print(f"wrote fleet-reports/incidents.md into {out}")
+    if args.incidents_only:
+        return
 
     repos = get_repos()
     work_dir = args.work_dir or tempfile.mkdtemp(prefix="fleet-census-")
@@ -402,8 +500,6 @@ def main():
     report = render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
                            open_issues, recent_closed, merged_prs, recent_open)
 
-    out = args.out_dir
-    os.makedirs(os.path.join(out,"fleet-reports"), exist_ok=True)
     path = os.path.join(out,"fleet-reports","fleet-report.md")
     with open(path,"w") as f: f.write(report)
     code_total = sum(s["lines"] for s in fleet["code"].values())
