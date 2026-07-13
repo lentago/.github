@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Generate the Lentago Labs fleet reports as GitHub-rendered Markdown.
+"""Generate the Lentago Labs fleet report as GitHub-rendered Markdown.
 
-Produces two files under the output tree:
-  metrics/code-census.md        — languages across the fleet, with CLAUDE.md-family
-                                   instruction markdown counted as natural-language code
-                                   (docs / content / data reported separately, excluded).
-  fleet-reports/fleet-issue-report.md — open issues by repo + a 7-day activity snapshot,
-                                   from public GitHub metadata only.
+Produces one file under the output tree:
+  fleet-reports/fleet-report.md — a single combined report: open issues by repo +
+                                  a 7-day activity snapshot, followed by a code census
+                                  in which CLAUDE.md-family instruction markdown is
+                                  counted as natural-language code (docs / content /
+                                  data reported separately, excluded). Public data only.
 
-Scope: every repo whose owner is the `lentago` org (derived at runtime — new/renamed
-repos are picked up automatically). Third-party clones and personal repos are excluded
-by construction. Run locally over an existing working tree, or in CI where it shallow-
-clones each repo itself.
+Scope: every active repo whose owner is the `lentago` org (derived at runtime — new/
+renamed repos are picked up automatically; archived repos are excluded). Third-party
+clones and personal repos are excluded by construction. Run locally over an existing
+working tree, or in CI where it shallow-clones each repo itself.
 
 Usage:
   gen.py --out-dir <dotgithub-checkout> [--source-dir <dir-of-clones>] [--work-dir <tmp>]
@@ -167,7 +167,6 @@ def run_census(repos, clones):
             fleet["md"][b]["files"]+=rr["md"][b]["files"]; fleet["md"][b]["lines"]+=rr["md"][b]["lines"]
     return fleet, per_repo, instr_files, INSTR_LABEL
 
-# ---------------------------------------------------------------- census markdown
 def fold_langs(code):
     """Fold Bourne+Bash into Shell and tiny (<50) langs into Other; return sorted rows."""
     rows = defaultdict(lambda:{"files":0,"lines":0})
@@ -185,7 +184,57 @@ def fold_langs(code):
     if other["files"]: keep["Other (TOML / Dockerfile / …)"]=other
     return sorted(keep.items(), key=lambda x:-x[1]["lines"])
 
-def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
+# ---------------------------------------------------------------- issue data
+def get_issue_data(cutoff_iso):
+    open_issues = gh_json(["search","issues","--owner","lentago","--state","open","--limit","200",
+                           "--json","repository,number,title,createdAt,updatedAt"])
+    closed = gh_json(["search","issues","--owner","lentago","--state","closed","--limit","100",
+                      "--json","repository,number,title,closedAt"])
+    prs = gh_json(["search","prs","--owner","lentago","--merged","--merged-at",f">={cutoff_iso[:10]}",
+                   "--limit","150","--json","repository,number,title,closedAt"])
+    recent_closed = [i for i in closed if i.get("closedAt","") >= cutoff_iso]
+    recent_open = [i for i in open_issues if i.get("createdAt","") >= cutoff_iso]
+    return open_issues, recent_closed, prs, recent_open
+
+# ---------------------------------------------------------------- report sections
+def _esc(s):
+    return s.replace("|", "\\|")
+
+def issue_section(open_issues, recent_closed, merged_prs, recent_open):
+    by_repo = defaultdict(list)
+    for i in open_issues: by_repo[i["repository"]["name"]].append(i)
+    L = []
+    L.append(f"## Open issues — {len(open_issues)} across {len(by_repo)} repos")
+    L.append("")
+    if not open_issues:
+        L.append("_No open issues across the fleet._"); L.append("")
+    for repo in sorted(by_repo, key=lambda r:(-len(by_repo[r]), r)):
+        items = sorted(by_repo[repo], key=lambda i:-i["number"])
+        L.append(f"### {repo} — {len(items)} open")
+        L.append("")
+        L.append("| # | Title |")
+        L.append("|---|-------|")
+        for i in items:
+            url = f"https://github.com/lentago/{repo}/issues/{i['number']}"
+            L.append(f"| [{i['number']}]({url}) | {_esc(i['title'])} |")
+        L.append("")
+    L.append("## Activity — last 7 days")
+    L.append("")
+    L.append(f"**{len(merged_prs)} PRs merged**")
+    L.append("")
+    for p in sorted(merged_prs, key=lambda p:p.get("closedAt",""), reverse=True):
+        repo=p["repository"]["name"]; url=f"https://github.com/lentago/{repo}/pull/{p['number']}"
+        L.append(f"- {p.get('closedAt','')[:10]} · [{repo}#{p['number']}]({url}) — {_esc(p['title'])}")
+    L.append("")
+    L.append(f"**{len(recent_closed)} issues closed**")
+    L.append("")
+    for i in sorted(recent_closed, key=lambda i:i.get("closedAt",""), reverse=True):
+        repo=i["repository"]["name"]; url=f"https://github.com/lentago/{repo}/issues/{i['number']}"
+        L.append(f"- {i.get('closedAt','')[:10]} · [{repo}#{i['number']}]({url}) — {_esc(i['title'])}")
+    L.append("")
+    return L
+
+def census_section(fleet, per_repo, instr_files, INSTR_LABEL, repos):
     code_total = sum(s["lines"] for s in fleet["code"].values())
     code_files = sum(s["files"] for s in fleet["code"].values())
     instr = fleet["code"].get(INSTR_LABEL, {"files":0,"lines":0})
@@ -195,43 +244,23 @@ def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
     md = fleet["md"]; md_total = sum(md[b]["lines"] for b in md); md_files = sum(md[b]["files"] for b in md)
     arch = {r["name"] for r in repos if r["isArchived"]}
     L = []
-    L.append("# Lentago Labs Fleet — Code Census")
-    L.append("")
-    L.append("> [!NOTE]")
-    L.append("> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). "
-             "Auto-generated weekly from public repo contents — no personal or security detail is included. "
-             "A companion, prettier copy renders on the Lentago lab LAN.")
-    L.append("")
-    L.append(f"**Generated:** {ts} · Tool: `cloc` · Scope: the **{len(repos)} active** `lentago` repos, measured over their default branches. "
-             "The 3 archived repos (`office-presence`, `site-pitzilabs-dev`, `workstation-bootstrap`) are frozen and excluded.")
+    L.append("## Code census")
     L.append("")
     L.append("**The lens:** a `CLAUDE.md` (and its kin — `AGENTS.md`, skill `SKILL.md`, and the LLM prompt-programs "
              "that *are* a tool's logic) is an instruction set maintained for hygiene, so it's counted as "
              "**natural-language code**. Documentation, content/data, and community-health markdown are tallied "
              "separately and excluded from the code total, as are data payloads and generated files. This is a "
-             "deliberate re-cut of the canonical [`metrics/language-census.md`](language-census.md), which instead "
-             "counts all Markdown/JSON/HTML as code.")
+             "deliberate re-cut of the canonical [`metrics/language-census.md`](../metrics/language-census.md), which "
+             "instead counts all Markdown/JSON/HTML as code.")
     L.append("")
-    L.append(f"**Headline:** the fleet's hand-maintained natural-language instruction surface "
-             f"(**{instr['lines']:,} lines**) is among the largest \"languages\" in the code base. One repo — "
-             f"`reference-checker` — is almost entirely natural-language source: its auditor is a prompt program.")
-    L.append("")
-    # KPIs
-    L.append("| Code (incl. instructions) | Instruction-markdown | Repos | Data excluded | Generated excluded |")
-    L.append("|---:|---:|---:|---:|---:|")
-    L.append(f"| **{code_total:,}** | **{instr['lines']:,}** ({instr['files']} files) | {len(repos)} | "
-             f"{fleet['data']['lines']:,} | {fleet['generated']['lines']:,} |")
-    L.append("")
-    # language table
-    L.append("## 1 — Languages")
+    L.append("### Languages")
     L.append("")
     L.append("cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruction-markdown is "
              "promoted into the count (**bold**); the excluded buckets sit below the total.")
     L.append("")
     L.append("| # | Language | Code | Files | Share |")
     L.append("|---|----------|-----:|------:|------:|")
-    rows = fold_langs(fleet["code"])
-    for i,(lang,s) in enumerate(rows,1):
+    for i,(lang,s) in enumerate(fold_langs(fleet["code"]),1):
         pct = 100*s["lines"]/code_total if code_total else 0
         name = f"**{lang}**" if lang.startswith("Instructions") else lang
         L.append(f"| {i} | {name} | {s['lines']:,} | {s['files']} | {pct:.1f}% |")
@@ -239,13 +268,12 @@ def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
     L.append(f"| — | _Data / exports — excluded_ | {fleet['data']['lines']:,} | {fleet['data']['files']} | — |")
     L.append(f"| — | _Generated (lockfiles, SVG) — excluded_ | {fleet['generated']['lines']:,} | {fleet['generated']['files']} | — |")
     L.append("")
-    # instruction deep dive
-    L.append("## 2 — Instruction-markdown as code")
+    L.append("### Instruction-markdown as code")
     L.append("")
     L.append(f"- **Hygiene family** ({len(hyg)} files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **{hyg_l:,} lines**")
     L.append(f"- **Prompt-programs** ({len(prm)} files · reference-checker auditors): **{prm_l:,} lines**")
     L.append("")
-    L.append("### 2a — The hygiene surface (each file is a maintenance obligation)")
+    L.append("#### Hygiene surface — each file is a maintenance obligation")
     L.append("")
     L.append("| Repo | File | Lines |")
     L.append("|------|------|------:|")
@@ -255,7 +283,7 @@ def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
     L.append(f"| **{len(hyg)} files** | | **{hyg_l:,}** |")
     L.append("")
     if prm:
-        L.append("### 2b — Prompt-programs (natural language *is* the logic)")
+        L.append("#### Prompt-programs — natural language *is* the logic")
         L.append("")
         L.append("| Repo | File | Lines |")
         L.append("|------|------|------:|")
@@ -267,8 +295,7 @@ def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
                  "natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction "
                  f"figure is **{hyg_l:,}**, not {instr['lines']:,}._")
         L.append("")
-    # per-repo
-    L.append("## 3 — Per-repo")
+    L.append("### Per-repo")
     L.append("")
     L.append("| Repo | Code | Instr | Doc-md | Content-md | Data |")
     L.append("|------|-----:|------:|-------:|-----------:|-----:|")
@@ -281,8 +308,7 @@ def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
         L.append(f"| {repo}{tag} | {ct:,} | {rr['code'].get(INSTR_LABEL,{'lines':0})['lines']:,} | "
                  f"{rr['md']['documentation']['lines']:,} | {rr['md']['content']['lines']:,} | {rr['data']['lines']:,} |")
     L.append("")
-    # markdown taxonomy
-    L.append("## 4 — Markdown taxonomy")
+    L.append("### Markdown taxonomy")
     L.append("")
     L.append(f"The fleet carries **{md_total:,} lines of Markdown across {md_files} files**; only "
              f"{100*md['instructions']['lines']/md_total:.1f}% is instruction-code.")
@@ -295,96 +321,61 @@ def render_census(fleet, per_repo, instr_files, INSTR_LABEL, repos, ts):
     L.append(f"| Community-health | {md['community']['lines']:,} | {md['community']['files']} | CONTRIBUTING/SECURITY/templates — excluded |")
     L.append(f"| **All Markdown** | **{md_total:,}** | **{md_files}** | |")
     L.append("")
-    # method
-    L.append("## Method & reproducibility")
-    L.append("")
-    L.append("- **Tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count "
-             "(build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.")
-    L.append("- **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and "
-             "third-party clones are out of scope by construction; archived repos are frozen and excluded.")
-    L.append("- **Markdown classifier:** instruction-code = `CLAUDE.md`/`AGENTS.md`/`SKILL.md` or a versioned "
-             "`prompts/*-auditor.md`; community-health = the standard governance filenames + issue/PR templates; "
-             "content = repo-scoped payload paths (music-curator `vault/`, ice-cream `recipes/`·manuscript, "
-             "reference-checker `test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.")
-    L.append("- **Data / generated carve-outs:** large exported JSON (music-curator `data/`, homeassistant-config "
-             "`context/`) and reference-checker's rendered `reports/*.html` are data/output, not code; lockfiles and "
-             "SVG are generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.")
-    L.append("- **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir .` (see the script header).")
-    L.append("")
-    L.append("_Generated with Claude Code (Repo Claude)._")
-    L.append("")
-    return "\n".join(L)
+    return L
 
-# ---------------------------------------------------------------- issue report
-def get_issue_data(cutoff_iso):
-    open_issues = gh_json(["search","issues","--owner","lentago","--state","open","--limit","200",
-                           "--json","repository,number,title,createdAt,updatedAt"])
-    closed = gh_json(["search","issues","--owner","lentago","--state","closed","--limit","100",
-                      "--json","repository,number,title,closedAt"])
-    prs = gh_json(["search","prs","--owner","lentago","--merged","--merged-at",f">={cutoff_iso[:10]}",
-                   "--limit","150","--json","repository,number,title,closedAt"])
-    recent_closed = [i for i in closed if i.get("closedAt","") >= cutoff_iso]
-    recent_open = [i for i in open_issues if i.get("createdAt","") >= cutoff_iso]
-    return open_issues, recent_closed, prs, recent_open
-
-def render_issue_report(open_issues, recent_closed, merged_prs, recent_open, ts, cutoff_iso):
-    by_repo = defaultdict(list)
-    for i in open_issues: by_repo[i["repository"]["name"]].append(i)
+def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
+                  open_issues, recent_closed, merged_prs, recent_open):
+    code_total = sum(s["lines"] for s in fleet["code"].values())
+    instr = fleet["code"].get(LBL, {"files":0,"lines":0})
     L = []
-    L.append("# Lentago Labs Fleet — Issue Report")
+    L.append("# Lentago Labs Fleet Report")
     L.append("")
     L.append("> [!NOTE]")
     L.append("> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). "
-             "Auto-generated weekly from public GitHub metadata (issues + merged PRs) — no personal, security, or "
-             "homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.")
+             "Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo "
+             "contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised "
+             "copy renders on the Lentago lab LAN.")
     L.append("")
-    L.append(f"**Generated:** {ts} · Scope: all issues across the `lentago` org · Activity window: last 7 days "
-             f"(since {cutoff_iso[:10]}).")
+    L.append(f"**Generated:** {ts} · Scope: the **{len(repos)} active** `lentago` repos "
+             "(archived repos frozen &amp; excluded) · Activity window: last 7 days "
+             f"(since {cutoff[:10]}).")
     L.append("")
-    L.append("| Open issues | Repos with open issues | PRs merged (7d) | Issues closed (7d) | Issues opened (7d) |")
+    L.append("## Snapshot")
+    L.append("")
+    L.append("| Open issues | PRs merged (7d) | Issues closed (7d) | Code (incl. instructions) | Instruction-markdown |")
     L.append("|---:|---:|---:|---:|---:|")
-    L.append(f"| **{len(open_issues)}** | {len(by_repo)} | {len(merged_prs)} | {len(recent_closed)} | {len(recent_open)} |")
+    L.append(f"| **{len(open_issues)}** | {len(merged_prs)} | {len(recent_closed)} | **{code_total:,}** | "
+             f"{instr['lines']:,} ({instr['files']} files) |")
     L.append("")
-    L.append("## Open issues by repo")
+    L.append(f"The fleet's hand-maintained natural-language instruction surface (**{instr['lines']:,} lines** across "
+             f"{instr['files']} files) is among the largest \"languages\" in the code base — `reference-checker` alone "
+             "is almost entirely prompt-program source.")
     L.append("")
-    if not open_issues:
-        L.append("_No open issues across the fleet._")
-        L.append("")
-    for repo in sorted(by_repo, key=lambda r:(-len(by_repo[r]), r)):
-        items = sorted(by_repo[repo], key=lambda i:-i["number"])
-        L.append(f"### {repo} — {len(items)} open")
-        L.append("")
-        L.append("| # | Title |")
-        L.append("|---|-------|")
-        for i in items:
-            url = f"https://github.com/lentago/{repo}/issues/{i['number']}"
-            title = i["title"].replace("|","\\|")
-            L.append(f"| [{i['number']}]({url}) | {title} |")
-        L.append("")
-    L.append("## Activity — last 7 days")
+    L.append("---")
     L.append("")
-    L.append(f"**{len(merged_prs)} PRs merged**")
+    L += issue_section(open_issues, recent_closed, merged_prs, recent_open)
+    L.append("---")
     L.append("")
-    if merged_prs:
-        for p in sorted(merged_prs, key=lambda p:p.get("closedAt",""), reverse=True):
-            repo=p["repository"]["name"]; url=f"https://github.com/lentago/{repo}/pull/{p['number']}"
-            title=p["title"].replace("|","\\|")
-            L.append(f"- {p.get('closedAt','')[:10]} · [{repo}#{p['number']}]({url}) — {title}")
-        L.append("")
-    L.append(f"**{len(recent_closed)} issues closed**")
+    L += census_section(fleet, per_repo, instr_files, LBL, repos)
+    L.append("---")
     L.append("")
-    if recent_closed:
-        for i in sorted(recent_closed, key=lambda i:i.get("closedAt",""), reverse=True):
-            repo=i["repository"]["name"]; url=f"https://github.com/lentago/{repo}/issues/{i['number']}"
-            title=i["title"].replace("|","\\|")
-            L.append(f"- {i.get('closedAt','')[:10]} · [{repo}#{i['number']}]({url}) — {title}")
-        L.append("")
     L.append("## Method")
     L.append("")
-    L.append("- Open issues: `gh search issues --owner lentago --state open`. Activity: merged PRs via "
-             "`gh search prs --owner lentago --merged`, closed issues filtered to the 7-day window.")
-    L.append("- Only public GitHub metadata is surfaced; no transcript harvest, ops items, or homelab detail "
-             "(those live in the LAN-only editorial copy).")
+    L.append("- **Issues:** open issues via `gh search issues --owner lentago --state open`; activity from "
+             "`gh search prs --owner lentago --merged` and closed issues filtered to the 7-day window. Public "
+             "metadata only — no transcript harvest, ops items, or homelab detail (those live in the LAN copy).")
+    L.append("- **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count "
+             "(build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.")
+    L.append("- **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and "
+             "third-party clones are out of scope; archived repos are frozen and excluded.")
+    L.append("- **Markdown classifier:** instruction-code = `CLAUDE.md`/`AGENTS.md`/`SKILL.md` or a versioned "
+             "`prompts/*-auditor.md`; community-health = governance filenames + issue/PR templates; content = "
+             "repo-scoped payload paths (music-curator `vault/`, ice-cream `recipes/`·manuscript, reference-checker "
+             "`test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.")
+    L.append("- **Data / generated carve-outs:** large exported JSON (music-curator `data/`, homeassistant-config "
+             "`context/`) and reference-checker's rendered `reports/*.html` are data/output; lockfiles and SVG are "
+             "generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.")
+    L.append("- **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir .`")
     L.append("")
     L.append("_Generated with Claude Code (Repo Claude)._")
     L.append("")
@@ -407,19 +398,17 @@ def main():
     clones = ensure_clones(repos, args.source_dir, work_dir)
 
     fleet, per_repo, instr_files, LBL = run_census(repos, clones)
-    census_md = render_census(fleet, per_repo, instr_files, LBL, repos, ts)
-
     open_issues, recent_closed, merged_prs, recent_open = get_issue_data(cutoff)
-    issue_md = render_issue_report(open_issues, recent_closed, merged_prs, recent_open, ts, cutoff)
+    report = render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
+                           open_issues, recent_closed, merged_prs, recent_open)
 
     out = args.out_dir
-    os.makedirs(os.path.join(out,"metrics"), exist_ok=True)
     os.makedirs(os.path.join(out,"fleet-reports"), exist_ok=True)
-    with open(os.path.join(out,"metrics","code-census.md"),"w") as f: f.write(census_md)
-    with open(os.path.join(out,"fleet-reports","fleet-issue-report.md"),"w") as f: f.write(issue_md)
-    print(f"wrote metrics/code-census.md and fleet-reports/fleet-issue-report.md into {out}")
+    path = os.path.join(out,"fleet-reports","fleet-report.md")
+    with open(path,"w") as f: f.write(report)
     code_total = sum(s["lines"] for s in fleet["code"].values())
-    print(f"  census: {code_total:,} code lines · {len(open_issues)} open issues")
+    print(f"wrote fleet-reports/fleet-report.md into {out}")
+    print(f"  {len(open_issues)} open issues · {code_total:,} code lines")
 
 if __name__ == "__main__":
     main()
