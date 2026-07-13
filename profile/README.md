@@ -73,6 +73,14 @@
 </tr>
 </table>
 
+### 📊 &nbsp; Fleet in numbers
+
+<sub>Regenerated weekly from the repos themselves — we operate in the open.</sub>
+
+- **[Code census](https://github.com/lentago/.github/blob/main/metrics/code-census.md)** — languages across the fleet, counting the `CLAUDE.md`-family instruction files as natural-language code.
+- **[Issue report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-issue-report.md)** — open issues by repo plus a 7-day merge/close activity snapshot.
+- **[Language census](https://github.com/lentago/.github/blob/main/metrics/language-census.md)** — the canonical all-languages breakdown.
+
 <div align="center">
 <sub><b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US &nbsp;·&nbsp; remote · async-friendly</sub>
 </div>
