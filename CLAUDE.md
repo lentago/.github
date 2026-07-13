@@ -109,3 +109,24 @@ The full methodology (exclusions and why, `cloc`'s byte-identical dedup that
 collapses the mirrored `CLAUDE.md` text) lives in the report's Methodology
 section. When refreshing, update **all three** together: the table, the
 "Last updated" date, and a new row in the Update log.
+
+## Weekly fleet reports (automated)
+
+`metrics/generate-fleet-reports.py` regenerates two GitHub-rendered reports from
+the fleet's public state, linked from the org profile under **Fleet in numbers**:
+
+- **`metrics/code-census.md`** — a *re-cut* of the language census that counts
+  `CLAUDE.md`-family instruction markdown (+ reference-checker prompt-programs) as
+  natural-language code, and reports documentation / content / data separately.
+  Distinct from the canonical `language-census.md`; the two intentionally differ.
+- **`fleet-reports/fleet-issue-report.md`** — open issues by repo + a 7-day
+  merge/close activity snapshot, from public GitHub metadata only. This is the
+  public, auto-generated sibling of the LAN-only editorial issue report (the
+  older `fleet-reports/2026-07-01-*.md` archive is the hand-written kind).
+
+Scope is the **active** `lentago` repos (archived repos are frozen and excluded;
+GitHub's listing endpoints don't surface archived repos anyway). Regenerate with
+`python3 metrics/generate-fleet-reports.py --out-dir .` (needs `git`, `gh`, `cloc`).
+A **weekly cloud routine** (Claude Code Routines, Mondays) runs it and opens a
+refresh PR; the numbers are meant to be overwritten in place, with git history as
+the archive. Requires `pull_request` on `main`, so it lands as a PR, not a push.
