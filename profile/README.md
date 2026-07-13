@@ -79,6 +79,7 @@
 
 - **[Fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md)** — open issues by repo, a 7-day activity snapshot, and a code census that counts the `CLAUDE.md`-family instruction files as natural-language code.
 - **[Language census](https://github.com/lentago/.github/blob/main/metrics/language-census.md)** — the canonical all-languages breakdown.
+- **[Incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md)** — post-mortems from lab operations, with what broke, what did *not*, and the governance lessons.
 
 <div align="center">
 <sub><b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US &nbsp;·&nbsp; remote · async-friendly</sub>

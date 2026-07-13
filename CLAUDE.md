@@ -137,3 +137,26 @@ repo secret **`FLEET_REPORTS_TOKEN`** (owner `lentago`, repo `.github`, Contents
 Pull requests: write). The generator's cross-repo reads work over the public repos
 regardless of PAT scope. If the secret is missing the workflow fails fast with a
 setup hint. Rotate/replace the token by resetting that secret.
+
+## Incident register (the second periodic fleet report)
+
+`fleet-reports/incidents.md` is the incident sibling of `fleet-report.md`: a
+chronological register of post-mortems, linked from the org profile under **Fleet
+in numbers**. The full write-ups live under `fleet-reports/incidents/` as
+`<YYYY-MM-DD>-<slug>.md`, produced by the local **`/incident-digest`** playbook
+(harvested from `~/.claude/projects/` session transcripts — they cannot be
+generated in CI). The same `metrics/generate-fleet-reports.py` builds the register
+by scanning that dir (title from the `# ` H1, summary from the first `## TL;DR`/
+`## Summary` sentence); the weekly workflow refreshes `incidents.md` in place, and
+a new report drops in via a local PR that runs
+`python3 metrics/generate-fleet-reports.py --out-dir . --incidents-only` (a cheap
+mode that needs neither `gh` nor `cloc`).
+
+**Policy exception — incident reports are published verbatim.** Unlike
+`fleet-report.md` (public metadata only, *"no homelab-internal detail"*), the
+incident reports **deliberately keep their homelab-internal architecture detail**
+(container IDs, Proxmox/`pct`/`root@pam`/`vzdump`, hostnames) — that specificity
+*is* the CTO-methodology value, and this is a **public** repo by design (Chris's
+call, 2026-07-13). The one hard line: **never** a credential, key, private IP-plus-
+purpose map, or secret. When filing a new report, eyeball it for those before it
+lands — that guard, not sanitising the architecture, is the review.

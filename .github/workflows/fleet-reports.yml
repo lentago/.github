@@ -1,7 +1,9 @@
 name: Weekly fleet reports
 
 # Regenerates fleet-reports/fleet-report.md (combined issue report + code census)
-# from the fleet's public state and opens an auto-merging refresh PR.
+# from the fleet's public state, plus fleet-reports/incidents.md (the incident
+# register, rebuilt from the local report files under fleet-reports/incidents/),
+# and opens an auto-merging refresh PR.
 #
 # Auth: the org disallows GITHUB_TOKEN from creating PRs, so this uses a
 # fine-grained PAT stored as the repo secret FLEET_REPORTS_TOKEN (resource owner
@@ -55,7 +57,7 @@ jobs:
       - name: Open auto-merging PR if anything changed
         run: |
           set -euo pipefail
-          FILES="fleet-reports/fleet-report.md"
+          FILES="fleet-reports/fleet-report.md fleet-reports/incidents.md"
           if git diff --quiet -- $FILES; then
             echo "No changes this week — nothing to publish."
             exit 0
@@ -71,7 +73,7 @@ jobs:
           git push -u origin "$BR"
           gh pr create --base main --head "$BR" \
             --title "Weekly fleet reports refresh — $D" \
-            --body "Automated weekly regeneration of \`fleet-reports/fleet-report.md\` (combined issue report + code census) from public GitHub metadata + \`cloc\`. Produced by \`.github/workflows/fleet-reports.yml\`."
+            --body "Automated weekly regeneration of \`fleet-reports/fleet-report.md\` (combined issue report + code census, from public GitHub metadata + \`cloc\`) and \`fleet-reports/incidents.md\` (the incident register, from the report files under \`fleet-reports/incidents/\`). Produced by \`.github/workflows/fleet-reports.yml\`."
           # Arm auto-merge; fall back to an immediate squash if auto-merge can't arm.
           gh pr merge "$BR" --auto --squash --delete-branch \
             || gh pr merge "$BR" --squash --delete-branch

@@ -1,3 +1,7 @@
 # Local-only holding pen — relocated scratchpads kept on disk but NOT published
 # (e.g. the PitziLabs portfolio mockup, which embeds Lentago lab LAN topology).
 /archive/
+
+# Python bytecode from the fleet-report generator
+__pycache__/
+*.pyc
