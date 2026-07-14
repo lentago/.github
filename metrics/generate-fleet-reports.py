@@ -224,17 +224,15 @@ def issue_section(open_issues, recent_closed, merged_prs, recent_open):
         L.append("")
     L.append(f"## Activity — last {ACTIVITY_WINDOW_DAYS} days")
     L.append("")
-    L.append(f"**{len(merged_prs)} PRs merged**")
+    L.append(f"**{len(merged_prs) + len(recent_closed)} events**, one stream, newest first — "
+             f"🟣 {len(merged_prs)} PRs merged · 🟢 {len(recent_closed)} issues closed")
     L.append("")
-    for p in sorted(merged_prs, key=lambda p:p.get("closedAt",""), reverse=True):
-        repo=p["repository"]["name"]; url=f"https://github.com/lentago/{repo}/pull/{p['number']}"
-        L.append(f"- {p.get('closedAt','')[:10]} · [{repo}#{p['number']}]({url}) — {_esc(p['title'])}")
-    L.append("")
-    L.append(f"**{len(recent_closed)} issues closed**")
-    L.append("")
-    for i in sorted(recent_closed, key=lambda i:i.get("closedAt",""), reverse=True):
-        repo=i["repository"]["name"]; url=f"https://github.com/lentago/{repo}/issues/{i['number']}"
-        L.append(f"- {i.get('closedAt','')[:10]} · [{repo}#{i['number']}]({url}) — {_esc(i['title'])}")
+    # Color-coded by GitHub's own iconography: purple = merged PR, green = issue.
+    events = ([("🟣", "pull", p) for p in merged_prs] +
+              [("🟢", "issues", i) for i in recent_closed])
+    for mark, path, e in sorted(events, key=lambda t: t[2].get("closedAt",""), reverse=True):
+        repo=e["repository"]["name"]; url=f"https://github.com/lentago/{repo}/{path}/{e['number']}"
+        L.append(f"- {mark} {e.get('closedAt','')[:10]} · [{repo}#{e['number']}]({url}) — {_esc(e['title'])}")
     L.append("")
     return L
 
