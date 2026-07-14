@@ -118,11 +118,10 @@ feature is that its lessons shipped as standing policy the same day.*
 3. **Check the recovery trail before declaring loss.** Grafana version
    history, Route 53 change logs, ruleset audit logs — enforced systems
    usually keep one. It turned this from a rebuild into a 4-minute restore.
-4. *(Candidate, not filed:)* **Make the apply announce what it reverts.** A
-   terraform plan diff that shows live-vs-repo drift being overwritten —
-   posted to the PR before apply — would have turned silent destruction into a
-   visible warning. Worth a drosera issue if live-editing dashboards remains
-   common practice.
+4. **Make the apply announce what it reverts.** A terraform plan diff that
+   shows live-vs-repo drift being overwritten — posted to the PR before apply
+   — would have turned silent destruction into a visible warning.
+   → **drosera#153** (filed 2026-07-13 from this report).
 
 The register through-line: the [06-19 collision](2026-06-19-multi-claude-collision.md)
 was *sessions* crossing on shared repos; this is a *pipeline* crossing an
