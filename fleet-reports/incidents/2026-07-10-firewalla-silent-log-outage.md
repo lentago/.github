@@ -60,7 +60,7 @@ are not the same claim.
 | 19:47–19:55 | Root causes pinned: tail offset DBs frozen at pre-reboot mtimes while Zeek writes fresh to the second; publisher script/env/hook intact on disk but crontab line gone; the Alloy relay it pushes through verified alive end-to-end with a test line (accepted HTTP 204, landed in Cloud Loki seconds later) | on-box inspection; test push |
 | **19:58** | **Operator restarts `fluent-bit-axiom`** → all eight offset DBs move instantly; streams resume within a minute (199 dns / 71 conn / 37 acl entries in the first 5 min) | offset-DB mtimes; Loki stats |
 | 20:04 | `deploy-device-inventory-publisher.sh` re-run; cron + hook reinstalled; dry run clean (225 records from 166 devices) | deploy output; DRY_RUN payload |
-| 20:17 | First scheduled cron push of the restored publisher (verification in flight at compile time) | `publish.log` watch armed |
+| 20:17 | First cron push of the restored publisher lands — 227 records from 166 devices, all confirmed in Cloud Loki | `publish.log` HTTP 204; Loki stats |
 | 20:25 | **betula#86** filed — boot-race fix + delivery-liveness healthcheck | issue link below |
 
 ---
@@ -181,7 +181,7 @@ filable issue.*
    silent; every existing safeguard listened for noise. Grafana Cloud should
    carry no-data alerts on the critical log streams (`zeek_dns`, `zeek_conn`,
    `firewalla_acl`, `device_inventory`) — a 30–60 min ingest gap should page,
-   turning a 3-day detection into a 30-minute one. → **drosera issue**
+   turning a 3-day detection into a 30-minute one. → **drosera#150**
 2. **Start-ordering and delivery-liveness for the shipper.** The container must
    wait for a *fresh* Zeek spool before starting, and the healthcheck needs a
    delivery signal (Zeek writing but offset DBs frozen → restart) alongside its
@@ -190,12 +190,12 @@ filable issue.*
    reinstall hook failed silently and nothing verified the publisher was still
    running. Either make the hook verifiable (log + alert on failure), have the
    publisher's absence caught by lesson 1's no-data alert, or move scheduling
-   off the appliance entirely. Root-cause the hook failure first. → **drosera issue**
+   off the appliance entirely. Root-cause the hook failure first. → **drosera#151**
 4. **Doc drift misleads triage under pressure.** drosera's README/CLAUDE.md
    still describe the retired "Promtail → Alloy :3100 relay" architecture for
    Zeek logs; the correct current map lived only in session memory. Update the
    docs to the direct-to-Loki reality (and note device_inventory as the one
-   remaining relay user). → **drosera issue**
+   remaining relay user). → **drosera#152**
 
 Distinct from both prior incidents in the register: 06-19 was concurrency
 (sessions crossing), 07-12 was over-reach (one pipeline doing something
@@ -219,5 +219,6 @@ On-box:         container status + logs, tail offset-DB mtimes vs /bspool/manage
                 post_main.d contents, box uptime
 Repos:          betula git log (#82 remove-Axiom, 1fdc079); drosera dashboards/*.json
                 (132 queries extracted); deploy script output
-Filed:          betula#86 (boot race + delivery-liveness healthcheck)
+Filed:          betula#86 (boot race + delivery-liveness healthcheck);
+                drosera#150 (no-data alerts), #151 (cron hook), #152 (doc drift)
 ```
