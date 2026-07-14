@@ -28,7 +28,7 @@ was ignoring the broken config it would die on. The cold start finally read it
 LXC 105 pushes: blackbox probes, the HA scrape, central node targets). The
 second outage, found only after metrics recovered: the Firewalla's Fluent Bit
 tail inputs had frozen on 07-06, silently starving the log side for ~2 days —
-fixed with one restart, filed as **drosera#145**.
+fixed with one restart.
 
 1. **The time bomb** — #76's invalid config, armed 06-17, silent for 18 days,
    detonated by a cold start on 07-05.
@@ -37,7 +37,8 @@ fixed with one restart, filed as **drosera#145**.
 3. **The catch-22** — the fix merged (PR **#144**) but GitOps *validated* it by
    running `alloy fmt` **inside the crash-looping container**; the exec failed,
    was read as "bad config," and rolled back — the pipeline structurally could
-   not self-heal. Operator-approved manual recovery closed it.
+   not self-heal. Operator-approved manual recovery closed it; filed
+   in-session as **drosera#145**.
 4. **The second outage underneath** — logs dark since 07-06 via an unrelated
    Fluent Bit wedge; same silence, separate cause.
 
@@ -67,7 +68,7 @@ display.
 | 15:15 | Operator-approved recovery: box forced to the fix commit, container started | transcript |
 | 15:16–15:17 | Healthy: zero eval errors, receiver + UI ports listening, WAL replayed. **`count(up)` snaps 6 → 16 instantly**; HA scrape authenticates (proving the untrimmed token was fine all along) | live PromQL |
 | 15:18–15:27 | Metrics recovered but **logs still absent** → second outage diagnosed: Fluent Bit tails frozen since 07-07 morning, last delivery 07-06 (20:21 UTC). Two separate outages confirmed | Loki queries; offset DBs |
-| 16:56–17:00 | Fluent Bit restarted → offset DBs jump, **2,308 entries across all 7 streams in 10 minutes**. **drosera#145** filed for the follow-up hardening | transcript; Loki stats |
+| 16:56–17:00 | Fluent Bit restarted → offset DBs jump, **2,308 entries across all 7 streams in 10 minutes**. **drosera#145** filed — the GitOps validator catch-22 (Link 3) | transcript; Loki stats |
 
 ---
 
@@ -140,7 +141,8 @@ CI-side check — any of the three breaks the loop).
    after the 07-10 sibling incident; this incident is its second justification.
    The GitOps timer could also cheaply assert "container running" each cycle.
 4. **The validator must not live inside the patient** (see Link 3) —
-   candidate drosera issue; the catch-22 remains in the gitops script.
+   filed in-session as **drosera#145** (open; the catch-22 remains in the
+   gitops script until it lands).
 5. **Skepticism toward redundant hardening.** #76 added a transformation "for
    safety" that the system forbade and the data didn't need. A one-line check
    of the actual file bytes would have shown the fix was unnecessary — the
