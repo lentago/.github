@@ -3,7 +3,7 @@
 
 Produces one file under the output tree:
   fleet-reports/fleet-report.md — a single combined report: open issues by repo +
-                                  a 7-day activity snapshot, followed by a code census
+                                  a 30-day activity snapshot, followed by a code census
                                   in which CLAUDE.md-family instruction markdown is
                                   counted as natural-language code (docs / content /
                                   data reported separately, excluded). Public data only.
@@ -23,6 +23,10 @@ Requires: git, gh (authenticated), cloc.
 import argparse, json, os, re, subprocess, sys, tempfile, shutil
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
+
+# Activity window for the merged-PRs / closed-issues snapshot. The search limits in
+# get_issue_data() are sized for this window — widen them if you widen it further.
+ACTIVITY_WINDOW_DAYS = 30
 
 # ---------------------------------------------------------------- helpers
 def sh(cmd, cwd=None, check=True):
@@ -188,10 +192,10 @@ def fold_langs(code):
 def get_issue_data(cutoff_iso):
     open_issues = gh_json(["search","issues","--owner","lentago","--state","open","--limit","200",
                            "--json","repository,number,title,createdAt,updatedAt"])
-    closed = gh_json(["search","issues","--owner","lentago","--state","closed","--limit","100",
-                      "--json","repository,number,title,closedAt"])
+    closed = gh_json(["search","issues","--owner","lentago","--state","closed","--closed",f">={cutoff_iso[:10]}",
+                      "--limit","500","--json","repository,number,title,closedAt"])
     prs = gh_json(["search","prs","--owner","lentago","--merged","--merged-at",f">={cutoff_iso[:10]}",
-                   "--limit","150","--json","repository,number,title,closedAt"])
+                   "--limit","500","--json","repository,number,title,closedAt"])
     recent_closed = [i for i in closed if i.get("closedAt","") >= cutoff_iso]
     recent_open = [i for i in open_issues if i.get("createdAt","") >= cutoff_iso]
     return open_issues, recent_closed, prs, recent_open
@@ -218,7 +222,7 @@ def issue_section(open_issues, recent_closed, merged_prs, recent_open):
             url = f"https://github.com/lentago/{repo}/issues/{i['number']}"
             L.append(f"| [{i['number']}]({url}) | {_esc(i['title'])} |")
         L.append("")
-    L.append("## Activity — last 7 days")
+    L.append(f"## Activity — last {ACTIVITY_WINDOW_DAYS} days")
     L.append("")
     L.append(f"**{len(merged_prs)} PRs merged**")
     L.append("")
@@ -337,12 +341,12 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
              "copy renders on the Lentago lab LAN.")
     L.append("")
     L.append(f"**Generated:** {ts} · Scope: the **{len(repos)} active** `lentago` repos "
-             "(archived repos frozen &amp; excluded) · Activity window: last 7 days "
+             f"(archived repos frozen &amp; excluded) · Activity window: last {ACTIVITY_WINDOW_DAYS} days "
              f"(since {cutoff[:10]}).")
     L.append("")
     L.append("## Snapshot")
     L.append("")
-    L.append("| Open issues | PRs merged (7d) | Issues closed (7d) | Code (incl. instructions) | Instruction-markdown |")
+    L.append(f"| Open issues | PRs merged ({ACTIVITY_WINDOW_DAYS}d) | Issues closed ({ACTIVITY_WINDOW_DAYS}d) | Code (incl. instructions) | Instruction-markdown |")
     L.append("|---:|---:|---:|---:|---:|")
     L.append(f"| **{len(open_issues)}** | {len(merged_prs)} | {len(recent_closed)} | **{code_total:,}** | "
              f"{instr['lines']:,} ({instr['files']} files) |")
@@ -362,8 +366,9 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L.append("## Method")
     L.append("")
     L.append("- **Issues:** open issues via `gh search issues --owner lentago --state open`; activity from "
-             "`gh search prs --owner lentago --merged` and closed issues filtered to the 7-day window. Public "
-             "metadata only — no transcript harvest, ops items, or homelab detail (those live in the LAN copy).")
+             f"`gh search prs --owner lentago --merged` and closed issues filtered to the {ACTIVITY_WINDOW_DAYS}-day "
+             "window. Public metadata only — no transcript harvest, ops items, or homelab detail (those live in "
+             "the LAN copy).")
     L.append("- **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count "
              "(build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.")
     L.append("- **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and "
@@ -479,7 +484,7 @@ def main():
 
     now = datetime.now(timezone.utc)
     ts = now.strftime("%Y-%m-%d %H:%M UTC")
-    cutoff = (now - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    cutoff = (now - timedelta(days=ACTIVITY_WINDOW_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     out = args.out_dir
     os.makedirs(os.path.join(out, "fleet-reports"), exist_ok=True)

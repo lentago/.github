@@ -116,7 +116,7 @@ section. When refreshing, update **all three** together: the table, the
 **`fleet-reports/fleet-report.md`**, linked from the org profile under **Fleet in
 numbers**. It has two parts from the fleet's public state:
 
-- **Issues** — open issues by repo + a 7-day merge/close activity snapshot, from
+- **Issues** — open issues by repo + a 30-day merge/close activity snapshot, from
   public GitHub metadata only. The public, auto-generated sibling of the LAN-only
   editorial report (the older `fleet-reports/2026-07-01-*.md` archive is the
   hand-written kind).
