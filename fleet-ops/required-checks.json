@@ -30,6 +30,7 @@
     "drosera": ["gate", "shellcheck / shellcheck"],
     "solidago": ["gate"],
     "site-lentago-dev": ["Build"],
+    "site-pondviewlane-com": ["Build"],
     "claytonia": ["shellcheck / shellcheck"],
     "betula": ["shellcheck / shellcheck"],
     "homeassistant-config": ["check-config"],
