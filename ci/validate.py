@@ -7,19 +7,23 @@ org landing page. Those have real failure modes, and this asserts against them:
 
   configs   fleet-ops/*.json parse and hold the shape fleet-apply.sh expects. A
             malformed required-checks.json breaks a fleet-wide settings sweep
-  brand     brand/generated/ is reproducible from brand/fleet.json — the banners
-            get copied verbatim into 15 repos, so a hand-edit forks the identity
             partway through, leaving the fleet half-applied.
+  brand     brand/generated/ is reproducible from brand/fleet.json — the banners
+            get copied verbatim into 15 repos, so a hand-edit forks the identity.
   census    metrics/generate-fleet-reports.py imports, and its data/code classifier
             still routes known paths correctly (regression cover for #59, where a
             JSON-only carve-out counted 15,595 lines of CSV exports as source).
-  links     relative markdown links resolve. The fleet's most common change class is
-            renames and removals, which is exactly what silently breaks these — see
-            #57, where a deliberate rename audit edited a broken image line on a
-            public README without noticing it pointed at nothing.
   register  fleet-reports/incidents.md is reproducible from fleet-reports/incidents/.
             It is generated, not hand-authored; a hand-edit here is a change that the
             next weekly refresh silently reverts.
+
+Relative markdown links are NOT checked here. That check lived in this file as
+`check_relative_links` until #66; it was promoted into the shared reusable
+lentago/shared-workflows/.github/workflows/docs-check.yml (shared-workflows#28) and
+this repo now calls it like the rest of the fleet, via .github/workflows/docs-check.yml.
+Keeping a second copy here would have meant two implementations of one check drifting
+apart, with this repo gated by the staler one. What remains above is the set that is
+genuinely specific to this repo and does not generalise.
 
 Run it locally exactly as CI does:  python3 ci/validate.py
 Exit status is 0 only when every check passes; failures are listed, not raised, so
@@ -251,46 +255,6 @@ def check_census_classifier():
             fail("census", f"classify_md({repo!r}, {path!r}) returned {got!r}, expected {want!r}")
 
 
-# ------------------------------------------------------------------ links
-# Inline markdown links/images. Reference-style definitions are not used in this repo;
-# if that changes, extend here rather than loosening the resolver.
-LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
-SKIP_SCHEME = re.compile(r"^(https?|mailto|tel|ftp|data):", re.I)
-
-
-def check_relative_links():
-    for rel in tracked("*.md"):
-        path = os.path.join(ROOT, rel)
-        with open(path, encoding="utf-8") as fh:
-            lines = fh.readlines()
-
-        in_fence = False
-        for lineno, line in enumerate(lines, 1):
-            if line.lstrip().startswith("```"):
-                in_fence = not in_fence
-                continue
-            if in_fence:
-                continue
-
-            for target in LINK_RE.findall(line):
-                if SKIP_SCHEME.match(target) or target.startswith("#"):
-                    continue
-                if target.startswith("//"):
-                    continue
-                # Site-absolute routes are resolved by a site router, not the
-                # filesystem. This repo has none; skip rather than false-positive.
-                if target.startswith("/"):
-                    continue
-
-                bare = target.split("#", 1)[0].split("?", 1)[0]
-                if not bare:
-                    continue
-                resolved = os.path.normpath(
-                    os.path.join(os.path.dirname(path), bare))
-                if not os.path.exists(resolved):
-                    fail("links", f"{rel}:{lineno} → {target} (no such path)")
-
-
 # ------------------------------------------------------------------ register
 GENERATED_LINE = re.compile(r"^\*\*Generated:\*\*")
 
@@ -344,7 +308,6 @@ CHECKS = [
     ("configs", check_fleet_ops_configs),
     ("brand", check_brand_assets),
     ("census", check_census_classifier),
-    ("links", check_relative_links),
     ("register", check_incident_register_reproducible),
 ]
 
