@@ -88,7 +88,13 @@ def ensure_clones(repos, source_dir, work_dir):
 GEN_BASENAMES = {"package-lock.json","yarn.lock","pnpm-lock.yaml","poetry.lock",
                  "Cargo.lock","composer.lock","Gemfile.lock"}
 GEN_EXT = {".svg"}
-DATA_JSON_PREFIX = {"music-curator":("data/",), "homeassistant-config":("context/",)}
+# Directories that hold exported payloads rather than source. Curated per-repo, so the
+# rule below can be format-agnostic: anything under one of these prefixes carrying a
+# data-serialisation extension is a payload, whatever format the export happens to use.
+# (Markdown is deliberately absent — a README.md describing a data dir is documentation,
+# and classify_md() already routes it.)
+DATA_DIR_PREFIX = {"music-curator":("data/",), "homeassistant-config":("context/",)}
+DATA_EXT = {".json",".jsonl",".ndjson",".csv",".tsv",".xml",".yaml",".yml",".parquet"}
 
 def is_generated(base):
     if base in GEN_BASENAMES: return True
@@ -99,7 +105,8 @@ def is_generated(base):
 def is_data(repo, path):
     p = path[2:] if path.startswith("./") else path
     low = p.lower()
-    if low.endswith(".json") and any(p.startswith(x) for x in DATA_JSON_PREFIX.get(repo,())):
+    if (os.path.splitext(low)[1] in DATA_EXT
+            and any(p.startswith(x) for x in DATA_DIR_PREFIX.get(repo,()))):
         return True
     if repo=="reference-checker" and low.startswith("reports/") and low.endswith(".html"):
         return True
@@ -375,8 +382,9 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
              "`prompts/*-auditor.md`; community-health = governance filenames + issue/PR templates; content = "
              "repo-scoped payload paths (music-curator `vault/`, ice-cream `recipes/`·manuscript, reference-checker "
              "`test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.")
-    L.append("- **Data / generated carve-outs:** large exported JSON (music-curator `data/`, homeassistant-config "
-             "`context/`) and reference-checker's rendered `reports/*.html` are data/output; lockfiles and SVG are "
+    L.append("- **Data / generated carve-outs:** exported payloads under the declared data dirs (music-curator "
+             "`data/`, homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, "
+             "CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles and SVG are "
              "generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.")
     L.append("- **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir .`")
     L.append("")

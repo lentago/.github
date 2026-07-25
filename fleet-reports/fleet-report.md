@@ -3,13 +3,13 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-25 03:56 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-25).
+**Generated:** 2026-07-25 04:02 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-25).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **52** | 400 | 138 | **67,149** | 3,394 (20 files) |
+| **52** | 401 | 138 | **51,343** | 3,394 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**3,394 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
@@ -116,8 +116,9 @@ The fleet's hand-maintained natural-language instruction surface (**3,394 lines*
 
 ## Activity — last 30 days
 
-**538 events**, one stream, newest first — 🟣 400 PRs merged · 🟢 138 issues closed
+**539 events**, one stream, newest first — 🟣 401 PRs merged · 🟢 138 issues closed
 
+- 🟣 2026-07-25 · [.github#58](https://github.com/lentago/.github/pull/58) — Fleet reports refresh — 2026-07-25
 - 🟣 2026-07-25 · [homeassistant-config#508](https://github.com/lentago/homeassistant-config/pull/508) — docs: remove broken image reference from Lentago Lab Status section
 - 🟢 2026-07-25 · [betula#93](https://github.com/lentago/betula/issues/93) — Dead links to the removed dashboards/ directory in the Zeek field reference
 - 🟣 2026-07-25 · [betula#94](https://github.com/lentago/betula/pull/94) — docs: fix dead dashboards/axiom-queries.md links in zeek-field-reference
@@ -669,23 +670,22 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | CSV | 15,595 | 2 | 23.2% |
-| 2 | JSON | 14,828 | 38 | 22.1% |
-| 3 | YAML | 8,707 | 141 | 13.0% |
-| 4 | HCL | 6,108 | 104 | 9.1% |
-| 5 | Shell (Bourne + Bash) | 4,714 | 62 | 7.0% |
-| 6 | Python | 4,373 | 34 | 6.5% |
-| 7 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,394 | 20 | 5.1% |
-| 8 | Text | 3,377 | 24 | 5.0% |
-| 9 | Astro | 1,895 | 19 | 2.8% |
-| 10 | JavaScript | 1,773 | 16 | 2.6% |
-| 11 | CSS | 867 | 9 | 1.3% |
-| 12 | JSX | 851 | 10 | 1.3% |
-| 13 | TypeScript | 310 | 8 | 0.5% |
-| 14 | Jinja Template | 277 | 6 | 0.4% |
-| 15 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.1% |
-| | **CODE TOTAL** | **67,149** | **499** | 100% |
-| — | _Data / exports — excluded_ | 125,409 | 22 | — |
+| 1 | JSON | 14,764 | 37 | 28.8% |
+| 2 | YAML | 8,560 | 140 | 16.7% |
+| 3 | HCL | 6,108 | 104 | 11.9% |
+| 4 | Shell (Bourne + Bash) | 4,714 | 62 | 9.2% |
+| 5 | Python | 4,373 | 34 | 8.5% |
+| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,394 | 20 | 6.6% |
+| 7 | Text | 3,377 | 24 | 6.6% |
+| 8 | Astro | 1,895 | 19 | 3.7% |
+| 9 | JavaScript | 1,773 | 16 | 3.5% |
+| 10 | CSS | 867 | 9 | 1.7% |
+| 11 | JSX | 851 | 10 | 1.7% |
+| 12 | TypeScript | 310 | 8 | 0.6% |
+| 13 | Jinja Template | 277 | 6 | 0.5% |
+| 14 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.2% |
+| | **CODE TOTAL** | **51,343** | **495** | 100% |
+| — | _Data / exports — excluded_ | 141,215 | 26 | — |
 | — | _Generated (lockfiles, SVG) — excluded_ | 20,277 | 31 | — |
 
 ### Instruction-markdown as code
@@ -731,33 +731,33 @@ _Judgement call: these prompt files are counted as instruction-code because they
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| music-curator | 18,733 | 68 | 1,157 | 11,537 | 102,815 |
 | drosera | 14,557 | 163 | 860 | 0 | 0 |
-| homeassistant-config | 6,578 | 399 | 1,088 | 0 | 17,420 |
 | site-pondviewlane-com | 6,497 | 190 | 2,054 | 0 | 0 |
+| homeassistant-config | 6,431 | 399 | 1,088 | 0 | 17,567 |
 | solidago | 6,332 | 99 | 1,690 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,253 | 98 | 594 | 6,008 | 0 |
+| music-curator | 3,074 | 68 | 1,157 | 11,537 | 118,474 |
 | kalmia | 2,688 | 94 | 602 | 0 | 0 |
 | claytonia | 1,809 | 57 | 564 | 0 | 0 |
 | betula | 1,784 | 156 | 1,124 | 0 | 0 |
 | reference-checker | 1,587 | 1,527 | 731 | 669 | 5,174 |
 | site-lentago-dev | 1,555 | 108 | 360 | 0 | 0 |
-| .github | 918 | 135 | 403 | 2,208 | 0 |
+| .github | 918 | 135 | 403 | 2,271 | 0 |
 | shared-workflows | 612 | 222 | 83 | 0 | 0 |
 | brasenia | 181 | 56 | 575 | 0 | 0 |
 | repo-template | 65 | 22 | 46 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **36,099 lines of Markdown across 834 files**; only 9.4% is instruction-code.
+The fleet carries **36,162 lines of Markdown across 834 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 3,394 | 20 | **counted as code** |
-| Content / data | 20,422 | 698 | payload (vault notes, recipes, test-sets) — excluded |
+| Content / data | 20,485 | 698 | payload (vault notes, recipes, test-sets) — excluded |
 | Documentation | 11,931 | 101 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **36,099** | **834** | |
+| **All Markdown** | **36,162** | **834** | |
 
 ---
 
@@ -767,7 +767,7 @@ The fleet carries **36,099 lines of Markdown across 834 files**; only 9.4% is in
 - **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count (build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.
 - **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and third-party clones are out of scope; archived repos are frozen and excluded.
 - **Markdown classifier:** instruction-code = `CLAUDE.md`/`AGENTS.md`/`SKILL.md` or a versioned `prompts/*-auditor.md`; community-health = governance filenames + issue/PR templates; content = repo-scoped payload paths (music-curator `vault/`, ice-cream `recipes/`·manuscript, reference-checker `test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.
-- **Data / generated carve-outs:** large exported JSON (music-curator `data/`, homeassistant-config `context/`) and reference-checker's rendered `reports/*.html` are data/output; lockfiles and SVG are generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.
+- **Data / generated carve-outs:** exported payloads under the declared data dirs (music-curator `data/`, homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles and SVG are generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.
 - **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir .`
 
 _Generated with Claude Code (Repo Claude)._
