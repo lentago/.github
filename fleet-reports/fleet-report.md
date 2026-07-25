@@ -3,56 +3,42 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-20 13:48 UTC · Scope: the **14 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-20).
+**Generated:** 2026-07-25 03:56 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-25).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **44** | 374 | 117 | **43,477** | 3,242 (19 files) |
+| **52** | 400 | 138 | **67,149** | 3,394 (20 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**3,242 lines** across 19 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**3,394 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 44 across 8 repos
+## Open issues — 52 across 9 repos
 
-### drosera — 13 open
+### drosera — 12 open
 
 | # | Title |
 |---|-------|
+| [176](https://github.com/lentago/drosera/issues/176) | Four live Loki streams have no ingest-absence rule, and the documented stream list is stale |
+| [169](https://github.com/lentago/drosera/issues/169) | Complete the homelab-observability → drosera rename through CI and hosts |
 | [165](https://github.com/lentago/drosera/issues/165) | New-domain radar: alert when an IoT/smart-home device queries a never-before-seen domain (migrated from betula#11) |
 | [164](https://github.com/lentago/drosera/issues/164) | Bandwidth panels from Zeek conn.log bytes (migrated from betula#15) |
-| [161](https://github.com/lentago/drosera/issues/161) | Site analytics pane: Axiom datasource + per-site traffic panels |
 | [157](https://github.com/lentago/drosera/issues/157) | Sites scoreboard row for the office display kiosk |
-| [156](https://github.com/lentago/drosera/issues/156) | Decide Grafana-native alerting for site probes (ADR addendum) |
 | [153](https://github.com/lentago/drosera/issues/153) | Terraform apply silently overwrites live dashboard edits — surface what an apply will revert |
 | [151](https://github.com/lentago/drosera/issues/151) | device-inventory publisher: cron reinstall hook failed silently — root-cause and make the schedule survivable/verifiable |
-| [150](https://github.com/lentago/drosera/issues/150) | Alert on ingest absence: no-data alerts for the critical Loki streams (zeek_dns, zeek_conn, firewalla_acl, device_inventory) |
 | [145](https://github.com/lentago/drosera/issues/145) | gitops loop can't recover a crashed Alloy — validator runs inside the down container |
 | [131](https://github.com/lentago/drosera/issues/131) | Roadmap: multi-client telemetry pane — homelab and solidago (AWS) as peer sources |
 | [103](https://github.com/lentago/drosera/issues/103) | Scrape node_exporter on the Firewalla via Alloy (bring the gateway into node dashboards) |
 | [101](https://github.com/lentago/drosera/issues/101) | Heartbeat blind spot: tool-less reasoning turns show no activity while tokens burn |
 | [93](https://github.com/lentago/drosera/issues/93) | feat(alloy): attach runid label to the transcript stream from the <sid>.runid sidecar |
 
-### claytonia — 9 open
+### kalmia — 10 open
 
 | # | Title |
 |---|-------|
-| [61](https://github.com/lentago/claytonia/issues/61) | Test harness for the queue core: claim-by-rename atomicity, at-least-once delivery, crash-mid-job recovery |
-| [49](https://github.com/lentago/claytonia/issues/49) | Give the runner fleet a dedicated machine account instead of Chris's PAT |
-| [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
-| [31](https://github.com/lentago/claytonia/issues/31) | Add optional authentication to the n8n Bullpen job-submit form |
-| [25](https://github.com/lentago/claytonia/issues/25) | Single 'what is every Claude doing right now' pane: unify local sessions + fleet jobs |
-| [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
-| [23](https://github.com/lentago/claytonia/issues/23) | Enforce no-auto-merge review gate on fleet PRs; make 'Open agent PRs' the dispatch gate |
-| [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
-| [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
-
-### kalmia — 9 open
-
-| # | Title |
-|---|-------|
+| [63](https://github.com/lentago/kalmia/issues/63) | Complete the lunaria → brasenia rename through runtime |
 | [53](https://github.com/lentago/kalmia/issues/53) | Pre-merge guard: verify a ForceNew guest change can actually be re-created under the apply identity |
 | [52](https://github.com/lentago/kalmia/issues/52) | Codify the n8n container's provisioning (Docker + compose) — recreate yields a bare template |
 | [51](https://github.com/lentago/kalmia/issues/51) | Guarantee vzdump coverage for every Terraform-enforced guest (CT 113 had none) |
@@ -63,14 +49,56 @@ The fleet's hand-maintained natural-language instruction surface (**3,242 lines*
 | [15](https://github.com/lentago/kalmia/issues/15) | Live-test the crostini profile on the Chromebook penguin container |
 | [14](https://github.com/lentago/kalmia/issues/14) | Live-test the ubuntu_laptop profile on real ThinkPad hardware |
 
+### claytonia — 9 open
+
+| # | Title |
+|---|-------|
+| [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
+| [49](https://github.com/lentago/claytonia/issues/49) | Give the runner fleet a dedicated machine account instead of Chris's PAT |
+| [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
+| [31](https://github.com/lentago/claytonia/issues/31) | Add optional authentication to the n8n Bullpen job-submit form |
+| [25](https://github.com/lentago/claytonia/issues/25) | Single 'what is every Claude doing right now' pane: unify local sessions + fleet jobs |
+| [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
+| [23](https://github.com/lentago/claytonia/issues/23) | Enforce no-auto-merge review gate on fleet PRs; make 'Open agent PRs' the dispatch gate |
+| [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
+| [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
+
+### solidago — 6 open
+
+| # | Title |
+|---|-------|
+| [149](https://github.com/lentago/solidago/issues/149) | Rotating a Lambda's Axiom token requires an unrelated apply to take effect |
+| [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
+| [142](https://github.com/lentago/solidago/issues/142) | Track the foundry-* → solidago AWS resource rename |
+| [124](https://github.com/lentago/solidago/issues/124) | ECS task defs show a perpetual replace-diff (container_definitions normalization) — plan noise + apply-side-effect landmine |
+| [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
+| [20](https://github.com/lentago/solidago/issues/20) | Document: Phase 2 Secrets Manager secret unused after RDS-managed password choice |
+
 ### betula — 4 open
 
 | # | Title |
 |---|-------|
-| [87](https://github.com/lentago/betula/issues/87) | Collect ALB access logs for the public sites (S3 → Axiom) |
+| [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
 | [86](https://github.com/lentago/betula/issues/86) | Firewalla boot race: Fluent Bit starts before Zeek's spool is live and tails dead paths silently; healthcheck's error-based detection cannot see it |
 | [83](https://github.com/lentago/betula/issues/83) | Refresh docs/architecture.svg — Axiom path retired, Loki-only pipeline |
 | [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
+
+### music-curator — 4 open
+
+| # | Title |
+|---|-------|
+| [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
+| [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
+| [43](https://github.com/lentago/music-curator/issues/43) | Session-tie receipts: render the credits justifying each edge |
+| [42](https://github.com/lentago/music-curator/issues/42) | Merge name-variant duplicate artists in the inventory |
+
+### .github — 3 open
+
+| # | Title |
+|---|-------|
+| [57](https://github.com/lentago/.github/issues/57) | Fleet gap: docs-only PRs pass CI without asserting anything |
+| [31](https://github.com/lentago/.github/issues/31) | Update language-census.md to current repo name solidago (was foundry-platform-demo) |
+| [28](https://github.com/lentago/.github/issues/28) | fleet-ops: require the terraform check on enforced-surface repos (claytonia requires only shellcheck; kalmia requires none) |
 
 ### reference-checker — 3 open
 
@@ -80,21 +108,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,242 lines*
 | [10](https://github.com/lentago/reference-checker/issues/10) | [v4] Design batch-pattern detection across submissions |
 | [8](https://github.com/lentago/reference-checker/issues/8) | [v4] Integrate Crossref retraction API for structured retraction checking |
 
-### solidago — 3 open
-
-| # | Title |
-|---|-------|
-| [124](https://github.com/lentago/solidago/issues/124) | ECS task defs show a perpetual replace-diff (container_definitions normalization) — plan noise + apply-side-effect landmine |
-| [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
-| [20](https://github.com/lentago/solidago/issues/20) | Document: Phase 2 Secrets Manager secret unused after RDS-managed password choice |
-
-### .github — 2 open
-
-| # | Title |
-|---|-------|
-| [31](https://github.com/lentago/.github/issues/31) | Update language-census.md to current repo name solidago (was foundry-platform-demo) |
-| [28](https://github.com/lentago/.github/issues/28) | fleet-ops: require the terraform check on enforced-surface repos (claytonia requires only shellcheck; kalmia requires none) |
-
 ### site-lentago-dev — 1 open
 
 | # | Title |
@@ -103,8 +116,85 @@ The fleet's hand-maintained natural-language instruction surface (**3,242 lines*
 
 ## Activity — last 30 days
 
-**491 events**, one stream, newest first — 🟣 374 PRs merged · 🟢 117 issues closed
+**538 events**, one stream, newest first — 🟣 400 PRs merged · 🟢 138 issues closed
 
+- 🟣 2026-07-25 · [homeassistant-config#508](https://github.com/lentago/homeassistant-config/pull/508) — docs: remove broken image reference from Lentago Lab Status section
+- 🟢 2026-07-25 · [betula#93](https://github.com/lentago/betula/issues/93) — Dead links to the removed dashboards/ directory in the Zeek field reference
+- 🟣 2026-07-25 · [betula#94](https://github.com/lentago/betula/pull/94) — docs: fix dead dashboards/axiom-queries.md links in zeek-field-reference
+- 🟢 2026-07-25 · [drosera#178](https://github.com/lentago/drosera/issues/178) — README describes the retired single-container Alloy model
+- 🟣 2026-07-25 · [drosera#179](https://github.com/lentago/drosera/pull/179) — docs: fix README's single-Alloy framing, add alerting + CloudWatch coverage
+- 🟢 2026-07-25 · [.github#55](https://github.com/lentago/.github/issues/55) — README understates the repo and claims no community-health files are set
+- 🟣 2026-07-25 · [.github#56](https://github.com/lentago/.github/pull/56) — docs(readme): fix false community-health claim and document fleet content
+- 🟢 2026-07-25 · [music-curator#63](https://github.com/lentago/music-curator/issues/63) — README still frames the repo as a prompt-spec, not the tooling it became
+- 🟣 2026-07-25 · [music-curator#64](https://github.com/lentago/music-curator/pull/64) — docs: reframe README around the productized toolchain
+- 🟢 2026-07-25 · [music-curator#9](https://github.com/lentago/music-curator/issues/9) — Add an always-on gate check so auto-merge can arm (last .github#27 gap; sequence with the Obsidian wiki-manager productization)
+- 🟣 2026-07-25 · [music-curator#65](https://github.com/lentago/music-curator/pull/65) — ci: replace the path-filtered validator with an unconditional integrity check
+- 🟣 2026-07-25 · [homeassistant-config#507](https://github.com/lentago/homeassistant-config/pull/507) — Stop office/playroom flicker loops on an external off command
+- 🟣 2026-07-25 · [drosera#177](https://github.com/lentago/drosera/pull/177) — Flatten the dashboard folder taxonomy into a single Lentago folder
+- 🟢 2026-07-25 · [solidago#145](https://github.com/lentago/solidago/issues/145) — Mirror the Ask handler's structured logging into the vendored copy
+- 🟣 2026-07-25 · [solidago#148](https://github.com/lentago/solidago/pull/148) — Mirror structured ask_query logging into the vendored handler
+- 🟢 2026-07-25 · [drosera#150](https://github.com/lentago/drosera/issues/150) — Alert on ingest absence: no-data alerts for the critical Loki streams (zeek_dns, zeek_conn, firewalla_acl, device_inventory)
+- 🟣 2026-07-25 · [drosera#175](https://github.com/lentago/drosera/pull/175) — Alert on ingest absence: no-data alerts for the critical Loki streams
+- 🟢 2026-07-25 · [solidago#146](https://github.com/lentago/solidago/issues/146) — Bump betula_ref so the ALB shipper's IP truncation actually deploys
+- 🟣 2026-07-25 · [solidago#147](https://github.com/lentago/solidago/pull/147) — Bump betula_ref to adopt ALB client-IP truncation
+- 🟣 2026-07-25 · [drosera#174](https://github.com/lentago/drosera/pull/174) — Correct the uniques panel: IP truncation is not yet deployed
+- 🟢 2026-07-25 · [drosera#161](https://github.com/lentago/drosera/issues/161) — Site analytics pane: Axiom datasource + per-site traffic panels
+- 🟣 2026-07-25 · [drosera#173](https://github.com/lentago/drosera/pull/173) — Site analytics pane: Axiom datasource + per-site traffic panels
+- 🟣 2026-07-25 · [betula#92](https://github.com/lentago/betula/pull/92) — feat(aws): CloudWatch Logs → Axiom forwarder (clients/aws/cloudwatch-logs)
+- 🟢 2026-07-25 · [betula#90](https://github.com/lentago/betula/issues/90) — Decide retention and client-IP handling for the ALB access-log dataset
+- 🟣 2026-07-25 · [betula#91](https://github.com/lentago/betula/pull/91) — feat(alb-logs): truncate client_ip at ingest for visitor privacy
+- 🟢 2026-07-25 · [site-pondviewlane-com#23](https://github.com/lentago/site-pondviewlane-com/issues/23) — Ask box records nothing — no question, outcome, or cost is captured
+- 🟣 2026-07-25 · [site-pondviewlane-com#24](https://github.com/lentago/site-pondviewlane-com/pull/24) — Ask box records nothing — no question, outcome, or cost is captured
+- 🟢 2026-07-24 · [drosera#156](https://github.com/lentago/drosera/issues/156) — Decide Grafana-native alerting for site probes (ADR addendum)
+- 🟣 2026-07-24 · [drosera#172](https://github.com/lentago/drosera/pull/172) — feat: Grafana-native alerting for site probes (ADR addendum)
+- 🟢 2026-07-24 · [solidago#143](https://github.com/lentago/solidago/issues/143) — ECS app logs stopped reaching Axiom on 2026-07-08 and no signal fired
+- 🟢 2026-07-24 · [drosera#170](https://github.com/lentago/drosera/issues/170) — essexcrossingatmontserrat.com has no probe and no dashboard
+- 🟣 2026-07-24 · [drosera#171](https://github.com/lentago/drosera/pull/171) — feat: add essexcrossingatmontserrat.com probe and dashboard
+- 🟢 2026-07-24 · [betula#87](https://github.com/lentago/betula/issues/87) — Collect ALB access logs for the public sites (S3 → Axiom)
+- 🟣 2026-07-24 · [site-pondviewlane-com#22](https://github.com/lentago/site-pondviewlane-com/pull/22) — Add JSON-LD structured data, sitemap lastmod, and a /guides/ redirect
+- 🟣 2026-07-24 · [site-pondviewlane-com#21](https://github.com/lentago/site-pondviewlane-com/pull/21) — Publish the July 28, 2026 Beverly ConCom agenda to the library
+- 🟣 2026-07-23 · [music-curator#62](https://github.com/lentago/music-curator/pull/62) — Render Spotify follows in the vault + wire seeds via credits re-resolution
+- 🟣 2026-07-23 · [music-curator#61](https://github.com/lentago/music-curator/pull/61) — Backfill 48 followed-but-unowned artists into the reservoir
+- 🟣 2026-07-23 · [music-curator#60](https://github.com/lentago/music-curator/pull/60) — Follow ingestion automation — daily drain + fold Action
+- 🟣 2026-07-23 · [site-pondviewlane-com#20](https://github.com/lentago/site-pondviewlane-com/pull/20) — Reframe both skins as a public site, not a residents' guide
+- 🟣 2026-07-23 · [music-curator#59](https://github.com/lentago/music-curator/pull/59) — harvest_merge.py — fold Spotify follows into the inventory
+- 🟣 2026-07-23 · [music-curator#58](https://github.com/lentago/music-curator/pull/58) — Fold accents in the dedup key, extract it to a shared module
+- 🟣 2026-07-23 · [music-curator#57](https://github.com/lentago/music-curator/pull/57) — Spotify follow watcher: capture new follows and the song behind them
+- 🟣 2026-07-23 · [music-curator#56](https://github.com/lentago/music-curator/pull/56) — Harvest follow deltas: first_followed / new_follow in the roll-up (schema v2)
+- 🟣 2026-07-23 · [music-curator#55](https://github.com/lentago/music-curator/pull/55) — Drop the Compilations pseudo-artist from the inventory
+- 🟣 2026-07-23 · [music-curator#54](https://github.com/lentago/music-curator/pull/54) — Restore the clean default preset as the active graph.json
+- 🟣 2026-07-23 · [music-curator#53](https://github.com/lentago/music-curator/pull/53) — Surface the rotation layer in the vault
+- 🟣 2026-07-23 · [music-curator#52](https://github.com/lentago/music-curator/pull/52) — Mark the periodic Spotify harvest shipped in the roadmap
+- 🟢 2026-07-23 · [music-curator#47](https://github.com/lentago/music-curator/issues/47) — Spotify harvester has landed zero daily snapshots since setup (2026-07-12)
+- 🟣 2026-07-23 · [music-curator#51](https://github.com/lentago/music-curator/pull/51) — Rework Spotify consumer to commit the roll-up via an auto-merged PR
+- 🟣 2026-07-23 · [music-curator#50](https://github.com/lentago/music-curator/pull/50) — chore(harvest): 2026-07 Spotify roll-up
+- 🟣 2026-07-22 · [music-curator#49](https://github.com/lentago/music-curator/pull/49) — Fix Spotify producer: URLSearchParams undefined in n8n Code sandbox
+- 🟣 2026-07-22 · [music-curator#48](https://github.com/lentago/music-curator/pull/48) — Deploy prep for the Spotify harvester: monthly consumer + n8n staging
+- 🟣 2026-07-22 · [music-curator#46](https://github.com/lentago/music-curator/pull/46) — Preserve the 2026-07-12 Spotify-migration collection CSVs
+- 🟣 2026-07-22 · [brasenia#3](https://github.com/lentago/brasenia/pull/3) — Preserve the 2026-07-20 HLS validation artifacts
+- 🟢 2026-07-22 · [music-curator#40](https://github.com/lentago/music-curator/issues/40) — Promote high-degree session connectors to person nodes
+- 🟣 2026-07-22 · [music-curator#41](https://github.com/lentago/music-curator/pull/41) — feat: promote 15 session connectors to person nodes
+- 🟣 2026-07-22 · [kalmia#66](https://github.com/lentago/kalmia/pull/66) — Repoint lunaria render source back to the Morning Brief
+- 🟣 2026-07-21 · [.github#54](https://github.com/lentago/.github/pull/54) — Add runtime inventory (2026-07-21) to fleet-reports
+- 🟣 2026-07-21 · [kalmia#65](https://github.com/lentago/kalmia/pull/65) — Repoint lunaria wall-display render source to the runtime inventory
+- 🟣 2026-07-21 · [kalmia#64](https://github.com/lentago/kalmia/pull/64) — Point legacy-name notes at the rename tracking issue
+- 🟣 2026-07-21 · [brasenia#2](https://github.com/lentago/brasenia/pull/2) — Cite kalmia#63 for the runtime rename under the fleet rename discipline
+- 🟣 2026-07-21 · [shared-workflows#25](https://github.com/lentago/shared-workflows/pull/25) — Add fleet rename discipline (canonical source)
+- 🟢 2026-07-21 · [kalmia#61](https://github.com/lentago/kalmia/issues/61) — Decide/execute runtime rename: lunaria → brasenia
+- 🟣 2026-07-21 · [kalmia#62](https://github.com/lentago/kalmia/pull/62) — Decide/execute runtime rename: lunaria → brasenia
+- 🟣 2026-07-21 · [brasenia#1](https://github.com/lentago/brasenia/pull/1) — Rename product lunaria → brasenia
+- 🟣 2026-07-21 · [kalmia#60](https://github.com/lentago/kalmia/pull/60) — lunaria: pin container timezone (clock overlay showed UTC)
+- 🟢 2026-07-21 · [kalmia#58](https://github.com/lentago/kalmia/issues/58) — lunaria: wall-display compositor LXC (terraform guest + provisioning role)
+- 🟣 2026-07-21 · [kalmia#59](https://github.com/lentago/kalmia/pull/59) — lunaria: wall-display compositor LXC (terraform guest + provisioning role)
+- 🟣 2026-07-21 · [kalmia#57](https://github.com/lentago/kalmia/pull/57) — pub: exclude TV edition from index.html and map it to tv.html
+- 🟢 2026-07-21 · [kalmia#56](https://github.com/lentago/kalmia/issues/56) — pub: publish-morning-brief maps the TV edition onto index.html
+- 🟢 2026-07-20 · [kalmia#54](https://github.com/lentago/kalmia/issues/54) — Bake the Morning Brief publisher into pub (LXC 114) provisioning
+- 🟣 2026-07-20 · [kalmia#55](https://github.com/lentago/kalmia/pull/55) — feat: bake the Morning Brief publisher into pub (LXC 114) provisioning
+- 🟢 2026-07-20 · [claytonia#63](https://github.com/lentago/claytonia/issues/63) — README: authorship disclosure missing; queue-core caveats predate the #61 test harness
+- 🟣 2026-07-20 · [claytonia#64](https://github.com/lentago/claytonia/pull/64) — README: authorship disclosure + caveats updated for the queue-test harness
+- 🟢 2026-07-20 · [claytonia#61](https://github.com/lentago/claytonia/issues/61) — Test harness for the queue core: claim-by-rename atomicity, at-least-once delivery, crash-mid-job recovery
+- 🟣 2026-07-20 · [claytonia#62](https://github.com/lentago/claytonia/pull/62) — test: queue-core harness (claim races, delivery, crash recovery, write-then-rename) + atomic-first claim fix
+- 🟣 2026-07-20 · [.github#53](https://github.com/lentago/.github/pull/53) — Weekly fleet reports refresh — 2026-07-20
 - 🟣 2026-07-20 · [betula#88](https://github.com/lentago/betula/pull/88) — docs: refresh architecture.svg for Loki-only pipeline (#83)
 - 🟢 2026-07-20 · [drosera#152](https://github.com/lentago/drosera/issues/152) — Doc drift: README/CLAUDE.md/AGENTS.md still describe the retired Promtail → Alloy :3100 relay for Zeek logs
 - 🟣 2026-07-20 · [drosera#168](https://github.com/lentago/drosera/pull/168) — Fix doc drift: Zeek/ACL logs push directly to Cloud Loki
@@ -242,7 +332,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,242 lines*
 - 🟣 2026-07-09 · [betula#81](https://github.com/lentago/betula/pull/81) — feat(aws): ALB access-log S3 → Axiom shipper (clients/aws/alb-logs)
 - 🟢 2026-07-09 · [solidago#106](https://github.com/lentago/solidago/issues/106) — Enable ALB access logs to S3 for visitor-source telemetry (betula/Axiom ingestion)
 - 🟣 2026-07-09 · [solidago#107](https://github.com/lentago/solidago/pull/107) — Enable ALB access logs to S3 for visitor-source telemetry
-- 🟢 2026-07-09 · [music-curator#9](https://github.com/lentago/music-curator/issues/9) — Add an always-on gate check so auto-merge can arm (last .github#27 gap; sequence with the Obsidian wiki-manager productization)
 - 🟣 2026-07-09 · [music-curator#31](https://github.com/lentago/music-curator/pull/31) — feat: switchable graph-preset library — default taste map + artist-web audit view
 - 🟣 2026-07-09 · [music-curator#30](https://github.com/lentago/music-curator/pull/30) — refactor: nest subcategory hub notes under their category folder
 - 🟣 2026-07-09 · [music-curator#29](https://github.com/lentago/music-curator/pull/29) — feat: two-tier taxonomy — 13 top-level genres + subcategories
@@ -560,7 +649,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,242 lines*
 - 🟣 2026-06-25 · [solidago#68](https://github.com/lentago/solidago/pull/68) — Disable automated Claude PR review (manual-only trigger)
 - 🟣 2026-06-25 · [betula#53](https://github.com/lentago/betula/pull/53) — Disable automated Claude PR review (manual-only trigger)
 - 🟣 2026-06-25 · [claytonia#28](https://github.com/lentago/claytonia/pull/28) — Disable automated Claude PR review (manual-only trigger)
-- 🟢 2026-06-25 · [drosera#94](https://github.com/lentago/drosera/issues/94) — Fleet dashboard panel-11 "Local sessions underway" collapses to a per-worker boolean — switch to distinct-session count
 - 🟣 2026-06-25 · [drosera#95](https://github.com/lentago/drosera/pull/95) — fix(dashboard): panel-11 — count distinct sessions, not per-worker boolean
 - 🟣 2026-06-25 · [claytonia#26](https://github.com/lentago/claytonia/pull/26) — feat(frontends): n8n web form to submit bullpen jobs
 - 🟣 2026-06-25 · [claytonia#27](https://github.com/lentago/claytonia/pull/27) — docs: drop Origin section from PR template, neutralize Summary voice
@@ -568,34 +656,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,242 lines*
 - 🟣 2026-06-25 · [shared-workflows#11](https://github.com/lentago/shared-workflows/pull/11) — docs: neutralize PR voice — drop the ## Origin section and Prompt-Origin trailer
 - 🟣 2026-06-25 · [homeassistant-config#488](https://github.com/lentago/homeassistant-config/pull/488) — chore: remove home-host/ and retire pve2 display-host references
 - 🟣 2026-06-25 · [homeassistant-config#487](https://github.com/lentago/homeassistant-config/pull/487) — docs: retire pve2 display-host references in CLAUDE.md
-- 🟣 2026-06-24 · [.github#9](https://github.com/lentago/.github/pull/9) — profile: tighten badge wall to attested stack + AI-delivery row + runbook link
-- 🟣 2026-06-24 · [homeassistant-config#486](https://github.com/lentago/homeassistant-config/pull/486) — context-snapshot: 20260624-160008
-- 🟣 2026-06-24 · [homeassistant-config#485](https://github.com/lentago/homeassistant-config/pull/485) — context-snapshot: 20260624-040010
-- 🟣 2026-06-23 · [homeassistant-config#484](https://github.com/lentago/homeassistant-config/pull/484) — context-snapshot: 20260623-220008
-- 🟣 2026-06-23 · [homeassistant-config#483](https://github.com/lentago/homeassistant-config/pull/483) — context-snapshot: 20260623-160001
-- 🟣 2026-06-23 · [homeassistant-config#482](https://github.com/lentago/homeassistant-config/pull/482) — context-snapshot: 20260623-100001
-- 🟣 2026-06-23 · [homeassistant-config#481](https://github.com/lentago/homeassistant-config/pull/481) — context-snapshot: 20260623-085052
-- 🟣 2026-06-23 · [homeassistant-config#480](https://github.com/lentago/homeassistant-config/pull/480) — context-snapshot: 20260623-040001
-- 🟣 2026-06-22 · [homeassistant-config#479](https://github.com/lentago/homeassistant-config/pull/479) — context-snapshot: 20260622-220001
-- 🟣 2026-06-22 · [homeassistant-config#478](https://github.com/lentago/homeassistant-config/pull/478) — context-snapshot: 20260622-160001
-- 🟣 2026-06-22 · [homeassistant-config#477](https://github.com/lentago/homeassistant-config/pull/477) — context-snapshot: 20260622-100001
-- 🟣 2026-06-22 · [homeassistant-config#476](https://github.com/lentago/homeassistant-config/pull/476) — context-snapshot: 20260622-040001
-- 🟣 2026-06-21 · [homeassistant-config#475](https://github.com/lentago/homeassistant-config/pull/475) — context-snapshot: 20260621-220001
-- 🟣 2026-06-21 · [.github#8](https://github.com/lentago/.github/pull/8) — brand/avatars: add square (sharp-corner) variants
-- 🟣 2026-06-21 · [.github#7](https://github.com/lentago/.github/pull/7) — profile: align org README to collective "we" voice
-- 🟣 2026-06-21 · [.github#6](https://github.com/lentago/.github/pull/6) — brand: add canonical GitHub avatar marks (org &lt;pl:&gt;, personal &lt;cjp:&gt;)
-- 🟣 2026-06-21 · [homeassistant-config#474](https://github.com/lentago/homeassistant-config/pull/474) — context-snapshot: 20260621-160001
-- 🟣 2026-06-21 · [.github#5](https://github.com/lentago/.github/pull/5) — fleet-ops: sweep leftover branches via fleet-apply.sh --prune-branches
-- 🟣 2026-06-21 · [homeassistant-config#473](https://github.com/lentago/homeassistant-config/pull/473) — context-snapshot: 20260621-100001
-- 🟣 2026-06-21 · [homeassistant-config#472](https://github.com/lentago/homeassistant-config/pull/472) — context-snapshot: 20260621-040001
-- 🟣 2026-06-20 · [repo-template#1](https://github.com/lentago/repo-template/pull/1) — Update SETUP.md fleet-ops paths to dotgithub/fleet-ops/
-- 🟣 2026-06-20 · [.github#4](https://github.com/lentago/.github/pull/4) — Adopt fleet-ops as versioned tooling in the org meta-repo
-- 🟣 2026-06-20 · [.github#3](https://github.com/lentago/.github/pull/3) — Add CLAUDE.md with Org Claude persona + fleet conventions
-- 🟣 2026-06-20 · [homeassistant-config#471](https://github.com/lentago/homeassistant-config/pull/471) — context-snapshot: 20260620-220001
-- 🟣 2026-06-20 · [homeassistant-config#470](https://github.com/lentago/homeassistant-config/pull/470) — context-snapshot: 20260620-160008
-- 🟣 2026-06-20 · [homeassistant-config#469](https://github.com/lentago/homeassistant-config/pull/469) — context-snapshot: 20260620-100001
-- 🟣 2026-06-20 · [homeassistant-config#468](https://github.com/lentago/homeassistant-config/pull/468) — context-snapshot: 20260620-040001
-- 🟣 2026-06-20 · [reference-checker#46](https://github.com/lentago/reference-checker/pull/46) — feat(baseline): v6 production baseline — H10 functional check, regression gate, scoring calibration
 
 ---
 
@@ -609,25 +669,28 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 11,549 | 31 | 26.6% |
-| 2 | YAML | 8,211 | 129 | 18.9% |
-| 3 | HCL | 5,800 | 102 | 13.3% |
-| 4 | Shell (Bourne + Bash) | 4,581 | 54 | 10.5% |
-| 5 | Text | 3,324 | 23 | 7.6% |
-| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,242 | 19 | 7.5% |
-| 7 | Python | 3,081 | 20 | 7.1% |
-| 8 | JavaScript | 1,633 | 16 | 3.8% |
-| 9 | CSS | 867 | 9 | 2.0% |
-| 10 | JSX | 851 | 10 | 2.0% |
-| 11 | TypeScript | 310 | 8 | 0.7% |
-| 12 | Other (TOML / Dockerfile / …) | 28 | 4 | 0.1% |
-| | **CODE TOTAL** | **43,477** | **425** | 100% |
-| — | _Data / exports — excluded_ | 119,914 | 20 | — |
+| 1 | CSV | 15,595 | 2 | 23.2% |
+| 2 | JSON | 14,828 | 38 | 22.1% |
+| 3 | YAML | 8,707 | 141 | 13.0% |
+| 4 | HCL | 6,108 | 104 | 9.1% |
+| 5 | Shell (Bourne + Bash) | 4,714 | 62 | 7.0% |
+| 6 | Python | 4,373 | 34 | 6.5% |
+| 7 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,394 | 20 | 5.1% |
+| 8 | Text | 3,377 | 24 | 5.0% |
+| 9 | Astro | 1,895 | 19 | 2.8% |
+| 10 | JavaScript | 1,773 | 16 | 2.6% |
+| 11 | CSS | 867 | 9 | 1.3% |
+| 12 | JSX | 851 | 10 | 1.3% |
+| 13 | TypeScript | 310 | 8 | 0.5% |
+| 14 | Jinja Template | 277 | 6 | 0.4% |
+| 15 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.1% |
+| | **CODE TOTAL** | **67,149** | **499** | 100% |
+| — | _Data / exports — excluded_ | 125,409 | 22 | — |
 | — | _Generated (lockfiles, SVG) — excluded_ | 20,277 | 31 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (15 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,791 lines**
+- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,943 lines**
 - **Prompt-programs** (4 files · reference-checker auditors): **1,451 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -635,9 +698,9 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | Repo | File | Lines |
 |------|------|------:|
 | homeassistant-config | `CLAUDE.md` | 399 |
-| shared-workflows | `CLAUDE.md` | 181 |
+| shared-workflows | `CLAUDE.md` | 222 |
+| site-pondviewlane-com | `CLAUDE.md` | 190 |
 | betula | `CLAUDE.md` | 156 |
-| site-pondviewlane-com | `CLAUDE.md` | 140 |
 | .github | `CLAUDE.md` | 135 |
 | site-lentago-dev | `CLAUDE.md` | 108 |
 | solidago | `CLAUDE.md` | 99 |
@@ -645,11 +708,12 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | drosera | `CLAUDE.md` | 96 |
 | kalmia | `CLAUDE.md` | 94 |
 | reference-checker | `CLAUDE.md` | 76 |
+| music-curator | `CLAUDE.md` | 68 |
 | drosera | `AGENTS.md` | 67 |
-| music-curator | `CLAUDE.md` | 63 |
 | claytonia | `CLAUDE.md` | 57 |
+| brasenia | `CLAUDE.md` | 56 |
 | repo-template | `CLAUDE.md` | 22 |
-| **15 files** | | **1,791** |
+| **16 files** | | **1,943** |
 
 #### Prompt-programs — natural language *is* the logic
 
@@ -661,38 +725,39 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | reference-checker | `prompts/v3-auditor.md` | 69 |
 | **4 files** | | **1,451** |
 
-_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,791**, not 3,242._
+_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,943**, not 3,394._
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| drosera | 11,597 | 163 | 701 | 0 | 0 |
-| homeassistant-config | 6,495 | 399 | 1,090 | 0 | 17,420 |
-| solidago | 6,282 | 99 | 1,690 | 0 | 0 |
-| site-pondviewlane-com | 5,740 | 140 | 2,055 | 0 | 0 |
-| site-icecreamtofightwith-com | 2,041 | 98 | 594 | 6,008 | 0 |
-| kalmia | 1,982 | 94 | 463 | 0 | 0 |
-| music-curator | 1,754 | 63 | 868 | 8,915 | 97,320 |
-| claytonia | 1,736 | 57 | 520 | 0 | 0 |
+| music-curator | 18,733 | 68 | 1,157 | 11,537 | 102,815 |
+| drosera | 14,557 | 163 | 860 | 0 | 0 |
+| homeassistant-config | 6,578 | 399 | 1,088 | 0 | 17,420 |
+| site-pondviewlane-com | 6,497 | 190 | 2,054 | 0 | 0 |
+| solidago | 6,332 | 99 | 1,690 | 0 | 0 |
+| site-icecreamtofightwith-com | 3,253 | 98 | 594 | 6,008 | 0 |
+| kalmia | 2,688 | 94 | 602 | 0 | 0 |
+| claytonia | 1,809 | 57 | 564 | 0 | 0 |
+| betula | 1,784 | 156 | 1,124 | 0 | 0 |
 | reference-checker | 1,587 | 1,527 | 731 | 669 | 5,174 |
-| site-lentago-dev | 1,421 | 108 | 360 | 0 | 0 |
-| betula | 1,288 | 156 | 923 | 0 | 0 |
-| .github | 918 | 135 | 371 | 2,178 | 0 |
-| shared-workflows | 571 | 181 | 83 | 0 | 0 |
+| site-lentago-dev | 1,555 | 108 | 360 | 0 | 0 |
+| .github | 918 | 135 | 403 | 2,208 | 0 |
+| shared-workflows | 612 | 222 | 83 | 0 | 0 |
+| brasenia | 181 | 56 | 575 | 0 | 0 |
 | repo-template | 65 | 22 | 46 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **31,859 lines of Markdown across 760 files**; only 10.2% is instruction-code.
+The fleet carries **36,099 lines of Markdown across 834 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 3,242 | 19 | **counted as code** |
-| Content / data | 17,770 | 634 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 10,495 | 92 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 3,394 | 20 | **counted as code** |
+| Content / data | 20,422 | 698 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 11,931 | 101 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **31,859** | **760** | |
+| **All Markdown** | **36,099** | **834** | |
 
 ---
 
