@@ -84,17 +84,26 @@ required_contexts() {
     2>/dev/null || true
 }
 
-# Check-run names present on the repo's most recent PR head — the evidence that a
+# Check-run names seen across the repo's most recent PR heads — the evidence that a
 # context's workflow actually runs. Guards --require-checks against typos and
 # premature flips. (Proves the workflow runs, NOT that it is merged to main —
 # that ordering is the operator's job per the README.)
+#
+# Samples several PRs, not just the newest. Sampling only the newest gives a false
+# negative whenever the latest PR predates the check being adopted — which is the
+# normal case right after a rollout, since the adoption PR is by then one or more
+# PRs back. That is exactly when --require-checks is run, so a 1-PR sample refuses
+# the very flip it is meant to authorise.
+SEEN_PR_SAMPLE=5
 seen_contexts() {
   local r="$1" n sha
-  n=$(gh pr list --repo "$ORG/$r" --state all --limit 1 --json number --jq '.[0].number' 2>/dev/null)
-  [ -z "$n" ] && return
-  sha=$(gh api "repos/$ORG/$r/pulls/$n" --jq '.head.sha' 2>/dev/null)
-  [ -z "$sha" ] && return
-  gh api "repos/$ORG/$r/commits/$sha/check-runs" --jq '.check_runs[].name' 2>/dev/null | sort -u
+  while read -r n; do
+    [ -z "$n" ] && continue
+    sha=$(gh api "repos/$ORG/$r/pulls/$n" --jq '.head.sha' 2>/dev/null) || continue
+    [ -z "$sha" ] && continue
+    gh api "repos/$ORG/$r/commits/$sha/check-runs" --jq '.check_runs[].name' 2>/dev/null
+  done < <(gh pr list --repo "$ORG/$r" --state all --limit "$SEEN_PR_SAMPLE" \
+             --json number --jq '.[].number' 2>/dev/null) | sort -u
 }
 
 # Layer the mapped required-check contexts onto a repo's `main` ruleset.
@@ -301,8 +310,13 @@ for r in $repos; do
   fi
 
   # --require-checks mutates independently of MODE (like --prune-branches).
+  # `|| true` is load-bearing under `set -e`: require_checks_apply returns 1 when it
+  # refuses a repo (no ruleset, or a context with no evidence it runs). Without this,
+  # one refusal aborts the whole sweep and every repo after it — alphabetically — is
+  # silently skipped, leaving the fleet half-applied with a zero exit status. The
+  # refusal is already reported on stderr by the function itself.
   if [ "$REQUIRE" = 1 ] && [ ${#want_checks[@]} -gt 0 ]; then
-    require_checks_apply "$r" "${want_checks[@]}"
+    require_checks_apply "$r" "${want_checks[@]}" || true
   fi
 
   # --apply-labels likewise stands alone: purely cosmetic, no ruleset coupling.
