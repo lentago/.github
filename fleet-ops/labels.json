@@ -1,0 +1,47 @@
+{
+  "_comment": [
+    "Tidewater issue-label palette for the Lentago Labs fleet, applied by",
+    "fleet-apply.sh --apply-labels. Colors mirror site-lentago-dev/BRAND.md;",
+    "that repo's design-system CSS is authoritative if they ever disagree.",
+    "",
+    "  ensure=true   create the label if the repo lacks it, then align it.",
+    "  ensure=false  align color/description ONLY where the label already",
+    "                exists — used for labels that are functional on some",
+    "                repos and meaningless on others.",
+    "",
+    "Labels not listed here are left completely alone: per-repo labels like",
+    "'zha' or 'phase-1' are the repo's own business, not fleet branding.",
+    "",
+    "Accent discipline (BRAND.md): anther gold #E0A81C is one element per",
+    "region. 'help wanted' is the fleet's single gold label — it is the only",
+    "one that is a call to action."
+  ],
+
+  "labels": [
+    { "name": "bug",              "color": "bb4a33", "ensure": true,
+      "description": "Something is broken" },
+    { "name": "enhancement",      "color": "1b4b2e", "ensure": true,
+      "description": "New capability or improvement" },
+    { "name": "documentation",    "color": "4a9e82", "ensure": true,
+      "description": "READMEs, CLAUDE.md, and other prose" },
+    { "name": "help wanted",      "color": "E0A81C", "ensure": true,
+      "description": "Ready for someone to pick up" },
+    { "name": "good first issue", "color": "c98a2b", "ensure": true,
+      "description": "A small, self-contained place to start" },
+    { "name": "question",         "color": "9fb0aa", "ensure": true,
+      "description": "Needs a decision before it can move" },
+    { "name": "duplicate",        "color": "ece7da", "ensure": true,
+      "description": "Already tracked elsewhere" },
+    { "name": "invalid",          "color": "cdd6d0", "ensure": true,
+      "description": "Not actionable as filed" },
+    { "name": "wontfix",          "color": "748983", "ensure": true,
+      "description": "Deliberately not being done" },
+
+    { "name": "model:haiku",      "color": "8fbfae", "ensure": false,
+      "description": "Route @claude to the fast tier — mechanical tasks" },
+    { "name": "model:sonnet",     "color": "2f6b4a", "ensure": false,
+      "description": "Route @claude to the balanced tier — most work" },
+    { "name": "model:opus",       "color": "0e2b1a", "ensure": false,
+      "description": "Route @claude to the heaviest tier — architectural work" }
+  ]
+}

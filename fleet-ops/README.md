@@ -10,6 +10,7 @@ problem across three mechanisms — no single one covers everything:
 | **Required status checks** | the checks that must be green before merge (so auto-merge can arm and a red plan/lint blocks) | **`fleet-apply.sh --require-checks`** + `required-checks.json` (per-repo context map) |
 | **Merge-button + topics** | squash-only button, auto-merge, delete-branch, the `lentago`+`claude` topic spine | **`fleet-apply.sh`** (rulesets can't set these) |
 | **Leftover branches** | merged-PR residue + abandoned no-PR branches that `delete_branch_on_merge` never cleaned | **`fleet-apply.sh --prune-branches`** (the setting only fires forward, on merge) |
+| **Issue labels** | the Tidewater label palette — colors and descriptions on every repo's shared labels | **`fleet-apply.sh --apply-labels`** + `labels.json` |
 | **File skeleton** | README/CLAUDE/LICENSE/CI-wrapper starter files | **`lentago/repo-template`** GitHub template (copies files, not settings) |
 
 The lesson that motivated this: a **GitHub template repo copies files, not
@@ -25,17 +26,53 @@ org-wide ruleset is a paid feature (see below).
 ./fleet-apply.sh                 # read-only check of all non-archived org repos
 ./fleet-apply.sh --apply         # apply merge-button + spine-topic fixes fleet-wide
 ./fleet-apply.sh --prune-branches # delete merged-residue branches fleet-wide
+./fleet-apply.sh --apply-labels  # align the Tidewater issue-label palette
 ./fleet-apply.sh --repo NAME     # scope to one repo (e.g. a freshly created one)
 ```
 
-Idempotent. Read-only by default; only `--apply` (settings) and
-`--prune-branches` (branch deletion) mutate, and they are **independent flags**
+Idempotent. Read-only by default; only `--apply` (settings),
+`--prune-branches` (branch deletion) and `--apply-labels` (label color and
+description) mutate, and they are **independent flags**
 so the destructive branch sweep is always opt-in. It enforces
 squash-only + auto-merge + delete-branch-on-merge and the `lentago`+`claude`
 topic spine, **creates the per-repo `main` branch ruleset** (`repo-ruleset.json`)
 if one is missing, and **warns** if any repo still carries the copy-pasted
 `bash bootstrap scripts…` review prompt (the regression fixed in June 2026). It
 does not touch signature topics or existing rulesets.
+
+## `labels.json` + `--apply-labels` — the Tidewater label palette
+
+Every repo ships with GitHub's stock label colors (`#d73a4a` red, `#a2eeef`
+cyan, `#7057ff` violet), which clash with the brand everywhere issues and PRs
+are listed — the highest-frequency colored surface the fleet has. `labels.json`
+carries the Tidewater replacements, mirroring
+[`site-lentago-dev/BRAND.md`](https://github.com/lentago/site-lentago-dev/blob/main/BRAND.md).
+
+```bash
+./fleet-apply.sh --apply-labels              # fleet-wide
+./fleet-apply.sh --apply-labels --repo NAME  # one repo
+```
+
+Two behaviors, set per label in the JSON:
+
+| `ensure` | Behavior |
+|---|---|
+| `true` | create the label if the repo lacks it, then align color + description |
+| `false` | align **only** where it already exists — for labels that are functional on some repos and meaningless on others (the `model:*` @claude routing labels) |
+
+**It never deletes.** Labels absent from `labels.json` — `zha`, `phase-1`,
+`gitops-sync` and the rest — are the repo's own business and are left untouched.
+That's deliberate: a fleet tool that pruned labels would silently strip working
+per-repo triage.
+
+Accent discipline carries over from the brand contract: anther gold `#E0A81C` is
+one element per region, so **`help wanted` is the only gold label** — the single
+call to action. `ci/validate.py` checks the shape (6-digit hex without `#`, no
+duplicate names, explicit `ensure`), because a bad value fails partway through a
+sweep and leaves the fleet half-recolored.
+
+The per-repo README banners and social-preview cards are the other half of this;
+they're assets rather than settings, so they live in [`../brand/`](../brand/).
 
 ## `--prune-branches` — sweep leftover branches
 

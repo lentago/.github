@@ -2,7 +2,7 @@
 
 Canonical GitHub avatar marks for the Lentago Labs identity. The org mark is the
 brand **blossom** — a five-petal field-flower (limestone petals carried by teal
-contour outlines, a spray of stamens tipped in copper anthers, and a pale center)
+contour outlines, a spray of stamens tipped in gold anthers, and a pale center)
 set in a deep-teal chip, per the
 [Lentago Labs brand contract](https://github.com/lentago/site-lentago-dev/blob/main/BRAND.md).
 It comes in a **rounded** (avatar) and a **square** (sharp-corner) variant. The
@@ -39,10 +39,10 @@ slides, og/social cards, print).
 
 ## Tokens — "Tidewater"
 
-Deep-teal chip: chip `#0e2b28` · limestone petal outlines + center `#f3f0e8` ·
-soft-grey stamens `#cdd6d0` · copper anthers `#c2643c`. Limestone chip: chip
-`#f3f0e8` · petals filled `#fffefb`, outlined brand-teal `#1c4a44` · stamens
-`#0e2b28` · copper anthers `#c2643c` (identical to the banner lockup). The
+Deep-teal chip: chip `#0e2b1a` · limestone petal outlines + center `#f3f0e8` ·
+soft-grey stamens `#cdd6d0` · anther gold `#E0A81C`. Limestone chip: chip
+`#f3f0e8` · petals filled `#fffefb`, outlined brand-teal `#1b4b2e` · stamens
+`#0e2b1a` · anther gold `#E0A81C` (identical to the banner lockup). The
 blossom is drawn (pure SVG geometry — five 72°-rotated petals, ten stamens, a
 pale center) — no font dependency. The `<cjp:>` personal mark keeps its own navy `#1c3552` · orange
 `#e08438` · cream `#faf7f2` palette in JetBrains Mono 700, lowercase.

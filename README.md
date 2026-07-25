@@ -30,6 +30,9 @@ Settings-as-code for the whole fleet.
   topic spine across all non-archived org repos.
 - **`repo-ruleset.json`** — per-repo branch-protection ruleset template (PR
   required, squash-only, no force-push/deletion).
+- **`labels.json`** — the Tidewater issue-label palette, applied with
+  `--apply-labels`. Aligns color and description on the labels it names and
+  never deletes the ones it doesn't.
 - **`org-ruleset.json`** — org-level ruleset definition.
 - **`required-checks.json`** — per-repo map of the status checks that must pass
   before merge.
@@ -55,15 +58,27 @@ Periodically regenerated reports published in this repo.
 ### [`ci/`](ci/)
 
 - **`validate.py`** — the check that gates PRs here. Asserts that `fleet-ops/*.json`
-  match the shape `fleet-apply.sh` consumes, that the report generator's classifiers
-  route known paths correctly, that relative markdown links resolve, and that
+  match the shape `fleet-apply.sh` consumes, that `brand/generated/` is reproducible
+  from `brand/fleet.json` rather than hand-edited, that the report generator's
+  classifiers route known paths correctly, that relative markdown links resolve, and that
   `fleet-reports/incidents.md` is reproducible from its sources rather than
   hand-edited. Run it the way CI does: `python3 ci/validate.py`.
 
 ### [`brand/`](brand/)
 
-Brand assets: the Lentago Labs mark in SVG and PNG variants (square and circular,
-teal and limestone colourways), living in `brand/avatars/`.
+Brand assets, and the generator that turns them into per-repo identity.
+
+- **`avatars/`** — the Lentago Labs mark in SVG and PNG variants (square and
+  circular, teal and limestone colourways).
+- **`marks/`** — the 64-grid genus marks, one per fleet system, plus the
+  lentago blossom that every other repo falls back to.
+- **`fleet.json` + `generate.py`** — per-repo identity as config: emits each
+  repo's README banner, badge row, and 1280×640 social-preview card into
+  `brand/generated/`. `render.sh` rasterizes the cards with the real brand
+  typefaces. Generated output is CI-enforced against hand-editing.
+
+Social previews are the one surface with no API — they're uploaded per repo
+under **Settings → General → Social preview**.
 
 ---
 

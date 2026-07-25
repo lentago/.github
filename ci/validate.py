@@ -7,6 +7,8 @@ org landing page. Those have real failure modes, and this asserts against them:
 
   configs   fleet-ops/*.json parse and hold the shape fleet-apply.sh expects. A
             malformed required-checks.json breaks a fleet-wide settings sweep
+  brand     brand/generated/ is reproducible from brand/fleet.json — the banners
+            get copied verbatim into 15 repos, so a hand-edit forks the identity
             partway through, leaving the fleet half-applied.
   census    metrics/generate-fleet-reports.py imports, and its data/code classifier
             still routes known paths correctly (regression cover for #59, where a
@@ -59,7 +61,13 @@ def check_fleet_ops_configs():
             fail("configs", f"{rel} is not valid JSON — {exc}")
             continue
 
-        if os.path.basename(rel) != "required-checks.json":
+        base = os.path.basename(rel)
+
+        if base == "labels.json":
+            check_label_palette(rel, doc)
+            continue
+
+        if base != "required-checks.json":
             continue
 
         checks = doc.get("checks")
@@ -78,6 +86,113 @@ def check_fleet_ops_configs():
                     fail("configs", f"{rel}: '{repo}' has a non-string/empty context")
             if len(set(contexts)) != len(contexts):
                 fail("configs", f"{rel}: '{repo}' lists a duplicate context")
+
+
+HEX6 = re.compile(r"^[0-9a-fA-F]{6}$")
+
+
+def check_label_palette(rel, doc):
+    """labels.json drives `gh label edit` across every repo in one sweep.
+
+    A bad hex or a missing key fails partway through, leaving the fleet
+    half-recolored — cheaper to catch here than to unpick afterwards.
+    """
+    labels = doc.get("labels")
+    if not isinstance(labels, list) or not labels:
+        fail("configs", f"{rel} has no non-empty top-level 'labels' array")
+        return
+
+    seen = set()
+    for i, label in enumerate(labels):
+        where = f"{rel}[{i}]"
+        if not isinstance(label, dict):
+            fail("configs", f"{where} is not an object")
+            continue
+
+        name = label.get("name")
+        if not isinstance(name, str) or not name.strip():
+            fail("configs", f"{where} has no usable 'name'")
+        elif name in seen:
+            fail("configs", f"{where}: duplicate label '{name}' — the second edit wins silently")
+        else:
+            seen.add(name)
+
+        color = label.get("color")
+        if not isinstance(color, str) or not HEX6.match(color):
+            fail("configs", f"{where} ('{name}'): color must be 6 hex digits without '#', got {color!r}")
+
+        if not isinstance(label.get("description"), str):
+            fail("configs", f"{where} ('{name}') has no string 'description'")
+
+        if not isinstance(label.get("ensure"), bool):
+            fail("configs", f"{where} ('{name}') needs an explicit boolean 'ensure'")
+
+
+# ------------------------------------------------------------------- brand
+def check_brand_assets():
+    """brand/generated/ must be reproducible from brand/fleet.json.
+
+    The banners carry a 'generated — do not hand-edit' header and get copied
+    verbatim into 15 repos, so a hand-tweak here silently forks the fleet's
+    identity from its source. Regenerate into a temp tree and diff. og.png is
+    skipped: rasterizing needs Chrome, which CI has no reason to carry.
+    """
+    brand = os.path.join(ROOT, "brand")
+    fleet_path = os.path.join(brand, "fleet.json")
+    if not os.path.exists(fleet_path):
+        fail("brand", "brand/fleet.json is missing")
+        return
+
+    try:
+        with open(fleet_path, encoding="utf-8") as fh:
+            fleet = {k: v for k, v in json.load(fh).items() if not k.startswith("_")}
+    except json.JSONDecodeError as exc:
+        fail("brand", f"brand/fleet.json is not valid JSON — {exc}")
+        return
+
+    if not fleet:
+        fail("brand", "brand/fleet.json describes no repos")
+        return
+
+    before = len(FAILURES)
+    for repo, cfg in sorted(fleet.items()):
+        for key in ("mark", "kind", "tagline", "prompt", "badges"):
+            if key not in cfg:
+                fail("brand", f"brand/fleet.json: '{repo}' is missing '{key}'")
+        mark = cfg.get("mark")
+        if mark and not os.path.exists(os.path.join(brand, "marks", f"{mark}-mark-square.svg")):
+            fail("brand", f"brand/fleet.json: '{repo}' points at unknown mark '{mark}'")
+
+    # generate.py exits the process on a bad mark and raises on a missing key,
+    # either of which would kill this run before the failures above are printed.
+    # Report the config problems instead of regenerating on top of them.
+    if len(FAILURES) > before:
+        return
+
+    sys.path.insert(0, brand)
+    try:
+        import generate  # noqa: PLC0415 — deliberately late, brand/ isn't a package
+    except Exception as exc:  # pragma: no cover - import shape varies by breakage
+        fail("brand", f"brand/generate.py does not import — {exc}")
+        return
+    finally:
+        sys.path.pop(0)
+
+    stale = []
+    for repo, cfg in sorted(fleet.items()):
+        for filename, produce in (("banner.svg", generate.banner),
+                                  ("readme.md", generate.readme_block)):
+            path = os.path.join(brand, "generated", repo, filename)
+            if not os.path.exists(path):
+                stale.append(f"{repo}/{filename} (missing)")
+                continue
+            with open(path, encoding="utf-8") as fh:
+                if fh.read() != produce(repo, cfg):
+                    stale.append(f"{repo}/{filename}")
+
+    if stale:
+        fail("brand", "brand/generated is stale or hand-edited: "
+                      + ", ".join(stale) + " — run `python3 brand/generate.py`")
 
 
 # ------------------------------------------------------------------ census
@@ -227,6 +342,7 @@ def check_incident_register_reproducible():
 # ------------------------------------------------------------------ main
 CHECKS = [
     ("configs", check_fleet_ops_configs),
+    ("brand", check_brand_assets),
     ("census", check_census_classifier),
     ("links", check_relative_links),
     ("register", check_incident_register_reproducible),
