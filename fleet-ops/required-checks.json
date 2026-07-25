@@ -39,7 +39,14 @@
     "required 'Lint content' + 'Compile and commit' while this file listed only the",
     "former, so the docs-check sweep silently removed 'Compile and commit'. Restored",
     "here. Before adding a repo, diff this file against the live ruleset \u2014 this file",
-    "is the source of truth, so anything missing from it is a deletion."
+    "is the source of truth, so anything missing from it is a deletion.",
+    "",
+    "Enforced surfaces (apply-on-merge) must require their terraform `gate`:",
+    "claytonia, kalmia, drosera and solidago all do as of 2026-07-25 (.github#28).",
+    "claytonia was the last \u2014 its terraform.yml was `on:`-level path-filtered, so",
+    "requiring `terraform / validate` as originally proposed would have deadlocked",
+    "every non-terraform PR. claytonia#69 moved the filter into a `changes` detector",
+    "job and added the always-on `gate` fan-in, matching the other three."
   ],
   "checks": {
     ".github": [
@@ -75,6 +82,7 @@
       "docs-check / docs-check"
     ],
     "claytonia": [
+      "gate",
       "shellcheck / shellcheck",
       "docs-check / docs-check"
     ],
