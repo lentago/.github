@@ -1,0 +1,23 @@
+# ============================================================================
+# ShellCheck — Static Analysis
+# ============================================================================
+# Thin wrapper around lentago/shared-workflows/shellcheck.yml, matching the
+# callers in betula / claytonia / drosera / kalmia.
+#
+# fleet-ops/fleet-apply.sh mutates settings across every repo in the fleet, so
+# it is the one script here whose blast radius justifies a required check.
+# Reports as the context `shellcheck / shellcheck` (caller job / reusable job).
+# ============================================================================
+
+name: ShellCheck
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+jobs:
+  shellcheck:
+    uses: lentago/shared-workflows/.github/workflows/shellcheck.yml@main
+    with:
+      scripts: |
+        fleet-ops/fleet-apply.sh
