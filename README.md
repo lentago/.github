@@ -52,6 +52,14 @@ Periodically regenerated reports published in this repo.
 - **`language-census.md`** — a periodic `cloc`-based language breakdown across
   all in-scope org repos.
 
+### [`ci/`](ci/)
+
+- **`validate.py`** — the check that gates PRs here. Asserts that `fleet-ops/*.json`
+  match the shape `fleet-apply.sh` consumes, that the report generator's classifiers
+  route known paths correctly, that relative markdown links resolve, and that
+  `fleet-reports/incidents.md` is reproducible from its sources rather than
+  hand-edited. Run it the way CI does: `python3 ci/validate.py`.
+
 ### [`brand/`](brand/)
 
 Brand assets: the Lentago Labs mark in SVG and PNG variants (square and circular,
@@ -59,8 +67,10 @@ teal and limestone colourways), living in `brand/avatars/`.
 
 ---
 
-> Fleet CI conventions and reusable workflows live in
-> [shared-workflows](https://github.com/lentago/shared-workflows), not here.
+> Fleet CI *conventions* and the reusable workflows other repos call live in
+> [shared-workflows](https://github.com/lentago/shared-workflows), not here. The
+> workflows under `.github/workflows/` are this repo's own — they gate its PRs and
+> refresh the fleet reports.
 
 ---
 
