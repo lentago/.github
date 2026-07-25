@@ -88,6 +88,13 @@ def ensure_clones(repos, source_dir, work_dir):
 GEN_BASENAMES = {"package-lock.json","yarn.lock","pnpm-lock.yaml","poetry.lock",
                  "Cargo.lock","composer.lock","Gemfile.lock"}
 GEN_EXT = {".svg"}
+# Directories holding machine-generated artefacts committed for reproducibility.
+# Curated per-repo like DATA_DIR_PREFIX, because only the path distinguishes these
+# from hand-written source of the same format. `.github/brand/generated/` is emitted
+# by brand/generate.py from brand/fleet.json and is asserted reproducible by CI's
+# `brand` check — counting it as authored code would credit the fleet with source it
+# regenerates from a config file.
+GEN_DIR_PREFIX = {".github": ("brand/generated/",)}
 # Directories that hold exported payloads rather than source. Curated per-repo, so the
 # rule below can be format-agnostic: anything under one of these prefixes carrying a
 # data-serialisation extension is a payload, whatever format the export happens to use.
@@ -96,10 +103,13 @@ GEN_EXT = {".svg"}
 DATA_DIR_PREFIX = {"music-curator":("data/",), "homeassistant-config":("context/",)}
 DATA_EXT = {".json",".jsonl",".ndjson",".csv",".tsv",".xml",".yaml",".yml",".parquet"}
 
-def is_generated(base):
+def is_generated(repo, path):
+    base = os.path.basename(path)
     if base in GEN_BASENAMES: return True
     if os.path.splitext(base)[1] in GEN_EXT: return True
     if ".min." in base: return True
+    p = path[2:] if path.startswith("./") else path
+    if any(p.startswith(x) for x in GEN_DIR_PREFIX.get(repo, ())): return True
     return False
 
 def is_data(repo, path):
@@ -163,7 +173,7 @@ def run_census(repos, clones):
                     k = hygiene_kind(path)
                     instr_files.append((repo, (path[2:] if path.startswith("./") else path), code, k))
                 rr["md"][bucket]["files"]+=1; rr["md"][bucket]["lines"]+=code
-            elif is_generated(base):
+            elif is_generated(repo, path):
                 rr["generated"]["files"]+=1; rr["generated"]["lines"]+=code
             elif is_data(repo, path):
                 rr["data"]["files"]+=1; rr["data"]["lines"]+=code
@@ -275,7 +285,7 @@ def census_section(fleet, per_repo, instr_files, INSTR_LABEL, repos):
         L.append(f"| {i} | {name} | {s['lines']:,} | {s['files']} | {pct:.1f}% |")
     L.append(f"| | **CODE TOTAL** | **{code_total:,}** | **{code_files}** | 100% |")
     L.append(f"| — | _Data / exports — excluded_ | {fleet['data']['lines']:,} | {fleet['data']['files']} | — |")
-    L.append(f"| — | _Generated (lockfiles, SVG) — excluded_ | {fleet['generated']['lines']:,} | {fleet['generated']['files']} | — |")
+    L.append(f"| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | {fleet['generated']['lines']:,} | {fleet['generated']['files']} | — |")
     L.append("")
     L.append("### Instruction-markdown as code")
     L.append("")
@@ -384,7 +394,8 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
              "`test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.")
     L.append("- **Data / generated carve-outs:** exported payloads under the declared data dirs (music-curator "
              "`data/`, homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, "
-             "CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles and SVG are "
+             "CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles, SVG and "
+             "`.github/brand/generated/` (emitted from `brand/fleet.json`) are "
              "generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.")
     L.append("- **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir .`")
     L.append("")

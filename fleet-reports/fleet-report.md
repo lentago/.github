@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-25 04:02 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-25).
+**Generated:** 2026-07-25 22:31 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-25).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **52** | 401 | 138 | **51,343** | 3,394 (20 files) |
+| **45** | 450 | 162 | **52,625** | 3,444 (20 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**3,394 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**3,444 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 52 across 9 repos
+## Open issues — 45 across 7 repos
 
 ### drosera — 12 open
 
@@ -49,17 +49,15 @@ The fleet's hand-maintained natural-language instruction surface (**3,394 lines*
 | [15](https://github.com/lentago/kalmia/issues/15) | Live-test the crostini profile on the Chromebook penguin container |
 | [14](https://github.com/lentago/kalmia/issues/14) | Live-test the ubuntu_laptop profile on real ThinkPad hardware |
 
-### claytonia — 9 open
+### claytonia — 7 open
 
 | # | Title |
 |---|-------|
+| [71](https://github.com/lentago/claytonia/issues/71) | Reaper cannot see a job left in processing/ without an .owner file — permanent phantom occupancy |
 | [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
-| [49](https://github.com/lentago/claytonia/issues/49) | Give the runner fleet a dedicated machine account instead of Chris's PAT |
 | [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
 | [31](https://github.com/lentago/claytonia/issues/31) | Add optional authentication to the n8n Bullpen job-submit form |
-| [25](https://github.com/lentago/claytonia/issues/25) | Single 'what is every Claude doing right now' pane: unify local sessions + fleet jobs |
 | [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
-| [23](https://github.com/lentago/claytonia/issues/23) | Enforce no-auto-merge review gate on fleet PRs; make 'Open agent PRs' the dispatch gate |
 | [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
 | [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
 
@@ -67,21 +65,12 @@ The fleet's hand-maintained natural-language instruction surface (**3,394 lines*
 
 | # | Title |
 |---|-------|
+| [153](https://github.com/lentago/solidago/issues/153) | bootstrap-backend.sh still references a nonexistent "foundry" AWS profile |
 | [149](https://github.com/lentago/solidago/issues/149) | Rotating a Lambda's Axiom token requires an unrelated apply to take effect |
 | [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
-| [142](https://github.com/lentago/solidago/issues/142) | Track the foundry-* → solidago AWS resource rename |
 | [124](https://github.com/lentago/solidago/issues/124) | ECS task defs show a perpetual replace-diff (container_definitions normalization) — plan noise + apply-side-effect landmine |
 | [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
 | [20](https://github.com/lentago/solidago/issues/20) | Document: Phase 2 Secrets Manager secret unused after RDS-managed password choice |
-
-### betula — 4 open
-
-| # | Title |
-|---|-------|
-| [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
-| [86](https://github.com/lentago/betula/issues/86) | Firewalla boot race: Fluent Bit starts before Zeek's spool is live and tails dead paths silently; healthcheck's error-based detection cannot see it |
-| [83](https://github.com/lentago/betula/issues/83) | Refresh docs/architecture.svg — Axiom path retired, Loki-only pipeline |
-| [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
 
 ### music-curator — 4 open
 
@@ -92,13 +81,13 @@ The fleet's hand-maintained natural-language instruction surface (**3,394 lines*
 | [43](https://github.com/lentago/music-curator/issues/43) | Session-tie receipts: render the credits justifying each edge |
 | [42](https://github.com/lentago/music-curator/issues/42) | Merge name-variant duplicate artists in the inventory |
 
-### .github — 3 open
+### betula — 3 open
 
 | # | Title |
 |---|-------|
-| [57](https://github.com/lentago/.github/issues/57) | Fleet gap: docs-only PRs pass CI without asserting anything |
-| [31](https://github.com/lentago/.github/issues/31) | Update language-census.md to current repo name solidago (was foundry-platform-demo) |
-| [28](https://github.com/lentago/.github/issues/28) | fleet-ops: require the terraform check on enforced-surface repos (claytonia requires only shellcheck; kalmia requires none) |
+| [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
+| [86](https://github.com/lentago/betula/issues/86) | Firewalla boot race: Fluent Bit starts before Zeek's spool is live and tails dead paths silently; healthcheck's error-based detection cannot see it |
+| [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
 
 ### reference-checker — 3 open
 
@@ -108,16 +97,83 @@ The fleet's hand-maintained natural-language instruction surface (**3,394 lines*
 | [10](https://github.com/lentago/reference-checker/issues/10) | [v4] Design batch-pattern detection across submissions |
 | [8](https://github.com/lentago/reference-checker/issues/8) | [v4] Integrate Crossref retraction API for structured retraction checking |
 
-### site-lentago-dev — 1 open
-
-| # | Title |
-|---|-------|
-| [36](https://github.com/lentago/site-lentago-dev/issues/36) | Update DEPLOYMENT.md to reference solidago instead of old repo name foundry-platform-demo |
-
 ## Activity — last 30 days
 
-**539 events**, one stream, newest first — 🟣 401 PRs merged · 🟢 138 issues closed
+**612 events**, one stream, newest first — 🟣 450 PRs merged · 🟢 162 issues closed
 
+- 🟣 2026-07-25 · [solidago#154](https://github.com/lentago/solidago/pull/154) — ci(terraform): add workflow_dispatch trigger to allow deliberate applies
+- 🟢 2026-07-25 · [claytonia#49](https://github.com/lentago/claytonia/issues/49) — Grant the runner App workflows+issues write (machine account shipped; permissions gap remains)
+- 🟣 2026-07-25 · [claytonia#70](https://github.com/lentago/claytonia/pull/70) — docs: record the runner App's granted scopes
+- 🟢 2026-07-25 · [claytonia#25](https://github.com/lentago/claytonia/issues/25) — Single 'what is every Claude doing right now' pane: unify local sessions + fleet jobs
+- 🟢 2026-07-25 · [claytonia#23](https://github.com/lentago/claytonia/issues/23) — Enforce no-auto-merge review gate on fleet PRs; make 'Open agent PRs' the dispatch gate
+- 🟢 2026-07-25 · [solidago#142](https://github.com/lentago/solidago/issues/142) — Track the foundry-* → solidago AWS resource rename
+- 🟢 2026-07-25 · [betula#83](https://github.com/lentago/betula/issues/83) — Refresh docs/architecture.svg — Axiom path retired, Loki-only pipeline
+- 🟣 2026-07-25 · [betula#98](https://github.com/lentago/betula/pull/98) — docs: drop stale architecture.svg caveats
+- 🟢 2026-07-25 · [site-lentago-dev#36](https://github.com/lentago/site-lentago-dev/issues/36) — Update DEPLOYMENT.md to reference solidago instead of old repo name foundry-platform-demo
+- 🟢 2026-07-25 · [.github#71](https://github.com/lentago/.github/issues/71) — fleet-apply --require-checks silently drops live contexts missing from required-checks.json
+- 🟣 2026-07-25 · [.github#74](https://github.com/lentago/.github/pull/74) — fleet-ops: refuse to silently delete live required checks
+- 🟢 2026-07-25 · [.github#28](https://github.com/lentago/.github/issues/28) — fleet-ops: require the terraform check on enforced-surface repos (claytonia requires only shellcheck; kalmia requires none)
+- 🟣 2026-07-25 · [.github#73](https://github.com/lentago/.github/pull/73) — fleet-ops: require claytonia's terraform gate
+- 🟢 2026-07-25 · [.github#31](https://github.com/lentago/.github/issues/31) — Update language-census.md to current repo name solidago (was foundry-platform-demo)
+- 🟣 2026-07-25 · [.github#72](https://github.com/lentago/.github/pull/72) — Refresh the language census over git-tracked files
+- 🟣 2026-07-25 · [claytonia#69](https://github.com/lentago/claytonia/pull/69) — terraform: add an always-on gate so the check can be required
+- 🟣 2026-07-25 · [.github#70](https://github.com/lentago/.github/pull/70) — fleet-ops: restore the Compile and commit required check
+- 🟣 2026-07-25 · [.github#69](https://github.com/lentago/.github/pull/69) — fleet-ops: don't let one refused repo abort the require-checks sweep
+- 🟣 2026-07-25 · [.github#68](https://github.com/lentago/.github/pull/68) — fleet-ops: require docs-check on every active repo
+- 🟢 2026-07-25 · [.github#66](https://github.com/lentago/.github/issues/66) — Decide: replace ci/validate.py's link check with the shared docs-check, or keep both
+- 🟣 2026-07-25 · [.github#67](https://github.com/lentago/.github/pull/67) — Replace the local link check with the shared docs-check
+- 🟣 2026-07-25 · [shared-workflows#29](https://github.com/lentago/shared-workflows/pull/29) — Dogfood docs-check on this repo's own markdown
+- 🟣 2026-07-25 · [solidago#152](https://github.com/lentago/solidago/pull/152) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [site-pondviewlane-com#28](https://github.com/lentago/site-pondviewlane-com/pull/28) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [site-lentago-dev#41](https://github.com/lentago/site-lentago-dev/pull/41) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [site-icecreamtofightwith-com#145](https://github.com/lentago/site-icecreamtofightwith-com/pull/145) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [repo-template#9](https://github.com/lentago/repo-template/pull/9) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [reference-checker#52](https://github.com/lentago/reference-checker/pull/52) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [music-curator#68](https://github.com/lentago/music-curator/pull/68) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [kalmia#69](https://github.com/lentago/kalmia/pull/69) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [homeassistant-config#510](https://github.com/lentago/homeassistant-config/pull/510) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [drosera#182](https://github.com/lentago/drosera/pull/182) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [claytonia#68](https://github.com/lentago/claytonia/pull/68) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [brasenia#6](https://github.com/lentago/brasenia/pull/6) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [betula#97](https://github.com/lentago/betula/pull/97) — Adopt the shared docs-check workflow
+- 🟣 2026-07-25 · [shared-workflows#30](https://github.com/lentago/shared-workflows/pull/30) — docs-check: resolve the tooling ref from job_workflow_ref
+- 🟢 2026-07-25 · [.github#57](https://github.com/lentago/.github/issues/57) — Fleet gap: docs-only PRs pass CI without asserting anything
+- 🟣 2026-07-25 · [shared-workflows#28](https://github.com/lentago/shared-workflows/pull/28) — Add reusable docs-check workflow (relative markdown links)
+- 🟣 2026-07-25 · [.github#65](https://github.com/lentago/.github/pull/65) — fleet-ops: require music-curator's integrity check
+- 🟣 2026-07-25 · [site-pondviewlane-com#27](https://github.com/lentago/site-pondviewlane-com/pull/27) — Add the @claude responder caller
+- 🟣 2026-07-25 · [.github#64](https://github.com/lentago/.github/pull/64) — Add the @claude responder caller
+- 🟢 2026-07-25 · [solidago#150](https://github.com/lentago/solidago/issues/150) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [solidago#151](https://github.com/lentago/solidago/pull/151) — docs: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [site-pondviewlane-com#25](https://github.com/lentago/site-pondviewlane-com/issues/25) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [site-pondviewlane-com#26](https://github.com/lentago/site-pondviewlane-com/pull/26) — Apply generated Lentago Labs brand header to README
+- 🟢 2026-07-25 · [site-lentago-dev#39](https://github.com/lentago/site-lentago-dev/issues/39) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [site-lentago-dev#40](https://github.com/lentago/site-lentago-dev/pull/40) — docs(readme): apply generated Lentago Labs brand header
+- 🟢 2026-07-25 · [site-icecreamtofightwith-com#143](https://github.com/lentago/site-icecreamtofightwith-com/issues/143) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [site-icecreamtofightwith-com#144](https://github.com/lentago/site-icecreamtofightwith-com/pull/144) — feat: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [shared-workflows#26](https://github.com/lentago/shared-workflows/issues/26) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [shared-workflows#27](https://github.com/lentago/shared-workflows/pull/27) — Add Lentago Labs brand header to README
+- 🟢 2026-07-25 · [repo-template#7](https://github.com/lentago/repo-template/issues/7) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [repo-template#8](https://github.com/lentago/repo-template/pull/8) — feat: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [reference-checker#50](https://github.com/lentago/reference-checker/issues/50) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [reference-checker#51](https://github.com/lentago/reference-checker/pull/51) — chore(brand): apply Lentago Labs header and banner to README
+- 🟢 2026-07-25 · [music-curator#66](https://github.com/lentago/music-curator/issues/66) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [music-curator#67](https://github.com/lentago/music-curator/pull/67) — brand: apply Lentago Labs header to README
+- 🟣 2026-07-25 · [kalmia#68](https://github.com/lentago/kalmia/pull/68) — docs: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [kalmia#67](https://github.com/lentago/kalmia/issues/67) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [homeassistant-config#509](https://github.com/lentago/homeassistant-config/pull/509) — docs: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [drosera#180](https://github.com/lentago/drosera/issues/180) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [drosera#181](https://github.com/lentago/drosera/pull/181) — docs: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [claytonia#66](https://github.com/lentago/claytonia/issues/66) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [claytonia#67](https://github.com/lentago/claytonia/pull/67) — docs: add Lentago Labs brand header to README
+- 🟢 2026-07-25 · [brasenia#4](https://github.com/lentago/brasenia/issues/4) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [brasenia#5](https://github.com/lentago/brasenia/pull/5) — feat: apply Lentago Labs brand header to README
+- 🟢 2026-07-25 · [betula#95](https://github.com/lentago/betula/issues/95) — Apply the Lentago Labs brand header to the README
+- 🟣 2026-07-25 · [betula#96](https://github.com/lentago/betula/pull/96) — docs: add Lentago Labs brand header to README
+- 🟣 2026-07-25 · [.github#63](https://github.com/lentago/.github/pull/63) — README: carry the generated brand header
+- 🟣 2026-07-25 · [.github#62](https://github.com/lentago/.github/pull/62) — Brand: per-repo identity generator and Tidewater label palette
+- 🟣 2026-07-25 · [.github#61](https://github.com/lentago/.github/pull/61) — README: document ci/ and clarify what shared-workflows owns
+- 🟣 2026-07-25 · [.github#60](https://github.com/lentago/.github/pull/60) — CI: validate this repo's invariants and gate PRs on them
+- 🟣 2026-07-25 · [.github#59](https://github.com/lentago/.github/pull/59) — Census: classify data-dir exports by directory, not just JSON
 - 🟣 2026-07-25 · [.github#58](https://github.com/lentago/.github/pull/58) — Fleet reports refresh — 2026-07-25
 - 🟣 2026-07-25 · [homeassistant-config#508](https://github.com/lentago/homeassistant-config/pull/508) — docs: remove broken image reference from Lentago Lab Status section
 - 🟢 2026-07-25 · [betula#93](https://github.com/lentago/betula/issues/93) — Dead links to the removed dashboards/ directory in the Zeek field reference
@@ -670,27 +726,27 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 14,764 | 37 | 28.8% |
-| 2 | YAML | 8,560 | 140 | 16.7% |
-| 3 | HCL | 6,108 | 104 | 11.9% |
-| 4 | Shell (Bourne + Bash) | 4,714 | 62 | 9.2% |
-| 5 | Python | 4,373 | 34 | 8.5% |
-| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,394 | 20 | 6.6% |
-| 7 | Text | 3,377 | 24 | 6.6% |
-| 8 | Astro | 1,895 | 19 | 3.7% |
-| 9 | JavaScript | 1,773 | 16 | 3.5% |
-| 10 | CSS | 867 | 9 | 1.7% |
-| 11 | JSX | 851 | 10 | 1.7% |
+| 1 | JSON | 15,071 | 39 | 28.6% |
+| 2 | YAML | 8,835 | 160 | 16.8% |
+| 3 | HCL | 6,108 | 104 | 11.6% |
+| 4 | Python | 4,923 | 38 | 9.4% |
+| 5 | Shell (Bourne + Bash) | 4,814 | 63 | 9.1% |
+| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,444 | 20 | 6.5% |
+| 7 | Text | 3,377 | 24 | 6.4% |
+| 8 | Astro | 1,895 | 19 | 3.6% |
+| 9 | JavaScript | 1,773 | 16 | 3.4% |
+| 10 | CSS | 867 | 9 | 1.6% |
+| 11 | JSX | 851 | 10 | 1.6% |
 | 12 | TypeScript | 310 | 8 | 0.6% |
 | 13 | Jinja Template | 277 | 6 | 0.5% |
 | 14 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.2% |
-| | **CODE TOTAL** | **51,343** | **495** | 100% |
+| | **CODE TOTAL** | **52,625** | **522** | 100% |
 | — | _Data / exports — excluded_ | 141,215 | 26 | — |
-| — | _Generated (lockfiles, SVG) — excluded_ | 20,277 | 31 | — |
+| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,022 | 75 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,943 lines**
+- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,993 lines**
 - **Prompt-programs** (4 files · reference-checker auditors): **1,451 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -698,10 +754,10 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | Repo | File | Lines |
 |------|------|------:|
 | homeassistant-config | `CLAUDE.md` | 399 |
-| shared-workflows | `CLAUDE.md` | 222 |
+| shared-workflows | `CLAUDE.md` | 228 |
 | site-pondviewlane-com | `CLAUDE.md` | 190 |
+| .github | `CLAUDE.md` | 179 |
 | betula | `CLAUDE.md` | 156 |
-| .github | `CLAUDE.md` | 135 |
 | site-lentago-dev | `CLAUDE.md` | 108 |
 | solidago | `CLAUDE.md` | 99 |
 | site-icecreamtofightwith-com | `CLAUDE.md` | 98 |
@@ -713,7 +769,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | claytonia | `CLAUDE.md` | 57 |
 | brasenia | `CLAUDE.md` | 56 |
 | repo-template | `CLAUDE.md` | 22 |
-| **16 files** | | **1,943** |
+| **16 files** | | **1,993** |
 
 #### Prompt-programs — natural language *is* the logic
 
@@ -725,39 +781,39 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | reference-checker | `prompts/v3-auditor.md` | 69 |
 | **4 files** | | **1,451** |
 
-_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,943**, not 3,394._
+_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,993**, not 3,444._
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| drosera | 14,557 | 163 | 860 | 0 | 0 |
-| site-pondviewlane-com | 6,497 | 190 | 2,054 | 0 | 0 |
-| homeassistant-config | 6,431 | 399 | 1,088 | 0 | 17,567 |
-| solidago | 6,332 | 99 | 1,690 | 0 | 0 |
-| site-icecreamtofightwith-com | 3,253 | 98 | 594 | 6,008 | 0 |
-| music-curator | 3,074 | 68 | 1,157 | 11,537 | 118,474 |
-| kalmia | 2,688 | 94 | 602 | 0 | 0 |
-| claytonia | 1,809 | 57 | 564 | 0 | 0 |
-| betula | 1,784 | 156 | 1,124 | 0 | 0 |
-| reference-checker | 1,587 | 1,527 | 731 | 669 | 5,174 |
-| site-lentago-dev | 1,555 | 108 | 360 | 0 | 0 |
-| .github | 918 | 135 | 403 | 2,271 | 0 |
-| shared-workflows | 612 | 222 | 83 | 0 | 0 |
-| brasenia | 181 | 56 | 575 | 0 | 0 |
-| repo-template | 65 | 22 | 46 | 0 | 0 |
+| drosera | 14,564 | 163 | 862 | 0 | 0 |
+| site-pondviewlane-com | 6,528 | 190 | 2,056 | 0 | 0 |
+| homeassistant-config | 6,438 | 399 | 1,090 | 0 | 17,567 |
+| solidago | 6,340 | 99 | 1,692 | 0 | 0 |
+| site-icecreamtofightwith-com | 3,260 | 98 | 596 | 6,008 | 0 |
+| music-curator | 3,081 | 68 | 1,159 | 11,537 | 118,474 |
+| kalmia | 2,695 | 94 | 604 | 0 | 0 |
+| claytonia | 1,857 | 57 | 578 | 0 | 0 |
+| .github | 1,792 | 179 | 616 | 2,271 | 0 |
+| betula | 1,791 | 156 | 1,125 | 0 | 0 |
+| reference-checker | 1,594 | 1,527 | 733 | 669 | 5,174 |
+| site-lentago-dev | 1,562 | 108 | 362 | 0 | 0 |
+| shared-workflows | 863 | 228 | 122 | 0 | 0 |
+| brasenia | 188 | 56 | 577 | 0 | 0 |
+| repo-template | 72 | 22 | 50 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **36,162 lines of Markdown across 834 files**; only 9.4% is instruction-code.
+The fleet carries **36,503 lines of Markdown across 850 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 3,394 | 20 | **counted as code** |
+| **Instructions** | 3,444 | 20 | **counted as code** |
 | Content / data | 20,485 | 698 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 11,931 | 101 | READMEs, docs, ADRs, runbooks — excluded |
+| Documentation | 12,222 | 117 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **36,162** | **834** | |
+| **All Markdown** | **36,503** | **850** | |
 
 ---
 
@@ -767,7 +823,7 @@ The fleet carries **36,162 lines of Markdown across 834 files**; only 9.4% is in
 - **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count (build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.
 - **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and third-party clones are out of scope; archived repos are frozen and excluded.
 - **Markdown classifier:** instruction-code = `CLAUDE.md`/`AGENTS.md`/`SKILL.md` or a versioned `prompts/*-auditor.md`; community-health = governance filenames + issue/PR templates; content = repo-scoped payload paths (music-curator `vault/`, ice-cream `recipes/`·manuscript, reference-checker `test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.
-- **Data / generated carve-outs:** exported payloads under the declared data dirs (music-curator `data/`, homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles and SVG are generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.
+- **Data / generated carve-outs:** exported payloads under the declared data dirs (music-curator `data/`, homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles, SVG and `.github/brand/generated/` (emitted from `brand/fleet.json`) are generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.
 - **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir .`
 
 _Generated with Claude Code (Repo Claude)._

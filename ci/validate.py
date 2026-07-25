@@ -220,6 +220,20 @@ CLASSIFIER_CASES = [
     ("solidago", "terraform/main.tf", False),
 ]
 
+# is_generated() is path- and repo-aware, not basename-only: brand/generated/ holds
+# committed machine output that CI asserts is reproducible from brand/fleet.json, so
+# counting it as authored source would inflate the census. Negatives guard the blast
+# radius — the rule must not swallow the generator itself or same-format source elsewhere.
+GENERATED_CASES = [
+    (".github", "brand/generated/betula/og.html", True),
+    (".github", "./brand/generated/.github/og.html", True),
+    (".github", "brand/generate.py", False),
+    (".github", "brand/fleet.json", False),
+    ("site-lentago-dev", "public/index.html", False),
+    ("drosera", "package-lock.json", True),
+    ("brasenia", "docs/diagram.svg", True),
+]
+
 MD_CASES = [
     ("kalmia", "CLAUDE.md", "instructions"),
     ("drosera", "docs/adr/0001-metrics-only.md", "documentation"),
@@ -248,6 +262,11 @@ def check_census_classifier():
         got = gen.is_data(repo, path)
         if got != want:
             fail("census", f"is_data({repo!r}, {path!r}) returned {got}, expected {want}")
+
+    for repo, path, want in GENERATED_CASES:
+        got = gen.is_generated(repo, path)
+        if got != want:
+            fail("census", f"is_generated({repo!r}, {path!r}) returned {got}, expected {want}")
 
     for repo, path, want in MD_CASES:
         got = gen.classify_md(repo, path)
