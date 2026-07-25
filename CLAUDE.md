@@ -139,12 +139,24 @@ cd ~/repos
 ORG_REPOS=$(for d in */; do d="${d%/}"; \
   git -C "$d" remote get-url origin 2>/dev/null \
     | grep -q 'github.com[:/]lentago/' && printf '%s ' "$d"; done)
-cloc $ORG_REPOS --quiet \
-  --exclude-dir=.git,node_modules,.venv,venv,__pycache__,dist,build,.next,vendor,target,.terraform,.astro,.playwright-mcp,site \
-  --not-match-d='wiki-site/site' \
-  --fullpath --not-match-f='package-lock\.json' \
-  --exclude-ext=docx,png,pdf,woff2,psd,jpeg,jpg,gz,svg,map
+
+# --vcs=git resolves the file list per repo, so cloc runs inside each one and the
+# per-language totals are summed (skip the `header` and `SUM` keys).
+for d in $ORG_REPOS; do
+  ( cd "$d" && cloc . --vcs=git --quiet --json \
+      --exclude-dir=.git,node_modules,.venv,venv,__pycache__,dist,build,.next,vendor,target,.terraform,.astro,.playwright-mcp,site,archive \
+      --fullpath --not-match-f='package-lock\.json' \
+      --exclude-ext=docx,png,pdf,woff2,psd,jpeg,jpg,gz,svg,map )
+done
 ```
+
+**`--vcs=git` is load-bearing, not a style choice.** `cloc` does not honor
+`.gitignore`, so a raw working-tree scan counts whatever happens to sit on the
+maintainer's disk. At the 2026-07-25 refresh an untracked personal Spotify export
+in `music-curator/data/` measured 1.6 million JSON lines — nineteen times the whole
+previous census — and would have been published as fleet source. Counting only what
+git tracks is the durable fix; the per-directory excludes that predate it are kept
+for belt and braces.
 
 The full methodology (exclusions and why, `cloc`'s byte-identical dedup that
 collapses the mirrored `CLAUDE.md` text) lives in the report's Methodology

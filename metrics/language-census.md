@@ -16,80 +16,106 @@ refresh in the [Update log](#update-log).
 > additionally **deduplicates byte-identical files**, so the deliberately-mirrored
 > `CLAUDE.md` / PR-workflow text is counted once, not once per repo.
 >
-> **Repos in scope (15):** `bullpen`, `.github`, `firewalla-axiom-pipeline`,
-> `foundry-platform-demo`, `homeassistant-config`, `drosera`,
-> `ice-cream-book`, `lentagolabs-dev`, `music-curator`, `office-presence`,
-> `pitzilabs-dev`, `reference-checker`, `repo-template`, `shared-workflows`,
-> `workstation-bootstrap`.
+> **Repos in scope (18):** `betula`, `brasenia`, `claytonia`, `.github`,
+> `drosera`, `homeassistant-config`, `kalmia`, `music-curator`,
+> `office-presence`, `reference-checker`, `repo-template`, `shared-workflows`,
+> `site-icecreamtofightwith-com`, `site-lentago-dev`, `site-pitzilabs-dev`,
+> `site-pondviewlane-com`, `solidago`, `workstation-bootstrap`.
+>
+> Six of those carry names that changed in the 2026-07-04 rebrand wave —
+> `bullpen`→`claytonia`, `firewalla-axiom-pipeline`→`betula`,
+> `foundry-platform-demo`→`solidago`, `ice-cream-book`→`site-icecreamtofightwith-com`,
+> `lentagolabs-dev`→`site-lentago-dev`, `pitzilabs-dev`→`site-pitzilabs-dev`. The
+> list is derived from remotes at regeneration time, so it tracks renames on its
+> own; it had simply not been regenerated since. Three (`office-presence`,
+> `site-pitzilabs-dev`, `workstation-bootstrap`) are archived but still cloned
+> locally, and the membership rule is about the remote, not repo state — so they
+> remain in scope, unlike the active-only `fleet-reports/fleet-report.md`.
 
 ---
 
-## Last updated: 2026-06-29
+## Last updated: 2026-07-25
 
-**Headline:** data and docs still lead — JSON (registry dumps, dashboards, config)
-is ~35% and Markdown ~24%. The executing spine is Shell, then the
-JavaScript/JSX/Astro web stack, then Terraform. HTML climbs into the top five this
-cycle — almost entirely `reference-checker`'s committed report outputs plus the two
-landing-site clones' lab pages, not hand-authored source. Python stays small in-org.
+**Headline:** data still dominates — JSON is ~56% and, with CSV, exported payloads
+alone outweigh every line of executing code in the fleet combined. Markdown is
+second at ~16%, which is the fleet's real character: it ships documentation and
+instructions. The executing spine is now a near-tie between the JavaScript family
+and Shell, with Terraform and Python close behind. Python has quadrupled since the
+last census, on the back of `music-curator`'s productization and the report
+generators in this repo.
 
 ### By lines of code
 
-Tool: `cloc 2.06`. Total: **88,063 lines of code** across **589 unique files**.
+Tool: `cloc 2.06`, over **git-tracked files only** (see Methodology — this changed
+this cycle and makes the totals non-comparable with earlier rows). Total:
+**242,774 lines of code** across **1,499 unique files**.
 
 | # | Language | Code | Comment | Blank | Files | Share of code |
 |---|----------|-----:|--------:|------:|------:|--------------:|
-| 1 | JSON | 31,141 | 0 | 0 | 39 | 35.4% |
-| 2 | Markdown | 20,914 | 48 | 10,023 | 214 | 23.7% |
-| 3 | Shell (Bourne + Bash) | 8,250 | 2,332 | 1,541 | 64 | 9.4% |
-| 4 | YAML | 6,805 | 1,119 | 533 | 94 | 7.7% |
-| 5 | HTML | 6,179 | 261 | 674 | 21 | 7.0% |
-| 6 | JSX (React) | 5,179 | 562 | 350 | 40 | 5.9% |
-| 7 | HCL / Terraform | 3,582 | 962 | 754 | 70 | 4.1% |
-| 8 | JavaScript | 2,330 | 260 | 270 | 7 | 2.6% |
-| 9 | Astro | 1,832 | 119 | 250 | 17 | 2.1% |
-| 10 | Python | 1,218 | 177 | 326 | 7 | 1.4% |
-| 11 | CSS | 541 | 96 | 47 | 9 | 0.6% |
-| 12 | TypeScript | 56 | 9 | 5 | 3 | 0.06% |
-| 13 | TOML | 14 | 5 | 3 | 1 | 0.02% |
-| 14 | Dockerfile | 8 | 20 | 8 | 2 | ~0% |
+| 1 | JSON | 135,512 | 0 | 6 | 56 | 55.8% |
+| 2 | Markdown | 38,245 | 110 | 13,255 | 877 | 15.8% |
+| 3 | CSV | 15,595 | 0 | 0 | 2 | 6.4% |
+| 4 | Shell (Bourne + Bash) | 9,206 | 2,804 | 1,639 | 82 | 3.8% |
+| 5 | YAML | 9,180 | 1,944 | 896 | 167 | 3.8% |
+| 6 | HTML | 7,628 | 261 | 674 | 36 | 3.1% |
+| 7 | HCL / Terraform | 5,749 | 1,743 | 1,201 | 101 | 2.4% |
+| 8 | JSX (React) | 5,240 | 576 | 356 | 40 | 2.2% |
+| 9 | Python | 5,219 | 1,854 | 1,284 | 40 | 2.1% |
+| 10 | JavaScript | 3,992 | 702 | 426 | 20 | 1.6% |
+| 11 | Text | 3,377 | 0 | 967 | 24 | 1.4% |
+| 12 | Astro | 1,979 | 275 | 154 | 21 | 0.8% |
+| 13 | CSS | 1,181 | 212 | 101 | 12 | 0.5% |
+| 14 | TypeScript | 310 | 94 | 43 | 8 | 0.1% |
+| 15 | Jinja Template | 277 | 0 | 48 | 6 | 0.1% |
+| 16 | XML | 39 | 0 | 3 | 1 | 0.02% |
+| 17 | Dockerfile | 18 | 42 | 15 | 4 | 0.01% |
+| 18 | TOML | 14 | 5 | 3 | 1 | 0.01% |
+| 19 | BrightScript | 13 | 0 | 0 | 1 | 0.01% |
 
-(`cloc` also reported 14 lines of plain "Text" — omitted as not a language. It
-splits Shell into "Bourne Shell" 7,418 + "Bourne Again Shell" 832; folded above.)
+(`cloc` splits Shell into "Bourne Shell" 8,196 + "Bourne Again Shell" 1,010; folded
+above. "Text" was omitted as not-a-language in earlier cycles, when it was 14 lines;
+at 3,377 it is now listed rather than silently dropped.)
 
 ### Programming / scripting languages only
 
-Stripping docs (Markdown), data (JSON), config (YAML/TOML), and markup (HTML/CSS),
-the code that actually executes ranks:
+Stripping docs (Markdown, Text), data (JSON, CSV, XML), config (YAML/TOML), and
+markup (HTML/CSS), the code that actually executes ranks:
 
 | # | Language | Code |
 |---|----------|-----:|
-| 1 | Shell / Bash | 8,250 |
-| 2 | JavaScript family (JS + JSX) | 7,509 |
-| 3 | Terraform / HCL *(infra-as-code)* | 3,582 |
-| 4 | Astro | 1,832 |
-| 5 | Python | 1,218 |
-| 6 | TypeScript | 56 |
+| 1 | JavaScript family (JS + JSX) | 9,232 |
+| 2 | Shell / Bash | 9,206 |
+| 3 | Terraform / HCL *(infra-as-code)* | 5,749 |
+| 4 | Python | 5,219 |
+| 5 | Astro | 1,979 |
+| 6 | TypeScript | 310 |
+| 7 | Jinja Template | 277 |
+| 8 | BrightScript | 13 |
 
 ### Notes
 
-- **JSON leads but carries no logic** — it's HA entity/device/dashboard registry
-  snapshots (`homeassistant-config`), Grafana dashboard JSON
-  (`drosera`), and `package.json`-style config. Discount it as data
-  and the picture is Markdown docs over a Shell → JS/Astro → Terraform code base.
-- **HTML is output, not source** — the 6,179 lines are dominated by
-  `reference-checker`'s committed `reports/*.html` (rendered analysis outputs);
-  like JSON, treat it as data the repo carries rather than hand-maintained markup.
-- **The web stack is double-counted right now.** Both the legacy `pitzilabs-dev`
-  clone and its rebranded successor `lentagolabs-dev` carry `github.com/lentago/`
-  origins, so both are in scope and the JS/JSX/Astro/CSS figures reflect *both*
-  landing-site clones. They aren't byte-identical (branding text differs), so
-  `cloc`'s dedup doesn't collapse them. Expect those rows to roughly halve once
-  `pitzilabs-dev` is retired.
-- **Shell is the most-commented code in the fleet** — 2,332 comment lines against
-  8,250 of code (~28%), consistent with ops/gitops scripts written to be audited.
-- **Python is small in-org.** The fleet's heavier Python (`ProxmoxMCP`,
-  `firewalla-mcp`) lives in third-party clones that are out of scope; what remains
-  is mostly `reference-checker` and small helpers.
+- **JSON leads but carries no logic** — it is `music-curator`'s credits and
+  inventory exports, HA entity/device/dashboard registry snapshots
+  (`homeassistant-config`), Grafana dashboard JSON (`drosera`), and
+  `package.json`-style config. With CSV (two Spotify collection exports, 15,595
+  lines) the exported-data share is ~62%. Discount it and the picture is Markdown
+  documentation over a JS/Shell → Terraform/Python code base.
+- **Markdown's file count is the real story** — 877 files against 56 JSON. The
+  fleet's documentation surface is broad and hand-maintained, which is what makes
+  the relative-link checker adopted fleet-wide in .github#57 worth its cost.
+- **HTML is output, not source** — dominated by `reference-checker`'s committed
+  `reports/*.html` (rendered analysis outputs); like JSON, treat it as data the
+  repo carries rather than hand-authored markup.
+- **The web stack is still double-counted**, though less than before. Both
+  `site-pitzilabs-dev` (archived) and its successor `site-lentago-dev` carry
+  `github.com/lentago/` origins and remain cloned locally, so the JS/JSX/Astro/CSS
+  figures reflect both. They are not byte-identical, so `cloc`'s dedup does not
+  collapse them. Deleting the archived clone locally is what retires that overlap.
+- **Python has quadrupled** — 1,218 lines at the last census, 5,219 now. The
+  growth is `music-curator`'s productization plus this repo's report generator and
+  validator.
+- **Shell remains the most-commented code in the fleet** — 2,804 comment lines
+  against 9,206 of code (~30%), consistent with ops scripts written to be audited.
 
 ---
 
@@ -105,10 +131,16 @@ Exclusions, and why:
 - **Generated artifacts:** `*/wiki-site/site/*` (MkDocs-rendered HTML) and
   `*/.playwright-mcp/*` (Playwright accessibility snapshots) — both belong to
   out-of-scope personal repos now, but the excludes are kept for safety.
-- **Local-only scratch:** `archive` — dotgithub's **gitignored** holding pen
-  (e.g. the unpublished portfolio mockup that embeds LAN topology). `cloc` doesn't
-  honor `.gitignore`, so a never-committed file must be excluded explicitly;
-  before this exclude was added it inflated HTML by ~2,144 lines.
+- **Untracked and gitignored files, categorically** — the census counts
+  **git-tracked files only** (`cloc --vcs=git`, per repo). Earlier cycles scanned
+  the raw working tree and patched around the consequences one directory at a time:
+  the `archive` exclude exists because dotgithub's gitignored portfolio mockup was
+  adding ~2,144 HTML lines. That approach does not hold. At the 2026-07-25 refresh
+  an untracked personal Spotify export sitting in `music-curator/data/` measured
+  **1.6 million JSON lines** — nineteen times the entire previous census — and a
+  working-tree scan would have published it as fleet source. Scanning what git
+  tracks is the durable form of the same intent: a file no repo carries is not part
+  of the fleet's code, whatever happens to be on the maintainer's disk.
 - **Binary / asset extensions:** `docx, png, pdf, woff2, psd, jpeg, jpg, gz, svg, map`.
 
 `cloc`'s default skipping of byte-identical duplicate files is kept on purpose —
@@ -124,13 +156,19 @@ ORG_REPOS=$(for d in */; do d="${d%/}"; \
   git -C "$d" remote get-url origin 2>/dev/null \
     | grep -q 'github.com[:/]lentago/' && printf '%s ' "$d"; done)
 
-cloc $ORG_REPOS \
-  --quiet \
-  --exclude-dir=.git,node_modules,.venv,venv,__pycache__,dist,build,.next,vendor,target,.terraform,.astro,.playwright-mcp,site,archive \
-  --not-match-d='wiki-site/site' \
-  --fullpath --not-match-f='package-lock\.json' \
-  --exclude-ext=docx,png,pdf,woff2,psd,jpeg,jpg,gz,svg,map
+# --vcs=git resolves the file list per repo, so cloc must be run inside each one
+# and the per-language totals summed. This is why it is a loop, not one cloc call.
+for d in $ORG_REPOS; do
+  ( cd "$d" && cloc . --vcs=git --quiet --json \
+      --exclude-dir=.git,node_modules,.venv,venv,__pycache__,dist,build,.next,vendor,target,.terraform,.astro,.playwright-mcp,site,archive \
+      --fullpath --not-match-f='package-lock\.json' \
+      --exclude-ext=docx,png,pdf,woff2,psd,jpeg,jpg,gz,svg,map )
+done
 ```
+
+Sum the per-repo JSON by language (`code`, `comment`, `blank`, `nFiles`), skipping
+the `header` and `SUM` keys. Note `--vcs=git` also means a file staged but never
+committed is out of scope, which is intended.
 
 Then update the table, the "Last updated" date, and add a row to the log below.
 (`cloc` install: `sudo apt-get install -y cloc`.)
@@ -143,4 +181,5 @@ Then update the table, the "Last updated" date, and add a row to the log below.
 |------|----------:|------:|-------|
 | 2026-06-17 | 114,713 | 1,054 | Initial census over the **full `~/repos` working tree** (22 dirs, incl. third-party + personal). Superseded same day. |
 | 2026-06-17 | 76,388 | 519 | **Re-scoped to Lentago Labs org repos only** (14 repos). cloc 2.06. |
+| 2026-07-25 | 242,774 | 1,499 | **Methodology change — git-tracked files only** (`cloc --vcs=git`), so totals are NOT comparable with rows above. Prompted by an untracked 1.6M-line personal Spotify export in `music-curator/data/` that a working-tree scan would have published as fleet source. Scope refreshed to 18 repos and the 2026-07-04 renames picked up (the list derives from remotes; it had just not been rerun). +`brasenia`, +`kalmia`, +`site-pondviewlane-com`. cloc 2.06. Closes .github#31. |
 | 2026-06-29 | 88,063 | 589 | Refresh after the Lentago Labs rebrand. **+`lentagolabs-dev`** brought into scope (now 15 repos, alongside the legacy `pitzilabs-dev` clone); **`archive/` excluded** as a gitignored local-only mockup that was adding ~2,144 HTML lines. cloc 2.06. |
