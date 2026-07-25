@@ -56,12 +56,35 @@ defined in the parent `~/repos/CLAUDE.md` mirror (canonical source:
 `shared-workflows/CLAUDE.md`). Per fleet convention, **do not restate the PR
 workflow here** — this repo has no deviations from it.
 
-## No build / test / lint
+## CI — `ci/validate.py`
 
-There's no toolchain — this is Markdown and one hand-authored SVG. "Validating" a
-change means previewing the rendered Markdown and confirming the banner displays.
-The org profile only renders from `profile/README.md` on the **default branch**,
-so profile changes aren't visible at github.com/lentago until merged.
+There's no build or test suite in the application sense — this is Markdown, one
+hand-authored SVG, a Python generator and a shell tool. What CI asserts instead
+are this repo's real invariants, via `ci/validate.py` (run it locally exactly as
+CI does: `python3 ci/validate.py`):
+
+| Check | Asserts |
+|---|---|
+| `configs` | `fleet-ops/*.json` parse and match the shape `fleet-apply.sh` consumes |
+| `census` | `metrics/generate-fleet-reports.py` imports; its data/code and markdown classifiers route known paths correctly |
+| `links` | relative markdown links resolve (renames/removals are the fleet's most common breakage) |
+| `register` | `fleet-reports/incidents.md` is reproducible from `fleet-reports/incidents/` — it is generated, never hand-edited |
+
+Two workflows run it, both **unconditional** (no `on:`-level path filter — a
+path-filtered required check deadlocks every non-matching PR): `.github/workflows/ci.yml`
+→ context **`validate`**, and `.github/workflows/shellcheck.yml` → context
+**`shellcheck / shellcheck`**, the shared reusable over `fleet-ops/fleet-apply.sh`.
+Both are required on `main` via `fleet-ops/required-checks.json`, so `gh pr merge
+--auto` arms here rather than merging on the spot.
+
+Adding a check means adding it to `ci/validate.py` — and prove it can fail before
+trusting it: break the thing deliberately, confirm a red run, restore. A check that
+cannot fail is worse than no check, because it reads as coverage.
+
+Still true, and not something CI can catch: the org profile only renders from
+`profile/README.md` on the **default branch**, so profile changes aren't visible at
+github.com/lentago until merged. Previewing the rendered Markdown and confirming the
+banner displays remains a manual step.
 
 ## Branding invariants
 

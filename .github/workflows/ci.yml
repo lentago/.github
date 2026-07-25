@@ -1,0 +1,42 @@
+# ============================================================================
+# CI — repo validation
+# ============================================================================
+# Gates PRs here. Asserts fleet-ops config shape, the census classifier's
+# routing, relative markdown links, and that the incident register is
+# reproducible from its sources. See ci/validate.py for what each covers.
+#
+# Deliberately NOT path-filtered at the `on:` level. This is a required status
+# check, and a required check whose workflow never triggers is held "Expected"
+# forever, deadlocking every non-matching PR. That constraint is what makes an
+# always-on check the right shape here anyway: this repo is almost entirely
+# markdown, so a docs-only PR is exactly the PR that most needs asserting
+# against (lentago/.github#57).
+# ============================================================================
+
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate repository
+        run: python3 ci/validate.py
