@@ -1,0 +1,39 @@
+# ============================================================================
+# Claude Code — Interactive @claude Responder
+# ============================================================================
+# Thin wrapper around lentago/shared-workflows/claude-responder.yml, matching
+# the callers in every other active repo.
+#
+# Scope note: GITHUB_TOKEN cannot create or update files under
+# .github/workflows/, so the responder can review, analyse and comment here but
+# cannot author CI changes for this repo — those stay local or go through the
+# claytonia fleet's stage-then-git-mv path. Bash is scoped to the repo's own
+# validator and the shell tool it gates.
+# ============================================================================
+
+name: Claude Code
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [opened, synchronize, labeled]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+  issues:
+    types: [opened, edited, labeled, assigned]
+
+jobs:
+  claude:
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    uses: lentago/shared-workflows/.github/workflows/claude-responder.yml@main
+    secrets: inherit
+    with:
+      allowed_tools: '"Bash(git add:*)" "Bash(git commit:*)" "Bash(git checkout:*)" "Bash(git switch:*)" "Bash(git push:*)" "Bash(git status:*)" "Bash(git diff:*)" "Bash(git log:*)" "Bash(git branch:*)" "Bash(gh pr create:*)" "Bash(gh pr merge:*)" "Bash(gh pr view:*)" "Bash(gh issue view:*)" "Bash(python3 ci/validate.py)" "Bash(shellcheck:*)" "Read" "Edit" "Write"'
