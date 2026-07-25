@@ -66,15 +66,26 @@ CI does: `python3 ci/validate.py`):
 | Check | Asserts |
 |---|---|
 | `configs` | `fleet-ops/*.json` parse and match the shape `fleet-apply.sh` consumes |
+| `brand` | `brand/generated/` is reproducible from `brand/fleet.json` — the banners are copied verbatim into 15 repos, so a hand-edit forks the identity |
 | `census` | `metrics/generate-fleet-reports.py` imports; its data/code and markdown classifiers route known paths correctly |
-| `links` | relative markdown links resolve (renames/removals are the fleet's most common breakage) |
 | `register` | `fleet-reports/incidents.md` is reproducible from `fleet-reports/incidents/` — it is generated, never hand-edited |
 
-Two workflows run it, both **unconditional** (no `on:`-level path filter — a
-path-filtered required check deadlocks every non-matching PR): `.github/workflows/ci.yml`
-→ context **`validate`**, and `.github/workflows/shellcheck.yml` → context
-**`shellcheck / shellcheck`**, the shared reusable over `fleet-ops/fleet-apply.sh`.
-Both are required on `main` via `fleet-ops/required-checks.json`, so `gh pr merge
+**Relative markdown links are not checked here.** That check lived in `validate.py`
+until #66; it was promoted into the shared reusable (shared-workflows#28) and this
+repo now calls it like the rest of the fleet. Two implementations of one check would
+have drifted, with this repo gated by the staler copy. What remains in `validate.py`
+is the set genuinely specific to this repo.
+
+Three workflows gate PRs here, all **unconditional** (no `on:`-level path filter — a
+path-filtered required check deadlocks every non-matching PR):
+
+| Workflow | Context | What it runs |
+|---|---|---|
+| `.github/workflows/ci.yml` | `validate` | `ci/validate.py` |
+| `.github/workflows/shellcheck.yml` | `shellcheck / shellcheck` | shared reusable over `fleet-ops/fleet-apply.sh` |
+| `.github/workflows/docs-check.yml` | `docs-check / docs-check` | shared reusable, relative markdown links |
+
+All are required on `main` via `fleet-ops/required-checks.json`, so `gh pr merge
 --auto` arms here rather than merging on the spot.
 
 Adding a check means adding it to `ci/validate.py` — and prove it can fail before
