@@ -1,0 +1,190 @@
+{
+  "_comment": [
+    "Per-repo brand identity for the Lentago Labs fleet. Consumed by generate.py",
+    "to emit brand/generated/<repo>/{banner.svg,og.png} and the README badge row.",
+    "",
+    "  mark    — basename in brand/marks/. Repos without their own genus mark",
+    "            fall back to 'lentago' (the org blossom).",
+    "  kind    — eyebrow category: SUITE | FLEET | SITE | LAB",
+    "  tagline — mono line under the repo name. Keep <= 58 chars; it is set",
+    "            uppercase by the generator.",
+    "  prompt  — the '▲ lentago' field-prompt line. Keep <= 64 chars.",
+    "  badges  — stack badges appended after the shared CI/license/DeepWiki set.",
+    "            {label, logo} renders a shields.io simple-icons badge; a bare",
+    "            {label} renders a text-only badge in the same Tidewater colors."
+  ],
+
+  "solidago": {
+    "mark": "solidago",
+    "kind": "SUITE",
+    "tagline": "Cloud platform · AWS, 100% Terraform",
+    "prompt": "terraform apply  ·  vpc · ecs · rds · waf",
+    "badges": [
+      { "label": "Terraform", "logo": "terraform" },
+      { "label": "AWS", "logo": "amazonwebservices" },
+      { "label": "ECS Fargate" },
+      { "label": "OIDC" }
+    ]
+  },
+  "drosera": {
+    "mark": "drosera",
+    "kind": "SUITE",
+    "tagline": "Observability suite · git-driven, no chokepoint",
+    "prompt": "alloy push  ·  mimir · loki · grafana cloud",
+    "badges": [
+      { "label": "Grafana", "logo": "grafana" },
+      { "label": "Terraform", "logo": "terraform" },
+      { "label": "Alloy" },
+      { "label": "Prometheus", "logo": "prometheus" }
+    ]
+  },
+  "kalmia": {
+    "mark": "kalmia",
+    "kind": "SUITE",
+    "tagline": "Provisioning · workstations, VMs, containers",
+    "prompt": "terraform apply  ·  proxmox guests · ansible roles",
+    "badges": [
+      { "label": "Terraform", "logo": "terraform" },
+      { "label": "Ansible", "logo": "ansible" },
+      { "label": "Proxmox", "logo": "proxmox" }
+    ]
+  },
+  "claytonia": {
+    "mark": "claytonia",
+    "kind": "SUITE",
+    "tagline": "Agent fleet · drop a job, get a reviewed PR",
+    "prompt": "cr-submit  ·  five headless workers · never merges",
+    "badges": [
+      { "label": "Claude", "logo": "anthropic" },
+      { "label": "Terraform", "logo": "terraform" },
+      { "label": "Bash", "logo": "gnubash" },
+      { "label": "GitOps" }
+    ]
+  },
+  "betula": {
+    "mark": "betula",
+    "kind": "SUITE",
+    "tagline": "Log capture · collectors to long-retention search",
+    "prompt": "fluent-bit tail  ·  zeek · cloudtrail · axiom",
+    "badges": [
+      { "label": "Axiom" },
+      { "label": "Fluent Bit", "logo": "fluentbit" },
+      { "label": "Zeek" },
+      { "label": "Loki", "logo": "grafanaloki" }
+    ]
+  },
+  "brasenia": {
+    "mark": "lentago",
+    "kind": "SUITE",
+    "tagline": "Shared viewport · a rubric, not a remote",
+    "prompt": "pane claim  ·  headless chromium · hls · roku",
+    "badges": [
+      { "label": "BrightScript" },
+      { "label": "ffmpeg", "logo": "ffmpeg" },
+      { "label": "HLS" },
+      { "label": "Roku", "logo": "roku" }
+    ]
+  },
+
+  ".github": {
+    "mark": "lentago",
+    "kind": "FLEET",
+    "tagline": "Org defaults · governance & settings-as-code",
+    "prompt": "fleet-apply.sh  ·  rulesets · topics · reports",
+    "badges": [
+      { "label": "Settings-as-code" },
+      { "label": "GitHub Actions", "logo": "githubactions" },
+      { "label": "Python", "logo": "python" }
+    ]
+  },
+  "shared-workflows": {
+    "mark": "lentago",
+    "kind": "FLEET",
+    "tagline": "Reusable CI · the fleet's canonical workflows",
+    "prompt": "workflow_call  ·  review · respond · enforce",
+    "badges": [
+      { "label": "GitHub Actions", "logo": "githubactions" },
+      { "label": "Claude", "logo": "anthropic" },
+      { "label": "YAML", "logo": "yaml" }
+    ]
+  },
+  "repo-template": {
+    "mark": "lentago",
+    "kind": "FLEET",
+    "tagline": "Fleet scaffold · README, CLAUDE.md, CI wrappers",
+    "prompt": "gh repo create --template  ·  files, not settings",
+    "badges": [
+      { "label": "Template" },
+      { "label": "MIT" }
+    ]
+  },
+
+  "site-lentago-dev": {
+    "mark": "lentago",
+    "kind": "SITE",
+    "tagline": "lentago.dev · the practice landing site",
+    "prompt": "astro build  ·  tidewater · owns the apex DNS",
+    "badges": [
+      { "label": "Astro", "logo": "astro" },
+      { "label": "AWS", "logo": "amazonwebservices" },
+      { "label": "Terraform", "logo": "terraform" },
+      { "label": "Design system" }
+    ]
+  },
+  "site-icecreamtofightwith-com": {
+    "mark": "lentago",
+    "kind": "SITE",
+    "tagline": "icecreamtofightwith.com · 28 custard recipes",
+    "prompt": "make pdf  ·  modular markdown · astro · ecs",
+    "badges": [
+      { "label": "Astro", "logo": "astro" },
+      { "label": "AWS", "logo": "amazonwebservices" },
+      { "label": "Markdown", "logo": "markdown" }
+    ]
+  },
+  "site-pondviewlane-com": {
+    "mark": "lentago",
+    "kind": "SITE",
+    "tagline": "pondviewlane.com · public-record reference",
+    "prompt": "one fact base  ·  two voices · two skins · one container",
+    "badges": [
+      { "label": "Starlight", "logo": "astro" },
+      { "label": "AWS", "logo": "amazonwebservices" },
+      { "label": "Ask endpoint" }
+    ]
+  },
+
+  "homeassistant-config": {
+    "mark": "lentago",
+    "kind": "LAB",
+    "tagline": "Smart home · 40+ entities, declarative YAML",
+    "prompt": "ha core check  ·  konnected · hue · sonos",
+    "badges": [
+      { "label": "Home Assistant", "logo": "homeassistant" },
+      { "label": "ESPHome", "logo": "esphome" },
+      { "label": "YAML", "logo": "yaml" }
+    ]
+  },
+  "music-curator": {
+    "mark": "lentago",
+    "kind": "LAB",
+    "tagline": "Music wiki · a collection made queryable",
+    "prompt": "vault build  ·  dedup · follows · session ties",
+    "badges": [
+      { "label": "Obsidian", "logo": "obsidian" },
+      { "label": "Spotify", "logo": "spotify" },
+      { "label": "Python", "logo": "python" }
+    ]
+  },
+  "reference-checker": {
+    "mark": "lentago",
+    "kind": "LAB",
+    "tagline": "Reference integrity · citation forensics",
+    "prompt": "deep-scan  ·  fabricated · manipulated · suspicious",
+    "badges": [
+      { "label": "Claude", "logo": "anthropic" },
+      { "label": "Prompt engineering" },
+      { "label": "Publishing" }
+    ]
+  }
+}

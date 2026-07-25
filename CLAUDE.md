@@ -92,15 +92,22 @@ The profile badges (shields.io), the banner, and the org avatar share one
 palette — the Lentago Labs **"Tidewater"** system. Keep new badges/assets
 consistent with it:
 
-- Deep-teal hero `#0e2b28` → brand-teal `#1c4a44`, warm copper accent `#c2643c`,
-  limestone `#f3f0e8`. Copper is an accent — **one element per region, never a
-  fill.** (Canonical token values: `lentago/lentagolabs-dev` → `BRAND.md` and
-  `public/design-system/tokens/` — those win.)
+- Deep hero `#0e2b1a` → brand forest-teal `#1b4b2e`, anther gold accent
+  `#E0A81C`, limestone `#f3f0e8`. Gold is an accent — **one element per region,
+  never a fill**; text on a gold fill is dark `#241d08`, never white. (Canonical
+  token values: `lentago/site-lentago-dev` → `BRAND.md` and
+  `public/design-system/tokens/` — those win. The 2026-07 recolor warmed the
+  original slate-teal toward green and replaced the copper accent with gold;
+  don't reintroduce `#0e2b28` / `#1c4a44` / `#c2643c`.)
 - Brand mark: the **blossom** (five limestone petals on teal contour outlines,
-  copper-tipped stamens, a pale center, in a deep-teal chip) — the org avatar in
+  gold-tipped stamens, a pale center, in a deep-teal chip) — the org avatar in
   `brand/avatars/`. It replaced the former benchmark disk in "Tidewater". The
-  field-prompt glyph is the copper **▲** + `lentago`; **never** the retired
+  field-prompt glyph is the gold **▲** + `lentago`; **never** the retired
   `:>` / `$` / `>` prompt.
+- Per-repo identity is generated, not hand-drawn: `brand/fleet.json` +
+  `brand/generate.py` emit each repo's README banner, badge row, and social-preview
+  card. See `brand/README.md`; `ci/validate.py`'s **brand** check fails on a
+  hand-edited `brand/generated/`.
 - Tagline: **"Production that shows up when the need does."** (carries over from
   the former Pitzi Labs — same business, same voice; only name/palette/mark
   changed).

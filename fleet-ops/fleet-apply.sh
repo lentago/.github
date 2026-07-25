@@ -12,10 +12,13 @@
 #   ./fleet-apply.sh --prune-branches --repo NAME
 #   ./fleet-apply.sh --require-checks         # set required status checks per required-checks.json
 #   ./fleet-apply.sh --require-checks --repo NAME
+#   ./fleet-apply.sh --apply-labels           # align the issue-label palette per labels.json
+#   ./fleet-apply.sh --apply-labels --repo NAME
 #
 # Read-only by default. Only --apply (settings), --prune-branches (branch
-# deletion) and --require-checks (ruleset required-check rule) mutate; they are
-# independent flags so each destructive action is opt-in. delete_branch_on_merge
+# deletion), --require-checks (ruleset required-check rule) and --apply-labels
+# (label color/description) mutate; they are independent flags so each
+# destructive action is opt-in. delete_branch_on_merge
 # auto-removes a head branch when its PR merges going forward, but it does NOT
 # retroactively clean branches whose PR merged before the setting was enabled,
 # nor abandoned no-PR branches — the branch scan closes that gap. The base
@@ -30,6 +33,12 @@
 # map, but ONLY after a preflight confirms each context has actually reported on
 # a recent PR — requiring a context whose workflow never triggers deadlocks the
 # repo (see README § Required status checks and the rollout order there).
+#
+# Issue labels: labels.json carries the fleet's Tidewater label palette. Every
+# repo ships GitHub's stock label colors, which clash with the brand everywhere
+# issues and PRs are listed. --apply-labels aligns color + description for the
+# labels named there and creates the ones marked ensure=true. Labels absent from
+# labels.json are never touched or deleted — per-repo labels stay the repo's own.
 # ============================================================================
 set -euo pipefail
 
@@ -37,10 +46,12 @@ ORG=lentago
 MODE=check
 PRUNE=0
 REQUIRE=0
+LABELS=0
 ONLY=""
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 SPINE_TOPICS=(lentago claude)
 CHECKS_MAP="$SCRIPT_DIR/required-checks.json"
+LABELS_MAP="$SCRIPT_DIR/labels.json"
 ACTIONS_APP_ID=15368   # GitHub Actions app — integration_id for required-check contexts
 # Sentinel: the copy-pasted review prompt that caused a fleet-wide regression.
 # Any repo other than workstation-bootstrap carrying this is mis-customized.
@@ -52,6 +63,7 @@ while [ $# -gt 0 ]; do
     --check) MODE=check ;;
     --prune-branches) PRUNE=1 ;;
     --require-checks) REQUIRE=1 ;;
+    --apply-labels) LABELS=1 ;;
     --repo)  ONLY="${2:?--repo needs a name}"; shift ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
@@ -123,9 +135,31 @@ require_checks_apply() {
     && echo "      → required checks set on $r: [${want[*]}]"
 }
 
+# --- issue-label palette helpers --------------------------------------------
+
+# Align one repo's labels to labels.json. Only labels named there are touched:
+# existing ones get color+description, ensure=true ones are created if absent,
+# and everything else the repo has is left alone. Never deletes.
+labels_apply() {
+  local r="$1" name color desc ensure
+  local -a have=()
+  mapfile -t have < <(gh label list -R "$ORG/$r" --limit 200 --json name --jq '.[].name' 2>/dev/null)
+  local changed=0
+  while IFS=$'\t' read -r name color desc ensure; do
+    if printf '%s\n' "${have[@]}" | grep -qxF "$name"; then
+      gh label edit "$name" -R "$ORG/$r" --color "$color" --description "$desc" >/dev/null \
+        && changed=$((changed + 1))
+    elif [ "$ensure" = "true" ]; then
+      gh label create "$name" -R "$ORG/$r" --color "$color" --description "$desc" >/dev/null \
+        && changed=$((changed + 1))
+    fi
+  done < <(jq -r '.labels[] | [.name, .color, .description, (.ensure|tostring)] | @tsv' "$LABELS_MAP")
+  echo "      → $r: $changed label(s) aligned"
+}
+
 # ----------------------------------------------------------------------------
 
-echo "fleet-apply: mode=$MODE$([ "$PRUNE" = 1 ] && echo ' prune-branches=on')$([ "$REQUIRE" = 1 ] && echo ' require-checks=on') org=$ORG ${ONLY:+repo=$ONLY}"
+echo "fleet-apply: mode=$MODE$([ "$PRUNE" = 1 ] && echo ' prune-branches=on')$([ "$REQUIRE" = 1 ] && echo ' require-checks=on')$([ "$LABELS" = 1 ] && echo ' apply-labels=on') org=$ORG ${ONLY:+repo=$ONLY}"
 echo
 
 if [ -n "$ONLY" ]; then
@@ -271,6 +305,11 @@ for r in $repos; do
     require_checks_apply "$r" "${want_checks[@]}"
   fi
 
+  # --apply-labels likewise stands alone: purely cosmetic, no ruleset coupling.
+  if [ "$LABELS" = 1 ]; then
+    labels_apply "$r"
+  fi
+
   unset fixes add_topics residue orphans want_checks have_checks missing_checks
 done
 
@@ -279,6 +318,9 @@ if [ "$PRUNE" = 1 ]; then
   echo "branch prune complete — $pruned_total merged-residue branch(es) deleted; $orphan_total orphan(s) left for manual review."
 elif [ "$pruned_total" -gt 0 ] || [ "$orphan_total" -gt 0 ]; then
   echo "branch scan — $pruned_total merged-residue branch(es) prunable (re-run with --prune-branches), $orphan_total orphan(s) need manual review."
+fi
+if [ "$LABELS" = 1 ]; then
+  echo "apply-labels complete — Tidewater palette per fleet-ops/labels.json."
 fi
 if [ "$REQUIRE" = 1 ]; then
   echo "require-checks complete."
