@@ -130,16 +130,19 @@ require:
 }
 ```
 
-The read-only check reports the gap (`⧗ req-checks missing=[…]`); `--require-checks`
-applies it by editing each repo's `main` ruleset's `required_status_checks` rule
-(`integration_id` 15368 = GitHub Actions):
+The read-only check reports the gap in **both directions**: `⧗ req-checks
+missing=[…]` is want − live (the file wants a check live doesn't have yet);
+`⚠ req-checks live-not-in-file=[…]` is live − want (live requires a check the
+file doesn't list). `--require-checks` applies the file by editing each repo's
+`main` ruleset's `required_status_checks` rule (`integration_id` 15368 = GitHub
+Actions):
 
 ```bash
 ./fleet-apply.sh --require-checks              # fleet-wide
 ./fleet-apply.sh --require-checks --repo NAME  # one repo
 ```
 
-Two rules make this safe rather than a fleet-wide foot-gun:
+Three rules make this safe rather than a fleet-wide foot-gun:
 
 1. **Contexts are the exact check-run names, captured from live PR check runs —
    not workflow or job display names.** The surprises: the reusable ShellCheck
@@ -153,6 +156,18 @@ Two rules make this safe rather than a fleet-wide foot-gun:
    checks that report on *every* PR (or skip at the job level, which counts as
    passing). `--require-checks` preflights every context against the repo's most
    recent PR check runs and **refuses** to require one that has never reported.
+3. **A context required live but absent from the file is never silently
+   dropped.** `--require-checks` PUTs a wholesale replacement of the
+   `required_status_checks` rule, so a context missing from the file — added via
+   the UI, or the file simply lagging live — would otherwise vanish on the next
+   sweep with no distinguishing output (lentago/.github#71: #68 dropped
+   `Compile and commit` from `site-icecreamtofightwith-com` exactly this way,
+   restored in #70). The apply now diffs live against the file first, reports
+   any such removal, and refuses to apply it unless run with
+   `--allow-check-removal`. When it *does* proceed with removals it says so
+   inline: `→ required checks set on X: […] (REMOVING: Compile and commit)`.
+   Add the missing context(s) to `required-checks.json` instead of reaching for
+   the flag, unless the removal is actually intentional.
 
 ### Rollout order (do not invert)
 

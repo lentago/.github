@@ -12,6 +12,7 @@
 #   ./fleet-apply.sh --prune-branches --repo NAME
 #   ./fleet-apply.sh --require-checks         # set required status checks per required-checks.json
 #   ./fleet-apply.sh --require-checks --repo NAME
+#   ./fleet-apply.sh --require-checks --allow-check-removal   # opt in to dropping live-not-in-file contexts
 #   ./fleet-apply.sh --apply-labels           # align the issue-label palette per labels.json
 #   ./fleet-apply.sh --apply-labels --repo NAME
 #
@@ -47,6 +48,7 @@ MODE=check
 PRUNE=0
 REQUIRE=0
 LABELS=0
+ALLOW_REMOVAL=0
 ONLY=""
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 SPINE_TOPICS=(lentago claude)
@@ -63,6 +65,7 @@ while [ $# -gt 0 ]; do
     --check) MODE=check ;;
     --prune-branches) PRUNE=1 ;;
     --require-checks) REQUIRE=1 ;;
+    --allow-check-removal) ALLOW_REMOVAL=1 ;;
     --apply-labels) LABELS=1 ;;
     --repo)  ONLY="${2:?--repo needs a name}"; shift ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
@@ -107,6 +110,17 @@ seen_contexts() {
 }
 
 # Layer the mapped required-check contexts onto a repo's `main` ruleset.
+#
+# This PUTs a wholesale replacement of the required_status_checks rule — the
+# file is the source of truth, which is the right model for stopping drift
+# toward live. But a context required live and absent from required-checks.json
+# (added via the UI, or a repo the file lags behind) would silently be deleted
+# by that replacement, indistinguishable in the output from a normal apply
+# (lentago/.github#71 — #68 dropped `Compile and commit` this way). So diff
+# live against $want first: report any such removal, and refuse to apply it
+# unless the operator opts in with --allow-check-removal, matching how the
+# unseen-context refusal above already treats an unproven requirement as
+# something needing intent rather than something to do quietly.
 require_checks_apply() {
   local r="$1"; shift
   local -a want=("$@")
@@ -128,6 +142,19 @@ require_checks_apply() {
     echo "        refusing to require them (would deadlock). Land + run the producing workflow on main first."
     return 1
   fi
+  local -a live=() removing=()
+  mapfile -t live < <(required_contexts "$r")
+  local l
+  for l in "${live[@]}"; do
+    [ -z "$l" ] && continue
+    printf '%s\n' "${want[@]}" | grep -qxF "$l" || removing+=("$l")
+  done
+  if [ ${#removing[@]} -gt 0 ] && [ "$ALLOW_REMOVAL" -ne 1 ]; then
+    echo "      ! $r: required-checks.json is missing currently-required context(s): [${removing[*]}]"
+    echo "        refusing — applying would silently REMOVE them. Add to required-checks.json, or pass"
+    echo "        --allow-check-removal once the removal is intentional."
+    return 1
+  fi
   local checks_json body
   checks_json=$(printf '%s\n' "${want[@]}" \
     | jq -R --argjson id "$ACTIONS_APP_ID" '{context: ., integration_id: $id}' | jq -s '.')
@@ -141,7 +168,11 @@ require_checks_apply() {
                                    do_not_enforce_on_create: false,
                                    required_status_checks: $checks } } ] ) }')
   printf '%s' "$body" | gh api -X PUT "repos/$ORG/$r/rulesets/$id" --input - >/dev/null \
-    && echo "      → required checks set on $r: [${want[*]}]"
+    && if [ ${#removing[@]} -gt 0 ]; then
+         echo "      → required checks set on $r: [${want[*]}] (REMOVING: ${removing[*]})"
+       else
+         echo "      → required checks set on $r: [${want[*]}]"
+       fi
 }
 
 # --- issue-label palette helpers --------------------------------------------
@@ -181,6 +212,7 @@ drift_total=0
 pruned_total=0
 orphan_total=0
 checks_missing_total=0
+checks_extra_total=0
 
 for r in $repos; do
   # --- merge-button settings (also grab default branch for the residue scan) ---
@@ -224,19 +256,31 @@ for r in $repos; do
   fi
 
   # --- required status checks vs the required-checks.json map (issue #27) ---
-  declare -a want_checks=() have_checks=() missing_checks=()
+  # Diffed both directions: missing = want − live (file wants a check live
+  # lacks) is the original check. extra = live − want (live requires a check
+  # the file doesn't list) is the reverse — surfaced per lentago/.github#71,
+  # since that's the lag that a --require-checks sweep would silently delete.
+  declare -a want_checks=() have_checks=() missing_checks=() extra_checks=()
   if [ -f "$CHECKS_MAP" ]; then
     mapfile -t want_checks < <(jq -r --arg r "$r" '.checks[$r][]? // empty' "$CHECKS_MAP" 2>/dev/null)
   fi
   checks_note=""
-  if [ ${#want_checks[@]} -gt 0 ] && [ "$ruleset_missing" -eq 0 ] && [ "$rs_count" != "n/a (private/plan)" ]; then
+  if [ -f "$CHECKS_MAP" ] && [ "$ruleset_missing" -eq 0 ] && [ "$rs_count" != "n/a (private/plan)" ]; then
     mapfile -t have_checks < <(required_contexts "$r")
     for w in "${want_checks[@]}"; do
       printf '%s\n' "${have_checks[@]}" | grep -qxF "$w" || missing_checks+=("$w")
     done
+    for h in "${have_checks[@]}"; do
+      [ -z "$h" ] && continue
+      printf '%s\n' "${want_checks[@]}" | grep -qxF "$h" || extra_checks+=("$h")
+    done
     if [ ${#missing_checks[@]} -gt 0 ]; then
-      checks_note=" ⧗ req-checks missing=[${missing_checks[*]}]"
+      checks_note+=" ⧗ req-checks missing=[${missing_checks[*]}]"
       checks_missing_total=$((checks_missing_total+1))
+    fi
+    if [ ${#extra_checks[@]} -gt 0 ]; then
+      checks_note+=" ⚠ req-checks live-not-in-file=[${extra_checks[*]}]"
+      checks_extra_total=$((checks_extra_total+1))
     fi
   fi
 
@@ -275,7 +319,8 @@ for r in $repos; do
 
   # --- report / apply ---
   if [ ${#fixes[@]} -eq 0 ] && [ ${#add_topics[@]} -eq 0 ] && [ -z "$warn" ] && [ "$ruleset_missing" -eq 0 ] \
-     && [ ${#residue[@]} -eq 0 ] && [ ${#orphans[@]} -eq 0 ] && [ ${#missing_checks[@]} -eq 0 ]; then
+     && [ ${#residue[@]} -eq 0 ] && [ ${#orphans[@]} -eq 0 ] && [ ${#missing_checks[@]} -eq 0 ] \
+     && [ ${#extra_checks[@]} -eq 0 ]; then
     printf '  ✓ %-26s settings ok (branch rulesets: %s)%s\n' "$r" "$rs_count" "$auto_note"
   else
     drift_total=$((drift_total+1))
@@ -324,7 +369,7 @@ for r in $repos; do
     labels_apply "$r"
   fi
 
-  unset fixes add_topics residue orphans want_checks have_checks missing_checks
+  unset fixes add_topics residue orphans want_checks have_checks missing_checks extra_checks
 done
 
 echo
@@ -338,8 +383,15 @@ if [ "$LABELS" = 1 ]; then
 fi
 if [ "$REQUIRE" = 1 ]; then
   echo "require-checks complete."
-elif [ "$checks_missing_total" -gt 0 ]; then
-  echo "required-checks — $checks_missing_total repo(s) missing mapped checks. After each producing workflow is merged to main & observed green on a PR, run: $0 --require-checks"
+else
+  if [ "$checks_missing_total" -gt 0 ]; then
+    echo "required-checks — $checks_missing_total repo(s) missing mapped checks. After each producing workflow is merged to main & observed green on a PR, run: $0 --require-checks"
+  fi
+  if [ "$checks_extra_total" -gt 0 ]; then
+    echo "required-checks — $checks_extra_total repo(s) have live required check(s) not in required-checks.json." \
+         "A --require-checks sweep would REMOVE them and refuse unless run with --allow-check-removal." \
+         "Add the missing context(s) to required-checks.json, or confirm the removal is intentional."
+  fi
 fi
 if [ "$MODE" = check ]; then
   echo "check complete — $drift_total repo(s) with drift. Re-run with --apply to fix merge/topics."
