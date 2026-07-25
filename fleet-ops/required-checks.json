@@ -30,7 +30,16 @@
     "brand-asset reproducibility, census classifier routing, incident-register",
     "reproducibility) plus the shared ShellCheck over fleet-apply.sh. Its relative-",
     "link check was removed in #67 and replaced by the shared docs-check, so the",
-    "fleet has one link resolver rather than two drifting copies."
+    "fleet has one link resolver rather than two drifting copies.",
+    "",
+    "NOTE (2026-07-25): --require-checks REPLACES the required_status_checks rule",
+    "wholesale with what is listed here \u2014 it does not merge with what is already",
+    "live. Any context required live but absent from this file is therefore dropped",
+    "on the next sweep. That happened to site-icecreamtofightwith-com: its ruleset",
+    "required 'Lint content' + 'Compile and commit' while this file listed only the",
+    "former, so the docs-check sweep silently removed 'Compile and commit'. Restored",
+    "here. Before adding a repo, diff this file against the live ruleset \u2014 this file",
+    "is the source of truth, so anything missing from it is a deletion."
   ],
   "checks": {
     ".github": [
@@ -79,6 +88,7 @@
     ],
     "site-icecreamtofightwith-com": [
       "Lint content",
+      "Compile and commit",
       "docs-check / docs-check"
     ],
     "brasenia": [
