@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-25 22:31 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-25).
+**Generated:** 2026-07-27 14:10 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-27).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **45** | 450 | 162 | **52,625** | 3,444 (20 files) |
+| **46** | 441 | 162 | **51,150** | 3,463 (20 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**3,444 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**3,463 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 45 across 7 repos
+## Open issues — 46 across 7 repos
 
 ### drosera — 12 open
 
@@ -61,10 +61,11 @@ The fleet's hand-maintained natural-language instruction surface (**3,444 lines*
 | [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
 | [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
 
-### solidago — 6 open
+### solidago — 7 open
 
 | # | Title |
 |---|-------|
+| [156](https://github.com/lentago/solidago/issues/156) | Split plan/apply OIDC environments so the terraform environment can carry a branch policy |
 | [153](https://github.com/lentago/solidago/issues/153) | bootstrap-backend.sh still references a nonexistent "foundry" AWS profile |
 | [149](https://github.com/lentago/solidago/issues/149) | Rotating a Lambda's Axiom token requires an unrelated apply to take effect |
 | [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
@@ -99,8 +100,15 @@ The fleet's hand-maintained natural-language instruction surface (**3,444 lines*
 
 ## Activity — last 30 days
 
-**612 events**, one stream, newest first — 🟣 450 PRs merged · 🟢 162 issues closed
+**603 events**, one stream, newest first — 🟣 441 PRs merged · 🟢 162 issues closed
 
+- 🟣 2026-07-26 · [site-pondviewlane-com#34](https://github.com/lentago/site-pondviewlane-com/pull/34) — Make every claim independently checkable at its source portal
+- 🟣 2026-07-26 · [site-pondviewlane-com#33](https://github.com/lentago/site-pondviewlane-com/pull/33) — Lead the common-land page with the parcel map
+- 🟣 2026-07-26 · [site-pondviewlane-com#32](https://github.com/lentago/site-pondviewlane-com/pull/32) — Raise the shared small-print contrast to AA on both domains
+- 🟣 2026-07-25 · [site-pondviewlane-com#31](https://github.com/lentago/site-pondviewlane-com/pull/31) — Fix the Essex notice panels: drop the stray quote mark, re-tone the ground
+- 🟣 2026-07-25 · [site-pondviewlane-com#30](https://github.com/lentago/site-pondviewlane-com/pull/30) — Make the Essex hero name dominate, with "at Montserrat" as a subtitle
+- 🟣 2026-07-25 · [site-pondviewlane-com#29](https://github.com/lentago/site-pondviewlane-com/pull/29) — Re-skin Essex Crossing at Montserrat as a gilded estate document
+- 🟣 2026-07-25 · [.github#75](https://github.com/lentago/.github/pull/75) — chore: refresh fleet reports; exclude generated brand artefacts from the census
 - 🟣 2026-07-25 · [solidago#154](https://github.com/lentago/solidago/pull/154) — ci(terraform): add workflow_dispatch trigger to allow deliberate applies
 - 🟢 2026-07-25 · [claytonia#49](https://github.com/lentago/claytonia/issues/49) — Grant the runner App workflows+issues write (machine account shipped; permissions gap remains)
 - 🟣 2026-07-25 · [claytonia#70](https://github.com/lentago/claytonia/pull/70) — docs: record the runner App's granted scopes
@@ -697,22 +705,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,444 lines*
 - 🟣 2026-06-29 · [site-lentago-dev#1](https://github.com/lentago/site-lentago-dev/pull/1) — Add Foundry deployment guide for lentagolabs-dev
 - 🟢 2026-06-28 · [homeassistant-config#491](https://github.com/lentago/homeassistant-config/issues/491) — Home dashboard presence tiles bound to stale WiFi device_trackers — show wrong state when home
 - 🟣 2026-06-28 · [homeassistant-config#492](https://github.com/lentago/homeassistant-config/pull/492) — fix(dashboards): repoint presence tiles from WiFi device_tracker to GPS person.* entities
-- 🟣 2026-06-25 · [repo-template#2](https://github.com/lentago/repo-template/pull/2) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [reference-checker#47](https://github.com/lentago/reference-checker/pull/47) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [homeassistant-config#490](https://github.com/lentago/homeassistant-config/pull/490) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [music-curator#1](https://github.com/lentago/music-curator/pull/1) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [site-icecreamtofightwith-com#115](https://github.com/lentago/site-icecreamtofightwith-com/pull/115) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [drosera#96](https://github.com/lentago/drosera/pull/96) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [solidago#68](https://github.com/lentago/solidago/pull/68) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [betula#53](https://github.com/lentago/betula/pull/53) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [claytonia#28](https://github.com/lentago/claytonia/pull/28) — Disable automated Claude PR review (manual-only trigger)
-- 🟣 2026-06-25 · [drosera#95](https://github.com/lentago/drosera/pull/95) — fix(dashboard): panel-11 — count distinct sessions, not per-worker boolean
-- 🟣 2026-06-25 · [claytonia#26](https://github.com/lentago/claytonia/pull/26) — feat(frontends): n8n web form to submit bullpen jobs
-- 🟣 2026-06-25 · [claytonia#27](https://github.com/lentago/claytonia/pull/27) — docs: drop Origin section from PR template, neutralize Summary voice
-- 🟣 2026-06-25 · [homeassistant-config#489](https://github.com/lentago/homeassistant-config/pull/489) — docs: neutralize PR summary voice (drop Origin/Prompt-Origin)
-- 🟣 2026-06-25 · [shared-workflows#11](https://github.com/lentago/shared-workflows/pull/11) — docs: neutralize PR voice — drop the ## Origin section and Prompt-Origin trailer
-- 🟣 2026-06-25 · [homeassistant-config#488](https://github.com/lentago/homeassistant-config/pull/488) — chore: remove home-host/ and retire pve2 display-host references
-- 🟣 2026-06-25 · [homeassistant-config#487](https://github.com/lentago/homeassistant-config/pull/487) — docs: retire pve2 display-host references in CLAUDE.md
 
 ---
 
@@ -726,27 +718,25 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 15,071 | 39 | 28.6% |
-| 2 | YAML | 8,835 | 160 | 16.8% |
-| 3 | HCL | 6,108 | 104 | 11.6% |
-| 4 | Python | 4,923 | 38 | 9.4% |
-| 5 | Shell (Bourne + Bash) | 4,814 | 63 | 9.1% |
-| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,444 | 20 | 6.5% |
-| 7 | Text | 3,377 | 24 | 6.4% |
-| 8 | Astro | 1,895 | 19 | 3.6% |
-| 9 | JavaScript | 1,773 | 16 | 3.4% |
-| 10 | CSS | 867 | 9 | 1.6% |
-| 11 | JSX | 851 | 10 | 1.6% |
-| 12 | TypeScript | 310 | 8 | 0.6% |
-| 13 | Jinja Template | 277 | 6 | 0.5% |
-| 14 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.2% |
-| | **CODE TOTAL** | **52,625** | **522** | 100% |
+| 1 | JSON | 15,243 | 39 | 29.8% |
+| 2 | YAML | 8,835 | 160 | 17.3% |
+| 3 | HCL | 6,108 | 104 | 11.9% |
+| 4 | Python | 4,941 | 38 | 9.7% |
+| 5 | Shell (Bourne + Bash) | 4,814 | 63 | 9.4% |
+| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,463 | 20 | 6.8% |
+| 7 | Text | 3,452 | 25 | 6.7% |
+| 8 | JavaScript | 1,793 | 16 | 3.5% |
+| 9 | CSS | 1,260 | 9 | 2.5% |
+| 10 | JSX | 851 | 10 | 1.7% |
+| 11 | TypeScript | 310 | 8 | 0.6% |
+| 12 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.2% |
+| | **CODE TOTAL** | **51,150** | **498** | 100% |
 | — | _Data / exports — excluded_ | 141,215 | 26 | — |
-| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,022 | 75 | — |
+| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,196 | 82 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **1,993 lines**
+- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,012 lines**
 - **Prompt-programs** (4 files · reference-checker auditors): **1,451 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -755,7 +745,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 |------|------|------:|
 | homeassistant-config | `CLAUDE.md` | 399 |
 | shared-workflows | `CLAUDE.md` | 228 |
-| site-pondviewlane-com | `CLAUDE.md` | 190 |
+| site-pondviewlane-com | `CLAUDE.md` | 209 |
 | .github | `CLAUDE.md` | 179 |
 | betula | `CLAUDE.md` | 156 |
 | site-lentago-dev | `CLAUDE.md` | 108 |
@@ -769,7 +759,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | claytonia | `CLAUDE.md` | 57 |
 | brasenia | `CLAUDE.md` | 56 |
 | repo-template | `CLAUDE.md` | 22 |
-| **16 files** | | **1,993** |
+| **16 files** | | **2,012** |
 
 #### Prompt-programs — natural language *is* the logic
 
@@ -781,39 +771,39 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | reference-checker | `prompts/v3-auditor.md` | 69 |
 | **4 files** | | **1,451** |
 
-_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **1,993**, not 3,444._
+_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **2,012**, not 3,463._
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
 | drosera | 14,564 | 163 | 862 | 0 | 0 |
-| site-pondviewlane-com | 6,528 | 190 | 2,056 | 0 | 0 |
+| site-pondviewlane-com | 6,658 | 209 | 2,366 | 0 | 0 |
 | homeassistant-config | 6,438 | 399 | 1,090 | 0 | 17,567 |
 | solidago | 6,340 | 99 | 1,692 | 0 | 0 |
-| site-icecreamtofightwith-com | 3,260 | 98 | 596 | 6,008 | 0 |
 | music-curator | 3,081 | 68 | 1,159 | 11,537 | 118,474 |
-| kalmia | 2,695 | 94 | 604 | 0 | 0 |
+| kalmia | 2,418 | 94 | 604 | 0 | 0 |
+| site-icecreamtofightwith-com | 2,048 | 98 | 596 | 6,008 | 0 |
 | claytonia | 1,857 | 57 | 578 | 0 | 0 |
-| .github | 1,792 | 179 | 616 | 2,271 | 0 |
+| .github | 1,810 | 179 | 616 | 2,331 | 0 |
 | betula | 1,791 | 156 | 1,125 | 0 | 0 |
 | reference-checker | 1,594 | 1,527 | 733 | 669 | 5,174 |
-| site-lentago-dev | 1,562 | 108 | 362 | 0 | 0 |
+| site-lentago-dev | 1,428 | 108 | 362 | 0 | 0 |
 | shared-workflows | 863 | 228 | 122 | 0 | 0 |
 | brasenia | 188 | 56 | 577 | 0 | 0 |
 | repo-template | 72 | 22 | 50 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **36,503 lines of Markdown across 850 files**; only 9.4% is instruction-code.
+The fleet carries **36,892 lines of Markdown across 850 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 3,444 | 20 | **counted as code** |
-| Content / data | 20,485 | 698 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 12,222 | 117 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 3,463 | 20 | **counted as code** |
+| Content / data | 20,545 | 698 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 12,532 | 117 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **36,503** | **850** | |
+| **All Markdown** | **36,892** | **850** | |
 
 ---
 
