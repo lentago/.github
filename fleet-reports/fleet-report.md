@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-27 14:10 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-27).
+**Generated:** 2026-07-29 22:13 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-29).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **46** | 441 | 162 | **51,150** | 3,463 (20 files) |
+| **45** | 448 | 162 | **53,491** | 3,471 (20 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**3,463 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**3,471 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 46 across 7 repos
+## Open issues — 45 across 7 repos
 
 ### drosera — 12 open
 
@@ -73,15 +73,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,463 lines*
 | [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
 | [20](https://github.com/lentago/solidago/issues/20) | Document: Phase 2 Secrets Manager secret unused after RDS-managed password choice |
 
-### music-curator — 4 open
-
-| # | Title |
-|---|-------|
-| [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
-| [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
-| [43](https://github.com/lentago/music-curator/issues/43) | Session-tie receipts: render the credits justifying each edge |
-| [42](https://github.com/lentago/music-curator/issues/42) | Merge name-variant duplicate artists in the inventory |
-
 ### betula — 3 open
 
 | # | Title |
@@ -89,6 +80,14 @@ The fleet's hand-maintained natural-language instruction surface (**3,463 lines*
 | [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
 | [86](https://github.com/lentago/betula/issues/86) | Firewalla boot race: Fluent Bit starts before Zeek's spool is live and tails dead paths silently; healthcheck's error-based detection cannot see it |
 | [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
+
+### music-curator — 3 open
+
+| # | Title |
+|---|-------|
+| [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
+| [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
+| [43](https://github.com/lentago/music-curator/issues/43) | Session-tie receipts: render the credits justifying each edge |
 
 ### reference-checker — 3 open
 
@@ -100,8 +99,17 @@ The fleet's hand-maintained natural-language instruction surface (**3,463 lines*
 
 ## Activity — last 30 days
 
-**603 events**, one stream, newest first — 🟣 441 PRs merged · 🟢 162 issues closed
+**610 events**, one stream, newest first — 🟣 448 PRs merged · 🟢 162 issues closed
 
+- 🟣 2026-07-29 · [kalmia#70](https://github.com/lentago/kalmia/pull/70) — Fix Debian 13 package names and pin NVM_DIR; mark crostini validated
+- 🟣 2026-07-28 · [music-curator#72](https://github.com/lentago/music-curator/pull/72) — Repair rip damage in album titles
+- 🟢 2026-07-28 · [music-curator#42](https://github.com/lentago/music-curator/issues/42) — Merge name-variant duplicate artists in the inventory
+- 🟣 2026-07-28 · [music-curator#71](https://github.com/lentago/music-curator/pull/71) — Merge name-variant duplicate artists across inventory and sidecars
+- 🟣 2026-07-28 · [music-curator#70](https://github.com/lentago/music-curator/pull/70) — Categorize the follow reservoir and add Rock > Progressive
+- 🟣 2026-07-28 · [site-pondviewlane-com#36](https://github.com/lentago/site-pondviewlane-com/pull/36) — Drop the severed private-source-repo publish pipeline from the docs
+- 🟣 2026-07-28 · [site-pondviewlane-com#35](https://github.com/lentago/site-pondviewlane-com/pull/35) — Correct the stale pre-launch indexing status in the docs
+- 🟣 2026-07-28 · [music-curator#69](https://github.com/lentago/music-curator/pull/69) — Revise artist categorization across the collection
+- 🟣 2026-07-27 · [.github#76](https://github.com/lentago/.github/pull/76) — Weekly fleet reports refresh — 2026-07-27
 - 🟣 2026-07-26 · [site-pondviewlane-com#34](https://github.com/lentago/site-pondviewlane-com/pull/34) — Make every claim independently checkable at its source portal
 - 🟣 2026-07-26 · [site-pondviewlane-com#33](https://github.com/lentago/site-pondviewlane-com/pull/33) — Lead the common-land page with the parcel map
 - 🟣 2026-07-26 · [site-pondviewlane-com#32](https://github.com/lentago/site-pondviewlane-com/pull/32) — Raise the shared small-print contrast to AA on both domains
@@ -703,8 +711,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,463 lines*
 - 🟣 2026-06-29 · [site-lentago-dev#2](https://github.com/lentago/site-lentago-dev/pull/2) — Add trigger for deployment on push to main branch
 - 🟣 2026-06-29 · [solidago#69](https://github.com/lentago/solidago/pull/69) — Host lentagolabs-dev on the shared platform (site_lentago + OIDC trust)
 - 🟣 2026-06-29 · [site-lentago-dev#1](https://github.com/lentago/site-lentago-dev/pull/1) — Add Foundry deployment guide for lentagolabs-dev
-- 🟢 2026-06-28 · [homeassistant-config#491](https://github.com/lentago/homeassistant-config/issues/491) — Home dashboard presence tiles bound to stale WiFi device_trackers — show wrong state when home
-- 🟣 2026-06-28 · [homeassistant-config#492](https://github.com/lentago/homeassistant-config/pull/492) — fix(dashboards): repoint presence tiles from WiFi device_tracker to GPS person.* entities
 
 ---
 
@@ -718,25 +724,25 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 15,243 | 39 | 29.8% |
-| 2 | YAML | 8,835 | 160 | 17.3% |
-| 3 | HCL | 6,108 | 104 | 11.9% |
-| 4 | Python | 4,941 | 38 | 9.7% |
-| 5 | Shell (Bourne + Bash) | 4,814 | 63 | 9.4% |
-| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,463 | 20 | 6.8% |
-| 7 | Text | 3,452 | 25 | 6.7% |
-| 8 | JavaScript | 1,793 | 16 | 3.5% |
-| 9 | CSS | 1,260 | 9 | 2.5% |
-| 10 | JSX | 851 | 10 | 1.7% |
+| 1 | JSON | 15,243 | 39 | 28.5% |
+| 2 | YAML | 8,836 | 160 | 16.5% |
+| 3 | Python | 7,273 | 46 | 13.6% |
+| 4 | HCL | 6,108 | 104 | 11.4% |
+| 5 | Shell (Bourne + Bash) | 4,814 | 63 | 9.0% |
+| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,471 | 20 | 6.5% |
+| 7 | Text | 3,452 | 25 | 6.5% |
+| 8 | JavaScript | 1,793 | 16 | 3.4% |
+| 9 | CSS | 1,260 | 9 | 2.4% |
+| 10 | JSX | 851 | 10 | 1.6% |
 | 11 | TypeScript | 310 | 8 | 0.6% |
-| 12 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.2% |
-| | **CODE TOTAL** | **51,150** | **498** | 100% |
-| — | _Data / exports — excluded_ | 141,215 | 26 | — |
+| 12 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.1% |
+| | **CODE TOTAL** | **53,491** | **506** | 100% |
+| — | _Data / exports — excluded_ | 139,938 | 26 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,196 | 82 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,012 lines**
+- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,020 lines**
 - **Prompt-programs** (4 files · reference-checker auditors): **1,451 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -745,21 +751,21 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 |------|------|------:|
 | homeassistant-config | `CLAUDE.md` | 399 |
 | shared-workflows | `CLAUDE.md` | 228 |
-| site-pondviewlane-com | `CLAUDE.md` | 209 |
+| site-pondviewlane-com | `CLAUDE.md` | 212 |
 | .github | `CLAUDE.md` | 179 |
 | betula | `CLAUDE.md` | 156 |
 | site-lentago-dev | `CLAUDE.md` | 108 |
+| kalmia | `CLAUDE.md` | 99 |
 | solidago | `CLAUDE.md` | 99 |
 | site-icecreamtofightwith-com | `CLAUDE.md` | 98 |
 | drosera | `CLAUDE.md` | 96 |
-| kalmia | `CLAUDE.md` | 94 |
 | reference-checker | `CLAUDE.md` | 76 |
 | music-curator | `CLAUDE.md` | 68 |
 | drosera | `AGENTS.md` | 67 |
 | claytonia | `CLAUDE.md` | 57 |
 | brasenia | `CLAUDE.md` | 56 |
 | repo-template | `CLAUDE.md` | 22 |
-| **16 files** | | **2,012** |
+| **16 files** | | **2,020** |
 
 #### Prompt-programs — natural language *is* the logic
 
@@ -771,21 +777,21 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | reference-checker | `prompts/v3-auditor.md` | 69 |
 | **4 files** | | **1,451** |
 
-_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **2,012**, not 3,463._
+_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **2,020**, not 3,471._
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
 | drosera | 14,564 | 163 | 862 | 0 | 0 |
-| site-pondviewlane-com | 6,658 | 209 | 2,366 | 0 | 0 |
+| site-pondviewlane-com | 6,661 | 212 | 2,372 | 0 | 0 |
 | homeassistant-config | 6,438 | 399 | 1,090 | 0 | 17,567 |
 | solidago | 6,340 | 99 | 1,692 | 0 | 0 |
-| music-curator | 3,081 | 68 | 1,159 | 11,537 | 118,474 |
-| kalmia | 2,418 | 94 | 604 | 0 | 0 |
+| music-curator | 5,413 | 68 | 1,159 | 11,645 | 117,197 |
+| kalmia | 2,424 | 99 | 606 | 0 | 0 |
 | site-icecreamtofightwith-com | 2,048 | 98 | 596 | 6,008 | 0 |
 | claytonia | 1,857 | 57 | 578 | 0 | 0 |
-| .github | 1,810 | 179 | 616 | 2,331 | 0 |
+| .github | 1,810 | 179 | 616 | 2,321 | 0 |
 | betula | 1,791 | 156 | 1,125 | 0 | 0 |
 | reference-checker | 1,594 | 1,527 | 733 | 669 | 5,174 |
 | site-lentago-dev | 1,428 | 108 | 362 | 0 | 0 |
@@ -795,15 +801,15 @@ _Judgement call: these prompt files are counted as instruction-code because they
 
 ### Markdown taxonomy
 
-The fleet carries **36,892 lines of Markdown across 850 files**; only 9.4% is instruction-code.
+The fleet carries **37,006 lines of Markdown across 841 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 3,463 | 20 | **counted as code** |
-| Content / data | 20,545 | 698 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 12,532 | 117 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 3,471 | 20 | **counted as code** |
+| Content / data | 20,643 | 689 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 12,540 | 117 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **36,892** | **850** | |
+| **All Markdown** | **37,006** | **841** | |
 
 ---
 
