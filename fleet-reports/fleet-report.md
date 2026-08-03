@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-07-29 22:13 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-06-29).
+**Generated:** 2026-08-03 14:15 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-07-04).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **45** | 448 | 162 | **53,491** | 3,471 (20 files) |
+| **46** | 342 | 117 | **53,491** | 3,471 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**3,471 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 45 across 7 repos
+## Open issues — 46 across 8 repos
 
 ### drosera — 12 open
 
@@ -97,10 +97,18 @@ The fleet's hand-maintained natural-language instruction surface (**3,471 lines*
 | [10](https://github.com/lentago/reference-checker/issues/10) | [v4] Design batch-pattern detection across submissions |
 | [8](https://github.com/lentago/reference-checker/issues/8) | [v4] Integrate Crossref retraction API for structured retraction checking |
 
+### .github — 1 open
+
+| # | Title |
+|---|-------|
+| [78](https://github.com/lentago/.github/issues/78) | Pin cloc in the fleet-reports workflow — the unpinned 1.98 drops all Astro source from the census |
+
 ## Activity — last 30 days
 
-**610 events**, one stream, newest first — 🟣 448 PRs merged · 🟢 162 issues closed
+**459 events**, one stream, newest first — 🟣 342 PRs merged · 🟢 117 issues closed
 
+- 🟣 2026-08-01 · [music-curator#73](https://github.com/lentago/music-curator/pull/73) — chore(harvest): 2026-07 Spotify roll-up
+- 🟣 2026-07-29 · [.github#77](https://github.com/lentago/.github/pull/77) — Weekly fleet reports refresh — 2026-07-29
 - 🟣 2026-07-29 · [kalmia#70](https://github.com/lentago/kalmia/pull/70) — Fix Debian 13 package names and pin NVM_DIR; mark crostini validated
 - 🟣 2026-07-28 · [music-curator#72](https://github.com/lentago/music-curator/pull/72) — Repair rip damage in album titles
 - 🟢 2026-07-28 · [music-curator#42](https://github.com/lentago/music-curator/issues/42) — Merge name-variant duplicate artists in the inventory
@@ -558,159 +566,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,471 lines*
 - 🟣 2026-07-04 · [.github#23](https://github.com/lentago/.github/pull/23) — chore(readme): add Ask DeepWiki badge
 - 🟣 2026-07-04 · [homeassistant-config#501](https://github.com/lentago/homeassistant-config/pull/501) — feat(office): rework candle flicker into a physical fire model
 - 🟣 2026-07-04 · [homeassistant-config#500](https://github.com/lentago/homeassistant-config/pull/500) — feat(dashboard): show live light color on Home light cards
-- 🟣 2026-07-03 · [homeassistant-config#499](https://github.com/lentago/homeassistant-config/pull/499) — Reconcile NAS share rename in neptune dashboard card
-- 🟣 2026-07-03 · [claytonia#40](https://github.com/lentago/claytonia/pull/40) — Reconcile NAS share rename: PitziLabs -> lentago paths
-- 🟣 2026-07-03 · [shared-workflows#17](https://github.com/lentago/shared-workflows/pull/17) — Reconcile PitziLabs->lentago: runner bot name + org wording
-- 🟣 2026-07-03 · [homeassistant-config#498](https://github.com/lentago/homeassistant-config/pull/498) — Reconcile PitziLabs->lentago: grafana URL in dashboard card
-- 🟣 2026-07-03 · [betula#69](https://github.com/lentago/betula/pull/69) — Reconcile PitziLabs->lentago: architecture diagram
-- 🟣 2026-07-03 · [claytonia#39](https://github.com/lentago/claytonia/pull/39) — Reconcile PitziLabs->lentago: runner App name + org URLs
-- 🟣 2026-07-03 · [drosera#124](https://github.com/lentago/drosera/pull/124) — Reconcile PitziLabs->lentago: stack URL + datasource names + org URLs + alloy health-check
-- 🟢 2026-07-03 · [drosera#113](https://github.com/lentago/drosera/issues/113) — Resolve raw IPs to device/host names across dashboards (inventory feed + join transformations)
-- 🟣 2026-07-03 · [drosera#122](https://github.com/lentago/drosera/pull/122) — feat(device-inventory): Firewalla redis → Loki publisher (#113 Phase 1)
-- 🟣 2026-07-03 · [drosera#121](https://github.com/lentago/drosera/pull/121) — feat(dashboards): device inventory join, dropdown, WAN lookup links (phases 2+3+4a of #113)
-- 🟣 2026-07-03 · [shared-workflows#16](https://github.com/lentago/shared-workflows/pull/16) — CLAUDE.md: add fleet-wide live-state vs. code discipline (canonical source)
-- 🟣 2026-07-03 · [drosera#120](https://github.com/lentago/drosera/pull/120) — CLAUDE.md: add anti-drift rule for live dashboard edits
-- 🟣 2026-07-03 · [drosera#119](https://github.com/lentago/drosera/pull/119) — infra-health: restore fleet-scoreboard revamp lost to IaC drift stomp
-- 🟢 2026-07-03 · [drosera#111](https://github.com/lentago/drosera/issues/111) — device_ip variable is an empty custom dropdown — per-device filtering impossible on DNS & Security and Traffic & Devices
-- 🟣 2026-07-03 · [drosera#116](https://github.com/lentago/drosera/pull/116) — fix(dashboards): convert device_ip from empty custom dropdown to textbox
-- 🟢 2026-07-03 · [drosera#108](https://github.com/lentago/drosera/issues/108) — Tables show 'Value #A' column header; Top-N sort and cell coloring silently broken (9 panels, 3 dashboards)
-- 🟣 2026-07-03 · [drosera#118](https://github.com/lentago/drosera/pull/118) — fix: retarget Value #A field in 9 table panels (closes #108)
-- 🟢 2026-07-03 · [drosera#112](https://github.com/lentago/drosera/issues/112) — Claude Runner Fleet: 'Jobs over time by status' legend shows unlabeled 'Value' series from or vector(0) fallback
-- 🟣 2026-07-03 · [drosera#117](https://github.com/lentago/drosera/pull/117) — fix: panel 5 status label fallback with label_replace
-- 🟢 2026-07-03 · [drosera#109](https://github.com/lentago/drosera/issues/109) — Three timeseries panels render fully blank: legacy legend {displayMode: hidden} without placement breaks panel init
-- 🟣 2026-07-03 · [drosera#115](https://github.com/lentago/drosera/pull/115) — fix: migrate legacy hidden legend schema to modern shape (issue #109)
-- 🟢 2026-07-03 · [drosera#110](https://github.com/lentago/drosera/issues/110) — Traffic & Devices: 'Connections by Protocol' pie shows a single 'Value #A' slice instead of per-protocol breakdown
-- 🟣 2026-07-03 · [drosera#114](https://github.com/lentago/drosera/pull/114) — fix(traffic-devices): enable values in reduceOptions for proto piechart
-- 🟣 2026-07-03 · [.github#22](https://github.com/lentago/.github/pull/22) — Recolor org profile to the 2026-07 Tidewater palette
-- 🟣 2026-07-03 · [site-lentago-dev#17](https://github.com/lentago/site-lentago-dev/pull/17) — docs: reconcile CLAUDE.md GitHub-reference convention to the live lentago org
-- 🟣 2026-07-03 · [site-lentago-dev#16](https://github.com/lentago/site-lentago-dev/pull/16) — Fix dead links and stale org references now that the site is live
-- 🟢 2026-07-03 · [betula#67](https://github.com/lentago/betula/issues/67) — CRITICAL: raw 'crontab user_crontab' install clobbers Firewalla's system cron jobs
-- 🟣 2026-07-03 · [betula#68](https://github.com/lentago/betula/pull/68) — fix(cron): merge via update_crontab.sh instead of clobbering system crontab (#67)
-- 🟣 2026-07-03 · [drosera#107](https://github.com/lentago/drosera/pull/107) — office-display: cover pve3/4/5 + neptune, de-dup HA titles
-- 🟣 2026-07-03 · [drosera#106](https://github.com/lentago/drosera/pull/106) — Zeek/Loki dashboards: filter consistency, label accuracy, descriptions
-- 🟣 2026-07-03 · [drosera#105](https://github.com/lentago/drosera/pull/105) — infra-health: re-point probe panels to integrations/blackbox/* jobs
-- 🟣 2026-07-03 · [drosera#104](https://github.com/lentago/drosera/pull/104) — NAS dashboard: LCD bar gauges for Memory + Volume, group CPU gauges
-- 🟢 2026-07-03 · [betula#65](https://github.com/lentago/betula/issues/65) — Healthcheck 'no output in 5m' branch restarts a healthy container every 10 minutes
-- 🟣 2026-07-03 · [betula#66](https://github.com/lentago/betula/pull/66) — fix(healthcheck): remove no-output restart that bounces healthy container
-- 🟢 2026-07-02 · [betula#63](https://github.com/lentago/betula/issues/63) — Ship Firewalla host + Zeek process metrics to Axiom (system_metrics_export.sh)
-- 🟣 2026-07-02 · [betula#64](https://github.com/lentago/betula/pull/64) — feat: ship host + Zeek process metrics to Axiom (system_metrics_export.sh)
-- 🟢 2026-07-02 · [betula#61](https://github.com/lentago/betula/issues/61) — Healthcheck false positive: bare docker calls fail under cron, force-recreating the container every 5 minutes
-- 🟣 2026-07-02 · [betula#62](https://github.com/lentago/betula/pull/62) — fix(healthcheck): use sudo docker to fix false-positive cron failures
-- 🟢 2026-07-02 · [betula#10](https://github.com/lentago/betula/issues/10) — Pull-based GitOps deployment
-- 🟣 2026-07-02 · [betula#60](https://github.com/lentago/betula/pull/60) — docs(axiom): align new Zeek log queries with canonical arg_max join pattern
-- 🟢 2026-07-02 · [betula#4](https://github.com/lentago/betula/issues/4) — Add support for additional Zeek log types
-- 🟣 2026-07-02 · [betula#58](https://github.com/lentago/betula/pull/58) — feat: ship Zeek http, files, notice, and weird logs (#4)
-- 🟢 2026-07-02 · [betula#5](https://github.com/lentago/betula/issues/5) — Rotate health check and cleanup log files
-- 🟣 2026-07-02 · [betula#59](https://github.com/lentago/betula/pull/59) — feat: rotate health check and cleanup log files (closes #5)
-- 🟢 2026-07-02 · [betula#13](https://github.com/lentago/betula/issues/13) — Eliminate stale device lookup records in Axiom queries
-- 🟣 2026-07-02 · [betula#57](https://github.com/lentago/betula/pull/57) — docs(axiom): robust device joins via arg_max latest-record-per-MAC
-- 🟢 2026-07-02 · [homeassistant-config#433](https://github.com/lentago/homeassistant-config/issues/433) — Add room-level light controls (on/off + dimmers) to the Home dashboard
-- 🟢 2026-07-02 · [claytonia#37](https://github.com/lentago/claytonia/issues/37) — Failed jobs are silent: surface a signal when a run lands in failed/
-- 🟣 2026-07-02 · [claytonia#38](https://github.com/lentago/claytonia/pull/38) — feat(run-job): comment on originating GitHub issue when a project job fails
-- 🟢 2026-07-02 · [solidago#17](https://github.com/lentago/solidago/issues/17) — Upgrade GitHub Actions to Node.js 24-compatible versions
-- 🟣 2026-07-02 · [solidago#83](https://github.com/lentago/solidago/pull/83) — chore(ci): upgrade actions/checkout to v7 (Node.js 24 runtime)
-- 🟢 2026-07-02 · [solidago#12](https://github.com/lentago/solidago/issues/12) — Standardize Terraform resource naming convention (this vs main)
-- 🟣 2026-07-02 · [solidago#82](https://github.com/lentago/solidago/pull/82) — refactor(modules): standardize resource labels from "main" to "this" (#12)
-- 🟢 2026-07-02 · [solidago#16](https://github.com/lentago/solidago/issues/16) — Refactor VPC subnets from count to for_each
-- 🟣 2026-07-02 · [solidago#81](https://github.com/lentago/solidago/pull/81) — refactor(vpc): key subnets by AZ with for_each instead of count
-- 🟢 2026-07-02 · [homeassistant-config#434](https://github.com/lentago/homeassistant-config/issues/434) — Stop media now-playing cards from collapsing when idle (only variable-height element on the page)
-- 🟣 2026-07-02 · [homeassistant-config#497](https://github.com/lentago/homeassistant-config/pull/497) — fix(dashboard): pin media tiles to fixed height to stop layout reflow on playback change
-- 🟣 2026-07-01 · [claytonia#36](https://github.com/lentago/claytonia/pull/36) — docs(frontends): mark n8n submit form as retired
-- 🟣 2026-07-01 · [homeassistant-config#496](https://github.com/lentago/homeassistant-config/pull/496) — docs(dashboards): document the Home single-master / two-clone scheme
-- 🟢 2026-07-01 · [homeassistant-config#432](https://github.com/lentago/homeassistant-config/issues/432) — Adopt a single-master / two-clone scheme for the Home dashboard
-- 🟢 2026-07-01 · [homeassistant-config#332](https://github.com/lentago/homeassistant-config/issues/332) — binary_sensor.basement_kitchen_door + battery sensor both unavailable
-- 🟢 2026-07-01 · [site-lentago-dev#11](https://github.com/lentago/site-lentago-dev/issues/11) — Scale the footer wordmark to match the enlarged nav lockup
-- 🟣 2026-07-01 · [site-lentago-dev#15](https://github.com/lentago/site-lentago-dev/pull/15) — Scale footer wordmark to match enlarged nav lockup
-- 🟢 2026-07-01 · [.github#18](https://github.com/lentago/.github/issues/18) — Decide whether to seed org-default community-health files
-- 🟣 2026-07-01 · [.github#21](https://github.com/lentago/.github/pull/21) — Seed org-default community-health files
-- 🟢 2026-07-01 · [.github#17](https://github.com/lentago/.github/issues/17) — Restore logos on the AWS / ECS Fargate / CloudWatch profile badges
-- 🟣 2026-07-01 · [.github#20](https://github.com/lentago/.github/pull/20) — Restore logos on the AWS / ECS Fargate / CloudWatch profile badges
-- 🟢 2026-07-01 · [.github#16](https://github.com/lentago/.github/issues/16) — Finish the Lentago rebrand of the public org profile (README, banner, avatar variant)
-- 🟣 2026-07-01 · [.github#19](https://github.com/lentago/.github/pull/19) — Add the limestone on-dark blossom variant and settle the canonical avatar
-- 🟣 2026-07-01 · [drosera#102](https://github.com/lentago/drosera/pull/102) — Rehome claude-cost-export from the archived workstation-bootstrap repo
-- 🟢 2026-07-01 · [site-lentago-dev#10](https://github.com/lentago/site-lentago-dev/issues/10) — Promote the site to lentago.dev (Phase 2 go-live)
-- 🟣 2026-07-01 · [site-lentago-dev#14](https://github.com/lentago/site-lentago-dev/pull/14) — Recolor: anther-gold accent + teal warmed toward green
-- 🟣 2026-07-01 · [solidago#79](https://github.com/lentago/solidago/pull/79) — feat(dns): Fastmail mail records for lentago.dev
-- 🟣 2026-07-01 · [site-lentago-dev#13](https://github.com/lentago/site-lentago-dev/pull/13) — docs: reflect that the site is live at lentago.dev
-- 🟣 2026-07-01 · [solidago#78](https://github.com/lentago/solidago/pull/78) — chore(site): retire the redundant lt-preview host for lentago.dev
-- 🟣 2026-07-01 · [solidago#77](https://github.com/lentago/solidago/pull/77) — feat(dns): promote lentagolabs-dev to lentago.dev
-- 🟣 2026-07-01 · [homeassistant-config#495](https://github.com/lentago/homeassistant-config/pull/495) — fix(alarm): drop the dead basement-kitchen door from House Openings
-- 🟢 2026-07-01 · [homeassistant-config#376](https://github.com/lentago/homeassistant-config/issues/376) — Proxmox button orphans across haos/pve/pve3 — same re-registration pattern as #333
-- 🟢 2026-07-01 · [homeassistant-config#450](https://github.com/lentago/homeassistant-config/issues/450) — home-preview --url path aborts on false-negative `which display-show` over non-interactive SSH
-- 🟣 2026-07-01 · [drosera#100](https://github.com/lentago/drosera/pull/100) — Fleet dashboard: offload overlay, combined spend + total, wider stream-of-consciousness
-- 🟢 2026-07-01 · [solidago#14](https://github.com/lentago/solidago/issues/14) — Implement selective teardown/standup scripts for cost management
-- 🟣 2026-07-01 · [solidago#76](https://github.com/lentago/solidago/pull/76) — feat: selective teardown/standup scripts + runbook for cost saving (Closes #14)
-- 🟢 2026-07-01 · [music-curator#4](https://github.com/lentago/music-curator/issues/4) — Add an engineering spine: machine-checkable schema + validator for the taste-profile JSON
-- 🟣 2026-07-01 · [music-curator#7](https://github.com/lentago/music-curator/pull/7) — feat(schema): add JSON Schema + validator for music-inventory.json
-- 🟢 2026-07-01 · [site-lentago-dev#9](https://github.com/lentago/site-lentago-dev/issues/9) — Correct stale deploy-not-yet-wired language in CLAUDE.md
-- 🟣 2026-07-01 · [site-lentago-dev#12](https://github.com/lentago/site-lentago-dev/pull/12) — docs: update deploy status in CLAUDE.md
-- 🟢 2026-07-01 · [solidago#15](https://github.com/lentago/solidago/issues/15) — Upgrade state bucket encryption from AES256 to KMS CMK
-- 🟣 2026-07-01 · [solidago#75](https://github.com/lentago/solidago/pull/75) — feat: encrypt Terraform state bucket with a dedicated KMS CMK (SSE-KMS)
-- 🟢 2026-07-01 · [claytonia#5](https://github.com/lentago/claytonia/issues/5) — run-job: fail a project job that should have opened a PR but didn't
-- 🟣 2026-07-01 · [claytonia#35](https://github.com/lentago/claytonia/pull/35) — fix(run-job): fail project jobs that complete without opening a PR
-- 🟢 2026-07-01 · [claytonia#12](https://github.com/lentago/claytonia/issues/12) — cr-submit: --help (and bare/unknown-flag invocations) silently queue a junk ad-hoc job instead of printing usage
-- 🟣 2026-07-01 · [claytonia#34](https://github.com/lentago/claytonia/pull/34) — feat(cr-submit): -h/--help, unknown-flag error, bare-invocation guard
-- 🟢 2026-07-01 · [shared-workflows#14](https://github.com/lentago/shared-workflows/issues/14) — claude-review CI bot fails to post a review across fleet PRs (turn-cap exhaustion + intermittent 0-byte response)
-- 🟣 2026-07-01 · [shared-workflows#15](https://github.com/lentago/shared-workflows/pull/15) — fix(claude-review): make the reviewer advisory and non-blocking
-- 🟢 2026-07-01 · [music-curator#5](https://github.com/lentago/music-curator/issues/5) — Fix data-integrity drift and unmerged duplicate anchors in the flagship example profile
-- 🟣 2026-07-01 · [music-curator#6](https://github.com/lentago/music-curator/pull/6) — fix(examples): correct meta counts and merge Eno/Byrne duplicates
-- 🟢 2026-07-01 · [solidago#13](https://github.com/lentago/solidago/issues/13) — Replace deprecated dynamodb_table backend param with use_lockfile
-- 🟣 2026-07-01 · [solidago#74](https://github.com/lentago/solidago/pull/74) — feat: migrate S3 backend to S3-native state locking (use_lockfile)
-- 🟢 2026-07-01 · [betula#6](https://github.com/lentago/betula/issues/6) — Harden deploy.sh for idempotent re-runs
-- 🟣 2026-07-01 · [betula#56](https://github.com/lentago/betula/pull/56) — fix: make deploy.sh idempotent (safe to re-run)
-- 🟢 2026-07-01 · [claytonia#8](https://github.com/lentago/claytonia/issues/8) — cr-submit -m flag silently ignored — project registry model overrides explicit request
-- 🟣 2026-07-01 · [claytonia#33](https://github.com/lentago/claytonia/pull/33) — fix(cr-submit): accept -m/-p/-f in any order
-- 🟣 2026-07-01 · [claytonia#32](https://github.com/lentago/claytonia/pull/32) — docs(roadmap): drop retired pve2 wall-display/kiosk as a live-board target
-- 🟣 2026-06-30 · [.github#15](https://github.com/lentago/.github/pull/15) — Swap org-profile banner mark to the limestone-chip blossom
-- 🟣 2026-06-30 · [kalmia#13](https://github.com/lentago/kalmia/pull/13) — Record testbed validation status for xubuntu/fedora
-- 🟢 2026-06-30 · [kalmia#11](https://github.com/lentago/kalmia/issues/11) — First real-target test run: playbook fails to start + entry-path bugs
-- 🟣 2026-06-30 · [kalmia#12](https://github.com/lentago/kalmia/pull/12) — Fix playbook startup, Helm/openssl, and fzf install (first real-target test run)
-- 🟣 2026-06-30 · [kalmia#10](https://github.com/lentago/kalmia/pull/10) — Document the Xubuntu/Fedora provisioning testbed VMs
-- 🟢 2026-06-30 · [kalmia#8](https://github.com/lentago/kalmia/issues/8) — Finish the crostini profile (sudo + ~/.local/bin + CLI-only Docker)
-- 🟣 2026-06-30 · [kalmia#9](https://github.com/lentago/kalmia/pull/9) — Finish the crostini profile (sudo, ~/.local/bin, CLI-only Docker)
-- 🟢 2026-06-30 · [kalmia#6](https://github.com/lentago/kalmia/issues/6) — Add power role: TLP + ThinkPad charge thresholds + fwupd
-- 🟣 2026-06-30 · [kalmia#7](https://github.com/lentago/kalmia/pull/7) — Add power role: TLP, ThinkPad charge thresholds, fwupd
-- 🟢 2026-06-30 · [kalmia#4](https://github.com/lentago/kalmia/issues/4) — Drop remote desktop (XRDP) capability entirely
-- 🟣 2026-06-30 · [kalmia#5](https://github.com/lentago/kalmia/pull/5) — Drop remote desktop (XRDP) capability entirely
-- 🟢 2026-06-30 · [kalmia#2](https://github.com/lentago/kalmia/issues/2) — Fedora dnf-repo wiring for Docker and VS Code
-- 🟣 2026-06-30 · [kalmia#3](https://github.com/lentago/kalmia/pull/3) — Wire Fedora dnf installs for Docker and VS Code
-- 🟣 2026-06-30 · [site-lentago-dev#8](https://github.com/lentago/site-lentago-dev/pull/8) — Enlarge the brand lockup in the top nav
-- 🟣 2026-06-30 · [kalmia#1](https://github.com/lentago/kalmia/pull/1) — Add Ansible scaffold and core roles (Debian-runnable)
-- 🟣 2026-06-30 · [site-lentago-dev#7](https://github.com/lentago/site-lentago-dev/pull/7) — Feature the blossom mark prominently in the hero
-- 🟣 2026-06-30 · [.github#14](https://github.com/lentago/.github/pull/14) — Regenerate language census (post-rebrand, 15 repos)
-- 🟣 2026-06-30 · [.github#13](https://github.com/lentago/.github/pull/13) — Point org profile links to lentago.dev
-- 🟣 2026-06-30 · [.github#12](https://github.com/lentago/.github/pull/12) — Adopt the blossom brand mark across org materials
-- 🟣 2026-06-30 · [site-lentago-dev#6](https://github.com/lentago/site-lentago-dev/pull/6) — Refresh docs: deploy is live, mark is the blossom
-- 🟣 2026-06-30 · [site-lentago-dev#5](https://github.com/lentago/site-lentago-dev/pull/5) — Replace benchmark-disk mark with the blossom
-- 🟣 2026-06-30 · [.github#11](https://github.com/lentago/.github/pull/11) — Rebrand org profile to Lentago Labs (Tidewater)
-- 🟣 2026-06-30 · [solidago#73](https://github.com/lentago/solidago/pull/73) — Rebrand: fix remaining org URL in backlog script
-- 🟣 2026-06-30 · [solidago#72](https://github.com/lentago/solidago/pull/72) — Rebrand: backlog script → lentago/foundry-platform-demo
-- 🟣 2026-06-30 · [solidago#71](https://github.com/lentago/solidago/pull/71) — docs: correct stale AWS profile reference in CLAUDE.md
-- 🟣 2026-06-30 · [solidago#70](https://github.com/lentago/solidago/pull/70) — Rebrand GitHub org references: PitziLabs → lentago
-- 🟣 2026-06-29 · [drosera#99](https://github.com/lentago/drosera/pull/99) — Fix runner-fleet dashboard: app renamed to lentago-claude-runner
-- 🟣 2026-06-29 · [site-lentago-dev#4](https://github.com/lentago/site-lentago-dev/pull/4) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [shared-workflows#13](https://github.com/lentago/shared-workflows/pull/13) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [repo-template#4](https://github.com/lentago/repo-template/pull/4) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [site-icecreamtofightwith-com#117](https://github.com/lentago/site-icecreamtofightwith-com/pull/117) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [music-curator#3](https://github.com/lentago/music-curator/pull/3) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [claytonia#30](https://github.com/lentago/claytonia/pull/30) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [drosera#98](https://github.com/lentago/drosera/pull/98) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [homeassistant-config#494](https://github.com/lentago/homeassistant-config/pull/494) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [.github#10](https://github.com/lentago/.github/pull/10) — Rebrand docs: PitziLabs → Lentago Labs (meta-repo + fleet-ops)
-- 🟣 2026-06-29 · [betula#55](https://github.com/lentago/betula/pull/55) — Rebrand docs: PitziLabs → Lentago Labs
-- 🟣 2026-06-29 · [homeassistant-config#493](https://github.com/lentago/homeassistant-config/pull/493) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [reference-checker#48](https://github.com/lentago/reference-checker/pull/48) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [site-icecreamtofightwith-com#116](https://github.com/lentago/site-icecreamtofightwith-com/pull/116) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [site-lentago-dev#3](https://github.com/lentago/site-lentago-dev/pull/3) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [betula#54](https://github.com/lentago/betula/pull/54) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [drosera#97](https://github.com/lentago/drosera/pull/97) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [claytonia#29](https://github.com/lentago/claytonia/pull/29) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [music-curator#2](https://github.com/lentago/music-curator/pull/2) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [repo-template#3](https://github.com/lentago/repo-template/pull/3) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [shared-workflows#12](https://github.com/lentago/shared-workflows/pull/12) — Repoint reusable-workflow refs to the lentago org
-- 🟣 2026-06-29 · [site-lentago-dev#2](https://github.com/lentago/site-lentago-dev/pull/2) — Add trigger for deployment on push to main branch
-- 🟣 2026-06-29 · [solidago#69](https://github.com/lentago/solidago/pull/69) — Host lentagolabs-dev on the shared platform (site_lentago + OIDC trust)
-- 🟣 2026-06-29 · [site-lentago-dev#1](https://github.com/lentago/site-lentago-dev/pull/1) — Add Foundry deployment guide for lentagolabs-dev
 
 ---
 
@@ -737,7 +592,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | 11 | TypeScript | 310 | 8 | 0.6% |
 | 12 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.1% |
 | | **CODE TOTAL** | **53,491** | **506** | 100% |
-| — | _Data / exports — excluded_ | 139,938 | 26 | — |
+| — | _Data / exports — excluded_ | 141,906 | 26 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,196 | 82 | — |
 
 ### Instruction-markdown as code
@@ -787,11 +642,11 @@ _Judgement call: these prompt files are counted as instruction-code because they
 | site-pondviewlane-com | 6,661 | 212 | 2,372 | 0 | 0 |
 | homeassistant-config | 6,438 | 399 | 1,090 | 0 | 17,567 |
 | solidago | 6,340 | 99 | 1,692 | 0 | 0 |
-| music-curator | 5,413 | 68 | 1,159 | 11,645 | 117,197 |
+| music-curator | 5,413 | 68 | 1,159 | 11,645 | 119,165 |
 | kalmia | 2,424 | 99 | 606 | 0 | 0 |
 | site-icecreamtofightwith-com | 2,048 | 98 | 596 | 6,008 | 0 |
 | claytonia | 1,857 | 57 | 578 | 0 | 0 |
-| .github | 1,810 | 179 | 616 | 2,321 | 0 |
+| .github | 1,810 | 179 | 616 | 2,327 | 0 |
 | betula | 1,791 | 156 | 1,125 | 0 | 0 |
 | reference-checker | 1,594 | 1,527 | 733 | 669 | 5,174 |
 | site-lentago-dev | 1,428 | 108 | 362 | 0 | 0 |
@@ -801,15 +656,15 @@ _Judgement call: these prompt files are counted as instruction-code because they
 
 ### Markdown taxonomy
 
-The fleet carries **37,006 lines of Markdown across 841 files**; only 9.4% is instruction-code.
+The fleet carries **37,012 lines of Markdown across 841 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 3,471 | 20 | **counted as code** |
-| Content / data | 20,643 | 689 | payload (vault notes, recipes, test-sets) — excluded |
+| Content / data | 20,649 | 689 | payload (vault notes, recipes, test-sets) — excluded |
 | Documentation | 12,540 | 117 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **37,006** | **841** | |
+| **All Markdown** | **37,012** | **841** | |
 
 ---
 
