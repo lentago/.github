@@ -48,8 +48,16 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install cloc
-        run: sudo apt-get update -q && sudo apt-get install -y cloc
+      - name: Install cloc (pinned to v2.06)
+        # ubuntu-latest's apt archive resolves to cloc 1.98, which doesn't recognise
+        # .astro or Jinja templates and silently drops both from the census instead
+        # of miscategorizing them (issue #78). Fetch the tagged release script and
+        # verify it against a recorded sha256 so CI and local regens stay in lockstep.
+        run: |
+          curl -fsSL -o /tmp/cloc-2.06.pl \
+            https://github.com/AlDanial/cloc/releases/download/v2.06/cloc-2.06.pl
+          echo "ed9fbdd081a2ceb933ea490b3c1cfacc87d3898ae2650d0d6756439695a836c8  /tmp/cloc-2.06.pl" | sha256sum -c -
+          sudo install -m 0755 /tmp/cloc-2.06.pl /usr/local/bin/cloc
 
       - name: Regenerate reports
         run: python3 metrics/generate-fleet-reports.py --out-dir .

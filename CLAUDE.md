@@ -180,7 +180,10 @@ numbers**. It has two parts from the fleet's public state:
 
 Scope is the **active** `lentago` repos (archived repos are frozen and excluded;
 GitHub's listing endpoints don't surface archived repos anyway). Regenerate with
-`python3 metrics/generate-fleet-reports.py --out-dir .` (needs `git`, `gh`, `cloc`).
+`python3 metrics/generate-fleet-reports.py --out-dir .` (needs `git`, `gh`, `cloc`
+**pinned to v2.06** — see below; an unpinned/older `cloc` silently drops `.astro`
+and Jinja template files from the census instead of miscategorizing them, so a
+local regen on a different `cloc` version will not match CI).
 
 **Weekly automation:** `.github/workflows/fleet-reports.yml` runs the generator on
 a schedule (Mondays) and opens an auto-merging refresh PR — reports overwrite in
@@ -190,6 +193,14 @@ repo secret **`FLEET_REPORTS_TOKEN`** (owner `lentago`, repo `.github`, Contents
 Pull requests: write). The generator's cross-repo reads work over the public repos
 regardless of PAT scope. If the secret is missing the workflow fails fast with a
 setup hint. Rotate/replace the token by resetting that secret.
+
+**`cloc` is pinned to v2.06**, not installed from the runner's apt archive — `ubuntu-latest`
+(noble) currently ships `cloc` 1.98, which doesn't recognise `.astro` or Jinja templates
+and drops both from the census entirely rather than miscategorizing them (issue #78).
+The workflow fetches the tagged `cloc-2.06.pl` release script and verifies it against a
+recorded sha256 before installing it to `/usr/local/bin/cloc`. Bump the version pin (and
+the checksum) deliberately, not via an archive upgrade, so CI and local regenerations stay
+reproducible against each other.
 
 ## Incident register (the second periodic fleet report)
 
