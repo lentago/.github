@@ -71,7 +71,7 @@
     },
     "brasenia": {
       "description": "Brasenia — the Lentago Labs shared viewport: an always-on wall display whose content is chosen by a rubric, not a remote. Today: the daily brief rendered to live HLS (headless Chromium → ffmpeg → mediamtx) played 24/7 by a sideloaded Roku channel; next: a NAS pane bus + compositor so any Claude agent can claim the screen.",
-      "homepage": "https://lentago.dev",
+      "homepage": "https://deepwiki.com/lentago/brasenia",
       "visibility": "public",
       "template": false,
       "template_source": {
@@ -403,7 +403,7 @@
     },
     "solidago": {
       "description": "Solidago — the Lentago Labs cloud platform: a three-tier AWS environment, 100% Terraform. Multi-AZ VPC, ECS Fargate behind an ALB (ACM/Route 53), RDS Postgres + ElastiCache Valkey, WAFv2, KMS, least-privilege IAM, and CloudWatch/CloudTrail/Config + budget guardrails. Runs four live public sites and a serverless Ask endpoint.",
-      "homepage": "https://lentago.dev",
+      "homepage": "https://deepwiki.com/lentago/solidago",
       "visibility": "public",
       "template": false,
       "template_source": null,
