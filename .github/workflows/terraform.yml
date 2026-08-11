@@ -65,7 +65,12 @@ jobs:
             echo "tf=false" >> "$GITHUB_OUTPUT"
           fi
 
-  validate:
+  # Named tf-validate, not validate: a job id becomes the check-run context, and
+  # ci.yml already publishes `validate` — which is a REQUIRED context on this
+  # repo. Two check runs sharing a required name make "did validate pass?"
+  # ambiguous, and this repo has been bitten before by contexts that were not
+  # exactly what they looked like (see fleet-ops/required-checks.json).
+  tf-validate:
     needs: changes
     if: needs.changes.outputs.tf == 'true'
     runs-on: ubuntu-latest
@@ -93,15 +98,17 @@ jobs:
   # it reports on every PR (green when the terraform jobs skipped), so requiring
   # it cannot deadlock a docs-only PR.
   gate:
-    needs: [changes, validate]
+    needs: [changes, tf-validate]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Report
         run: |
-          echo "changes=${{ needs.changes.result }} validate=${{ needs.validate.result }}"
+          # needs['tf-validate'], not needs.tf-validate — a hyphen in a context
+          # key parses as subtraction in an expression.
+          echo "changes=${{ needs.changes.result }} tf-validate=${{ needs['tf-validate'].result }}"
           # A skipped dependency is a pass; only a real failure or cancellation fails the gate.
-          for r in "${{ needs.changes.result }}" "${{ needs.validate.result }}"; do
+          for r in "${{ needs.changes.result }}" "${{ needs['tf-validate'].result }}"; do
             case "$r" in
               success|skipped) ;;
               *) echo "::error::terraform checks did not pass ($r)"; exit 1 ;;
