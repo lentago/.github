@@ -52,26 +52,28 @@
 
 <table>
 <tr>
-<td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a></td>
+<td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a><br/><sub><a href="https://deepwiki.com/lentago/solidago">DeepWiki&nbsp;↗</a></sub></td>
 <td>Reference three-tier AWS platform — 100% Terraform: VPC, ECS Fargate, RDS, WAF.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a></td>
+<td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a><br/><sub><a href="https://deepwiki.com/lentago/drosera">DeepWiki&nbsp;↗</a></sub></td>
 <td>Git-driven observability into Grafana Cloud — one Alloy container, Terraform-provisioned dashboards.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/kalmia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/kalmia"><b>kalmia</b></a></td>
+<td><img src="./assets/marks/kalmia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/kalmia"><b>kalmia</b></a><br/><sub><a href="https://deepwiki.com/lentago/kalmia">DeepWiki&nbsp;↗</a></sub></td>
 <td>Idempotent provisioning for workstations, VMs, and containers.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a></td>
+<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a><br/><sub><a href="https://deepwiki.com/lentago/claytonia">DeepWiki&nbsp;↗</a></sub></td>
 <td>Self-hosted agent fleet — drop a job, get a reviewed PR back.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a></td>
+<td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a><br/><sub><a href="https://deepwiki.com/lentago/betula">DeepWiki&nbsp;↗</a></sub></td>
 <td>Full-volume log capture &amp; archive → Axiom, at zero query cost.</td>
 </tr>
 </table>
+
+<sub>📖 &nbsp;Every public repo is indexed on <a href="https://deepwiki.com/lentago"><b>DeepWiki</b></a> — browse the wikis or ask the codebases anything.</sub>
 
 ### 📊 &nbsp; Fleet in numbers
 
