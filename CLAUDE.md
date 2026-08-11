@@ -35,8 +35,19 @@ org-level operator tooling that governs the rest of the fleet.
   confirm scope before editing. Security contact + CoC enforcement address is
   `chris@lentago.dev`.
 - **`metrics/language-census.md`** is a periodically-regenerated report (see below).
-- **`fleet-ops/`** — settings-as-code for the whole fleet: `fleet-apply.sh`
-  (the merge-button/topic-spine/ruleset drift checker) plus the ruleset JSON.
+- **`terraform/`** — the fleet's GitHub settings as Terraform
+  (`integrations/github`). Owns repo **existence** and identity, merge options,
+  the topic spine, per-repo `main` rulesets, required checks, and the label
+  palette across all 16 org repos. Adding a repo to `fleet-ops/repos.json` and
+  applying creates it; removing one is refused by `prevent_destroy`. Applies are
+  operator-run (phase 1) — CI does `fmt`+`validate` only until the OIDC role and
+  admin token land. **Read `terraform/README.md` § Rails before touching it.**
+- **`fleet-ops/`** — the JSON `terraform/` reads (`repos.json`,
+  `required-checks.json`, `labels.json`), plus `fleet-apply.sh`. The script's
+  settings-applying flags are superseded by `terraform/`; what it still uniquely
+  does is `--prune-branches` and the **required-context preflight** (proof a
+  check-run context actually reports before anything requires it — Terraform
+  cannot do this, and requiring a context that never reports deadlocks the repo).
   This is **Repo Claude's** fleet-governance tooling, housed in the org meta-repo
   because that's its natural home — and so it finally has version control. Run it
   from here: `dotgithub/fleet-ops/fleet-apply.sh`. See `fleet-ops/README.md`.
@@ -65,7 +76,8 @@ CI does: `python3 ci/validate.py`):
 
 | Check | Asserts |
 |---|---|
-| `configs` | `fleet-ops/*.json` parse and match the shape `fleet-apply.sh` consumes |
+| `configs` | `fleet-ops/*.json` parse and match the shape `fleet-apply.sh` and `terraform/` consume — including `repos.json`, where a typo is a repository |
+| `fleet` | `repos.json`, `required-checks.json`, `labels.json` and `brand/fleet.json` agree on which repos exist (a public repo with no required checks can't arm auto-merge; one with no brand entry ships bannerless) |
 | `brand` | `brand/generated/` is reproducible from `brand/fleet.json` — the banners are copied verbatim into 15 repos, so a hand-edit forks the identity |
 | `census` | `metrics/generate-fleet-reports.py` imports; its data/code and markdown classifiers route known paths correctly |
 | `register` | `fleet-reports/incidents.md` is reproducible from `fleet-reports/incidents/` — it is generated, never hand-edited |
@@ -76,7 +88,7 @@ repo now calls it like the rest of the fleet. Two implementations of one check w
 have drifted, with this repo gated by the staler copy. What remains in `validate.py`
 is the set genuinely specific to this repo.
 
-Three workflows gate PRs here, all **unconditional** (no `on:`-level path filter — a
+Four workflows gate PRs here, all **unconditional** (no `on:`-level path filter — a
 path-filtered required check deadlocks every non-matching PR):
 
 | Workflow | Context | What it runs |
@@ -84,9 +96,13 @@ path-filtered required check deadlocks every non-matching PR):
 | `.github/workflows/ci.yml` | `validate` | `ci/validate.py` |
 | `.github/workflows/shellcheck.yml` | `shellcheck / shellcheck` | shared reusable over `fleet-ops/fleet-apply.sh` |
 | `.github/workflows/docs-check.yml` | `docs-check / docs-check` | shared reusable, relative markdown links |
+| `.github/workflows/terraform.yml` | `gate` | `terraform fmt` + `validate` over `terraform/` |
 
-All are required on `main` via `fleet-ops/required-checks.json`, so `gh pr merge
---auto` arms here rather than merging on the spot.
+The first three are required on `main` via `fleet-ops/required-checks.json`, so
+`gh pr merge --auto` arms here rather than merging on the spot. `gate` is
+deliberately **not required yet** — it becomes required in the terraform
+apply-on-merge phase, at which point a red plan blocks the merge. It already
+reports on every PR so that flip is a one-line change.
 
 Adding a check means adding it to `ci/validate.py` — and prove it can fail before
 trusting it: break the thing deliberately, confirm a red run, restore. A check that

@@ -5,3 +5,12 @@
 # Python bytecode from the fleet-report generator
 __pycache__/
 *.pyc
+
+# Terraform working state. The lock file IS committed — it pins provider hashes
+# so CI and local runs resolve identically.
+.terraform/
+.terraform.tfstate.lock.info
+*.tfstate
+*.tfstate.*
+tfplan
+*.tfplan

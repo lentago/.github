@@ -5,9 +5,13 @@ This repo carries no application code, so "does it build" is meaningless. What i
 *does* carry is operator tooling the rest of the fleet depends on, plus the public
 org landing page. Those have real failure modes, and this asserts against them:
 
-  configs   fleet-ops/*.json parse and hold the shape fleet-apply.sh expects. A
-            malformed required-checks.json breaks a fleet-wide settings sweep
-            partway through, leaving the fleet half-applied.
+  configs   fleet-ops/*.json parse and hold the shape fleet-apply.sh and the
+            terraform module expect. A malformed required-checks.json breaks a
+            fleet-wide settings sweep partway through, leaving the fleet
+            half-applied; a malformed repos.json is a repository.
+  fleet     the three fleet-ops manifests and brand/fleet.json agree on which
+            repos exist. Each is edited separately, and a repo present in one
+            but missing from another fails quietly somewhere else later.
   brand     brand/generated/ is reproducible from brand/fleet.json — the banners
             get copied verbatim into 15 repos, so a hand-edit forks the identity.
   census    metrics/generate-fleet-reports.py imports, and its data/code classifier
@@ -71,6 +75,10 @@ def check_fleet_ops_configs():
             check_label_palette(rel, doc)
             continue
 
+        if base == "repos.json":
+            check_repos_manifest(rel, doc)
+            continue
+
         if base != "required-checks.json":
             continue
 
@@ -130,6 +138,141 @@ def check_label_palette(rel, doc):
 
         if not isinstance(label.get("ensure"), bool):
             fail("configs", f"{where} ('{name}') needs an explicit boolean 'ensure'")
+
+
+SPINE_TOPICS = {"lentago", "claude"}
+VISIBILITIES = {"public", "private"}
+REPO_KEYS = {"description", "homepage", "visibility", "template", "template_source",
+             "features", "suggest_branch_update", "topics", "model_labels"}
+FEATURE_KEYS = {"issues", "projects", "wiki", "discussions"}
+
+
+def check_repos_manifest(rel, doc):
+    """repos.json is the input to `github_repository` — a typo here is a repo.
+
+    Terraform will happily act on a malformed-but-parseable manifest: a repo
+    silently renamed by an edited key plans as a create (the old one is held by
+    prevent_destroy), and a mistyped visibility flips a repo public. Shape is
+    asserted here rather than discovered in a plan.
+    """
+    repos = doc.get("repos")
+    if not isinstance(repos, dict) or not repos:
+        fail("configs", f"{rel} has no non-empty top-level 'repos' object")
+        return
+
+    for name, repo in sorted(repos.items()):
+        where = f"{rel}['{name}']"
+        if not isinstance(repo, dict):
+            fail("configs", f"{where} is not an object")
+            continue
+
+        extra = set(repo) - REPO_KEYS
+        missing = REPO_KEYS - set(repo)
+        if extra:
+            fail("configs", f"{where} has unknown key(s): {sorted(extra)}")
+        if missing:
+            fail("configs", f"{where} is missing key(s): {sorted(missing)}")
+            continue
+
+        if not isinstance(repo["description"], str) or not repo["description"].strip():
+            fail("configs", f"{where} needs a non-empty 'description'")
+        if repo["homepage"] is not None and not isinstance(repo["homepage"], str):
+            fail("configs", f"{where}: 'homepage' must be a string or null")
+        if repo["visibility"] not in VISIBILITIES:
+            fail("configs", f"{where}: 'visibility' must be one of {sorted(VISIBILITIES)}, "
+                            f"got {repo['visibility']!r}")
+        for key in ("template", "suggest_branch_update"):
+            if not isinstance(repo[key], bool):
+                fail("configs", f"{where}: '{key}' must be a boolean")
+
+        src = repo["template_source"]
+        if src is not None:
+            if not isinstance(src, dict) or set(src) != {"owner", "repository"} \
+                    or not all(isinstance(v, str) and v.strip() for v in src.values()):
+                fail("configs", f"{where}: 'template_source' must be null or "
+                                "{owner, repository} of non-empty strings")
+
+        features = repo["features"]
+        if not isinstance(features, dict) or set(features) != FEATURE_KEYS \
+                or not all(isinstance(v, bool) for v in features.values()):
+            fail("configs", f"{where}: 'features' must be exactly "
+                            f"{sorted(FEATURE_KEYS)} of booleans")
+
+        topics = repo["topics"]
+        if not isinstance(topics, list) or not all(isinstance(t, str) and t.strip() for t in topics):
+            fail("configs", f"{where}: 'topics' must be an array of non-empty strings")
+        else:
+            if len(set(topics)) != len(topics):
+                fail("configs", f"{where}: 'topics' lists a duplicate")
+            # The spine is added by terraform/locals.tf. Listing it here reads as
+            # if a repo could opt out of it, which it cannot.
+            if SPINE_TOPICS & set(topics):
+                fail("configs", f"{where}: 'topics' must not repeat the "
+                                f"{sorted(SPINE_TOPICS)} spine — terraform adds it")
+
+        if not isinstance(repo["model_labels"], list):
+            fail("configs", f"{where}: 'model_labels' must be an array")
+
+
+# ------------------------------------------------------------------- fleet
+def check_fleet_coverage():
+    """The three fleet-ops manifests plus brand/fleet.json must agree on membership.
+
+    Each is edited on its own, and a repo present in one but absent from another
+    fails quietly in a different place every time: no required checks means
+    `gh pr merge --auto` cannot arm (lentago/.github#27), a stale required-checks
+    key means terraform renders a ruleset for a repo that no longer exists, and a
+    missing brand entry means a repo with no banner. Cheaper to assert once.
+    """
+    def load(path, key):
+        try:
+            with open(os.path.join(ROOT, path), encoding="utf-8") as fh:
+                return json.load(fh).get(key) or {}
+        except (OSError, json.JSONDecodeError):
+            fail("fleet", f"{path} is unreadable — cannot cross-check fleet membership")
+            return None
+
+    repos = load("fleet-ops/repos.json", "repos")
+    checks = load("fleet-ops/required-checks.json", "checks")
+    labels = load("fleet-ops/labels.json", "labels")
+    if repos is None or checks is None or labels is None:
+        return
+
+    try:
+        with open(os.path.join(ROOT, "brand/fleet.json"), encoding="utf-8") as fh:
+            brand = {k for k in json.load(fh) if not k.startswith("_")}
+    except (OSError, json.JSONDecodeError):
+        fail("fleet", "brand/fleet.json is unreadable — cannot cross-check fleet membership")
+        return
+
+    public = {n for n, r in repos.items() if isinstance(r, dict) and r.get("visibility") == "public"}
+    private = set(repos) - public
+
+    for name in sorted(public - set(checks)):
+        fail("fleet", f"'{name}' is public in repos.json but has no required-checks.json "
+                      "entry — its ruleset would require nothing and auto-merge could not arm")
+    for name in sorted(set(checks) - set(repos)):
+        fail("fleet", f"required-checks.json maps '{name}', which is not in repos.json")
+    for name in sorted(private & set(checks)):
+        fail("fleet", f"'{name}' is private, so it gets no ruleset (rulesets need GitHub Pro), "
+                      "but required-checks.json maps it — the contexts would never be applied")
+    for name in sorted(brand - set(repos)):
+        fail("fleet", f"brand/fleet.json carries '{name}', which is not in repos.json")
+    for name in sorted(public - brand):
+        fail("fleet", f"'{name}' is public in repos.json but has no brand/fleet.json entry "
+                      "— it would ship without a README banner")
+
+    # model_labels names a model:* label that labels.json must actually define.
+    tiers = {lb["name"].split(":", 1)[1] for lb in labels
+             if isinstance(lb, dict) and isinstance(lb.get("name"), str)
+             and lb["name"].startswith("model:")}
+    for name, repo in sorted(repos.items()):
+        if not isinstance(repo, dict):
+            continue
+        for tier in repo.get("model_labels") or []:
+            if tier not in tiers:
+                fail("fleet", f"repos.json['{name}'] routes model tier '{tier}', but "
+                              f"labels.json defines no 'model:{tier}' label")
 
 
 # ------------------------------------------------------------------- brand
@@ -325,6 +468,7 @@ def check_incident_register_reproducible():
 # ------------------------------------------------------------------ main
 CHECKS = [
     ("configs", check_fleet_ops_configs),
+    ("fleet", check_fleet_coverage),
     ("brand", check_brand_assets),
     ("census", check_census_classifier),
     ("register", check_incident_register_reproducible),
