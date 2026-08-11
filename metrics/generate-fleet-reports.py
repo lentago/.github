@@ -51,17 +51,21 @@ def ensure_cloc():
     raise RuntimeError("cloc is required but not installed and auto-install failed.")
 
 def get_repos():
-    """Active (non-archived) lentago-org repos.
+    """Active (non-archived) PUBLIC lentago-org repos.
 
     Scope note: GitHub's org-listing/search endpoints do not surface archived repos
     for this account, so the reliable, self-maintaining scope is the active fleet.
     Archived repos are frozen code anyway — no reason to re-count them weekly. The
     endpoint returns non-archived repos; we carry the flag for forward-compatibility.
+
+    Private repos are excluded: these reports publish in a public repo, and the
+    census clone stage is deliberately unauthenticated — it can only see what the
+    public can see.
     """
     raw = sh(["gh","api","orgs/lentago/repos","--paginate",
-              "--jq",".[] | {name:.name, isArchived:.archived}"])
+              "--jq",".[] | {name:.name, isArchived:.archived, isPrivate:.private}"])
     data = [json.loads(line) for line in raw.splitlines() if line.strip()]
-    return sorted(data, key=lambda r: r["name"])
+    return sorted((r for r in data if not r["isPrivate"]), key=lambda r: r["name"])
 
 def ensure_clones(repos, source_dir, work_dir):
     """Bind each repo name to a local checkout. Reuse source_dir clones (matched by
@@ -206,13 +210,18 @@ def fold_langs(code):
     return sorted(keep.items(), key=lambda x:-x[1]["lines"])
 
 # ---------------------------------------------------------------- issue data
-def get_issue_data(cutoff_iso):
+def get_issue_data(cutoff_iso, fleet_names):
     open_issues = gh_json(["search","issues","--owner","lentago","--state","open","--limit","200",
                            "--json","repository,number,title,createdAt,updatedAt"])
     closed = gh_json(["search","issues","--owner","lentago","--state","closed","--closed",f">={cutoff_iso[:10]}",
                       "--limit","500","--json","repository,number,title,closedAt"])
     prs = gh_json(["search","prs","--owner","lentago","--merged","--merged-at",f">={cutoff_iso[:10]}",
                    "--limit","500","--json","repository,number,title,closedAt"])
+    # The org-wide search sees whatever the running token sees — CI's scoped PAT
+    # can't read private repos, but a local regen with an account-wide token can,
+    # and this report is public. Clamp to the public fleet.
+    def scoped(items): return [i for i in items if i["repository"]["name"] in fleet_names]
+    open_issues, closed, prs = scoped(open_issues), scoped(closed), scoped(prs)
     recent_closed = [i for i in closed if i.get("closedAt","") >= cutoff_iso]
     recent_open = [i for i in open_issues if i.get("createdAt","") >= cutoff_iso]
     return open_issues, recent_closed, prs, recent_open
@@ -518,7 +527,8 @@ def main():
     clones = ensure_clones(repos, args.source_dir, work_dir)
 
     fleet, per_repo, instr_files, LBL = run_census(repos, clones)
-    open_issues, recent_closed, merged_prs, recent_open = get_issue_data(cutoff)
+    open_issues, recent_closed, merged_prs, recent_open = get_issue_data(
+        cutoff, {r["name"] for r in repos})
     report = render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
                            open_issues, recent_closed, merged_prs, recent_open)
 
