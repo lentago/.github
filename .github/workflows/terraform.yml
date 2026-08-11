@@ -1,0 +1,110 @@
+# ============================================================================
+# terraform — fleet repo settings as code
+# ============================================================================
+# Validates the terraform/ module that owns every Lentago Labs repo's settings.
+#
+# PHASE 1 (current): fmt + validate only. `plan` needs two credentials this repo
+# does not have yet — AWS for the S3 state backend, and a GitHub admin token for
+# the provider — both of which arrive with the apply-on-merge phase. Applies are
+# operator-run locally until then. See terraform/README.md § Phases.
+#
+# Deliberately NOT path-filtered at the `on:` level for pull_request. The `gate`
+# job below is shaped to become a required status check in phase 2, and a
+# required check whose workflow never triggers is held "Expected" forever,
+# deadlocking every non-matching PR (the hard rule in fleet-ops/required-
+# checks.json). The filter lives in the `changes` job instead, so the workflow
+# always reports a conclusion while the real work skips on unrelated PRs — a
+# skipped job counts as passing. `push` keeps its filter.
+# ============================================================================
+
+name: terraform
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - "terraform/**"
+      - "fleet-ops/*.json"
+      - ".github/workflows/terraform.yml"
+
+permissions:
+  contents: read
+
+env:
+  TERRAFORM_VERSION: "1.14.9"
+
+jobs:
+  # Replaces the former `on:`-level path filter for PRs. On push the filter
+  # above already guaranteed a relevant change, so report true.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      tf: ${{ steps.filter.outputs.tf }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect terraform changes
+        id: filter
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "tf=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          changed=$(git diff --name-only "$BASE_SHA" HEAD)
+          echo "changed files:"; echo "$changed"
+          # fleet-ops/*.json is in scope: the module reads repos.json,
+          # labels.json and required-checks.json, so editing one of those is a
+          # terraform change even when no .tf file moved.
+          if echo "$changed" | grep -qE '^terraform/|^fleet-ops/.*\.json$|^\.github/workflows/terraform\.yml$'; then
+            echo "tf=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tf=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  validate:
+    needs: changes
+    if: needs.changes.outputs.tf == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
+
+      - name: fmt
+        run: terraform fmt -check -recursive
+
+      - name: init (no backend)
+        run: terraform init -backend=false -input=false
+
+      - name: validate
+        run: terraform validate -no-color
+
+  # Always-on fan-in. This is the context phase 2 adds to required-checks.json:
+  # it reports on every PR (green when the terraform jobs skipped), so requiring
+  # it cannot deadlock a docs-only PR.
+  gate:
+    needs: [changes, validate]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report
+        run: |
+          echo "changes=${{ needs.changes.result }} validate=${{ needs.validate.result }}"
+          # A skipped dependency is a pass; only a real failure or cancellation fails the gate.
+          for r in "${{ needs.changes.result }}" "${{ needs.validate.result }}"; do
+            case "$r" in
+              success|skipped) ;;
+              *) echo "::error::terraform checks did not pass ($r)"; exit 1 ;;
+            esac
+          done
+          echo "terraform gate: ok"

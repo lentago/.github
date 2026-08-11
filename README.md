@@ -26,22 +26,40 @@ Issue and PR templates are not yet set.
 
 ## Fleet governance
 
+### [`terraform/`](terraform/)
+
+The fleet's GitHub settings as Terraform, via the `integrations/github` provider.
+Owns repository **existence** and identity, merge-button options, the topic
+spine, the per-repo `main` branch ruleset, required status checks, and the
+Tidewater label palette — across every repo in the org.
+
+Adding a repo to [`fleet-ops/repos.json`](fleet-ops/repos.json) and applying
+creates it, scaffolded from `repo-template` and wired to fleet policy from its
+first second. Removing one is refused by `prevent_destroy` rather than deleting
+a live repository. Applies are operator-run today; apply-on-merge is phase 2.
+See [`terraform/README.md`](terraform/README.md).
+
 ### [`fleet-ops/`](fleet-ops/)
 
-Settings-as-code for the whole fleet.
+The configuration Terraform reads, plus the imperative sweeps that have no
+declarative equivalent.
 
-- **`fleet-apply.sh`** — drift checker and enforcer. Verifies (and with `--apply`
-  fixes) per-repo branch rulesets, required status checks, merge-button options
-  (squash-only, auto-merge, delete-branch-on-merge), and the `lentago`+`claude`
-  topic spine across all non-archived org repos.
-- **`repo-ruleset.json`** — per-repo branch-protection ruleset template (PR
-  required, squash-only, no force-push/deletion).
-- **`labels.json`** — the Tidewater issue-label palette, applied with
-  `--apply-labels`. Aligns color and description on the labels it names and
-  never deletes the ones it doesn't.
-- **`org-ruleset.json`** — org-level ruleset definition.
+- **`repos.json`** — per-repo identity: description, homepage, visibility,
+  features, signature topics, model-routing labels. The source of truth for
+  which repos the fleet contains.
 - **`required-checks.json`** — per-repo map of the status checks that must pass
   before merge.
+- **`labels.json`** — the Tidewater issue-label palette. Colors and descriptions
+  for the labels it names; per-repo labels it doesn't name are left alone.
+- **`fleet-apply.sh`** — the pre-Terraform drift checker, still the tool for the
+  two jobs Terraform can't express: `--prune-branches` (merged-branch residue)
+  and the preflight that a required check-run context actually reports before
+  anything requires it. Its settings-applying flags are superseded by
+  `terraform/`.
+- **`repo-ruleset.json`** — the branch-ruleset template `fleet-apply.sh` used;
+  the same shape now lives in `terraform/rulesets.tf`.
+- **`org-ruleset.json`** — org-level ruleset definition, parked (needs a paid
+  plan).
 
 ### [`fleet-reports/`](fleet-reports/)
 
@@ -64,9 +82,11 @@ Periodically regenerated reports published in this repo.
 ### [`ci/`](ci/)
 
 - **`validate.py`** — the check that gates PRs here. Asserts that `fleet-ops/*.json`
-  match the shape `fleet-apply.sh` consumes, that `brand/generated/` is reproducible
+  match the shape `fleet-apply.sh` and the Terraform module consume, that those
+  manifests and `brand/fleet.json` agree on which repos exist, that
+  `brand/generated/` is reproducible
   from `brand/fleet.json` rather than hand-edited, that the report generator's
-  classifiers route known paths correctly, that relative markdown links resolve, and that
+  classifiers route known paths correctly, and that
   `fleet-reports/incidents.md` is reproducible from its sources rather than
   hand-edited. Run it the way CI does: `python3 ci/validate.py`.
 

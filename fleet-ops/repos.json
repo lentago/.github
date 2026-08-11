@@ -1,0 +1,435 @@
+{
+  "_comment": [
+    "Per-repo declarative identity for the Lentago Labs fleet. Consumed by",
+    "terraform/ (the github provider) and shape-checked by ci/validate.py.",
+    "",
+    "This file is the source of truth for repo EXISTENCE and identity: adding an",
+    "entry and merging CREATES the repository; removing one is refused by",
+    "prevent_destroy rather than deleting it (see terraform/README.md § Rails).",
+    "",
+    "  description   the GitHub About blurb. Prose, not the brand tagline —",
+    "                brand/fleet.json owns the banner tagline separately.",
+    "  homepage      About-box link; null where the repo has none.",
+    "  visibility    public | private. Drives two Free-plan carve-outs: private",
+    "                repos get no branch ruleset (rulesets need Pro) and no",
+    "                auto-merge (unavailable on private repos).",
+    "  template      GitHub template-repository flag (is this repo a template).",
+    "  template_source  the template this repo was CREATED from, or null. Only",
+    "                brasenia carries one today. Creation-only on GitHub's side,",
+    "                but declaring it means a new fleet repo can be scaffolded",
+    "                from lentago/repo-template by adding an entry here.",
+    "  features      the repo Settings > Features checkboxes: issues, projects,",
+    "                wiki, discussions.",
+    "  suggest_branch_update  'Always suggest updating pull request branches'.",
+    "                Live-faithful, and unevenly set across the fleet (7 of 16)",
+    "                — see the model_labels note below; same normalisation call.",
+    "  topics        SIGNATURE topics only. The `lentago` + `claude` spine is",
+    "                added by terraform (locals.tf), exactly as fleet-apply.sh",
+    "                did — do not list the spine here.",
+    "  model_labels  which model:* @claude routing labels the repo carries, in",
+    "                fast-to-heavy order. Seeded live-faithful so adoption plans",
+    "                clean; four repos carry haiku+opus without sonnet, which is",
+    "                an artefact rather than intent — see terraform/README.md.",
+    "",
+    "Uniform fleet policy — squash-only merges, delete-branch-on-merge, the",
+    "squash commit title/message mode — is NOT per-repo and lives in",
+    "terraform/locals.tf as policy, so a change there moves the whole fleet.",
+    "",
+    "Required status checks stay in required-checks.json and issue-label colors",
+    "in labels.json; terraform reads all three so there is one source of truth",
+    "per concern rather than a second copy here."
+  ],
+  "repos": {
+    "betula": {
+      "description": "Betula — the Lentago Labs log capture layer: per-source collectors shipping full-volume logs off-device for long-retention search. Live collectors: Firewalla Gold SE (Zeek DNS/conn/TLS via Fluent Bit → Grafana Cloud Loki, GitOps self-healing) and AWS (ALB access logs + CloudWatch Logs → Axiom). Adding a client never touches existing ones.",
+      "homepage": "https://deepwiki.com/lentago/betula",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": true
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "axiom",
+        "dns",
+        "firewalla",
+        "fluent-bit",
+        "homelab",
+        "logging",
+        "observability",
+        "security",
+        "zeek"
+      ],
+      "model_labels": [
+        "haiku",
+        "opus"
+      ]
+    },
+    "brasenia": {
+      "description": "Brasenia — the Lentago Labs shared viewport: an always-on wall display whose content is chosen by a rubric, not a remote. Today: the daily brief rendered to live HLS (headless Chromium → ffmpeg → mediamtx) played 24/7 by a sideloaded Roku channel; next: a NAS pane bus + compositor so any Claude agent can claim the screen.",
+      "homepage": "https://lentago.dev",
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "brightscript",
+        "digital-signage",
+        "hls",
+        "roku"
+      ],
+      "model_labels": []
+    },
+    "claytonia": {
+      "description": "Claytonia — the Lentago Labs agent-fleet system, a.k.a. the bullpen: five self-hosted headless coding agents on the LAN, their containers Terraform-applied on merge. Drop a job, an idle worker works it in a clean checkout and opens a PR for review. Claude Code workers today, platform-agnostic next. Cron + NAS-inbox jobs, per-job metrics.",
+      "homepage": "https://deepwiki.com/lentago/claytonia",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "ai-agents",
+        "automation",
+        "bash",
+        "gitops",
+        "homelab",
+        "job-queue",
+        "llm",
+        "self-hosted"
+      ],
+      "model_labels": []
+    },
+    "drosera": {
+      "description": "Drosera — the Lentago Labs observability suite. Git-driven, fully declarative telemetry into Grafana Cloud (Mimir + Loki, free tier): per-host Grafana Alloy pushes metrics + logs with no central chokepoint, and AWS CloudWatch feeds in by assume-role. Terraform-provisioned dashboards, alert rules, and contact points; node_exporter, LogQL.",
+      "homepage": "https://deepwiki.com/lentago/drosera",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "gitops",
+        "grafana",
+        "grafana-alloy",
+        "grafana-cloud",
+        "homelab",
+        "loki",
+        "mimir",
+        "observability",
+        "terraform"
+      ],
+      "model_labels": [
+        "haiku",
+        "opus"
+      ]
+    },
+    ".github": {
+      "description": "Org-level defaults and fleet governance for Lentago Labs: the profile README rendered at github.com/lentago, community-health defaults, the fleet-ops settings-as-code tooling (per-repo rulesets, required status checks, merge and topic enforcement), and the weekly fleet report + public incident register.",
+      "homepage": "https://deepwiki.com/lentago/.github",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": true
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "community-health",
+        "org-profile",
+        "profile-readme"
+      ],
+      "model_labels": []
+    },
+    "homeassistant-config": {
+      "description": "Production residential smart home on Home Assistant + Proxmox, 40+ entities managed declaratively in YAML: Konnected alarm panels (custom ESPHome firmware), Hue/Kasa lighting, Sonos audio, energy + environmental monitoring, an automation library, and two purpose-built dashboards — gitops-deployed.",
+      "homepage": "https://deepwiki.com/lentago/homeassistant-config",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "automation",
+        "esphome",
+        "home-assistant",
+        "homelab",
+        "hue",
+        "konnected",
+        "proxmox",
+        "smart-home",
+        "sonos",
+        "yaml"
+      ],
+      "model_labels": [
+        "haiku",
+        "opus"
+      ]
+    },
+    "kalmia": {
+      "description": "Kalmia — the Lentago Labs provisioning system for workstations, VMs, and containers. Terraform owns the Proxmox guest layer — every VM and LXC on the cluster, applied on merge via a LAN self-hosted runner — with a template forge building the LXC images; Ansible roles provision the machines across four workstation profiles.",
+      "homepage": "https://deepwiki.com/lentago/kalmia",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "ansible",
+        "devops",
+        "infrastructure-as-code",
+        "provisioning",
+        "workstation"
+      ],
+      "model_labels": []
+    },
+    "music-curator": {
+      "description": "Turns a messy music collection into a queryable Obsidian vault: dedup and merge tooling over directory trees, Spotify follows, and discography + credit data, building an artist graph with session-tie receipts. Automated follow-harvesting; a taste profile a language model can mine for grounded discovery.",
+      "homepage": "https://deepwiki.com/lentago/music-curator",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "curation",
+        "music",
+        "music-discovery",
+        "prompt-engineering",
+        "recommender-system",
+        "taste-profile"
+      ],
+      "model_labels": []
+    },
+    "myosotis": {
+      "description": "Agent context ledger — append-only record of fleet & workstation Claude context",
+      "homepage": null,
+      "visibility": "private",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [],
+      "model_labels": []
+    },
+    "reference-checker": {
+      "description": "Forensic reference-integrity auditor for academic publishing — built for nursing and health-sciences editors who need to catch fabricated, manipulated, or suspicious citations before print. Prompt-engineered deep-scan verification on Claude with live web search.",
+      "homepage": "https://deepwiki.com/lentago/reference-checker",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "academic-integrity",
+        "citation-verification",
+        "forensics",
+        "prompt-engineering",
+        "publishing"
+      ],
+      "model_labels": [
+        "haiku",
+        "opus"
+      ]
+    },
+    "repo-template": {
+      "description": "Template repo for the Lentago Labs fleet: README/CLAUDE skeletons, MIT, shared-workflows CI wrappers. Templates copy files, not settings — see SETUP.md.",
+      "homepage": "https://deepwiki.com/lentago/repo-template",
+      "visibility": "public",
+      "template": true,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "scaffold",
+        "template"
+      ],
+      "model_labels": []
+    },
+    "shared-workflows": {
+      "description": "Reusable GitHub Actions workflows shared across the Lentago Labs fleet: an interactive @claude responder (routes to opus/sonnet/haiku by label), automated PR review, CI patterns, and fleet-wide policy enforcement. The canonical source for cross-repo CI conventions.",
+      "homepage": "https://deepwiki.com/lentago/shared-workflows",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "automation",
+        "ci-cd",
+        "github-actions",
+        "reusable-workflows"
+      ],
+      "model_labels": []
+    },
+    "site-icecreamtofightwith-com": {
+      "description": "Site content for icecreamtofightwith.com — 'Ice Cream to Fight With', a 28-recipe custard ice-cream cookbook in modular Markdown with automated PDF compilation, served as an Astro/Nginx app on the solidago AWS stack (GitHub OIDC → ECR/ECS/ALB).",
+      "homepage": "https://icecreamtofightwith.com",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "astro",
+        "aws",
+        "ci-cd",
+        "cookbook",
+        "creative-writing",
+        "ice-cream",
+        "markdown",
+        "recipes"
+      ],
+      "model_labels": [
+        "haiku",
+        "sonnet",
+        "opus"
+      ]
+    },
+    "site-lentago-dev": {
+      "description": "Site content for lentago.dev — the Lentago Labs consulting-practice landing site (the 'Tidewater' rebrand). Astro static site served on the solidago AWS stack (GitHub OIDC → ECR/ECS/ALB); owns the Route 53 / lentago.dev DNS Terraform.",
+      "homepage": "https://lentago.dev",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "astro",
+        "aws",
+        "ci-cd",
+        "consulting",
+        "design-system",
+        "landing-page",
+        "lentago-labs",
+        "static-site"
+      ],
+      "model_labels": []
+    },
+    "site-pondviewlane-com": {
+      "description": "Site content for pondviewlane.com and essexcrossingatmontserrat.com — a public-record-only reference for residents of Pond View Lane (Essex Crossing at Montserrat), Beverly, MA, with an \"Ask\" box that answers from those records. One fact base, two voices and skins in one container; Astro/Starlight on the solidago AWS stack (OIDC → ECR/ECS/ALB).",
+      "homepage": "https://pondviewlane.com",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "astro",
+        "aws",
+        "ci-cd",
+        "hoa",
+        "public-records",
+        "starlight",
+        "static-site"
+      ],
+      "model_labels": []
+    },
+    "solidago": {
+      "description": "Solidago — the Lentago Labs cloud platform: a three-tier AWS environment, 100% Terraform. Multi-AZ VPC, ECS Fargate behind an ALB (ACM/Route 53), RDS Postgres + ElastiCache Valkey, WAFv2, KMS, least-privilege IAM, and CloudWatch/CloudTrail/Config + budget guardrails. Runs four live public sites and a serverless Ask endpoint.",
+      "homepage": "https://lentago.dev",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": true,
+        "discussions": false
+      },
+      "suggest_branch_update": true,
+      "topics": [
+        "alb",
+        "aws",
+        "devops",
+        "ecs-fargate",
+        "iam",
+        "infrastructure-as-code",
+        "route53",
+        "terraform",
+        "vpc"
+      ],
+      "model_labels": [
+        "haiku",
+        "sonnet",
+        "opus"
+      ]
+    }
+  }
+}

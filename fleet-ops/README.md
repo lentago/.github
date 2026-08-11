@@ -1,24 +1,66 @@
 # fleet-ops — Lentago Labs repo settings as code
 
-Tooling to keep repo settings consistent across the Lentago Labs fleet. Settings
-drift is the thing `~/repos/CLAUDE.md` worries about most, and GitHub splits the
-problem across three mechanisms — no single one covers everything:
+Configuration and tooling to keep repo settings consistent across the Lentago
+Labs fleet. Settings drift is the thing `~/repos/CLAUDE.md` worries about most,
+and GitHub splits the problem across several mechanisms — no single one covers
+everything:
 
-| Layer | Covers | Mechanism here |
+| Layer | Covers | Mechanism |
 |---|---|---|
-| **Branch protection** | PR-required, squash-only, no force-push/deletion | **per-repo rulesets** — created/verified by `fleet-apply.sh` (`repo-ruleset.json`) |
-| **Required status checks** | the checks that must be green before merge (so auto-merge can arm and a red plan/lint blocks) | **`fleet-apply.sh --require-checks`** + `required-checks.json` (per-repo context map) |
-| **Merge-button + topics** | squash-only button, auto-merge, delete-branch, the `lentago`+`claude` topic spine | **`fleet-apply.sh`** (rulesets can't set these) |
+| **Repo existence & identity** | which repos the fleet contains, description, homepage, visibility, features | **`terraform/`** + `repos.json` |
+| **Branch protection** | PR-required, squash-only, no force-push/deletion | **`terraform/`** (`github_repository_ruleset`) |
+| **Required status checks** | the checks that must be green before merge (so auto-merge can arm and a red plan/lint blocks) | **`terraform/`** + `required-checks.json` (per-repo context map) |
+| **Merge-button + topics** | squash-only button, auto-merge, delete-branch, the `lentago`+`claude` topic spine | **`terraform/`** (rulesets can't set these) |
+| **Issue labels** | the Tidewater label palette — colors and descriptions on every repo's shared labels | **`terraform/`** + `labels.json` |
 | **Leftover branches** | merged-PR residue + abandoned no-PR branches that `delete_branch_on_merge` never cleaned | **`fleet-apply.sh --prune-branches`** (the setting only fires forward, on merge) |
-| **Issue labels** | the Tidewater label palette — colors and descriptions on every repo's shared labels | **`fleet-apply.sh --apply-labels`** + `labels.json` |
-| **File skeleton** | README/CLAUDE/LICENSE/CI-wrapper starter files | **`lentago/repo-template`** GitHub template (copies files, not settings) |
+| **Required-check preflight** | proof a context actually reports before anything requires it | **`fleet-apply.sh`** read-only check |
+| **File skeleton** | README/CLAUDE/LICENSE/CI-wrapper starter files | **`lentago/repo-template`**, applied at creation via `repos.json`'s `template_source` |
 
 The lesson that motivated this: a **GitHub template repo copies files, not
 settings**, so it can't enforce branch protection or merge options. And a
 **ruleset** governs branch rules but not merge-button options or topics. You
-need all three layers — and on this org's **Free plan**, branch protection is
-per-repo (`fleet-apply.sh` makes that one command), because the cleaner
-org-wide ruleset is a paid feature (see below).
+need all the layers — and on this org's **Free plan**, branch protection is
+per-repo, because the cleaner org-wide ruleset is a paid feature (see below).
+
+## Terraform owns the declarative surfaces now
+
+Everything that is a *setting* moved to [`../terraform/`](../terraform/) — the
+`integrations/github` provider, reading the JSON in this directory. Drift is a
+plan rather than a sweep's console output, and adding a repo to `repos.json`
+creates it. Read [`../terraform/README.md`](../terraform/README.md) first.
+
+`fleet-apply.sh` keeps the two jobs that are not declarable, and both matter:
+
+- **`--prune-branches`** — an imperative sweep over live branch/PR state.
+- **The read-only check's required-context preflight** — Terraform will happily
+  require a context that never reports, which deadlocks every PR on that repo.
+  The script verifies a context has actually appeared on a recent PR. Run it
+  before adding anything to `required-checks.json`.
+
+Its settings-applying flags (`--apply`, `--require-checks`, `--apply-labels`)
+still work and are still described below, but running them is no longer the
+normal path — they now race the Terraform state rather than complementing it.
+
+## `repos.json` — which repos the fleet contains
+
+The manifest `terraform/` reads to decide what exists. One entry per repo:
+description, homepage, visibility, template flag and template source, the
+Features toggles, signature topics, and which `model:*` routing labels it
+carries. Adding an entry and applying **creates the repository**; removing one
+is refused by `prevent_destroy`.
+
+Two conventions worth knowing before editing it:
+
+- **Signature topics only.** The `lentago`+`claude` spine is added by
+  `terraform/locals.tf`, exactly as `fleet-apply.sh` added it. Listing the spine
+  here is a validation failure, because it reads as if a repo could opt out.
+- **Uniform policy is not in here.** Squash-only, delete-branch-on-merge and the
+  squash commit-message mode live in `terraform/locals.tf` as fleet policy, so
+  changing one moves all sixteen repos in a single diff.
+
+`ci/validate.py` shape-checks it and cross-checks it against
+`required-checks.json`, `labels.json` and `brand/fleet.json` — a repo present in
+one but missing from another is caught here rather than in a plan.
 
 ## `fleet-apply.sh` — merge settings + topic spine
 
