@@ -3,7 +3,7 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (the `/incident-digest` playbook). A chronological register of incident reports harvested from local Lentago lab activity and published as a periodic fleet report. Each row links to the full write-up under [`fleet-reports/incidents/`](incidents/). Unlike the [fleet report](fleet-report.md), these are published **verbatim** and *do* include homelab-internal architecture detail — but never credentials, keys, or secrets.
 
-**Generated:** 2026-08-03 14:15 UTC · **9 incidents logged.**
+**Generated:** 2026-08-11 21:23 UTC · **9 incidents logged.**
 
 | Date | Incident | Summary |
 |------|----------|---------|
