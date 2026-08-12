@@ -10,7 +10,41 @@
 
 This is the Lentago Labs organization's special `.github` repository. It serves
 two roles: GitHub reads org-level defaults from here, and it houses the
-settings-as-code tooling that governs the rest of the fleet.
+settings-as-code tooling that governs the rest of the fleet. It is also the
+control plane you learn from: one JSON edit here, applied, moves branch
+protection, required checks, and labels across every repo — governance as change
+management, where the merged PR *is* the change record.
+
+## 📚 Ask this codebase (DeepWiki)
+
+<a href="https://deepwiki.com/lentago/.github"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" height="32"></a>
+
+> [DeepWiki](https://deepwiki.com/lentago/.github) maintains an AI-generated wiki over this
+> repository — architecture pages, diagrams, and a Q&A box grounded in the actual code. Every
+> public Lentago Labs repo is indexed ([deepwiki.com/lentago](https://deepwiki.com/lentago));
+> it is the fastest way to orient before reading source. It is AI-generated: trust it to orient
+> you, verify against the code before you act on it.
+
+**Good first questions:**
+
+- How does `fleet-ops/required-checks.json` prevent a required GitHub Actions check from deadlocking PRs on repos where its workflow never runs?
+- What is the current division of labor between `fleet-ops/fleet-apply.sh` and the `terraform/` module for managing Lentago Labs repo settings?
+- How is the weekly `fleet-report.md` generated, and what does the `ci/validate.py` check enforce about it staying reproducible?
+
+## 🧭 What this repo demonstrates
+
+The patterns an ops team can lift wholesale — each row links to where it actually runs.
+
+| Pattern | How it shows up here |
+| :-- | :-- |
+| **Fleet settings-as-code** — one edit, every repo | [`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) + [`fleet-ops/fleet-apply.sh`](fleet-ops/fleet-apply.sh): edit one JSON map, apply, and every repo's branch rules move — no per-repo clicking |
+| **Declarative IaC, migrated incrementally** | [`terraform/`](terraform/) reads the same JSON and owns repo existence/identity/rulesets; [PR #82](https://github.com/lentago/.github/pull/82) moved settings onto the GitHub provider with no big-bang cutover |
+| **The always-on required-check gate** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) has no `on:`-level path filter — a path-filtered *required* check never triggers on non-matching PRs and deadlocks the merge forever |
+| **DRY CI via shared workflows** | [`docs-check.yml`](.github/workflows/docs-check.yml) and [`claude.yml`](.github/workflows/claude.yml) `uses:` reusables from [`shared-workflows`](https://github.com/lentago/shared-workflows) instead of copy-pasted YAML |
+| **Drift detection for config** | [`ci/validate.py`](ci/validate.py) asserts the JSON manifests, generated brand assets, and generated reports all stay reproducible from source — hand-edits fail the PR |
+| **Agent-authored, human-merged PRs** | [PR #80](https://github.com/lentago/.github/pull/80) was opened by the `lentago-claude-runner` bot against required checks and merged by a human — the worker never merges itself |
+| **Automated periodic reporting** | [`fleet-reports.yml`](.github/workflows/fleet-reports.yml) runs [`metrics/generate-fleet-reports.py`](metrics/generate-fleet-reports.py) on a schedule to refresh `fleet-report.md` and `incidents.md` |
+| **Config-driven identity** | [`brand/generate.py`](brand/generate.py) emits every repo's banner and card from [`brand/fleet.json`](brand/fleet.json) — IaC applied to branding, CI-enforced against hand-edits |
 
 ## Org profile
 
@@ -106,12 +140,51 @@ Brand assets, and the generator that turns them into per-repo identity.
 Social previews are the one surface with no API — they're uploaded per repo
 under **Settings → General → Social preview**.
 
+## 🛠️ Make a change yourself
+
+This is a lab — the systems are real, the stakes are not. Pick a vector:
+
+**Add a fleet-wide required status check.** Edit
+[`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) to add a check
+context for one repo or all of them, and open a PR — [`ci/validate.py`](ci/validate.py)
+validates the JSON shape before it can merge. Once merged, an operator runs
+`fleet-ops/fleet-apply.sh --require-checks` to push the ruleset live (the imperative
+script, not Terraform, is still what mutates required checks and labels today). This
+is the same JSON-then-apply flow used repeatedly to roll checks across the fleet, and
+applying needs an admin token, so the apply step is operator-run.
+**Proof this works:** [PR #68 — fleet-ops: require docs-check on every active repo](https://github.com/lentago/.github/pull/68),
+[PR #29 — fleet-ops: manage per-repo required status checks](https://github.com/lentago/.github/pull/29),
+[PR #73 — fleet-ops: require claytonia's terraform gate](https://github.com/lentago/.github/pull/73).
+
+**Migrate a settings surface to Terraform.** Extend the `terraform/*.tf` modules,
+which read the same `fleet-ops/*.json`, and open a PR —
+[`.github/workflows/terraform.yml`](.github/workflows/terraform.yml) runs `fmt` +
+`validate` on it. The apply is still operator-run locally today (phase 1); apply-on-merge
+is the planned phase 2 tracked in [`terraform/README.md`](terraform/README.md), so don't
+expect a merge here to mutate GitHub settings yet.
+**Proof this works:** [PR #82 — Manage the fleet's GitHub settings with the Terraform GitHub provider](https://github.com/lentago/.github/pull/82),
+[PR #83 — terraform: rename the validate job to tf-validate](https://github.com/lentago/.github/pull/83).
+
+**Let the agent fleet fix a broken workflow.** Dispatch a job to the
+[`claytonia`](https://github.com/lentago/claytonia) agent fleet (or trigger it from a
+monitoring signal); a worker opens a PR against this repo, the required checks run, and
+a human reviews and merges. The worker never merges itself — that gate is the whole point.
+**Proof this works:** [PR #80 — fix: pin cloc to v2.06 in fleet-reports workflow](https://github.com/lentago/.github/pull/80),
+authored by the `lentago-claude-runner` bot and merged by a human.
+
 ---
 
 > Fleet CI *conventions* and the reusable workflows other repos call live in
 > [shared-workflows](https://github.com/lentago/shared-workflows), not here. The
 > workflows under `.github/workflows/` are this repo's own — they gate its PRs and
 > refresh the fleet reports.
+
+---
+
+> 🌱 **Lentago Labs** is a team learning lab — real systems, non-critical stakes, modern
+> operations patterns demonstrated in the open. Start at the
+> [org profile](https://github.com/lentago), and read this repo on
+> [DeepWiki](https://deepwiki.com/lentago/.github).
 
 ---
 
