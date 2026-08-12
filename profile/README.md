@@ -84,6 +84,10 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 <td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a><br/><sub><a href="https://deepwiki.com/lentago/betula">DeepWiki&nbsp;↗</a></sub></td>
 <td>Full-volume log capture &amp; archive → Axiom, at zero query cost.</td>
 </tr>
+<tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a><br/><sub><a href="https://deepwiki.com/lentago/asclepias">DeepWiki&nbsp;↗</a></sub></td>
+<td>The training ground — operations manual, day-one onboarding, hands-on labs.</td>
+</tr>
 </table>
 
 <sub>📖 &nbsp;Every public repo is indexed on <a href="https://deepwiki.com/lentago"><b>DeepWiki</b></a> — browse the wikis or ask the codebases anything.</sub>

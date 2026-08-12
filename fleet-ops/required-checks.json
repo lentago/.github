@@ -49,6 +49,9 @@
     "job and added the always-on `gate` fan-in, matching the other three."
   ],
   "checks": {
+    "asclepias": [
+      "docs-check / docs-check"
+    ],
     ".github": [
       "validate",
       "shellcheck / shellcheck",

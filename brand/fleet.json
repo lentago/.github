@@ -85,6 +85,17 @@
       { "label": "Roku", "logo": "roku" }
     ]
   },
+  "asclepias": {
+    "mark": "lentago",
+    "kind": "SUITE",
+    "tagline": "Training ground · manual, labs, onboarding",
+    "prompt": "day one  ·  read the atlas · run a lab · open a pr",
+    "badges": [
+      { "label": "Markdown", "logo": "markdown" },
+      { "label": "Docs-as-code" },
+      { "label": "Labs" }
+    ]
+  },
 
   ".github": {
     "mark": "lentago",
