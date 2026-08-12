@@ -37,7 +37,7 @@ The patterns an ops team can lift wholesale — each row links to where it actua
 
 | Pattern | How it shows up here |
 | :-- | :-- |
-| **Fleet settings-as-code** — one edit, every repo | [`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) + [`fleet-ops/fleet-apply.sh`](fleet-ops/fleet-apply.sh): edit one JSON map, apply, and every repo's branch rules move — no per-repo clicking |
+| **Fleet settings-as-code** — one edit, every repo | [`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) + the [`terraform/`](terraform/) module that reads it: edit one JSON map, apply, and every repo's branch rules move — no per-repo clicking |
 | **Declarative IaC, migrated incrementally** | [`terraform/`](terraform/) reads the same JSON and owns repo existence/identity/rulesets; [PR #82](https://github.com/lentago/.github/pull/82) moved settings onto the GitHub provider with no big-bang cutover |
 | **The always-on required-check gate** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) has no `on:`-level path filter — a path-filtered *required* check never triggers on non-matching PRs and deadlocks the merge forever |
 | **DRY CI via shared workflows** | [`docs-check.yml`](.github/workflows/docs-check.yml) and [`claude.yml`](.github/workflows/claude.yml) `uses:` reusables from [`shared-workflows`](https://github.com/lentago/shared-workflows) instead of copy-pasted YAML |
@@ -147,11 +147,13 @@ This is a lab — the systems are real, the stakes are not. Pick a vector:
 **Add a fleet-wide required status check.** Edit
 [`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) to add a check
 context for one repo or all of them, and open a PR — [`ci/validate.py`](ci/validate.py)
-validates the JSON shape before it can merge. Once merged, an operator runs
-`fleet-ops/fleet-apply.sh --require-checks` to push the ruleset live (the imperative
-script, not Terraform, is still what mutates required checks and labels today). This
-is the same JSON-then-apply flow used repeatedly to roll checks across the fleet, and
-applying needs an admin token, so the apply step is operator-run.
+validates the JSON shape before it can merge. Once merged, an operator applies the
+change with the [`terraform/`](terraform/) module, which reads that same JSON and owns
+rulesets, required checks, and labels (applies are operator-run with an admin token in
+phase 1 — see [`terraform/README.md`](terraform/README.md); `fleet-apply.sh` still
+contributes the required-context preflight, proving a check context actually reports
+before anything requires it). This is the same JSON-then-apply flow used repeatedly to
+roll checks across the fleet.
 **Proof this works:** [PR #68 — fleet-ops: require docs-check on every active repo](https://github.com/lentago/.github/pull/68),
 [PR #29 — fleet-ops: manage per-repo required status checks](https://github.com/lentago/.github/pull/29),
 [PR #73 — fleet-ops: require claytonia's terraform gate](https://github.com/lentago/.github/pull/73).
