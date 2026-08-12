@@ -234,6 +234,19 @@ is a drift correction rather than a policy change.
 > `repos.json` — the first-apply plan is now 15 repositories, and the myosotis
 > drift-correction delta described above no longer applies.
 
+> **First apply executed 2026-08-12:**
+> `Plan: 190 to import, 16 to add, 26 to change, 0 to destroy.` — 16 repos +
+> 16 rulesets + 158 labels imported (asclepias included, its ruleset id added
+> in #97), the 16 merge-gate branch protections created (#96), and the changes
+> were provider-flag materialisations plus asclepias's stock labels recoloring
+> to Tidewater. One defect surfaced in verification: the GitHub Actions app
+> allowance on music-curator was **silently dropped** because the app was
+> declared by its legacy global node id — the branch-protection mutation
+> accepts only next-format (`A_…`) ids for apps, and reports no error for a
+> legacy one. Fixed by re-declaring the app with its next-format id; when
+> adding any app to an allowlist, verify it landed:
+> `gh api repos/lentago/<repo>/branches/main/protection --jq '.restrictions.apps[].slug'`.
+
 ## Known asymmetries
 
 Three things are seeded live-faithful rather than normalised, so that adoption

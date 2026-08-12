@@ -55,8 +55,14 @@ locals {
   # GITHUB_TOKEN — see music-curator#9), so the GitHub Actions app is allowed
   # there, and only there: fleet-wide, a workflow must not be able to update
   # `main`.
+  # The id MUST be the next-format global node id (`A_…`). The legacy base64
+  # form (`MDM6QXBwMTUzNjg=`) still resolves in queries, but the branch
+  # protection mutation SILENTLY DROPS it from pushAllowances — the first apply
+  # (2026-08-12) landed music-curator's rule with no app actor and no error.
+  # Resolve with:  gh api graphql -f query='{ node(id:"<legacy>") { id } }'
+  # and read next_global_id from the deprecation warning in extensions.
   gate_extra_allowances = {
-    "music-curator" = ["MDM6QXBwMTUzNjg="] # the GitHub Actions app (id 15368)
+    "music-curator" = ["A_kwHNJr_NPAg"] # the GitHub Actions app (id 15368)
   }
 
   # ---------------------------------------------------------------------------
