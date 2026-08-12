@@ -40,6 +40,30 @@
     "per concern rather than a second copy here."
   ],
   "repos": {
+    "asclepias": {
+      "description": "Asclepias — the Lentago Labs training ground: the unified operations manual (estate atlas, pattern catalog, enterprise↔lab glossary), the day-one onboarding path, and numbered hands-on labs that exercise the fleet's patterns end to end. Milkweed: the host plant that raises the next generation.",
+      "homepage": "https://deepwiki.com/lentago/asclepias",
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "documentation",
+        "onboarding",
+        "runbooks",
+        "training"
+      ],
+      "model_labels": []
+    },
     "betula": {
       "description": "Betula — the Lentago Labs log capture layer: per-source collectors shipping full-volume logs off-device for long-retention search. Live collectors: Firewalla Gold SE (Zeek DNS/conn/TLS via Fluent Bit → Grafana Cloud Loki, GitOps self-healing) and AWS (ALB access logs + CloudWatch Logs → Axiom). Adding a client never touches existing ones.",
       "homepage": "https://deepwiki.com/lentago/betula",
