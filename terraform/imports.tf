@@ -24,11 +24,15 @@ import {
 
 # Ruleset ids are server-assigned and are the one piece of live state this
 # module has to hard-code — a ruleset has no natural key to import by. Captured
-# 2026-08-11. A ruleset recreated by hand gets a new id, so refresh this map if
-# an import ever fails with "not found" for a ruleset that plainly exists.
+# 2026-08-11 (asclepias: 2026-08-12, created live with its ruleset before its
+# rows landed here — a repo born outside terraform must have its ruleset id
+# added to this map, or the next apply creates a duplicate "main" ruleset).
+# A ruleset recreated by hand gets a new id, so refresh this map if an import
+# ever fails with "not found" for a ruleset that plainly exists.
 locals {
   live_ruleset_ids = {
     ".github"                      = 17933796
+    "asclepias"                    = 20758046
     "betula"                       = 14521264
     "brasenia"                     = 19323889
     "claytonia"                    = 17713398
