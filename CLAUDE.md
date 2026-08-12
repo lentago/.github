@@ -38,7 +38,7 @@ org-level operator tooling that governs the rest of the fleet.
 - **`terraform/`** — the fleet's GitHub settings as Terraform
   (`integrations/github`). Owns repo **existence** and identity, merge options,
   the topic spine, per-repo `main` rulesets, required checks, and the label
-  palette across all 16 org repos. Adding a repo to `fleet-ops/repos.json` and
+  palette across all 15 org repos. Adding a repo to `fleet-ops/repos.json` and
   applying creates it; removing one is refused by `prevent_destroy`. Applies are
   operator-run (phase 1) — CI does `fmt`+`validate` only until the OIDC role and
   admin token land. **Read `terraform/README.md` § Rails before touching it.**

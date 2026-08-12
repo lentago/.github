@@ -13,7 +13,7 @@ locals {
   # ---------------------------------------------------------------------------
   # Uniform fleet policy. These are deliberately NOT per-repo knobs in
   # repos.json: they are the fleet's merge convention, so changing one here
-  # moves all sixteen repos in a single reviewable diff.
+  # moves all fifteen repos in a single reviewable diff.
   # ---------------------------------------------------------------------------
 
   # The topic spine every repo carries, unioned with each repo's signature

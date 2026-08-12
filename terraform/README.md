@@ -142,7 +142,7 @@ drifting until someone remembers to sweep it.
 ### Changing fleet-wide policy
 
 Edit `locals.tf`. `merge_policy`, `spine_topics`, and the squash commit-message
-mode are single values that move all sixteen repos in one reviewable diff. That
+mode are single values that move all fifteen repos in one reviewable diff. That
 is the point of keeping them out of `repos.json`.
 
 ### Retiring a repo
@@ -201,6 +201,11 @@ The remaining 9 labels and 1 repository were all **`myosotis`** — the one repo
 
 Every public repo planned clean. That delta is the module's first apply, and it
 is a drift correction rather than a policy change.
+
+> **Update 2026-08-12:** `myosotis` was transferred out of the org to a personal
+> account before the module's first apply, and its rows were removed from
+> `repos.json` — the first-apply plan is now 15 repositories, and the myosotis
+> drift-correction delta described above no longer applies.
 
 ## Known asymmetries
 
