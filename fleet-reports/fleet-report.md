@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-08-11 21:23 UTC · Scope: the **15 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-07-12).
+**Generated:** 2026-08-12 20:22 UTC · Scope: the **16 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-07-13).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **47** | 252 | 94 | **58,022** | 3,553 (20 files) |
+| **48** | 271 | 98 | **58,209** | 3,609 (21 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**3,553 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**3,609 lines** across 21 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 47 across 8 repos
+## Open issues — 48 across 8 repos
 
 ### drosera — 12 open
 
@@ -98,16 +98,48 @@ The fleet's hand-maintained natural-language instruction surface (**3,553 lines*
 | [10](https://github.com/lentago/reference-checker/issues/10) | [v4] Design batch-pattern detection across submissions |
 | [8](https://github.com/lentago/reference-checker/issues/8) | [v4] Integrate Crossref retraction API for structured retraction checking |
 
-### .github — 1 open
+### .github — 2 open
 
 | # | Title |
 |---|-------|
+| [90](https://github.com/lentago/.github/issues/90) | Recommendation: engagement pathways — the lab ladder for new members |
 | [81](https://github.com/lentago/.github/issues/81) | terraform: wire plan-on-PR and apply-on-merge for the fleet settings module |
 
 ## Activity — last 30 days
 
-**346 events**, one stream, newest first — 🟣 252 PRs merged · 🟢 94 issues closed
+**369 events**, one stream, newest first — 🟣 271 PRs merged · 🟢 98 issues closed
 
+- 🟣 2026-08-12 · [.github#98](https://github.com/lentago/.github/pull/98) — terraform: declare the Actions app allowance by its next-format node id
+- 🟣 2026-08-12 · [.github#97](https://github.com/lentago/.github/pull/97) — terraform: import asclepias's live main ruleset
+- 🟣 2026-08-12 · [.github#96](https://github.com/lentago/.github/pull/96) — terraform: gate every merge to main on an org owner/admin
+- 🟢 2026-08-12 · [shared-workflows#32](https://github.com/lentago/shared-workflows/issues/32) — Canonical doctrine drift: Route 53 owner misattributed; solidago#142 still listed as tracked debt
+- 🟣 2026-08-12 · [shared-workflows#33](https://github.com/lentago/shared-workflows/pull/33) — Correct live-surface table DNS owner; record solidago#142 as closed OBE
+- 🟣 2026-08-12 · [.github#95](https://github.com/lentago/.github/pull/95) — brand: render asclepias social-preview card
+- 🟢 2026-08-12 · [.github#91](https://github.com/lentago/.github/issues/91) — Guest readiness: org base permission exposes private repos to all members
+- 🟢 2026-08-12 · [.github#89](https://github.com/lentago/.github/issues/89) — Recommendation: unified operations manual — create a dedicated Training repo
+- 🟢 2026-08-12 · [.github#88](https://github.com/lentago/.github/issues/88) — Team playground repositioning: fleet-wide README + org profile refresh
+- 🟣 2026-08-12 · [asclepias#1](https://github.com/lentago/asclepias/pull/1) — Seed the training ground: manual, labs, onboarding, brand identity
+- 🟣 2026-08-12 · [.github#94](https://github.com/lentago/.github/pull/94) — fleet: adopt asclepias — the Training product
+- 🟣 2026-08-12 · [site-pondviewlane-com#39](https://github.com/lentago/site-pondviewlane-com/pull/39) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [site-lentago-dev#42](https://github.com/lentago/site-lentago-dev/pull/42) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [site-icecreamtofightwith-com#146](https://github.com/lentago/site-icecreamtofightwith-com/pull/146) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [repo-template#10](https://github.com/lentago/repo-template/pull/10) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [reference-checker#53](https://github.com/lentago/reference-checker/pull/53) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [music-curator#78](https://github.com/lentago/music-curator/pull/78) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [homeassistant-config#513](https://github.com/lentago/homeassistant-config/pull/513) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [shared-workflows#31](https://github.com/lentago/shared-workflows/pull/31) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [brasenia#7](https://github.com/lentago/brasenia/pull/7) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [betula#101](https://github.com/lentago/betula/pull/101) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [kalmia#96](https://github.com/lentago/kalmia/pull/96) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [claytonia#92](https://github.com/lentago/claytonia/pull/92) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [solidago#159](https://github.com/lentago/solidago/pull/159) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [.github#92](https://github.com/lentago/.github/pull/92) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [drosera#189](https://github.com/lentago/drosera/pull/189) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
+- 🟣 2026-08-12 · [drosera#190](https://github.com/lentago/drosera/pull/190) — dashboards: repoint myosotis commit-link hint to cpitzi/myosotis
+- 🟣 2026-08-12 · [claytonia#94](https://github.com/lentago/claytonia/pull/94) — context-ledger: catch provision/07 references missed by the relocation sweep
+- 🟣 2026-08-12 · [claytonia#93](https://github.com/lentago/claytonia/pull/93) — context-ledger: repoint to cpitzi/myosotis (repo transferred out of org)
+- 🟣 2026-08-12 · [.github#93](https://github.com/lentago/.github/pull/93) — fleet-ops: remove myosotis — transferred to a personal account
+- 🟣 2026-08-11 · [.github#87](https://github.com/lentago/.github/pull/87) — Weekly fleet reports refresh — 2026-08-11
 - 🟢 2026-08-11 · [.github#85](https://github.com/lentago/.github/issues/85) — fleet-reports: weekly run broken by the org's first private repo
 - 🟣 2026-08-11 · [.github#86](https://github.com/lentago/.github/pull/86) — Scope fleet reports to public repos only
 - 🟣 2026-08-11 · [.github#84](https://github.com/lentago/.github/pull/84) — Surface DeepWiki links on the org profile and finish the homepage sweep
@@ -446,14 +478,6 @@ The fleet's hand-maintained natural-language instruction surface (**3,553 lines*
 - 🟣 2026-07-13 · [music-curator#35](https://github.com/lentago/music-curator/pull/35) — feat: streaming + collection merge — rotation dimension from GDPR streaming history
 - 🟣 2026-07-13 · [music-curator#33](https://github.com/lentago/music-curator/pull/33) — data: purge the untagged reservoir — 26 artists discarded
 - 🟣 2026-07-13 · [kalmia#49](https://github.com/lentago/kalmia/pull/49) — fix: re-import n8n LXC 113 (root@pam-created) to unbreak the pipeline
-- 🟣 2026-07-12 · [kalmia#48](https://github.com/lentago/kalmia/pull/48) — fix: recreate n8n LXC 113 without bind mount (recover destroyed CT)
-- 🟣 2026-07-12 · [kalmia#47](https://github.com/lentago/kalmia/pull/47) — feat: mount NAS spotify-harvest into n8n LXC 113 for the music-curator harvester
-- 🟣 2026-07-12 · [site-icecreamtofightwith-com#139](https://github.com/lentago/site-icecreamtofightwith-com/pull/139) — Scroll-up at the top of a page loads the previous page
-- 🟣 2026-07-12 · [site-icecreamtofightwith-com#137](https://github.com/lentago/site-icecreamtofightwith-com/pull/137) — Scroll-linked reading: auto-advance at end of scroll, keep the filmstrip in sync
-- 🟣 2026-07-12 · [drosera#149](https://github.com/lentago/drosera/pull/149) — Rework Offload panel: stack by model, merge local sessions into metric-family rows
-- 🟣 2026-07-12 · [site-icecreamtofightwith-com#136](https://github.com/lentago/site-icecreamtofightwith-com/pull/136) — Re-audit field diagrams and place each figure inline
-- 🟣 2026-07-12 · [site-icecreamtofightwith-com#135](https://github.com/lentago/site-icecreamtofightwith-com/pull/135) — feat(homepage): add TitleHero viewport-filling title graphic
-- 🟣 2026-07-12 · [site-icecreamtofightwith-com#134](https://github.com/lentago/site-icecreamtofightwith-com/pull/134) — Drop essay numbering, move Final Thoughts before recipes, soften tagline
 
 ---
 
@@ -467,12 +491,12 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 16,010 | 40 | 27.6% |
-| 2 | YAML | 9,085 | 163 | 15.7% |
+| 1 | JSON | 16,032 | 40 | 27.5% |
+| 2 | YAML | 9,177 | 168 | 15.8% |
 | 3 | Python | 7,393 | 46 | 12.7% |
-| 4 | HCL | 6,457 | 113 | 11.1% |
+| 4 | HCL | 6,474 | 114 | 11.1% |
 | 5 | Shell (Bourne + Bash) | 5,416 | 68 | 9.3% |
-| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,553 | 20 | 6.1% |
+| 6 | **Instructions (CLAUDE.md family + prompt-programs)** | 3,609 | 21 | 6.2% |
 | 7 | Text | 3,452 | 25 | 5.9% |
 | 8 | Astro | 1,895 | 19 | 3.3% |
 | 9 | JavaScript | 1,793 | 16 | 3.1% |
@@ -481,13 +505,13 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | 12 | Jinja Template | 467 | 10 | 0.8% |
 | 13 | TypeScript | 310 | 8 | 0.5% |
 | 14 | Other (TOML / Dockerfile / …) | 80 | 6 | 0.1% |
-| | **CODE TOTAL** | **58,022** | **553** | 100% |
+| | **CODE TOTAL** | **58,209** | **560** | 100% |
 | — | _Data / exports — excluded_ | 141,906 | 26 | — |
-| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,196 | 82 | — |
+| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 24,489 | 85 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (16 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,102 lines**
+- **Hygiene family** (17 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,158 lines**
 - **Prompt-programs** (4 files · reference-checker auditors): **1,451 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -495,7 +519,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | Repo | File | Lines |
 |------|------|------:|
 | homeassistant-config | `CLAUDE.md` | 399 |
-| shared-workflows | `CLAUDE.md` | 228 |
+| shared-workflows | `CLAUDE.md` | 232 |
 | site-pondviewlane-com | `CLAUDE.md` | 212 |
 | .github | `CLAUDE.md` | 205 |
 | betula | `CLAUDE.md` | 156 |
@@ -509,8 +533,9 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | drosera | `AGENTS.md` | 67 |
 | claytonia | `CLAUDE.md` | 57 |
 | brasenia | `CLAUDE.md` | 56 |
+| asclepias | `CLAUDE.md` | 52 |
 | repo-template | `CLAUDE.md` | 22 |
-| **16 files** | | **2,102** |
+| **17 files** | | **2,158** |
 
 #### Prompt-programs — natural language *is* the logic
 
@@ -522,39 +547,40 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | reference-checker | `prompts/v3-auditor.md` | 69 |
 | **4 files** | | **1,451** |
 
-_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **2,102**, not 3,553._
+_Judgement call: these prompt files are counted as instruction-code because they're versioned natural-language instruction sets. Scope to only the CLAUDE.md hygiene family and the instruction figure is **2,158**, not 3,609._
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| drosera | 15,060 | 163 | 881 | 0 | 0 |
-| site-pondviewlane-com | 7,210 | 212 | 2,372 | 0 | 0 |
-| homeassistant-config | 6,438 | 399 | 1,090 | 0 | 17,567 |
-| solidago | 6,340 | 99 | 1,695 | 0 | 0 |
-| music-curator | 5,413 | 68 | 1,159 | 11,645 | 119,165 |
-| site-icecreamtofightwith-com | 3,260 | 98 | 596 | 6,008 | 0 |
-| kalmia | 3,109 | 155 | 655 | 0 | 0 |
-| .github | 2,636 | 205 | 833 | 2,180 | 0 |
-| claytonia | 2,461 | 57 | 822 | 0 | 0 |
-| betula | 1,816 | 156 | 1,125 | 0 | 0 |
-| reference-checker | 1,594 | 1,527 | 733 | 669 | 5,174 |
-| site-lentago-dev | 1,562 | 108 | 362 | 0 | 0 |
-| shared-workflows | 863 | 228 | 122 | 0 | 0 |
-| brasenia | 188 | 56 | 577 | 0 | 0 |
-| repo-template | 72 | 22 | 50 | 0 | 0 |
+| drosera | 15,060 | 163 | 945 | 0 | 0 |
+| site-pondviewlane-com | 7,210 | 212 | 2,429 | 0 | 0 |
+| homeassistant-config | 6,438 | 399 | 1,113 | 0 | 17,567 |
+| solidago | 6,340 | 99 | 1,731 | 0 | 0 |
+| music-curator | 5,413 | 68 | 1,141 | 11,645 | 119,165 |
+| site-icecreamtofightwith-com | 3,260 | 98 | 603 | 6,008 | 0 |
+| kalmia | 3,109 | 155 | 740 | 0 | 0 |
+| .github | 2,675 | 205 | 951 | 2,070 | 0 |
+| claytonia | 2,461 | 57 | 897 | 0 | 0 |
+| betula | 1,816 | 156 | 1,190 | 0 | 0 |
+| reference-checker | 1,594 | 1,527 | 777 | 669 | 5,174 |
+| site-lentago-dev | 1,562 | 108 | 390 | 0 | 0 |
+| shared-workflows | 867 | 232 | 221 | 0 | 0 |
+| brasenia | 188 | 56 | 632 | 0 | 0 |
+| asclepias | 144 | 52 | 393 | 0 | 0 |
+| repo-template | 72 | 22 | 84 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **37,479 lines of Markdown across 843 files**; only 9.5% is instruction-code.
+The fleet carries **38,590 lines of Markdown across 859 files**; only 9.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 3,553 | 20 | **counted as code** |
-| Content / data | 20,502 | 689 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 13,072 | 119 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 3,609 | 21 | **counted as code** |
+| Content / data | 20,392 | 689 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 14,237 | 134 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 352 | 15 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **37,479** | **843** | |
+| **All Markdown** | **38,590** | **859** | |
 
 ---
 
