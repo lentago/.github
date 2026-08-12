@@ -242,22 +242,6 @@
       ],
       "model_labels": []
     },
-    "myosotis": {
-      "description": "Agent context ledger — append-only record of fleet & workstation Claude context",
-      "homepage": null,
-      "visibility": "private",
-      "template": false,
-      "template_source": null,
-      "features": {
-        "issues": true,
-        "projects": true,
-        "wiki": false,
-        "discussions": false
-      },
-      "suggest_branch_update": false,
-      "topics": [],
-      "model_labels": []
-    },
     "reference-checker": {
       "description": "Forensic reference-integrity auditor for academic publishing — built for nursing and health-sciences editors who need to catch fabricated, manipulated, or suspicious citations before print. Prompt-engineered deep-scan verification on Claude with live web search.",
       "homepage": "https://deepwiki.com/lentago/reference-checker",
