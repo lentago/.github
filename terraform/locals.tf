@@ -43,6 +43,23 @@ locals {
   actions_app_id = 15368
 
   # ---------------------------------------------------------------------------
+  # The merge gate (protection.tf): the push allowlist on `main`. Every merge
+  # lands through an org owner/admin — colleagues (Players team, triage)
+  # contribute via PRs that an owner reviews and arms, and a future write grant
+  # still cannot update `main`. "/username" is the provider's user syntax.
+  # ---------------------------------------------------------------------------
+  gate_allowlist = ["/cpitzi"]
+
+  # Repo-scoped additions to the allowlist. music-curator's follow-fold
+  # workflow performs its documented bot merge (`gh pr merge --squash` under
+  # GITHUB_TOKEN — see music-curator#9), so the GitHub Actions app is allowed
+  # there, and only there: fleet-wide, a workflow must not be able to update
+  # `main`.
+  gate_extra_allowances = {
+    "music-curator" = ["MDM6QXBwMTUzNjg="] # the GitHub Actions app (id 15368)
+  }
+
+  # ---------------------------------------------------------------------------
   # Free-plan carve-outs. Both are plan limits, not policy choices, and both
   # were already special-cased in fleet-apply.sh.
   # ---------------------------------------------------------------------------
