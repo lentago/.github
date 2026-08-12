@@ -19,6 +19,7 @@ org itself.** This module manages GitHub, nothing else.
 | Topic spine + signature topics | `github_repository` | spine in `locals.tf`, signature in `repos.json` |
 | `main` branch ruleset — PR-required, squash-only, no force-push/deletion | `github_repository_ruleset` | `rulesets.tf` |
 | Required status checks | `github_repository_ruleset` | `../fleet-ops/required-checks.json` |
+| Merge gate — who can update `main` | `github_branch_protection` | allowlist in `locals.tf` |
 | Tidewater issue-label palette | `github_issue_label` | `../fleet-ops/labels.json` |
 
 Terraform reads the **same** `fleet-ops/*.json` the script reads rather than
@@ -155,6 +156,32 @@ archived repo is read-only — Terraform can no longer manage its settings.
 So: archive the repo, then remove it from `repos.json`, `required-checks.json`
 and `brand/fleet.json`, and `terraform state rm` its resources in the same PR.
 The state removal is the deliberate step that says "this is intentional."
+
+### The merge gate — every merge to `main` lands through an owner/admin
+
+`protection.tf` puts a classic branch-protection **push allowlist** on `main`
+in every public repo: only `cpitzi` (org owner) can update the ref — direct
+push or PR merge — plus, on `music-curator` only, the GitHub Actions app, so
+follow-fold's documented bot merge (music-curator#9) keeps working. Colleagues
+on the Players team contribute via PRs; an owner reviews and arms auto-merge.
+A future write grant to anyone else still cannot reach `main`.
+
+Two things about the shape that look odd and are load-bearing:
+
+- **It is classic branch protection, not a ruleset `update` rule.** Rulesets
+  gate by *bypass*, and GitHub's async auto-merge path does not honor
+  `bypass_actors` — a PR whose merge depends on a bypass sits `BLOCKED`
+  forever (community discussions #162623, #113172). That would kill the
+  fleet's arm-auto-merge convention. A push *allowlist* is evaluated
+  transparently for allowed users, so `gh pr merge --auto` keeps working.
+- **It declares nothing but the allowlist.** PR-required, squash-only,
+  required checks, and force-push/deletion protection all stay in the `main`
+  ruleset (`rulesets.tf`) — the two layers compose, and duplicating a rule in
+  both would mean two places to drift.
+
+After changing the gate, verify auto-merge still arms and fires on the next
+routine PR before trusting it fleet-wide — the failure mode is silent
+(a PR that just never merges).
 
 ### Required checks — the one rule Terraform cannot enforce
 
