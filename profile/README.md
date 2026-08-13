@@ -6,7 +6,7 @@
 
 The estate is real — a Proxmox homelab cluster and a production-grade AWS platform — but the stakes are deliberately non-critical. **Build it, break it, operate it**, entirely through modern operations patterns, out in the open.
 
-<sub>It's a place for the crew — IT-ops colleagues from Applause — to explore the estate, exercise the patterns, and carry the automation and agentic ideas back to the day job.</sub>
+<sub>It's a place for the crew — IT-ops colleagues — to explore the estate, exercise the patterns, and carry the automation and agentic ideas back to the day job. None of these patterns are held up as <i>the</i> correct way — they're candidates, no more right than anyone else's, and the point is spotting the ones that might be useful.</sub>
 
 <br/>
 
