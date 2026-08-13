@@ -35,6 +35,8 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 ### 🧰 &nbsp; What the estate is built on
 
+<sub><b>Emphatically free-tier, wherever possible.</b> When a service offers a free tier, that's the one the lab runs — caps and retention windows are treated as real operating constraints to be managed, not something to buy past.</sub>
+
 <sub>Cloud & containers</sub><br/>
 ![AWS](https://img.shields.io/badge/AWS-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTE4LjcgMTAuMmE2LjYgNi42IDAgMCAwLTEyLjktMS4yQTUuMSA1LjEgMCAwIDAgNi4xIDE5aDExLjZhNC42IDQuNiAwIDAgMCAxLTguOHoiLz48L3N2Zz4K)
 ![ECS Fargate](https://img.shields.io/badge/ECS%20Fargate-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTIgMS41IDIxLjUgN3YxMEwxMiAyMi41IDIuNSAxN1Y3TDEyIDEuNXptMCAyLjNMNC41IDguMnY3LjZsNy41IDQuNCA3LjUtNC40VjguMkwxMiAzLjh6Ii8%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTguNSA5LjVoN3Y3aC03eiIvPjwvc3ZnPgo%3D)
