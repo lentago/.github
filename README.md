@@ -140,6 +140,12 @@ Brand assets, and the generator that turns them into per-repo identity.
 Social previews are the one surface with no API — they're uploaded per repo
 under **Settings → General → Social preview**.
 
+## Architecture decisions
+
+[`docs/adr/`](docs/adr/) records the architectural decisions behind this repo and
+its fleet governance — the merge gate, the Terraform migration, per-repo rulesets,
+and more — reconstructed from repo history and fleet records.
+
 ## 🛠️ Make a change yourself
 
 This is a lab — the systems are real, the stakes are not. Pick a vector:
