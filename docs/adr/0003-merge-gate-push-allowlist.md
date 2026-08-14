@@ -32,8 +32,8 @@ The deciding fact: **GitHub's async auto-merge path does not honor ruleset
 (community discussions #162623, #113172). A ruleset `update` rule would therefore
 silently kill the fleet's arm-auto-merge-on-every-PR convention. A push *allowlist* is
 evaluated transparently for allowed users, so `gh pr merge --auto` keeps arming and
-firing for the owner (and for the PATs that act as `cpitzi` — `ha-version-sync`, the
-weekly fleet-reports PR). The gate declares **only** the allowlist; PR-required,
+firing for the owner (and for PATs that authenticate as `cpitzi`, such as the
+weekly fleet-reports automation). The gate declares **only** the allowlist; PR-required,
 squash-only, required checks, and force-push/deletion protection stay in the `main`
 ruleset, so the layers compose rather than duplicate.
 

@@ -23,7 +23,7 @@ the Terraform GitHub provider", merged 2026-08-11).
   was a plan that touched nothing it should not: `Plan: 189 to import, 0 to add, 25 to
   change, 0 to destroy` — 16 repositories, 15 rulesets, 158 labels — with every public
   repo planning clean. Of the 25 changes, 16 were provider-only flags
-  (`archive_on_destroy`, delete-branch-on-merge), not identity or spine topics.
+  (`archive_on_destroy`, `ignore_vulnerability_alerts_during_read`), not identity or spine topics.
 - **Division of labor, recorded.** Terraform owns the *declarable* surfaces above. The
   script keeps the two things Terraform structurally cannot do: `--prune-branches` (an
   imperative sweep over live branch/PR state) and the **required-context preflight**
