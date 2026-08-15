@@ -88,7 +88,7 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a><br/><sub><a href="https://deepwiki.com/lentago/asclepias">DeepWiki&nbsp;↗</a></sub></td>
-<td>The training ground — operations manual, day-one onboarding, hands-on labs.</td>
+<td>The field guide — operations manual, day-one path, hands-on labs.</td>
 </tr>
 </table>
 

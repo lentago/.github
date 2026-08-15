@@ -41,7 +41,7 @@
   ],
   "repos": {
     "asclepias": {
-      "description": "Asclepias — the Lentago Labs training ground: the unified operations manual (estate atlas, pattern catalog, enterprise↔lab glossary), the day-one onboarding path, and numbered hands-on labs that exercise the fleet's patterns end to end. Milkweed: the host plant that raises the next generation.",
+      "description": "Asclepias — the Lentago Labs field guide: the shared operations manual (estate atlas, pattern catalog, enterprise↔lab glossary), a day-one path, and hands-on labs anyone can run against the real fleet. Milkweed: the host plant every monarch finds its way to.",
       "homepage": "https://deepwiki.com/lentago/asclepias",
       "visibility": "public",
       "template": false,
@@ -58,9 +58,9 @@
       "suggest_branch_update": false,
       "topics": [
         "documentation",
+        "labs",
         "onboarding",
-        "runbooks",
-        "training"
+        "runbooks"
       ],
       "model_labels": []
     },
