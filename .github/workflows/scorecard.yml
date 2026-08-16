@@ -1,0 +1,66 @@
+# ============================================================================
+# OpenSSF Scorecard — supply-chain security posture
+# ============================================================================
+# Analyses this repo against the OpenSSF Scorecard checks, publishes results
+# to the Scorecard API (for the badge), and uploads a SARIF report to GitHub
+# code-scanning so findings surface in the Security tab.
+#
+# Runs weekly (Sundays 06:30 UTC) and on every push to main.
+# Permissions follow least-privilege: only the two elevated scopes the
+# Scorecard action actually needs (SARIF upload + OIDC token for publishing).
+#
+# Third-party actions are pinned to full 40-char commit SHAs per fleet policy.
+# ============================================================================
+
+name: OpenSSF Scorecard
+
+on:
+  schedule:
+    # Sundays 06:30 UTC — staggered off the hour to avoid GitHub scheduler
+    # congestion that clusters at :00 and :30.
+    - cron: "30 6 * * 0"
+  push:
+    branches: ["main"]
+
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    runs-on: ubuntu-latest
+    permissions:
+      # Required to upload SARIF results to the Security tab.
+      security-events: write
+      # Required by ossf/scorecard-action to publish results to the
+      # Scorecard API and power the public badge.
+      id-token: write
+      # Needed for a private repo; harmless on a public one.
+      contents: read
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+        with:
+          persist-credentials: false
+
+      - name: Run OpenSSF Scorecard
+        uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc  # v2.4.4
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # publish_results pushes scores to the public Scorecard API so the
+          # badge at api.securityscorecards.dev reflects current state.
+          publish_results: true
+
+      - name: Upload SARIF artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+
+      - name: Upload SARIF to GitHub code-scanning
+        uses: github/codeql-action/upload-sarif@f3712979fa5f215279b101dd0a2e3bdfb4353324  # v3.37.7
+        with:
+          sarif_file: results.sarif
