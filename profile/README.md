@@ -10,11 +10,23 @@ The estate is real — a Proxmox homelab cluster and a production-grade AWS plat
 
 <br/>
 
+**The lab** &nbsp;·&nbsp; Real systems, survivable stakes, receipts in git.<br/>
+**The practice** &nbsp;·&nbsp; Own your systems. Exit-ready by construction.<br/>
+<sub>Modern operations, sized for mission-driven organizations.</sub>
+
+<sub>The lab tests patterns in the open on real systems with survivable stakes; the practice puts the ones that earn their keep to work for organizations that run on volunteers and donations. The emphatic free-tier discipline is deliberate operating practice for exactly those constraints — not thrift.</sub>
+
+<br/>
+
 <a href="https://deepwiki.com/lentago"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" height="32"></a>
 
 </div>
 
+> **The pledge** — We will never host your systems for you. You'll own every piece, we'll teach your people, and firing us is a runbook.
+
 > [DeepWiki](https://deepwiki.com/lentago) maintains an AI-generated wiki over every public Lentago Labs repo — architecture pages, diagrams, and a Q&A box grounded in the actual code. It's the fastest way to orient before reading source. It is AI-generated: trust it to orient you, verify against the code before you act on it.
+
+> **New to how any of this maps to enterprise practice?** The [asclepias glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) translates enterprise practice — CAB, CMDB, PIR and the rest — into what the lab actually does. It's the fastest orientation for either audience.
 
 ### 🔁 &nbsp; How everything moves
 
@@ -40,12 +52,10 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 <sub>Cloud & containers</sub><br/>
 ![AWS](https://img.shields.io/badge/AWS-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTE4LjcgMTAuMmE2LjYgNi42IDAgMCAwLTEyLjktMS4yQTUuMSA1LjEgMCAwIDAgNi4xIDE5aDExLjZhNC42IDQuNiAwIDAgMCAxLTguOHoiLz48L3N2Zz4K)
 ![ECS Fargate](https://img.shields.io/badge/ECS%20Fargate-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTIgMS41IDIxLjUgN3YxMEwxMiAyMi41IDIuNSAxN1Y3TDEyIDEuNXptMCAyLjNMNC41IDguMnY3LjZsNy41IDQuNCA3LjUtNC40VjguMkwxMiAzLjh6Ii8%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTguNSA5LjVoN3Y3aC03eiIvPjwvc3ZnPgo%3D)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-1b4b2e?style=flat-square&logo=kubernetes&logoColor=E0A81C)
 ![Docker](https://img.shields.io/badge/Docker-1b4b2e?style=flat-square&logo=docker&logoColor=E0A81C)
 
 <sub>Bare metal & virtualization</sub><br/>
 ![Proxmox](https://img.shields.io/badge/Proxmox-1b4b2e?style=flat-square&logo=proxmox&logoColor=E0A81C)
-![VMware](https://img.shields.io/badge/VMware-1b4b2e?style=flat-square&logo=vmware&logoColor=E0A81C)
 ![Linux](https://img.shields.io/badge/Linux-1b4b2e?style=flat-square&logo=linux&logoColor=E0A81C)
 
 <sub>Infrastructure as code</sub><br/>
@@ -96,13 +106,30 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 ### 🧭 &nbsp; Start here
 
-New to the org? Walk this path:
+Three ways in, depending on why you're here.
+
+**Taking part** &nbsp;<sub>(the crew — this is what the lab is for)</sub>
 
 1. Pick a product repo above and read its **🛠️ Make a change yourself** section.
 2. Ask that repo's **DeepWiki** a question about how it works.
-3. Read this week's [fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md) and one entry from the [incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md).
+3. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) — they ladder from *ask the fleet* up to owning a pattern.
 4. Open your first PR — small is fine; the required checks will guide you.
 5. Mention `@claude` on any issue or PR and watch the agent fleet respond.
+
+**Evaluating the operator** &nbsp;<sub>(technical)</sub>
+
+1. [**solidago**](https://github.com/lentago/solidago) — the reference AWS platform, 100% Terraform.
+2. [**claytonia**](https://github.com/lentago/claytonia) — the self-hosted agent fleet that does the directed work.
+3. [**homeassistant-config**](https://github.com/lentago/homeassistant-config) — physical-world monitoring, version-controlled.
+
+Then the [incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) for how things break, and the [field-guide glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) to map it all onto enterprise practice.
+
+**Evaluating the practice** &nbsp;<sub>(mission-driven organizations)</sub>
+
+1. **The pledge** (above) — you own every piece, we teach your people, firing us is a runbook.
+2. [**site-pondviewlane-com**](https://github.com/lentago/site-pondviewlane-com) — a community organization's public-record fact base with a grounded Ask box.
+3. [**homeassistant-config**](https://github.com/lentago/homeassistant-config) — physical-world monitoring on a donated-scale budget.
+4. [**Incident register**](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) — post-mortems published verbatim.
 
 ### 📊 &nbsp; Fleet in numbers
 
