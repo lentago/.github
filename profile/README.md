@@ -106,7 +106,15 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 ### 🧭 &nbsp; Start here
 
-Two ways in, depending on what you're evaluating.
+Three ways in, depending on why you're here.
+
+**Taking part** &nbsp;<sub>(the crew — this is what the lab is for)</sub>
+
+1. Pick a product repo above and read its **🛠️ Make a change yourself** section.
+2. Ask that repo's **DeepWiki** a question about how it works.
+3. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) — they ladder from *ask the fleet* up to owning a pattern.
+4. Open your first PR — small is fine; the required checks will guide you.
+5. Mention `@claude` on any issue or PR and watch the agent fleet respond.
 
 **Evaluating the operator** &nbsp;<sub>(technical)</sub>
 
