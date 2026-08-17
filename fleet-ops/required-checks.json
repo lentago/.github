@@ -6,19 +6,19 @@
     "red plan/lint blocked nothing).",
     "",
     "Contexts are the EXACT GitHub check-run names, captured from live PR check",
-    "runs \u2014 NOT workflow names or job display names. Note the surprises: the",
+    "runs — NOT workflow names or job display names. Note the surprises: the",
     "reusable ShellCheck check reports as 'shellcheck / shellcheck' (caller-job /",
     "reusable-job), and kalmia's ansible-lint reports as 'ansible-lint' (the job",
     "id), not 'Ansible Lint' (the workflow name).",
     "",
     "HARD RULE: never list a context whose workflow is path-filtered at the `on:`",
-    "level \u2014 a required check whose workflow never triggers is held 'Expected'",
+    "level — a required check whose workflow never triggers is held 'Expected'",
     "forever and deadlocks every non-matching PR. The terraform repos solve this",
     "with an always-on `gate` job (see each repo's terraform.yml). Only list",
     "checks that report on EVERY PR (or that skip at the job level, which counts",
-    "as passing). See fleet-ops/README.md \u00a7 Required status checks.",
+    "as passing). See fleet-ops/README.md § Required status checks.",
     "",
-    "As of 2026-07-25 every active repo is mapped \u2014 there are no intentional",
+    "As of 2026-07-25 every active repo is mapped — there are no intentional",
     "exceptions left. The fleet-wide adoption of the shared `docs-check` reusable",
     "(lentago/.github#57, shared-workflows#28) is what closed the last four:",
     "`brasenia`, `reference-checker` and `repo-template` had only advisory claude",
@@ -26,24 +26,24 @@
     "because every workflow there is a `workflow_call` reusable. It now dogfoods",
     "docs-check against its own markdown via a local path ref.",
     "",
-    "`.github` gates on its own `validate` (ci/validate.py \u2014 fleet-ops config shape,",
+    "`.github` gates on its own `validate` (ci/validate.py — fleet-ops config shape,",
     "brand-asset reproducibility, census classifier routing, incident-register",
     "reproducibility) plus the shared ShellCheck over fleet-apply.sh. Its relative-",
     "link check was removed in #67 and replaced by the shared docs-check, so the",
     "fleet has one link resolver rather than two drifting copies.",
     "",
     "NOTE (2026-07-25): --require-checks REPLACES the required_status_checks rule",
-    "wholesale with what is listed here \u2014 it does not merge with what is already",
+    "wholesale with what is listed here — it does not merge with what is already",
     "live. Any context required live but absent from this file is therefore dropped",
     "on the next sweep. That happened to site-icecreamtofightwith-com: its ruleset",
     "required 'Lint content' + 'Compile and commit' while this file listed only the",
     "former, so the docs-check sweep silently removed 'Compile and commit'. Restored",
-    "here. Before adding a repo, diff this file against the live ruleset \u2014 this file",
+    "here. Before adding a repo, diff this file against the live ruleset — this file",
     "is the source of truth, so anything missing from it is a deletion.",
     "",
     "Enforced surfaces (apply-on-merge) must require their terraform `gate`:",
     "claytonia, kalmia, drosera and solidago all do as of 2026-07-25 (.github#28).",
-    "claytonia was the last \u2014 its terraform.yml was `on:`-level path-filtered, so",
+    "claytonia was the last — its terraform.yml was `on:`-level path-filtered, so",
     "requiring `terraform / validate` as originally proposed would have deadlocked",
     "every non-terraform PR. claytonia#69 moved the filter into a `changes` detector",
     "job and added the always-on `gate` fan-in, matching the other three."
@@ -115,6 +115,12 @@
       "docs-check / docs-check"
     ],
     "shared-workflows": [
+      "docs-check / docs-check"
+    ],
+    "osmunda": [
+      "docs-check / docs-check"
+    ],
+    "monarda": [
       "docs-check / docs-check"
     ]
   }

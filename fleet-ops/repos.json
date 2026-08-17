@@ -413,6 +413,56 @@
         "sonnet",
         "opus"
       ]
+    },
+    "osmunda": {
+      "description": "Osmunda — the Lentago Labs Kubernetes platform: a standing k3s cluster on lab guests plus an ephemeral EKS overlay, pull-based GitOps, and workload identity throughout. Royal fern: a living fossil that grows in interlocking colonies.",
+      "homepage": "https://deepwiki.com/lentago/osmunda",
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "kubernetes",
+        "k3s",
+        "gitops",
+        "flux",
+        "eks"
+      ],
+      "model_labels": []
+    },
+    "monarda": {
+      "description": "Monarda — the Lentago Labs campaign-site kit: an Astro template plus intake and a timed dry-run, deploying to the client's own GitHub Pages or S3/CloudFront. Bee balm: showy, fast-spreading, a pollinator magnet.",
+      "homepage": "https://deepwiki.com/lentago/monarda",
+      "visibility": "public",
+      "template": true,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "astro",
+        "template",
+        "campaign-sites",
+        "nonprofit",
+        "kit"
+      ],
+      "model_labels": []
     }
   }
 }
