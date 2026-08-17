@@ -5,6 +5,8 @@ session. Concurrency risk has a resource dimension, not just a git one.*
 Compiled 2026-08-12 from a multi-session transcript harvest. All times
 **America/New_York (EDT, UTC-4)**.
 
+**Deployment-caused:** no
+
 ---
 
 ## TL;DR

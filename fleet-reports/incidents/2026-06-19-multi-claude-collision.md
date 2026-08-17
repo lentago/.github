@@ -5,6 +5,8 @@ Compiled 2026-06-20 by Home Claude from local session transcripts in
 `~/.claude/projects/`. All times **EDT**. Transcript timestamps are UTC in
 the raw files; converted here.
 
+**Deployment-caused:** no
+
 ---
 
 ## TL;DR

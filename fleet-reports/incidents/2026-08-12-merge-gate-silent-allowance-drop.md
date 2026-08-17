@@ -8,6 +8,8 @@ Compiled 2026-08-12 from a multi-session transcript harvest, cross-checked
 against live GitHub state at harvest time. All times **America/New_York (EDT,
 UTC-4)**.
 
+**Deployment-caused:** yes
+
 ---
 
 ## TL;DR

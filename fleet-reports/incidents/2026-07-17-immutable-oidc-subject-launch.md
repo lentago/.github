@@ -6,6 +6,8 @@ existing pipeline kept working while the brand-new one failed on launch day.*
 Compiled 2026-08-12 from a multi-session transcript harvest, cross-checked
 against GitHub and AWS ground truth. All times **America/New_York (EDT, UTC-4)**.
 
+**Deployment-caused:** yes
+
 ---
 
 ## TL;DR

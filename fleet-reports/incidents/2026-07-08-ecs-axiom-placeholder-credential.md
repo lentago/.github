@@ -7,6 +7,8 @@ Compiled 2026-08-12 from a multi-session transcript harvest, cross-checked
 against GitHub, AWS, and Axiom ground truth. All times **America/New_York
 (EDT, UTC-4)** unless marked UTC.
 
+**Deployment-caused:** yes
+
 ---
 
 ## TL;DR

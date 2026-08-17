@@ -6,6 +6,8 @@ the whole machine. Its second defect had been silently winning for weeks.*
 Compiled 2026-08-12 from a multi-session transcript harvest, cross-checked
 against GitHub ground truth. All times **America/New_York (EDT, UTC-4)**.
 
+**Deployment-caused:** yes
+
 ---
 
 ## TL;DR
