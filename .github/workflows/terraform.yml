@@ -3,10 +3,17 @@
 # ============================================================================
 # Validates the terraform/ module that owns every Lentago Labs repo's settings.
 #
-# PHASE 1 (current): fmt + validate only. `plan` needs two credentials this repo
-# does not have yet — AWS for the S3 state backend, and a GitHub admin token for
-# the provider — both of which arrive with the apply-on-merge phase. Applies are
-# operator-run locally until then. See terraform/README.md § Phases.
+# PHASE 2 (wiring, gate not yet required): plan-on-PR + apply-on-merge are wired
+# below, following drosera's GitHub-hosted shape — the GitHub API is internet-
+# reachable, unlike the Proxmox repos (kalmia/claytonia) whose provider is LAN-
+# only and must run on the self-hosted runner. Both jobs need two credentials:
+#   - AWS via OIDC (role dotgithub-github-actions-terraform) for the S3 state backend
+#   - the GitHub provider token from the FLEET_ADMIN_TOKEN repo secret
+# Until FLEET_ADMIN_TOKEN is minted, plan/apply fail at their secret preflight.
+# That is deliberately safe: `gate` is NOT yet in fleet-ops/required-checks.json,
+# so a red plan cannot block a merge. Requiring `gate` is the final step, taken
+# only after a green plan is observed on a real PR. See terraform/README.md
+# § Phases and issue #81.
 #
 # Deliberately NOT path-filtered at the `on:` level for pull_request. The `gate`
 # job below is shaped to become a required status check in phase 2, and a
@@ -30,9 +37,16 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write # plan job posts its output as a PR comment
+  issues: write # createComment goes through the issues API
+  id-token: write # OIDC → AWS for the S3 state backend (plan + apply jobs)
 
 env:
   TERRAFORM_VERSION: "1.14.9"
+  # OIDC role (least-privilege: this repo's S3 state key + the lock table only).
+  # Minted in solidago, trusting repo:lentago/.github. See terraform/README.md § Phases.
+  AWS_ROLE: arn:aws:iam::365184644049:role/dotgithub-github-actions-terraform
+  AWS_REGION: us-east-1
 
 jobs:
   # Replaces the former `on:`-level path filter for PRs. On push the filter
@@ -94,11 +108,148 @@ jobs:
       - name: validate
         run: terraform validate -no-color
 
+  # plan-on-PR. GitHub-hosted runner (the GitHub + AWS APIs are both internet-
+  # reachable), OIDC → AWS for the S3 backend, GitHub provider token from the
+  # FLEET_ADMIN_TOKEN repo secret. Posts the plan to the PR; a failed plan fails
+  # the job, which turns `gate` red.
+  plan:
+    needs: [changes, tf-validate]
+    runs-on: ubuntu-latest
+    # Dependabot PRs are excluded: a `pull_request` run triggered by Dependabot
+    # draws from a separate Dependabot secrets store, not this repo's normal
+    # Actions secrets, so FLEET_ADMIN_TOKEN resolves empty and the preflight
+    # below fails by design. A dependency bump (an action SHA pin) never needs to
+    # plan against the fleet, so skip the job rather than widen where the admin
+    # credential is reachable. A skipped job counts as passing for the `gate`
+    # fan-in. Same pattern as kalmia/claytonia (see lentago/.github#114).
+    if: >-
+      needs.changes.outputs.tf == 'true' &&
+      github.event_name == 'pull_request' &&
+      github.actor != 'dependabot[bot]'
+    defaults:
+      run:
+        working-directory: terraform
+    env:
+      # The integrations/github provider reads $GITHUB_TOKEN; override the default
+      # Actions token with the fleet admin PAT (repo administration + org repo
+      # creation across all repos). Never `delete_repo` — README.md § Rails.
+      GITHUB_TOKEN: ${{ secrets.FLEET_ADMIN_TOKEN }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Verify FLEET_ADMIN_TOKEN
+        run: |
+          if [ -z "${GITHUB_TOKEN:-}" ]; then
+            echo "::error::Set repository secret FLEET_ADMIN_TOKEN (see terraform/README.md § Auth). It was empty in this run."
+            exit 1
+          fi
+
+      - name: Configure AWS credentials (OIDC → S3 state)
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        with:
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
+
+      - name: init
+        run: terraform init -input=false
+
+      - name: plan
+        id: plan
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          terraform plan -no-color -input=false -lock=false \
+            -out=tfplan 2>&1 | tee plan.txt
+          PLAN_EXIT=${PIPESTATUS[0]}
+          {
+            echo 'plan<<EOF'
+            tail -c 60000 plan.txt
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+          exit "$PLAN_EXIT"
+
+      - name: comment on PR
+        if: always()
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        env:
+          PLAN: ${{ steps.plan.outputs.plan }}
+          OUTCOME: ${{ steps.plan.outcome }}
+        with:
+          script: |
+            const plan = process.env.PLAN || '(no plan output captured)';
+            const outcome = process.env.OUTCOME;
+            const body = [
+              `### terraform plan (${outcome})`,
+              '```',
+              plan,
+              '```',
+            ].join('\n');
+            return github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - name: Fail if terraform plan failed
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+  # apply-on-merge. Same credentials as plan, -auto-approve. Path-gated at the
+  # `on: push` level above so a merge that touched no terraform/config never
+  # re-applies.
+  apply:
+    needs: [changes, tf-validate]
+    runs-on: ubuntu-latest
+    if: >-
+      needs.changes.outputs.tf == 'true' &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Serialize applies so two quick merges can't race on the same state.
+    concurrency:
+      group: terraform-apply
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: terraform
+    env:
+      GITHUB_TOKEN: ${{ secrets.FLEET_ADMIN_TOKEN }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Verify FLEET_ADMIN_TOKEN
+        run: |
+          if [ -z "${GITHUB_TOKEN:-}" ]; then
+            echo "::error::Set repository secret FLEET_ADMIN_TOKEN (see terraform/README.md § Auth). It was empty in this run."
+            exit 1
+          fi
+
+      - name: Configure AWS credentials (OIDC → S3 state)
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        with:
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
+
+      - name: init
+        run: terraform init -input=false
+
+      - name: apply
+        run: terraform apply -auto-approve -no-color -input=false
+
   # Always-on fan-in. This is the context phase 2 adds to required-checks.json:
   # it reports on every PR (green when the terraform jobs skipped), so requiring
   # it cannot deadlock a docs-only PR.
   gate:
-    needs: [changes, tf-validate]
+    needs: [changes, tf-validate, plan]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -106,9 +257,12 @@ jobs:
         run: |
           # needs['tf-validate'], not needs.tf-validate — a hyphen in a context
           # key parses as subtraction in an expression.
-          echo "changes=${{ needs.changes.result }} tf-validate=${{ needs['tf-validate'].result }}"
-          # A skipped dependency is a pass; only a real failure or cancellation fails the gate.
-          for r in "${{ needs.changes.result }}" "${{ needs['tf-validate'].result }}"; do
+          echo "changes=${{ needs.changes.result }} tf-validate=${{ needs['tf-validate'].result }} plan=${{ needs.plan.result }}"
+          # A skipped dependency is a pass (docs-only PR, or plan skipped on push /
+          # for dependabot); only a real failure or cancellation fails the gate.
+          # A failed plan lands here as `failure`, which is what will block the
+          # merge once `gate` is added to required-checks.json (issue #81 step 4).
+          for r in "${{ needs.changes.result }}" "${{ needs['tf-validate'].result }}" "${{ needs.plan.result }}"; do
             case "$r" in
               success|skipped) ;;
               *) echo "::error::terraform checks did not pass ($r)"; exit 1 ;;
