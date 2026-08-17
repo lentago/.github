@@ -186,16 +186,5 @@
       { "label": "Spotify", "logo": "spotify" },
       { "label": "Python", "logo": "python" }
     ]
-  },
-  "reference-checker": {
-    "mark": "lentago",
-    "kind": "LAB",
-    "tagline": "Reference integrity · citation forensics",
-    "prompt": "deep-scan  ·  fabricated · manipulated · suspicious",
-    "badges": [
-      { "label": "Claude", "logo": "anthropic" },
-      { "label": "Prompt engineering" },
-      { "label": "Publishing" }
-    ]
   }
 }

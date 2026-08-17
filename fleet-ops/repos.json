@@ -266,31 +266,6 @@
       ],
       "model_labels": []
     },
-    "reference-checker": {
-      "description": "Forensic reference-integrity auditor for academic publishing — built for nursing and health-sciences editors who need to catch fabricated, manipulated, or suspicious citations before print. Prompt-engineered deep-scan verification on Claude with live web search.",
-      "homepage": "https://deepwiki.com/lentago/reference-checker",
-      "visibility": "public",
-      "template": false,
-      "template_source": null,
-      "features": {
-        "issues": true,
-        "projects": true,
-        "wiki": false,
-        "discussions": false
-      },
-      "suggest_branch_update": true,
-      "topics": [
-        "academic-integrity",
-        "citation-verification",
-        "forensics",
-        "prompt-engineering",
-        "publishing"
-      ],
-      "model_labels": [
-        "haiku",
-        "opus"
-      ]
-    },
     "repo-template": {
       "description": "Template repo for the Lentago Labs fleet: README/CLAUDE skeletons, MIT, shared-workflows CI wrappers. Templates copy files, not settings — see SETUP.md.",
       "homepage": "https://deepwiki.com/lentago/repo-template",
