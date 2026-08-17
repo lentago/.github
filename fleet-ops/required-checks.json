@@ -55,13 +55,15 @@
     ".github": [
       "validate",
       "shellcheck / shellcheck",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "kalmia": [
       "gate",
       "ansible-lint",
       "shellcheck / shellcheck",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "music-curator": [
       "integrity",
@@ -70,11 +72,13 @@
     "drosera": [
       "gate",
       "shellcheck / shellcheck",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "solidago": [
       "gate",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "site-lentago-dev": [
       "Build",
@@ -87,7 +91,8 @@
     "claytonia": [
       "gate",
       "shellcheck / shellcheck",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "betula": [
       "shellcheck / shellcheck",
