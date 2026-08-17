@@ -37,7 +37,7 @@ locals {
     "brasenia"                     = 19323889
     "claytonia"                    = 17713398
     "drosera"                      = 14522520
-    "homeassistant-config"         = 14718477
+    "epigaea"         = 14718477
     "kalmia"                       = 18293648
     "music-curator"                = 17669624
     "repo-template"                = 17671511

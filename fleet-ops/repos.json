@@ -191,7 +191,7 @@
       ],
       "model_labels": []
     },
-    "homeassistant-config": {
+    "epigaea": {
       "description": "Production residential smart home on Home Assistant + Proxmox, 40+ entities managed declaratively in YAML: Konnected alarm panels (custom ESPHome firmware), Hue/Kasa lighting, Sonos audio, energy + environmental monitoring, an automation library, and two purpose-built dashboards — gitops-deployed.",
       "homepage": "https://deepwiki.com/lentago/homeassistant-config",
       "visibility": "public",
