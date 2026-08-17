@@ -53,6 +53,7 @@
       "docs-check / docs-check"
     ],
     ".github": [
+      "gate",
       "validate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
