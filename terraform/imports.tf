@@ -10,14 +10,34 @@
 # (state lost, or a rebuild in a new backend) recovers by re-importing with no
 # code changes.
 
+# What exists live right now, so imports can be intersected against reality.
+# Discovered the hard way on the first true birth (osmunda/monarda, PR #157):
+# an import block for an object that does not exist is a hard plan error, so
+# importing unconditionally over local.repos meant the module could ADOPT a
+# fleet but never GROW one — every new repos.json entry failed the plan before
+# creation was even considered. The ruleset import below always had this guard
+# (via its hardcoded id map); these two now get the same treatment from a live
+# query. Search-API lag on a seconds-old repo is harmless here: the import is
+# skipped and creation is attempted, which is the intended path anyway.
+data "github_repositories" "live" {
+  query = "org:lentago"
+}
+
+locals {
+  live_repo_names = toset(data.github_repositories.live.names)
+}
+
 import {
-  for_each = local.repos
+  # Intersected with what exists live — a repo new to repos.json is created,
+  # not imported (see data block note above).
+  for_each = { for name in keys(local.repos) : name => name if contains(local.live_repo_names, name) }
   to       = github_repository.fleet[each.key]
   id       = each.key
 }
 
 import {
-  for_each = local.repo_labels
+  # Same guard: labels on a repo that does not exist yet cannot be imported.
+  for_each = { for k, v in local.repo_labels : k => v if contains(local.live_repo_names, v.repository) }
   to       = github_issue_label.fleet[each.key]
   id       = "${each.value.repository}:${each.value.name}"
 }
