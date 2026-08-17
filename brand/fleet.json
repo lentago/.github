@@ -165,7 +165,7 @@
     ]
   },
 
-  "homeassistant-config": {
+  "epigaea": {
     "mark": "lentago",
     "kind": "LAB",
     "tagline": "Smart home · 40+ entities, declarative YAML",

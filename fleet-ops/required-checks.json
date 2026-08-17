@@ -93,7 +93,7 @@
       "shellcheck / shellcheck",
       "docs-check / docs-check"
     ],
-    "homeassistant-config": [
+    "epigaea": [
       "check-config",
       "docs-check / docs-check"
     ],
