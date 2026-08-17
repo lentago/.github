@@ -40,7 +40,6 @@ locals {
     "homeassistant-config"         = 14718477
     "kalmia"                       = 18293648
     "music-curator"                = 17669624
-    "reference-checker"            = 14344191
     "repo-template"                = 17671511
     "shared-workflows"             = 15538975
     "site-icecreamtofightwith-com" = 13559020

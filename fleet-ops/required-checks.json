@@ -105,9 +105,6 @@
     "brasenia": [
       "docs-check / docs-check"
     ],
-    "reference-checker": [
-      "docs-check / docs-check"
-    ],
     "repo-template": [
       "docs-check / docs-check"
     ],
