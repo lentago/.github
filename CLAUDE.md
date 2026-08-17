@@ -232,6 +232,20 @@ a new report drops in via a local PR that runs
 `python3 metrics/generate-fleet-reports.py --out-dir . --incidents-only` (a cheap
 mode that needs neither `gh` nor `cloc`).
 
+**Every report needs a `Deployment-caused` marker** — a bold labelled line,
+`**Deployment-caused:** yes|no|unknown`, anywhere in the file (convention:
+right after the "Compiled …" byline, before the first `---`), parsed by the
+same generator. It's what makes
+DORA's *change failure rate* and *failed-deployment-recovery-time* computable
+from the register instead of requiring a separate audit: `yes` means a
+deployment (a merge, an apply, a config push) is what triggered the incident;
+`no` means the trigger was something else (hardware, an external event, a
+process/knowledge failure with nothing deployed); `unknown` when the report's
+own evidence doesn't pin it down — leave it `unknown` rather than guessing, since
+a wrong yes/no silently corrupts the metric while an absent one just leaves the
+question open. The register renders the per-incident value plus a fleet-wide
+yes/no/unknown tally.
+
 **Policy exception — incident reports are published verbatim.** Unlike
 `fleet-report.md` (public metadata only, *"no homelab-internal detail"*), the
 incident reports **deliberately keep their homelab-internal architecture detail**

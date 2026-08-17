@@ -435,9 +435,17 @@ def _first_sentence(text, limit=240):
         s = s[:limit].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
     return s
 
+# Deployment-causation marker: a bold labelled line, '**Deployment-caused:** yes|no|unknown',
+# read by DORA's change-failure-rate / failed-deployment-recovery-time math. Missing or
+# unparseable defaults to "unknown" — a silently wrong yes/no would corrupt those metrics,
+# an "unknown" just leaves the question open.
+DEPLOY_RE = re.compile(r"^\*\*Deployment-caused:\*\*\s*(yes|no|unknown)\s*$", re.M | re.I)
+DEPLOY_LABEL = {"yes": "Yes", "no": "No", "unknown": "Unknown"}
+
 def parse_incident(path):
-    """Extract (title, summary) from an incident report. Robust to the /incident-digest
-    template: '# Incident Digest — <Title>, YYYY-MM-DD' then a '## TL;DR' or '## Summary'."""
+    """Extract (title, summary, deploy_caused) from an incident report. Robust to the
+    /incident-digest template: '# Incident Digest — <Title>, YYYY-MM-DD' then a
+    '## TL;DR' or '## Summary', plus a '**Deployment-caused:** yes|no|unknown' marker."""
     with open(path, encoding="utf-8") as f:
         text = f.read()
     title = os.path.basename(path)
@@ -456,7 +464,9 @@ def parse_incident(path):
             continue
         summary = _first_sentence(_strip_md(p))
         break
-    return title, summary
+    dm = DEPLOY_RE.search(text)
+    deploy = dm.group(1).lower() if dm else "unknown"
+    return title, summary, deploy
 
 def build_incident_register(out_dir, ts):
     inc_dir = os.path.join(out_dir, *INCIDENTS_DIR)
@@ -467,10 +477,13 @@ def build_incident_register(out_dir, ts):
                 continue
             m = re.match(r"(\d{4}-\d{2}-\d{2})-.+\.md$", fn)
             date = m.group(1) if m else "—"
-            title, summary = parse_incident(os.path.join(inc_dir, fn))
-            entries.append((date, title, summary, fn))
+            title, summary, deploy = parse_incident(os.path.join(inc_dir, fn))
+            entries.append((date, title, summary, fn, deploy))
     entries.sort(key=lambda e: (e[0], e[3]), reverse=True)
     n = len(entries)
+    yes_n = sum(1 for e in entries if e[4] == "yes")
+    no_n = sum(1 for e in entries if e[4] == "no")
+    unk_n = sum(1 for e in entries if e[4] == "unknown")
     L = []
     L.append("# Lentago Labs Incident Register")
     L.append("")
@@ -488,10 +501,14 @@ def build_incident_register(out_dir, ts):
         L.append("_No incident reports logged yet._")
         L.append("")
     else:
-        L.append("| Date | Incident | Summary |")
-        L.append("|------|----------|---------|")
-        for date, title, summary, fn in entries:
-            L.append(f"| {date} | [{_esc(title)}](incidents/{fn}) | {_esc(summary)} |")
+        L.append(f"**Deployment-caused:** {yes_n} yes · {no_n} no · {unk_n} unknown — the DORA "
+                 "change-failure-rate / failed-deployment-recovery-time inputs; each report's "
+                 "`Deployment-caused` marker feeds this line.")
+        L.append("")
+        L.append("| Date | Incident | Deploy-caused | Summary |")
+        L.append("|------|----------|:---:|---------|")
+        for date, title, summary, fn, deploy in entries:
+            L.append(f"| {date} | [{_esc(title)}](incidents/{fn}) | {DEPLOY_LABEL[deploy]} | {_esc(summary)} |")
         L.append("")
     L.append("_Generated with Claude Code (Repo Claude)._")
     L.append("")

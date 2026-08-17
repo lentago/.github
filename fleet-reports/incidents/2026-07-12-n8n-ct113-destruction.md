@@ -7,6 +7,8 @@ single local session — not a multi-session transcript reconstruction), cross-c
 against git/GitHub ground truth. All times **America/New_York (EDT, UTC-4)**.
 (PR/run timestamps are UTC in the source; converted here.)
 
+**Deployment-caused:** yes
+
 ---
 
 ## TL;DR

@@ -10,6 +10,8 @@ repo is a private community wiki, and the incident is precisely about not
 propagating personal information about private individuals — this entry
 practices what it files.
 
+**Deployment-caused:** no
+
 ---
 
 ## TL;DR

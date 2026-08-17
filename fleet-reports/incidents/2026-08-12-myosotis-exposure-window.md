@@ -7,6 +7,8 @@ hour, and made structurally unrepeatable.*
 Compiled 2026-08-12 from a multi-session transcript harvest, cross-checked
 against live GitHub state. All times **America/New_York (EDT, UTC-4)**.
 
+**Deployment-caused:** no
+
 ---
 
 ## TL;DR

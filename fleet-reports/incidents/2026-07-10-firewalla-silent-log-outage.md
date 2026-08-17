@@ -9,6 +9,8 @@ cross-checked against on-box state, Grafana Cloud query results, and git/GitHub
 ground truth. All times **America/New_York (EDT, UTC-4)**. (Loki timestamps and
 container logs are UTC in the source; converted here.)
 
+**Deployment-caused:** unknown
+
 ---
 
 ## TL;DR

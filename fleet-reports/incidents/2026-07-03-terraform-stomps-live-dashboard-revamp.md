@@ -8,6 +8,8 @@ Compiled 2026-07-13 by Home Claude from local session transcripts in
 `~/.claude/projects/` (harvested by the `/incident-digest` full-history scan).
 All times **America/New_York (EDT, UTC-4)**; raw transcript timestamps are UTC.
 
+**Deployment-caused:** yes
+
 ---
 
 ## TL;DR
