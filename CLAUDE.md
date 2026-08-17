@@ -40,8 +40,8 @@ org-level operator tooling that governs the rest of the fleet.
   the topic spine, per-repo `main` rulesets, required checks, and the label
   palette across all 15 org repos. Adding a repo to `fleet-ops/repos.json` and
   applying creates it; removing one is refused by `prevent_destroy`. Applies are
-  operator-run (phase 1) — CI does `fmt`+`validate` only until the OIDC role and
-  admin token land. **Read `terraform/README.md` § Rails before touching it.**
+  **CI-run on merge to `main`** (phase 2, live 2026-08-17 — plan-on-PR posts to
+  the PR, `gate` is required, Dependabot PRs skip plan by design). **Read `terraform/README.md` § Rails before touching it.**
 - **`fleet-ops/`** — the JSON `terraform/` reads (`repos.json`,
   `required-checks.json`, `labels.json`), plus `fleet-apply.sh`. The script's
   settings-applying flags are superseded by `terraform/`; what it still uniquely
@@ -100,9 +100,9 @@ path-filtered required check deadlocks every non-matching PR):
 
 The first three are required on `main` via `fleet-ops/required-checks.json`, so
 `gh pr merge --auto` arms here rather than merging on the spot. `gate` is
-deliberately **not required yet** — it becomes required in the terraform
-apply-on-merge phase, at which point a red plan blocks the merge. It already
-reports on every PR so that flip is a one-line change.
+**required as well** (phase 2, live 2026-08-17): `plan` feeds it on every
+tf-touching PR, so a red plan blocks the merge, and `apply` runs on merge to
+`main` — this repo's settings module is now an enforced surface.
 
 Adding a check means adding it to `ci/validate.py` — and prove it can fail before
 trusting it: break the thing deliberately, confirm a red run, restore. A check that

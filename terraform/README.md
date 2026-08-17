@@ -71,23 +71,19 @@ account `365184644049`.
 Adoption follows kalmia's precedent: prove the model against live state before
 handing it a trigger.
 
-**Phase 1 — operator-applied (current).** CI runs `fmt` + `validate` only. Plan
-and apply are run locally by the operator. There is no OIDC role and no admin
-token in Actions, so a merge here changes nothing on its own.
+**Phase 2 — apply-on-merge (current, live 2026-08-17, issue #81).** A merge to
+`main` IS an apply: `plan` runs on every tf-touching PR and posts to it, `apply`
+runs on merge, and `gate` (required via `required-checks.json`) blocks the merge
+on a red plan. Credentials: the `dotgithub-github-actions-terraform` OIDC role
+in solidago (S3 r/w on this repo's state key + the lock table, nothing else) and
+the fleet admin PAT as the repo secret `FLEET_ADMIN_TOKEN` (Administration +
+Issues RW, org Administration RW, deliberately no `delete_repo`). Dependabot
+PRs skip `plan` (separate secrets store — the skip counts as pass for `gate`).
 
-**Phase 2 — apply-on-merge (tracked, not yet done).** Needs, in order:
-
-1. A `dotgithub-github-actions-terraform` OIDC role in solidago — S3 r/w on the
-   `dotgithub/terraform.tfstate` key plus the lock table, nothing else.
-2. The admin PAT as the repo secret `FLEET_ADMIN_TOKEN`.
-3. `plan`-on-PR and `apply`-on-merge jobs added to
-   `../.github/workflows/terraform.yml`.
-4. `"gate"` added to this repo's entry in `required-checks.json`, so a red plan
-   blocks the merge. The `gate` job already exists and reports on every PR
-   precisely so this step is one line.
-
-Until step 4, this repo's own CI cannot block a bad plan — which is the reason
-applies stay manual through phase 1 rather than being wired up half-way.
+Operator applies remain possible for surgery (targeted applies, state moves) —
+but this repo is now an **enforced surface**: whatever is on `main` is the live
+fleet settings, and an unrelated merge will reapply it. Phase 1
+(operator-applied, fmt+validate-only CI) ended 2026-08-17.
 
 ## Rails
 
