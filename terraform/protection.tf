@@ -15,6 +15,13 @@
 # transparently; everyone else is refused. The two layers compose — the `main`
 # ruleset keeps owning PR-required / squash-only / required checks /
 # no-force-push; this resource owns only who may update the ref.
+#
+# trivy:ignore:AVD-GIT-0004 — signed commits are not required fleet-wide. That
+# is an open policy decision (tracked in the issue filed alongside tf-lint
+# adoption), not something to flip silently from a lint fix: requiring
+# signatures would break every merge path (bots, runner App, squash-merge
+# authorship) until keys and signing are rolled out deliberately.
+#trivy:ignore:AVD-GIT-0004
 resource "github_branch_protection" "merge_gate" {
   for_each = local.ruleset_repos
 
