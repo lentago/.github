@@ -3,12 +3,13 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (the `/incident-digest` playbook). A chronological register of incident reports harvested from local Lentago lab activity and published as a periodic fleet report. Each row links to the full write-up under [`fleet-reports/incidents/`](incidents/). Unlike the [fleet report](fleet-report.md), these are published **verbatim** and *do* include homelab-internal architecture detail — but never credentials, keys, or secrets.
 
-**Generated:** 2026-08-17 18:37 UTC · **23 incidents logged.**
+**Generated:** 2026-08-17 22:42 UTC · **24 incidents logged.**
 
-**Deployment-caused:** 10 yes · 12 no · 1 unknown — the DORA change-failure-rate / failed-deployment-recovery-time inputs; each report's `Deployment-caused` marker feeds this line.
+**Deployment-caused:** 10 yes · 13 no · 1 unknown — the DORA change-failure-rate / failed-deployment-recovery-time inputs; each report's `Deployment-caused` marker feeds this line.
 
 | Date | Incident | Deploy-caused | Summary |
 |------|----------|:---:|---------|
+| 2026-08-17 | [Game-day #1: killing a bullpen runner mid-job — the queue healed itself in 84 seconds, and nothing told anyone](incidents/2026-08-17-gameday-1-runner-kill.md) | No | We killed a claytonia worker (pct stop on LXC 117, claude-runner-5) 94 seconds into a real job, with a pre-registered hypothesis: the queue's stale-heartbeat reaper should requeue the orphan within 90–150s, a second worker should finish… |
 | 2026-08-12 | [The watcher readable by the watched: closing the myosotis exposure window on org-opening day](incidents/2026-08-12-myosotis-exposure-window.md) | No | The lentago org was repurposed on 08-12 as a learning lab for IT-ops colleagues — invites out, one already accepted. |
 | 2026-08-12 | [The gate that dropped a guard on the way up: merge-gate rollout's silent allowance loss](incidents/2026-08-12-merge-gate-silent-allowance-drop.md) | Yes | Sweeping the newly opened org, the operator asked to gate every merge to main on an org owner/admin. |
 | 2026-08-09 | [Auto-merged red: a dropped brace, a non-required check, and four minutes of broken main](incidents/2026-08-09-claytonia-automerged-red.md) | Yes | During the myosotis visibility-layer work, claytonia PRs #86 and #87 both appended tests to the tail of test/context-ledger.bats. |
