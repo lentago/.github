@@ -1,0 +1,87 @@
+# renewals.yml — renewal-calendar-as-code for Lentago Labs.
+#
+# Every entry is a dated obligation that *lapses if nobody acts*: a domain
+# registration, a TLS certificate, a paid subscription, a credential that
+# expires. A lapse is the one flavour of lock-in no vendor causes on purpose and
+# the one no export plan protects against — so we track it the same way we track
+# everything else that matters, as code in git.
+#
+# The scheduled workflow (.github/workflows/renewal-calendar.yml) reads this file
+# daily and opens a tracking issue `lead_days` before each `next_due`. This is
+# the working example the client template (TEMPLATE.md) points at; the companion
+# self-audit is ../lock-in-ledger.md.
+#
+# PUBLIC REPO — hard rules: no credential values, no account identifiers, no cost
+# figures. Name the obligation and its date; nothing more. `owner` is the routing
+# address only.
+#
+# Schema, per entry:
+#   id         (required)  stable kebab-case key; used to dedupe the issue it opens.
+#   name       (required)  human label for the issue title.
+#   category   (required)  domain | cert | subscription | credential | other.
+#   next_due   (required)  ISO date (YYYY-MM-DD) the obligation next lapses.
+#   cadence    (optional)  human note: annual | monthly | 90d | one-off | ...
+#   owner      (optional)  routing address for the reminder issue.
+#   lead_days  (optional)  days before next_due to open the issue; else defaults.lead_days.
+#   notes      (optional)  one line of public-safe context. No secrets.
+
+defaults:
+  lead_days: 30
+
+renewals:
+  - id: domain-lentago-dev
+    name: "lentago.dev — domain registration"
+    category: domain
+    next_due: 2027-02-14
+    cadence: annual
+    owner: chris@lentago.dev
+    lead_days: 45
+    notes: >
+      The root of the fleet's custody. Auto-renew at the registrar is the real
+      control; this issue is the backstop that fires if auto-renew is off or the
+      card on file has lapsed.
+
+  - id: domain-pondviewlane-com
+    name: "pondviewlane.com — domain registration"
+    category: domain
+    next_due: 2026-11-03
+    cadence: annual
+    owner: chris@lentago.dev
+    lead_days: 45
+    notes: >
+      Community-organization site domain. Same backstop logic as lentago.dev.
+
+  - id: cert-lentago-dev
+    name: "lentago.dev — TLS certificate (ACME auto-renew backstop)"
+    category: cert
+    next_due: 2026-09-10
+    cadence: 90d
+    owner: chris@lentago.dev
+    lead_days: 7
+    notes: >
+      Certificates auto-renew via ACME; this short-lead entry only fires if a
+      renewal has NOT happened by the expected window — a smoke alarm, not a task.
+
+  - id: subscription-fastmail
+    name: "Fastmail — annual subscription"
+    category: subscription
+    next_due: 2027-01-20
+    cadence: annual
+    owner: chris@lentago.dev
+    lead_days: 30
+    notes: >
+      Mail for @lentago.dev. Lapse means mail delivery stops; because the domain
+      is ours, migrating providers is possible but not instant — hence the lead.
+
+  - id: credential-fleet-reports-pat
+    name: "FLEET_REPORTS_TOKEN — fine-grained PAT expiry"
+    category: credential
+    next_due: 2026-10-30
+    cadence: one-off
+    owner: chris@lentago.dev
+    lead_days: 14
+    notes: >
+      The weekly fleet-reports workflow authenticates with this fine-grained PAT
+      (a repo secret — the value is NOT here). Fine-grained PATs expire; when this
+      one does, the workflow fails fast. Rotate by resetting the secret before the
+      date. See CLAUDE.md § Weekly fleet reports.

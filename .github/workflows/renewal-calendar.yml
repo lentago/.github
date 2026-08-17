@@ -1,0 +1,85 @@
+# ============================================================================
+# Renewal calendar — open a tracking issue before each obligation lapses
+# ============================================================================
+# Renewal-calendar-as-code. Reads fleet-reports/lock-in/renewals.yml daily and,
+# for every entry whose reminder window is open (today within `lead_days` of
+# `next_due`, or already overdue), opens a tracking issue — unless one is already
+# open for that exact obligation. Dedup is on the per-item marker the checker
+# embeds in the issue body, so a reminder is filed once and never duplicated
+# while it stays open.
+#
+# This is the working example the client-facing template points at
+# (fleet-reports/lock-in/TEMPLATE.md). The companion self-audit is
+# fleet-reports/lock-in-ledger.md.
+#
+# Auth: issue creation uses the default GITHUB_TOKEN. The org's block on
+# GITHUB_TOKEN is specific to *pull requests*; creating issues is allowed, so
+# unlike the weekly fleet-reports workflow this needs no PAT.
+#
+# Third-party actions are pinned to full commit SHAs per fleet policy.
+# ============================================================================
+
+name: Renewal calendar
+
+on:
+  schedule:
+    # Daily 07:15 UTC — off the hour to dodge scheduler congestion. Daily (not
+    # weekly) so a short-lead entry like a cert backstop can't be missed inside
+    # its window.
+    - cron: "15 7 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: renewal-calendar
+  cancel-in-progress: false
+
+jobs:
+  file-reminders:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Compute due renewals
+        id: due
+        run: |
+          python3 fleet-reports/lock-in/check-renewals.py > /tmp/due.json
+          echo "count=$(jq 'length' /tmp/due.json)" >> "$GITHUB_OUTPUT"
+          jq -r '.[] | "  - \(.id) (\(.days_remaining)d)"' /tmp/due.json || true
+
+      - name: Open tracking issues (deduped on marker)
+        if: steps.due.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          # One fetch of every open issue body; dedup is a substring test on the
+          # marker the checker embeds, so an already-open reminder is skipped.
+          gh issue list --state open --limit 500 --json body \
+            --jq '.[].body' > /tmp/open-bodies.txt || true
+
+          jq -c '.[]' /tmp/due.json | while read -r item; do
+            marker=$(jq -r '.marker' <<<"$item")
+            title=$(jq -r '.title'  <<<"$item")
+            body=$(jq -r '.body'    <<<"$item")
+            if grep -qF "$marker" /tmp/open-bodies.txt; then
+              echo "skip (already open): $marker"
+              continue
+            fi
+            echo "creating: $title"
+            gh issue create --title "$title" --body "$body"
+          done
