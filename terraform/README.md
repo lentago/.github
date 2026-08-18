@@ -85,6 +85,29 @@ but this repo is now an **enforced surface**: whatever is on `main` is the live
 fleet settings, and an unrelated merge will reapply it. Phase 1
 (operator-applied, fmt+validate-only CI) ended 2026-08-17.
 
+## Signed commits — deliberately not required
+
+Decided 2026-08-17 (#153, raised by tf-lint's trivy gate as GIT-0004): the
+`main` merge gate does **not** require signed commits, and that is a decision,
+not an omission. Requiring signatures would break every unsigned merge path at
+once — the runner App's squash merges, Dependabot's merges, and operator
+commits from machines without signing keys — for a control whose job this
+fleet's provenance story already covers by other means:
+
+- **`main` is unreachable except through a PR** (ruleset + push allowlist), so
+  every commit on it has a reviewed, attributed PR behind it — the squash
+  commit's authorship and its PR are the provenance record.
+- **The supply-chain trust boundary that matters is attested elsewhere:** site
+  images carry SLSA build provenance verified against the reusable's repo, and
+  third-party actions are SHA-pinned. A commit signature on `main` would add
+  little on top of either.
+
+If the calculus changes (e.g. an org member base wide enough that PR authorship
+stops being strong attribution), adopting means: signing keys provisioned for
+every committer identity including the Apps, verified coverage confirmed, THEN
+the flag — in that order. Until then, `terraform/protection.tf` carries an
+inline `trivy:ignore:AVD-GIT-0004` pointing here.
+
 ## Rails
 
 This module can create and configure repositories, so it is the highest
