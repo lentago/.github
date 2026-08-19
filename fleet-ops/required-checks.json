@@ -122,6 +122,9 @@
     ],
     "monarda": [
       "docs-check / docs-check"
+    ],
+    "lupinus": [
+      "docs-check / docs-check"
     ]
   }
 }
