@@ -155,6 +155,16 @@ will insist on:
 GitHub applies it at creation, so a new entry pointing at `lentago/repo-template`
 lands with the fleet's README/CLAUDE/LICENSE/CI skeleton already in place.
 
+**Known race — the birth apply can fail on labels.** GitHub seeds a newborn
+repo's nine default labels (`bug`, `documentation`, …, `wontfix`)
+*asynchronously* after creation, and the Tidewater label creates race that
+seeding: the osmunda/monarda birth (2026-08-17) won and applied cleanly; the
+lupinus birth (2026-08-19, #164) lost, and every same-named label POST failed
+with `422 already_exists`. The repo, ruleset, and settings are unaffected —
+only the labels. Remedy: delete the defaults on the newborn
+(`for l in bug documentation duplicate enhancement "good first issue" "help wanted" invalid question wontfix; do gh label delete "$l" -R lentago/<name> --yes; done`)
+and let the next merge's apply create the Tidewater set.
+
 Then `plan`, review, `apply`. The repo is created wired to fleet policy — squash
 -only, auto-merge, spine topics, branch ruleset, Tidewater labels — rather than
 drifting until someone remembers to sweep it.
