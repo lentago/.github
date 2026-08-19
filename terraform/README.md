@@ -155,6 +155,22 @@ will insist on:
 GitHub applies it at creation, so a new entry pointing at `lentago/repo-template`
 lands with the fleet's README/CLAUDE/LICENSE/CI skeleton already in place.
 
+**Known race — the birth apply can fail on labels.** GitHub seeds a newborn
+repo's nine default labels (`bug`, `documentation`, …, `wontfix`)
+*asynchronously* after creation, and the Tidewater label creates race that
+seeding: the osmunda/monarda birth (2026-08-17) won and applied cleanly; the
+lupinus birth (2026-08-19, #164) lost, and every same-named label POST failed
+with `422 already_exists`. The repo, ruleset, and settings are unaffected —
+only the labels. **Remedy: nothing.** Once the repo exists live, the label
+import guard in `imports.tf` activates on the next plan, adopts the seeded
+defaults into state, and the apply recolors them to Tidewater in place.
+**Do not delete the defaults** — a label import against a deleted label is a
+hard plan error (`404 Not Found`), which converts a self-healing condition
+into a broken plan; that mistake is on the record in #164. If the defaults
+were already deleted, recreate the nine names (values from
+`fleet-ops/labels.json`) so the imports resolve, then let the next apply
+converge.
+
 Then `plan`, review, `apply`. The repo is created wired to fleet policy — squash
 -only, auto-merge, spine topics, branch ruleset, Tidewater labels — rather than
 drifting until someone remembers to sweep it.
