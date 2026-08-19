@@ -161,9 +161,15 @@ repo's nine default labels (`bug`, `documentation`, …, `wontfix`)
 seeding: the osmunda/monarda birth (2026-08-17) won and applied cleanly; the
 lupinus birth (2026-08-19, #164) lost, and every same-named label POST failed
 with `422 already_exists`. The repo, ruleset, and settings are unaffected —
-only the labels. Remedy: delete the defaults on the newborn
-(`for l in bug documentation duplicate enhancement "good first issue" "help wanted" invalid question wontfix; do gh label delete "$l" -R lentago/<name> --yes; done`)
-and let the next merge's apply create the Tidewater set.
+only the labels. **Remedy: nothing.** Once the repo exists live, the label
+import guard in `imports.tf` activates on the next plan, adopts the seeded
+defaults into state, and the apply recolors them to Tidewater in place.
+**Do not delete the defaults** — a label import against a deleted label is a
+hard plan error (`404 Not Found`), which converts a self-healing condition
+into a broken plan; that mistake is on the record in #164. If the defaults
+were already deleted, recreate the nine names (values from
+`fleet-ops/labels.json`) so the imports resolve, then let the next apply
+converge.
 
 Then `plan`, review, `apply`. The repo is created wired to fleet policy — squash
 -only, auto-merge, spine topics, branch ruleset, Tidewater labels — rather than
