@@ -463,6 +463,31 @@
         "kit"
       ],
       "model_labels": []
+    },
+    "lupinus": {
+      "description": "Lupinus — the Lentago Labs adoption guide and ops-vault kit: pick products, run adoption drills with receipts, and operate your estate from an Obsidian-compatible vault in your own org. Sundial lupine: host plant of the Karner blue, a nitrogen-fixer that readies lean soil.",
+      "homepage": "https://deepwiki.com/lentago/lupinus",
+      "visibility": "public",
+      "template": true,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "adoption-guide",
+        "runbooks",
+        "obsidian",
+        "nonprofit",
+        "kit"
+      ],
+      "model_labels": []
     }
   }
 }

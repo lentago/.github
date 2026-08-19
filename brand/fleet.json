@@ -355,5 +355,23 @@
         "label": "Client-owned"
       }
     ]
+  },
+  "lupinus": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Adoption guide · picker, drills, ops vault",
+    "prompt": "pick a product  ·  run the drill  ·  map your estate",
+    "badges": [
+      {
+        "label": "Markdown",
+        "logo": "markdown"
+      },
+      {
+        "label": "Template"
+      },
+      {
+        "label": "Ops vault"
+      }
+    ]
   }
 }
