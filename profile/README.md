@@ -41,9 +41,10 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 | [**drosera**](https://github.com/lentago/drosera) | your Grafana Cloud dashboards and alerts |
 | [**kalmia**](https://github.com/lentago/kalmia) | every Proxmox VM and LXC in the homelab |
 | [**claytonia**](https://github.com/lentago/claytonia) | the agent runner pool itself |
+| [**osmunda**](https://github.com/lentago/osmunda) | the k3s cluster's workloads — Flux pulls the merge |
 | [**solidago**](https://github.com/lentago/solidago) | the AWS platform |
 | site repos | the live sites |
-| [**.github**](https://github.com/lentago/.github) | repo settings and rulesets, via `fleet-ops` |
+| [**.github**](https://github.com/lentago/.github) | every repo's rulesets, required checks, and labels, via `terraform/` |
 
 ### 🧰 &nbsp; What the estate is built on
 
@@ -81,6 +82,10 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 <td>Reference three-tier AWS platform — 100% Terraform: VPC, ECS Fargate, RDS, WAF.</td>
 </tr>
 <tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a><br/><sub><a href="https://deepwiki.com/lentago/osmunda">DeepWiki&nbsp;↗</a></sub></td>
+<td>Kubernetes platform — standing k3s on lab guests, an ephemeral EKS overlay, Flux GitOps throughout.</td>
+</tr>
+<tr>
 <td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a><br/><sub><a href="https://deepwiki.com/lentago/drosera">DeepWiki&nbsp;↗</a></sub></td>
 <td>Git-driven observability into Grafana Cloud — one Alloy container, Terraform-provisioned dashboards.</td>
 </tr>
@@ -95,6 +100,10 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 <tr>
 <td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a><br/><sub><a href="https://deepwiki.com/lentago/betula">DeepWiki&nbsp;↗</a></sub></td>
 <td>Full-volume log capture &amp; archive → Axiom, at zero query cost.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a><br/><sub><a href="https://deepwiki.com/lentago/monarda">DeepWiki&nbsp;↗</a></sub></td>
+<td>Campaign-site kit — an Astro template, intake, and a timed dry-run, deploying to the client's own GitHub Pages or S3.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a><br/><sub><a href="https://deepwiki.com/lentago/asclepias">DeepWiki&nbsp;↗</a></sub></td>
@@ -120,22 +129,23 @@ Three ways in, depending on why you're here.
 
 1. [**solidago**](https://github.com/lentago/solidago) — the reference AWS platform, 100% Terraform.
 2. [**claytonia**](https://github.com/lentago/claytonia) — the self-hosted agent fleet that does the directed work.
-3. [**homeassistant-config**](https://github.com/lentago/homeassistant-config) — physical-world monitoring, version-controlled.
+3. [**epigaea**](https://github.com/lentago/epigaea) — physical-world monitoring, version-controlled.
 
 Then the [incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) for how things break, and the [field-guide glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) to map it all onto enterprise practice.
 
 **Evaluating the practice** &nbsp;<sub>(mission-driven organizations)</sub>
 
 1. **The pledge** (above) — you own every piece, we teach your people, firing us is a runbook.
-2. [**site-pondviewlane-com**](https://github.com/lentago/site-pondviewlane-com) — a community organization's public-record fact base with a grounded Ask box.
-3. [**homeassistant-config**](https://github.com/lentago/homeassistant-config) — physical-world monitoring on a donated-scale budget.
-4. [**Incident register**](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) — post-mortems published verbatim.
+2. [**monarda**](https://github.com/lentago/monarda) — the campaign-site kit: a fundraising site in a day, deployed into *your* GitHub or AWS account.
+3. [**site-pondviewlane-com**](https://github.com/lentago/site-pondviewlane-com) — a community organization's public-record fact base with a grounded Ask box.
+4. [**epigaea**](https://github.com/lentago/epigaea) — physical-world monitoring on a donated-scale budget.
+5. [**Incident register**](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) — post-mortems published verbatim.
 
 ### 📊 &nbsp; Fleet in numbers
 
 <sub>Regenerated weekly from the repos themselves — we operate in the open.</sub>
 
-- **[Fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md)** — open issues by repo, a 7-day activity snapshot, and a code census that counts the `CLAUDE.md`-family instruction files as natural-language code.
+- **[Fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md)** — open issues by repo, a 30-day activity snapshot, and a code census that counts the `CLAUDE.md`-family instruction files as natural-language code.
 - **[Language census](https://github.com/lentago/.github/blob/main/metrics/language-census.md)** — the canonical all-languages breakdown.
 - **[Incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md)** — post-mortems from lab operations, with what broke, what did *not*, and the governance lessons.
 - **[Lock-in ledger](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md)** — our own vendor dependencies, each scored on export fidelity, format openness, custody, and a documented exit. The receipt behind *"firing us is a runbook."*
