@@ -96,3 +96,35 @@ Session `4f4eec0c` (2026-08-12, `~/repos` ↔ `~/repos/dotgithub`);
 read-back of music-curator branch protection at harvest; `terraform/locals.tf`
 comments carrying the node-ID and bypass_actors gotchas; community refs
 #162623/#113172 (auto-merge vs bypass_actors).
+
+---
+
+## Correction (2026-08-22)
+
+**Item 5 above is closed — by removal, not by re-apply — and defect (4)'s root cause
+was misread.** The "one-change re-apply" *did* run, on every CI apply from 2026-08-12
+through 2026-08-19; each reported `1 changed` on `merge_gate["music-curator"]`, and
+live `restrictions.apps` stayed `[]` after every one. The legacy-vs-next-format node id
+was never the mechanism. The built-in GitHub Actions app is not an eligible push actor
+on classic branch protection in any id format — the allowlist admits users, teams, and
+GitHub Apps *installed* on the repo, and the identity behind `GITHUB_TOKEN` is not an
+installation (GitHub refuses it deliberately; community discussion #25305). The
+mutation drops an ineligible actor silently, which is what the read-back saw on
+2026-08-12 and what it would have seen after #98 had anyone read back again.
+
+Two further findings from the re-investigation (.github#148):
+
+- **music-curator's "degradation" never happened, because the capability never
+  existed.** Every one of the repo's 59 merged PRs was merged by the owner; no drain
+  PR has ever been opened; `follow-fold.yml` has run twice, both skipped by its own
+  branch guard. The bot merge was a design, not an observed behaviour — and it was
+  independently blocked by the required checks adopted on 2026-07-25, which never
+  report on a commit pushed with `GITHUB_TOKEN`. music-curator#87 owns the decision.
+- **Lesson 1 was right and was not followed through.** "Read back what you wrote"
+  caught the drop once, by hand, on 2026-08-12 — and then the fix was trusted without
+  a second read-back, so the perpetual diff sat green for ten days. The durable
+  remedy landed under #148: the apply job runs `terraform plan -detailed-exitcode`
+  immediately after `apply` and fails the run if anything still differs. A silent
+  drop is now a red run without anyone remembering to look.
+
+The dead allowance was removed from the module (ADR-0003 amended the same day).
