@@ -245,6 +245,22 @@ jobs:
       - name: apply
         run: terraform apply -auto-approve -no-color -input=false
 
+      # Convergence check. "Apply complete" is the provider's claim, not the
+      # state's: GitHub drops an ineligible branch-protection actor silently,
+      # the provider reports success, and the change never lands — which is how
+      # one perpetual diff was re-"applied" green on every merge for ten days
+      # (#148). A plan that still proposes changes immediately after an apply
+      # is a red run, not a curiosity. `-lock=false`: apply has released the
+      # lock and this is read-only.
+      - name: verify convergence
+        run: |
+          terraform plan -detailed-exitcode -no-color -input=false -lock=false && rc=0 || rc=$?
+          case "$rc" in
+            0) echo "converged: plan proposes no changes after apply" ;;
+            2) echo "::error::apply did not converge — terraform plan still proposes changes immediately after apply. Something was accepted and not kept on the way to GitHub; read the plan above." ; exit 1 ;;
+            *) echo "::error::post-apply plan failed to run (exit $rc)" ; exit 1 ;;
+          esac
+
   # Always-on fan-in. This is the context phase 2 adds to required-checks.json:
   # it reports on every PR (green when the terraform jobs skipped), so requiring
   # it cannot deadlock a docs-only PR.

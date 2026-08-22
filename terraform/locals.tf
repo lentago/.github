@@ -50,20 +50,26 @@ locals {
   # ---------------------------------------------------------------------------
   gate_allowlist = ["/cpitzi"]
 
-  # Repo-scoped additions to the allowlist. music-curator's follow-fold
-  # workflow performs its documented bot merge (`gh pr merge --squash` under
-  # GITHUB_TOKEN — see music-curator#9), so the GitHub Actions app is allowed
-  # there, and only there: fleet-wide, a workflow must not be able to update
-  # `main`.
-  # The id MUST be the next-format global node id (`A_…`). The legacy base64
-  # form (`MDM6QXBwMTUzNjg=`) still resolves in queries, but the branch
-  # protection mutation SILENTLY DROPS it from pushAllowances — the first apply
-  # (2026-08-12) landed music-curator's rule with no app actor and no error.
-  # Resolve with:  gh api graphql -f query='{ node(id:"<legacy>") { id } }'
-  # and read next_global_id from the deprecation warning in extensions.
-  gate_extra_allowances = {
-    "music-curator" = ["A_kwHNJr_NPAg"] # the GitHub Actions app (id 15368)
-  }
+  # Repo-scoped additions to the allowlist — empty today, kept as the extension
+  # point. Fleet-wide, a workflow must not be able to update `main`.
+  #
+  # What CAN go here: a GitHub App that is INSTALLED on that repo with write
+  # access, by its next-format global node id (`A_…`); a team ("org/slug"); a
+  # user ("/login"). What CANNOT: the built-in GitHub Actions app (id 15368,
+  # the identity behind GITHUB_TOKEN). It is not an installation, so classic
+  # branch protection does not accept it as a push actor — GitHub's position is
+  # deliberate (any collaborator could otherwise reach `main` by authoring a
+  # workflow; community discussion #25305) — and the mutation DROPS an
+  # ineligible actor silently: the apply reports success, the read-back lacks
+  # the actor, and every following plan proposes it again. An entry for it sat
+  # here as exactly that perpetual diff from 2026-08-12 to 2026-08-22 under a
+  # wrong diagnosis (#98 blamed the legacy id format; the id format was never
+  # the cause) — see #148. After adding any actor here, verify it landed:
+  #   gh api repos/lentago/<repo>/branches/main/protection \
+  #     --jq '.restrictions | {users: [.users[].login], apps: [.apps[].slug]}'
+  # The apply job's post-apply convergence check turns a silent drop into a
+  # red run (.github/workflows/terraform.yml).
+  gate_extra_allowances = {}
 
   # ---------------------------------------------------------------------------
   # Free-plan carve-outs. Both are plan limits, not policy choices, and both

@@ -196,10 +196,11 @@ The state removal is the deliberate step that says "this is intentional."
 
 `protection.tf` puts a classic branch-protection **push allowlist** on `main`
 in every public repo: only `cpitzi` (org owner) can update the ref — direct
-push or PR merge — plus, on `music-curator` only, the GitHub Actions app, so
-follow-fold's documented bot merge (music-curator#9) keeps working. Colleagues
-on the Players team contribute via PRs; an owner reviews and arms auto-merge.
-A future write grant to anyone else still cannot reach `main`.
+push or PR merge. Colleagues on the Players team contribute via PRs; an owner
+reviews and arms auto-merge. A future write grant to anyone else still cannot
+reach `main`. No repo carries an extra allowance today; `gate_extra_allowances`
+in `locals.tf` is the extension point, and its comment records what GitHub will
+and will not accept there.
 
 Two things about the shape that look odd and are load-bearing:
 
@@ -214,9 +215,26 @@ Two things about the shape that look odd and are load-bearing:
   ruleset (`rulesets.tf`) — the two layers compose, and duplicating a rule in
   both would mean two places to drift.
 
+**The built-in GitHub Actions app cannot be on the allowlist.** Classic
+protection accepts only users, teams, and GitHub Apps *installed* on the repo
+as push actors. The identity behind `GITHUB_TOKEN` is not an installation, and
+GitHub refuses it on purpose (community discussion #25305 — otherwise any
+collaborator could reach `main` by authoring a workflow). The mutation drops an
+ineligible actor *silently*: the apply reports success, the read-back lacks the
+actor, and the next plan proposes it again. That is how an allowance meant to
+keep music-curator's follow-fold bot merge working sat in this module as a
+perpetual diff from 2026-08-12 to 2026-08-22, re-"applied" on every merge
+(#148; the earlier diagnosis in #98, a node-id format problem, was wrong). A
+workflow that must update `main` needs a real identity — a dedicated GitHub App
+installed on that repo, allowlisted here by its `A_…` node id, or a PAT of an
+allowed user; music-curator#87 owns that decision for follow-fold.
+
 After changing the gate, verify auto-merge still arms and fires on the next
 routine PR before trusting it fleet-wide — the failure mode is silent
-(a PR that just never merges).
+(a PR that just never merges). The apply job's post-apply **convergence
+check** (`terraform plan -detailed-exitcode` immediately after `apply`) covers
+the other silent failure: a change GitHub accepted and did not keep is now a
+red run, not a green one.
 
 ### Required checks — the one rule Terraform cannot enforce
 
@@ -275,11 +293,13 @@ is a drift correction rather than a policy change.
 > in #97), the 16 merge-gate branch protections created (#96), and the changes
 > were provider-flag materialisations plus asclepias's stock labels recoloring
 > to Tidewater. One defect surfaced in verification: the GitHub Actions app
-> allowance on music-curator was **silently dropped** because the app was
-> declared by its legacy global node id — the branch-protection mutation
-> accepts only next-format (`A_…`) ids for apps, and reports no error for a
-> legacy one. Fixed by re-declaring the app with its next-format id; when
-> adding any app to an allowlist, verify it landed:
+> allowance on music-curator was **silently dropped**. It was diagnosed at the
+> time as a node-id format problem and "fixed" in #98 by re-declaring the app
+> with its next-format (`A_…`) id. That diagnosis was wrong — the built-in
+> Actions app is not an eligible push actor in any id format (see *The merge
+> gate* above) — and #98 left a perpetual diff that every apply re-attempted
+> until the allowance was removed on 2026-08-22 (#148). The verification step
+> stands: after adding any actor to an allowlist, confirm it landed —
 > `gh api repos/lentago/<repo>/branches/main/protection --jq '.restrictions.apps[].slug'`.
 
 ## Known asymmetries

@@ -1,6 +1,6 @@
 # ADR-0003: The merge gate is a classic branch-protection push allowlist, not ruleset bypass
 
-**Status:** Accepted (2026-08-12; reconstructed 2026-08-13)
+**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22 — see [Amendment](#amendment-2026-08-22))
 
 ## Context
 
@@ -43,6 +43,8 @@ register (`fleet-reports/incidents/2026-08-12-merge-gate-silent-allowance-drop.m
 mutation *silently drops* an app actor declared by its legacy global node id
 (`MDM6QXBwMTUzNjg=`) and reports no error; the fix (#98) re-declares the Actions app by
 its next-format id (`A_kwHNJr_NPAg`), which GraphQL's deprecation warning supplies.
+*(This diagnosis was wrong — see the Amendment below. The text is kept as the record of
+what was believed on 2026-08-12.)*
 PR #97 separately imported asclepias's live `main` ruleset id so adoption would not
 create a duplicate.
 
@@ -68,8 +70,37 @@ create a duplicate.
   fleet; `music-curator` additionally allows the Actions app.
 - The failure mode is **silent** (a PR that never merges), so the rollout step is
   explicitly: apply, then verify auto-merge still arms and fires on the next routine PR.
-- The node-id gotcha is now recorded in `locals.tf`, the adoption record, and the
+- ~~The node-id gotcha is now recorded in `locals.tf`, the adoption record, and the
   incident register — a hand-authored app-actor declaration by legacy id will silently
-  under-provision the allowlist.
+  under-provision the allowlist.~~ Superseded by the Amendment: the real gotcha is
+  actor *eligibility*, and it is recorded in the same three places.
 - Workflows that push to PR branches (not `main`) are unaffected; the restriction
   matches `main` only.
+
+## Amendment (2026-08-22)
+
+**The music-curator allowance is withdrawn, and the "second defect" above was
+misdiagnosed.** Issue #148 established, against live state and GitHub's own
+documentation, that the built-in GitHub Actions app is **not an eligible push actor**
+on classic branch protection in any id format: the allowlist accepts users, teams, and
+GitHub Apps *installed* on the repository, and the identity behind `GITHUB_TOKEN` is not
+an installation (GitHub declines it deliberately — otherwise any collaborator could reach
+`main` by authoring a workflow; community discussion #25305). The mutation drops an
+ineligible actor silently, so #98's next-format id "fix" changed nothing: every CI apply
+from 2026-08-12 to 2026-08-22 reported `1 changed` on `merge_gate["music-curator"]` and
+live `restrictions.apps` stayed `[]` throughout — a perpetual diff, not an apply still
+owed. The allowance was removed under #148; `gate_extra_allowances` stays as the
+extension point, with the eligibility rule in its comment.
+
+The decision itself stands unchanged: the gate is a classic push allowlist, and `cpitzi`
+is its only actor. What changes is the consequence for `music-curator`: its follow-fold
+bot merge was never reachable under `GITHUB_TOKEN` (a second, independent blocker —
+required checks that never report on a `GITHUB_TOKEN` push — is recorded alongside it),
+and **music-curator#87** owns the decision between a dedicated installed GitHub App,
+a PAT of an allowed user, or dropping the bot merge. Whichever lands, the fleet-wide
+invariant holds: a workflow reaches `main` only through an identity this allowlist
+names explicitly.
+
+Also adopted under #148: the apply job now runs `terraform plan -detailed-exitcode`
+immediately after `apply` and fails the run if changes remain. "Apply complete" is the
+provider's claim, not the state's; a silent drop is now a red run.
