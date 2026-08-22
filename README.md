@@ -70,7 +70,9 @@ Tidewater label palette — across every repo in the org.
 Adding a repo to [`fleet-ops/repos.json`](fleet-ops/repos.json) and applying
 creates it, scaffolded from `repo-template` and wired to fleet policy from its
 first second. Removing one is refused by `prevent_destroy` rather than deleting
-a live repository. Applies are operator-run today; apply-on-merge is phase 2.
+a live repository. A merge to `main` **is** an apply: `plan` posts to every
+tf-touching PR, the required `gate` check blocks a red plan, and `apply` runs on
+merge (phase 2, live 2026-08-17).
 See [`terraform/README.md`](terraform/README.md).
 
 ### [`fleet-ops/`](fleet-ops/)
@@ -153,10 +155,10 @@ This is a lab — the systems are real, the stakes are not. Pick a vector:
 **Add a fleet-wide required status check.** Edit
 [`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) to add a check
 context for one repo or all of them, and open a PR — [`ci/validate.py`](ci/validate.py)
-validates the JSON shape before it can merge. Once merged, an operator applies the
+validates the JSON shape before it can merge. Once merged, CI applies the
 change with the [`terraform/`](terraform/) module, which reads that same JSON and owns
-rulesets, required checks, and labels (applies are operator-run with an admin token in
-phase 1 — see [`terraform/README.md`](terraform/README.md); `fleet-apply.sh` still
+rulesets, required checks, and labels (apply-on-merge is live — phase 2, see
+[`terraform/README.md`](terraform/README.md); `fleet-apply.sh` still
 contributes the required-context preflight, proving a check context actually reports
 before anything requires it). This is the same JSON-then-apply flow used repeatedly to
 roll checks across the fleet.
@@ -167,9 +169,10 @@ roll checks across the fleet.
 **Migrate a settings surface to Terraform.** Extend the `terraform/*.tf` modules,
 which read the same `fleet-ops/*.json`, and open a PR —
 [`.github/workflows/terraform.yml`](.github/workflows/terraform.yml) runs `fmt` +
-`validate` on it. The apply is still operator-run locally today (phase 1); apply-on-merge
-is the planned phase 2 tracked in [`terraform/README.md`](terraform/README.md), so don't
-expect a merge here to mutate GitHub settings yet.
+`validate` and posts a `plan` to the PR, with the required `gate` check blocking a red
+plan. Merging **is** the apply (phase 2, live 2026-08-17 — see
+[`terraform/README.md`](terraform/README.md)): whatever is on `main` is the live fleet
+settings, so a merge here really does mutate GitHub settings across the org.
 **Proof this works:** [PR #82 — Manage the fleet's GitHub settings with the Terraform GitHub provider](https://github.com/lentago/.github/pull/82),
 [PR #83 — terraform: rename the validate job to tf-validate](https://github.com/lentago/.github/pull/83).
 
