@@ -3,7 +3,7 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (the `/incident-digest` playbook). A chronological register of incident reports harvested from local Lentago lab activity and published as a periodic fleet report. Each row links to the full write-up under [`fleet-reports/incidents/`](incidents/). Unlike the [fleet report](fleet-report.md), these are published **verbatim** and *do* include homelab-internal architecture detail — but never credentials, keys, or secrets.
 
-**Generated:** 2026-08-22 13:47 UTC · **24 incidents logged.**
+**Generated:** 2026-08-24 12:26 UTC · **24 incidents logged.**
 
 **Deployment-caused:** 10 yes · 13 no · 1 unknown — the DORA change-failure-rate / failed-deployment-recovery-time inputs; each report's `Deployment-caused` marker feeds this line.
 

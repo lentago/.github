@@ -3,13 +3,13 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-08-22 13:47 UTC · Scope: the **18 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-07-23).
+**Generated:** 2026-08-24 12:26 UTC · Scope: the **18 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-07-25).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **91** | 342 | 141 | **80,286** | 2,280 (19 files) |
+| **91** | 327 | 116 | **80,302** | 2,280 (19 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,280 lines** across 19 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
@@ -40,12 +40,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,280 lines*
 | [101](https://github.com/lentago/drosera/issues/101) | Heartbeat blind spot: tool-less reasoning turns show no activity while tokens burn |
 | [93](https://github.com/lentago/drosera/issues/93) | feat(alloy): attach runid label to the transcript stream from the <sid>.runid sidecar |
 
-### .github — 16 open
+### .github — 15 open
 
 | # | Title |
 |---|-------|
 | [167](https://github.com/lentago/.github/issues/167) | Fleet reports - one-off run |
-| [148](https://github.com/lentago/.github/issues/148) | music-curator push allowlist: the Actions-app entry applies successfully but never persists |
 | [134](https://github.com/lentago/.github/issues/134) | Offerings pipeline — sovereignty track (2026-08 review) |
 | [133](https://github.com/lentago/.github/issues/133) | Offering: Ops-in-a-Box — the miniature estate starter kit |
 | [132](https://github.com/lentago/.github/issues/132) | Spike: volunteer-ops scheduling — evaluate, don't build (decision memo) |
@@ -132,10 +131,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,280 lines*
 | [13](https://github.com/lentago/brasenia/issues/13) | Cast client: custom web receiver + current-pane pointer contract |
 | [12](https://github.com/lentago/brasenia/issues/12) | Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain |
 
-### music-curator — 3 open
+### music-curator — 4 open
 
 | # | Title |
 |---|-------|
+| [87](https://github.com/lentago/music-curator/issues/87) | follow-fold's bot merge cannot work under GITHUB_TOKEN — two blockers; decide App identity vs human merge |
 | [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
 | [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
 | [43](https://github.com/lentago/music-curator/issues/43) | Session-tie receipts: render the credits justifying each edge |
@@ -185,8 +185,13 @@ The fleet's hand-maintained natural-language instruction surface (**2,280 lines*
 
 ## Activity — last 30 days
 
-**483 events**, one stream, newest first — 🟣 342 PRs merged · 🟢 141 issues closed
+**443 events**, one stream, newest first — 🟣 327 PRs merged · 🟢 116 issues closed
 
+- 🟢 2026-08-23 · [kalmia#126](https://github.com/lentago/kalmia/issues/126) — repos role clones flat into ~/repos/<name>; fleet layout is owner-grouped (lentago/, cpitzi/)
+- 🟣 2026-08-23 · [kalmia#127](https://github.com/lentago/kalmia/pull/127) — repos: clone owner-grouped into ~/repos/<owner>/<name> (closes #126)
+- 🟢 2026-08-22 · [.github#148](https://github.com/lentago/.github/issues/148) — music-curator push allowlist: the Actions-app entry applies successfully but never persists
+- 🟣 2026-08-22 · [.github#169](https://github.com/lentago/.github/pull/169) — fix: drop the dead Actions-app allowance and add a post-apply convergence check
+- 🟣 2026-08-22 · [.github#168](https://github.com/lentago/.github/pull/168) — Weekly fleet reports refresh — 2026-08-22
 - 🟣 2026-08-22 · [.github#166](https://github.com/lentago/.github/pull/166) — docs: catch the org profile and repo docs up to the current fleet
 - 🟢 2026-08-21 · [solidago#186](https://github.com/lentago/solidago/issues/186) — Add ADOPTION.md — the adopter's front door, with BOOTSTRAP as its step reference
 - 🟣 2026-08-21 · [solidago#187](https://github.com/lentago/solidago/pull/187) — docs: add ADOPTION.md as the adopter's front door (#186)
@@ -590,30 +595,18 @@ The fleet's hand-maintained natural-language instruction surface (**2,280 lines*
 - 🟣 2026-07-25 · [.github#65](https://github.com/lentago/.github/pull/65) — fleet-ops: require music-curator's integrity check
 - 🟣 2026-07-25 · [site-pondviewlane-com#27](https://github.com/lentago/site-pondviewlane-com/pull/27) — Add the @claude responder caller
 - 🟣 2026-07-25 · [.github#64](https://github.com/lentago/.github/pull/64) — Add the @claude responder caller
-- 🟢 2026-07-25 · [solidago#150](https://github.com/lentago/solidago/issues/150) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [solidago#151](https://github.com/lentago/solidago/pull/151) — docs: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [site-pondviewlane-com#25](https://github.com/lentago/site-pondviewlane-com/issues/25) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [site-pondviewlane-com#26](https://github.com/lentago/site-pondviewlane-com/pull/26) — Apply generated Lentago Labs brand header to README
-- 🟢 2026-07-25 · [site-lentago-dev#39](https://github.com/lentago/site-lentago-dev/issues/39) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [site-lentago-dev#40](https://github.com/lentago/site-lentago-dev/pull/40) — docs(readme): apply generated Lentago Labs brand header
-- 🟢 2026-07-25 · [site-icecreamtofightwith-com#143](https://github.com/lentago/site-icecreamtofightwith-com/issues/143) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [site-icecreamtofightwith-com#144](https://github.com/lentago/site-icecreamtofightwith-com/pull/144) — feat: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [shared-workflows#26](https://github.com/lentago/shared-workflows/issues/26) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [shared-workflows#27](https://github.com/lentago/shared-workflows/pull/27) — Add Lentago Labs brand header to README
-- 🟢 2026-07-25 · [repo-template#7](https://github.com/lentago/repo-template/issues/7) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [repo-template#8](https://github.com/lentago/repo-template/pull/8) — feat: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [music-curator#66](https://github.com/lentago/music-curator/issues/66) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [music-curator#67](https://github.com/lentago/music-curator/pull/67) — brand: apply Lentago Labs header to README
 - 🟣 2026-07-25 · [kalmia#68](https://github.com/lentago/kalmia/pull/68) — docs: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [kalmia#67](https://github.com/lentago/kalmia/issues/67) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [epigaea#509](https://github.com/lentago/epigaea/pull/509) — docs: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [drosera#180](https://github.com/lentago/drosera/issues/180) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [drosera#181](https://github.com/lentago/drosera/pull/181) — docs: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [claytonia#66](https://github.com/lentago/claytonia/issues/66) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [claytonia#67](https://github.com/lentago/claytonia/pull/67) — docs: add Lentago Labs brand header to README
-- 🟢 2026-07-25 · [brasenia#4](https://github.com/lentago/brasenia/issues/4) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [brasenia#5](https://github.com/lentago/brasenia/pull/5) — feat: apply Lentago Labs brand header to README
-- 🟢 2026-07-25 · [betula#95](https://github.com/lentago/betula/issues/95) — Apply the Lentago Labs brand header to the README
 - 🟣 2026-07-25 · [betula#96](https://github.com/lentago/betula/pull/96) — docs: add Lentago Labs brand header to README
 - 🟣 2026-07-25 · [.github#63](https://github.com/lentago/.github/pull/63) — README: carry the generated brand header
 - 🟣 2026-07-25 · [.github#62](https://github.com/lentago/.github/pull/62) — Brand: per-repo identity generator and Tidewater label palette
@@ -622,54 +615,21 @@ The fleet's hand-maintained natural-language instruction surface (**2,280 lines*
 - 🟣 2026-07-25 · [.github#59](https://github.com/lentago/.github/pull/59) — Census: classify data-dir exports by directory, not just JSON
 - 🟣 2026-07-25 · [.github#58](https://github.com/lentago/.github/pull/58) — Fleet reports refresh — 2026-07-25
 - 🟣 2026-07-25 · [epigaea#508](https://github.com/lentago/epigaea/pull/508) — docs: remove broken image reference from Lentago Lab Status section
-- 🟢 2026-07-25 · [betula#93](https://github.com/lentago/betula/issues/93) — Dead links to the removed dashboards/ directory in the Zeek field reference
 - 🟣 2026-07-25 · [betula#94](https://github.com/lentago/betula/pull/94) — docs: fix dead dashboards/axiom-queries.md links in zeek-field-reference
-- 🟢 2026-07-25 · [drosera#178](https://github.com/lentago/drosera/issues/178) — README describes the retired single-container Alloy model
 - 🟣 2026-07-25 · [drosera#179](https://github.com/lentago/drosera/pull/179) — docs: fix README's single-Alloy framing, add alerting + CloudWatch coverage
-- 🟢 2026-07-25 · [.github#55](https://github.com/lentago/.github/issues/55) — README understates the repo and claims no community-health files are set
 - 🟣 2026-07-25 · [.github#56](https://github.com/lentago/.github/pull/56) — docs(readme): fix false community-health claim and document fleet content
-- 🟢 2026-07-25 · [music-curator#63](https://github.com/lentago/music-curator/issues/63) — README still frames the repo as a prompt-spec, not the tooling it became
 - 🟣 2026-07-25 · [music-curator#64](https://github.com/lentago/music-curator/pull/64) — docs: reframe README around the productized toolchain
-- 🟢 2026-07-25 · [music-curator#9](https://github.com/lentago/music-curator/issues/9) — Add an always-on gate check so auto-merge can arm (last .github#27 gap; sequence with the Obsidian wiki-manager productization)
 - 🟣 2026-07-25 · [music-curator#65](https://github.com/lentago/music-curator/pull/65) — ci: replace the path-filtered validator with an unconditional integrity check
 - 🟣 2026-07-25 · [epigaea#507](https://github.com/lentago/epigaea/pull/507) — Stop office/playroom flicker loops on an external off command
 - 🟣 2026-07-25 · [drosera#177](https://github.com/lentago/drosera/pull/177) — Flatten the dashboard folder taxonomy into a single Lentago folder
-- 🟢 2026-07-25 · [solidago#145](https://github.com/lentago/solidago/issues/145) — Mirror the Ask handler's structured logging into the vendored copy
 - 🟣 2026-07-25 · [solidago#148](https://github.com/lentago/solidago/pull/148) — Mirror structured ask_query logging into the vendored handler
-- 🟢 2026-07-25 · [drosera#150](https://github.com/lentago/drosera/issues/150) — Alert on ingest absence: no-data alerts for the critical Loki streams (zeek_dns, zeek_conn, firewalla_acl, device_inventory)
 - 🟣 2026-07-25 · [drosera#175](https://github.com/lentago/drosera/pull/175) — Alert on ingest absence: no-data alerts for the critical Loki streams
-- 🟢 2026-07-25 · [solidago#146](https://github.com/lentago/solidago/issues/146) — Bump betula_ref so the ALB shipper's IP truncation actually deploys
 - 🟣 2026-07-25 · [solidago#147](https://github.com/lentago/solidago/pull/147) — Bump betula_ref to adopt ALB client-IP truncation
 - 🟣 2026-07-25 · [drosera#174](https://github.com/lentago/drosera/pull/174) — Correct the uniques panel: IP truncation is not yet deployed
-- 🟢 2026-07-25 · [drosera#161](https://github.com/lentago/drosera/issues/161) — Site analytics pane: Axiom datasource + per-site traffic panels
 - 🟣 2026-07-25 · [drosera#173](https://github.com/lentago/drosera/pull/173) — Site analytics pane: Axiom datasource + per-site traffic panels
 - 🟣 2026-07-25 · [betula#92](https://github.com/lentago/betula/pull/92) — feat(aws): CloudWatch Logs → Axiom forwarder (clients/aws/cloudwatch-logs)
-- 🟢 2026-07-25 · [betula#90](https://github.com/lentago/betula/issues/90) — Decide retention and client-IP handling for the ALB access-log dataset
 - 🟣 2026-07-25 · [betula#91](https://github.com/lentago/betula/pull/91) — feat(alb-logs): truncate client_ip at ingest for visitor privacy
-- 🟢 2026-07-25 · [site-pondviewlane-com#23](https://github.com/lentago/site-pondviewlane-com/issues/23) — Ask box records nothing — no question, outcome, or cost is captured
 - 🟣 2026-07-25 · [site-pondviewlane-com#24](https://github.com/lentago/site-pondviewlane-com/pull/24) — Ask box records nothing — no question, outcome, or cost is captured
-- 🟢 2026-07-24 · [drosera#156](https://github.com/lentago/drosera/issues/156) — Decide Grafana-native alerting for site probes (ADR addendum)
-- 🟣 2026-07-24 · [drosera#172](https://github.com/lentago/drosera/pull/172) — feat: Grafana-native alerting for site probes (ADR addendum)
-- 🟢 2026-07-24 · [solidago#143](https://github.com/lentago/solidago/issues/143) — ECS app logs stopped reaching Axiom on 2026-07-08 and no signal fired
-- 🟢 2026-07-24 · [drosera#170](https://github.com/lentago/drosera/issues/170) — essexcrossingatmontserrat.com has no probe and no dashboard
-- 🟣 2026-07-24 · [drosera#171](https://github.com/lentago/drosera/pull/171) — feat: add essexcrossingatmontserrat.com probe and dashboard
-- 🟢 2026-07-24 · [betula#87](https://github.com/lentago/betula/issues/87) — Collect ALB access logs for the public sites (S3 → Axiom)
-- 🟣 2026-07-24 · [site-pondviewlane-com#22](https://github.com/lentago/site-pondviewlane-com/pull/22) — Add JSON-LD structured data, sitemap lastmod, and a /guides/ redirect
-- 🟣 2026-07-24 · [site-pondviewlane-com#21](https://github.com/lentago/site-pondviewlane-com/pull/21) — Publish the July 28, 2026 Beverly ConCom agenda to the library
-- 🟣 2026-07-23 · [music-curator#62](https://github.com/lentago/music-curator/pull/62) — Render Spotify follows in the vault + wire seeds via credits re-resolution
-- 🟣 2026-07-23 · [music-curator#61](https://github.com/lentago/music-curator/pull/61) — Backfill 48 followed-but-unowned artists into the reservoir
-- 🟣 2026-07-23 · [music-curator#60](https://github.com/lentago/music-curator/pull/60) — Follow ingestion automation — daily drain + fold Action
-- 🟣 2026-07-23 · [site-pondviewlane-com#20](https://github.com/lentago/site-pondviewlane-com/pull/20) — Reframe both skins as a public site, not a residents' guide
-- 🟣 2026-07-23 · [music-curator#59](https://github.com/lentago/music-curator/pull/59) — harvest_merge.py — fold Spotify follows into the inventory
-- 🟣 2026-07-23 · [music-curator#58](https://github.com/lentago/music-curator/pull/58) — Fold accents in the dedup key, extract it to a shared module
-- 🟣 2026-07-23 · [music-curator#57](https://github.com/lentago/music-curator/pull/57) — Spotify follow watcher: capture new follows and the song behind them
-- 🟣 2026-07-23 · [music-curator#56](https://github.com/lentago/music-curator/pull/56) — Harvest follow deltas: first_followed / new_follow in the roll-up (schema v2)
-- 🟣 2026-07-23 · [music-curator#55](https://github.com/lentago/music-curator/pull/55) — Drop the Compilations pseudo-artist from the inventory
-- 🟣 2026-07-23 · [music-curator#54](https://github.com/lentago/music-curator/pull/54) — Restore the clean default preset as the active graph.json
-- 🟣 2026-07-23 · [music-curator#53](https://github.com/lentago/music-curator/pull/53) — Surface the rotation layer in the vault
-- 🟣 2026-07-23 · [music-curator#52](https://github.com/lentago/music-curator/pull/52) — Mark the periodic Spotify harvest shipped in the roadmap
-- 🟣 2026-07-23 · [music-curator#51](https://github.com/lentago/music-curator/pull/51) — Rework Spotify consumer to commit the roll-up via an auto-merged PR
-- 🟣 2026-07-23 · [music-curator#50](https://github.com/lentago/music-curator/pull/50) — chore(harvest): 2026-07 Spotify roll-up
 
 ---
 
@@ -684,9 +644,9 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
 | 1 | JSON | 35,103 | 53 | 43.7% |
-| 2 | YAML | 10,870 | 217 | 13.5% |
+| 2 | YAML | 10,886 | 217 | 13.6% |
 | 3 | Python | 8,193 | 51 | 10.2% |
-| 4 | HCL | 6,950 | 116 | 8.7% |
+| 4 | HCL | 6,948 | 116 | 8.7% |
 | 5 | Shell (Bourne + Bash) | 5,488 | 71 | 6.8% |
 | 6 | Text | 3,621 | 27 | 4.5% |
 | 7 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,280 | 19 | 2.8% |
@@ -694,12 +654,12 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | 9 | JavaScript | 1,874 | 17 | 2.3% |
 | 10 | CSS | 1,389 | 10 | 1.7% |
 | 11 | JSX | 1,015 | 12 | 1.3% |
-| 12 | Jinja Template | 558 | 15 | 0.7% |
+| 12 | Jinja Template | 560 | 15 | 0.7% |
 | 13 | TypeScript | 441 | 11 | 0.5% |
 | 14 | TOML | 141 | 4 | 0.2% |
 | 15 | Other (TOML / Dockerfile / …) | 69 | 5 | 0.1% |
 | 16 | HTML | 57 | 1 | 0.1% |
-| | **CODE TOTAL** | **80,286** | **656** | 100% |
+| | **CODE TOTAL** | **80,302** | **656** | 100% |
 | — | _Data / exports — excluded_ | 119,165 | 9 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 34,713 | 93 | — |
 
@@ -742,9 +702,9 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | site-pondviewlane-com | 7,367 | 212 | 2,913 | 0 | 0 |
 | solidago | 6,481 | 99 | 2,518 | 0 | 0 |
 | music-curator | 5,622 | 68 | 1,254 | 11,645 | 119,165 |
-| kalmia | 3,508 | 155 | 1,448 | 0 | 0 |
+| kalmia | 3,518 | 155 | 1,448 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 897 | 6,004 | 0 |
-| .github | 3,362 | 218 | 1,476 | 3,605 | 0 |
+| .github | 3,368 | 218 | 1,522 | 3,665 | 0 |
 | claytonia | 2,486 | 57 | 1,547 | 0 | 0 |
 | betula | 1,832 | 156 | 1,595 | 0 | 0 |
 | site-lentago-dev | 1,751 | 108 | 624 | 0 | 0 |
@@ -758,15 +718,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **46,632 lines of Markdown across 1007 files**; only 4.9% is instruction-code.
+The fleet carries **46,738 lines of Markdown across 1007 files**; only 4.9% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,280 | 19 | **counted as code** |
-| Content / data | 21,254 | 697 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 22,653 | 275 | READMEs, docs, ADRs, runbooks — excluded |
+| Content / data | 21,314 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 22,699 | 275 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 445 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **46,632** | **1007** | |
+| **All Markdown** | **46,738** | **1007** | |
 
 ---
 
