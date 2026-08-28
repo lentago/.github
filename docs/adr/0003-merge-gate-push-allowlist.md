@@ -126,4 +126,6 @@ was not before — with no team in the org, the allowlist's team dimension is un
 base permission itself is **not** Terraform-managed: `default_repository_permission` is
 live-only org state, so the invariant this ADR declares is enforced by `protection.tf`
 alone and does not depend on the base grant staying put. Codifying the org settings
-alongside it is open work, not a gap in the gate.
+alongside it is open work owned by **#176**, not a gap in the gate — that issue also
+carries the decision on whether the CI apply should be able to mutate org settings at
+all, which is a question about the rails rather than about this ADR.
