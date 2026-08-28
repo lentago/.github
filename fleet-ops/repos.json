@@ -488,6 +488,28 @@
         "kit"
       ],
       "model_labels": []
+    },
+    "mitchella": {
+      "description": "Mitchella \u2014 the Lentago Labs estate front desk: a corpus-backed chat assistant that checks live state before answering from documentation, and drafts a ticket for a human when it cannot. Partridgeberry: paired flowers, one berry \u2014 several sources, one answer.",
+      "homepage": "https://deepwiki.com/lentago/mitchella",
+      "visibility": "public",
+      "template": false,
+      "template_source": null,
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "chatops",
+        "service-desk",
+        "slack",
+        "incident-response",
+        "retrieval"
+      ],
+      "model_labels": []
     }
   }
 }

@@ -373,5 +373,29 @@
         "label": "Ops vault"
       }
     ]
+  },
+  "mitchella": {
+    "mark": "lentago",
+    "kind": "SUITE",
+    "tagline": "Estate front desk \u00b7 signals first, then the docs",
+    "prompt": "ask  \u00b7  check live state \u00b7 answer \u00b7 or draft a ticket",
+    "badges": [
+      {
+        "label": "Claude",
+        "logo": "anthropic"
+      },
+      {
+        "label": "Python",
+        "logo": "python"
+      },
+      {
+        "label": "Slack",
+        "logo": "slack"
+      },
+      {
+        "label": "Grafana",
+        "logo": "grafana"
+      }
+    ]
   }
 }
