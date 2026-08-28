@@ -125,6 +125,10 @@
     ],
     "lupinus": [
       "docs-check / docs-check"
+    ],
+    "mitchella": [
+      "docs-check / docs-check",
+      "tests / pytest"
     ]
   }
 }
