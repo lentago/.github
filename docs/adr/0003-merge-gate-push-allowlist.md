@@ -1,6 +1,6 @@
 # ADR-0003: The merge gate is a classic branch-protection push allowlist, not ruleset bypass
 
-**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22 — see [Amendment](#amendment-2026-08-22))
+**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22 and 2026-08-27 — see [Amendment (2026-08-22)](#amendment-2026-08-22) and [Amendment (2026-08-27)](#amendment-2026-08-27))
 
 ## Context
 
@@ -104,3 +104,26 @@ names explicitly.
 Also adopted under #148: the apply job now runs `terraform plan -detailed-exitcode`
 immediately after `apply` and fails the run if changes remain. "Apply complete" is the
 provider's claim, not the state's; a silent drop is now a red run.
+
+## Amendment (2026-08-27)
+
+**The write grant this ADR was built to survive is now live, and the gate held.** The
+org base repository permission moved `none` → `write`, so every member holds write on
+every repo; the `Players` team, which carried `triage` on fifteen of them, was retired
+the same day as strictly redundant beneath the new base. No member lost access.
+
+This is the contingency the Context names — "a future write grant to anyone else still
+cannot update the ref" — arriving in practice, and it confirms the mechanism choice
+rather than disturbing it. `restrictions` was re-read on every public repo after the
+change and remains `users: ["cpitzi"]`, `teams: []`, `apps: []`: because the allowlist
+is evaluated against the ref rather than derived from permission levels, raising the
+base grant changed nothing about who may update `main`. Had the gate been expressed as
+a permission level, this would have been a merge-policy change; it was a no-op.
+
+Two consequences worth recording. First, `teams: []` is now load-bearing in a way it
+was not before — with no team in the org, the allowlist's team dimension is unused, and
+`gate_extra_allowances` remains the only supported route for adding one. Second, the
+base permission itself is **not** Terraform-managed: `default_repository_permission` is
+live-only org state, so the invariant this ADR declares is enforced by `protection.tf`
+alone and does not depend on the base grant staying put. Codifying the org settings
+alongside it is open work, not a gap in the gate.

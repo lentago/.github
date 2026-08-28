@@ -1,10 +1,12 @@
 # The merge gate: who can update `main` at all.
 #
-# The org is a shared learning lab — colleagues on the Players team hold triage
-# on every active repo. Triage cannot push or merge today, but this resource
-# turns that from a side-effect of permission levels into a declared invariant:
-# every merge to `main` lands through an org owner/admin, and a future write
-# grant to anyone else still cannot reach `main` directly.
+# The org is a shared learning lab — colleagues hold org-base `write` on every
+# repo (2026-08-27; previously `none` plus a triage-only Players team, which was
+# retired the same day as redundant once the base grant exceeded it). Write is
+# exactly the grant this resource was built to survive: the gate is an allowlist
+# on the ref, not a consequence of permission levels, so every merge to `main`
+# still lands through an org owner/admin and a write grant to anyone else does
+# not reach `main` directly.
 #
 # Why classic branch protection and not a ruleset `update` rule: rulesets gate
 # by BYPASS, and GitHub's async auto-merge path does not honor bypass_actors —
