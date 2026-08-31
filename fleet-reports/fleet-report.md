@@ -3,13 +3,13 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-08-31 00:13 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-01).
+**Generated:** 2026-08-31 18:25 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-01).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **102** | 285 | 111 | **82,073** | 2,358 (20 files) |
+| **102** | 287 | 111 | **82,073** | 2,358 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,358 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
@@ -206,8 +206,10 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 
 ## Activity — last 30 days
 
-**396 events**, one stream, newest first — 🟣 285 PRs merged · 🟢 111 issues closed
+**398 events**, one stream, newest first — 🟣 287 PRs merged · 🟢 111 issues closed
 
+- 🟣 2026-08-31 · [.github#180](https://github.com/lentago/.github/pull/180) — Refresh language census — 2026-08-30
+- 🟣 2026-08-31 · [.github#179](https://github.com/lentago/.github/pull/179) — Weekly fleet reports refresh — 2026-08-31
 - 🟣 2026-08-30 · [site-pondviewlane-com#76](https://github.com/lentago/site-pondviewlane-com/pull/76) — essex: vary the escape-hatch link text from a per-page sneer pool
 - 🟣 2026-08-30 · [site-pondviewlane-com#75](https://github.com/lentago/site-pondviewlane-com/pull/75) — essex: a footer escape hatch to the plainer sister skin
 - 🟣 2026-08-30 · [drosera#212](https://github.com/lentago/drosera/pull/212) — feat(alerts): lab host + Home Assistant availability alerting (2026-08-29 pve3 outage)
@@ -679,7 +681,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | music-curator | 5,622 | 68 | 1,254 | 11,645 | 119,165 |
 | kalmia | 3,530 | 155 | 1,448 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 897 | 6,004 | 0 |
-| .github | 3,418 | 218 | 1,547 | 3,625 | 0 |
+| .github | 3,418 | 218 | 1,559 | 3,597 | 0 |
 | claytonia | 2,507 | 57 | 1,547 | 0 | 0 |
 | betula | 1,832 | 156 | 1,595 | 0 | 0 |
 | site-lentago-dev | 1,802 | 108 | 624 | 0 | 0 |
@@ -694,15 +696,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **47,379 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
+The fleet carries **47,363 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,358 | 20 | **counted as code** |
-| Content / data | 21,274 | 697 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 23,302 | 291 | READMEs, docs, ADRs, runbooks — excluded |
+| Content / data | 21,246 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 23,314 | 291 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 445 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **47,379** | **1024** | |
+| **All Markdown** | **47,363** | **1024** | |
 
 ---
 
