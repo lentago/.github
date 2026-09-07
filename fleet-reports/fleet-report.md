@@ -3,19 +3,42 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-08-31 18:25 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-01).
+**Generated:** 2026-09-07 16:50 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-08).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **102** | 287 | 111 | **82,073** | 2,358 (20 files) |
+| **103** | 269 | 105 | **82,073** | 2,358 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,358 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 102 across 17 repos
+## Open issues — 103 across 17 repos
+
+### .github — 18 open
+
+| # | Title |
+|---|-------|
+| [182](https://github.com/lentago/.github/issues/182) | [renewal] lentago.dev — TLS certificate (ACME auto-renew backstop) — due 2026-09-10 |
+| [176](https://github.com/lentago/.github/issues/176) | Codify org settings in Terraform — default_repository_permission is live-only |
+| [175](https://github.com/lentago/.github/issues/175) | A public repo entry with a null template_source cannot receive its first commit |
+| [167](https://github.com/lentago/.github/issues/167) | Fleet reports - one-off run |
+| [134](https://github.com/lentago/.github/issues/134) | Offerings pipeline — sovereignty track (2026-08 review) |
+| [133](https://github.com/lentago/.github/issues/133) | Offering: Ops-in-a-Box — the miniature estate starter kit |
+| [132](https://github.com/lentago/.github/issues/132) | Spike: volunteer-ops scheduling — evaluate, don't build (decision memo) |
+| [131](https://github.com/lentago/.github/issues/131) | Offering: privacy posture kit for newly covered orgs |
+| [130](https://github.com/lentago/.github/issues/130) | Offering: funder-report fact pipeline |
+| [129](https://github.com/lentago/.github/issues/129) | Offering: cold-chain & facilities telemetry kit |
+| [128](https://github.com/lentago/.github/issues/128) | Offering: Ask-the-Records kit — fact corpus + grounded Ask, client-owned |
+| [127](https://github.com/lentago/.github/issues/127) | Offering: AI-with-receipts — the reviewed-merge operating model as an adoption framework |
+| [126](https://github.com/lentago/.github/issues/126) | Offering: Institutional Memory kit + private grounded Ask |
+| [125](https://github.com/lentago/.github/issues/125) | Offering: Insurance-Receipts Pack — controls with evidence exhaust |
+| [124](https://github.com/lentago/.github/issues/124) | Offering: Digital Custody audit — ownership insurance for the org's presence |
+| [123](https://github.com/lentago/.github/issues/123) | Offering: Liberation Pipeline — SaaS-export collectors + restore drills |
+| [122](https://github.com/lentago/.github/issues/122) | Offering: Good-Standing Kit — obligations-as-code + registry reconciliation (MA pack first) |
+| [90](https://github.com/lentago/.github/issues/90) | Recommendation: engagement pathways — the lab ladder for new members |
 
 ### drosera — 18 open
 
@@ -39,28 +62,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 | [103](https://github.com/lentago/drosera/issues/103) | Scrape node_exporter on the Firewalla via Alloy (bring the gateway into node dashboards) |
 | [101](https://github.com/lentago/drosera/issues/101) | Heartbeat blind spot: tool-less reasoning turns show no activity while tokens burn |
 | [93](https://github.com/lentago/drosera/issues/93) | feat(alloy): attach runid label to the transcript stream from the <sid>.runid sidecar |
-
-### .github — 17 open
-
-| # | Title |
-|---|-------|
-| [176](https://github.com/lentago/.github/issues/176) | Codify org settings in Terraform — default_repository_permission is live-only |
-| [175](https://github.com/lentago/.github/issues/175) | A public repo entry with a null template_source cannot receive its first commit |
-| [167](https://github.com/lentago/.github/issues/167) | Fleet reports - one-off run |
-| [134](https://github.com/lentago/.github/issues/134) | Offerings pipeline — sovereignty track (2026-08 review) |
-| [133](https://github.com/lentago/.github/issues/133) | Offering: Ops-in-a-Box — the miniature estate starter kit |
-| [132](https://github.com/lentago/.github/issues/132) | Spike: volunteer-ops scheduling — evaluate, don't build (decision memo) |
-| [131](https://github.com/lentago/.github/issues/131) | Offering: privacy posture kit for newly covered orgs |
-| [130](https://github.com/lentago/.github/issues/130) | Offering: funder-report fact pipeline |
-| [129](https://github.com/lentago/.github/issues/129) | Offering: cold-chain & facilities telemetry kit |
-| [128](https://github.com/lentago/.github/issues/128) | Offering: Ask-the-Records kit — fact corpus + grounded Ask, client-owned |
-| [127](https://github.com/lentago/.github/issues/127) | Offering: AI-with-receipts — the reviewed-merge operating model as an adoption framework |
-| [126](https://github.com/lentago/.github/issues/126) | Offering: Institutional Memory kit + private grounded Ask |
-| [125](https://github.com/lentago/.github/issues/125) | Offering: Insurance-Receipts Pack — controls with evidence exhaust |
-| [124](https://github.com/lentago/.github/issues/124) | Offering: Digital Custody audit — ownership insurance for the org's presence |
-| [123](https://github.com/lentago/.github/issues/123) | Offering: Liberation Pipeline — SaaS-export collectors + restore drills |
-| [122](https://github.com/lentago/.github/issues/122) | Offering: Good-Standing Kit — obligations-as-code + registry reconciliation (MA pack first) |
-| [90](https://github.com/lentago/.github/issues/90) | Recommendation: engagement pathways — the lab ladder for new members |
 
 ### kalmia — 13 open
 
@@ -206,8 +207,9 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 
 ## Activity — last 30 days
 
-**398 events**, one stream, newest first — 🟣 287 PRs merged · 🟢 111 issues closed
+**374 events**, one stream, newest first — 🟣 269 PRs merged · 🟢 105 issues closed
 
+- 🟣 2026-08-31 · [.github#181](https://github.com/lentago/.github/pull/181) — Weekly fleet reports refresh — 2026-08-31
 - 🟣 2026-08-31 · [.github#180](https://github.com/lentago/.github/pull/180) — Refresh language census — 2026-08-30
 - 🟣 2026-08-31 · [.github#179](https://github.com/lentago/.github/pull/179) — Weekly fleet reports refresh — 2026-08-31
 - 🟣 2026-08-30 · [site-pondviewlane-com#76](https://github.com/lentago/site-pondviewlane-com/pull/76) — essex: vary the escape-hatch link text from a per-page sneer pool
@@ -581,31 +583,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 - 🟢 2026-08-09 · [claytonia#74](https://github.com/lentago/claytonia/issues/74) — gitops: unit-change restart list doesn't cover the context-ledger timers
 - 🟣 2026-08-09 · [claytonia#75](https://github.com/lentago/claytonia/pull/75) — fix(gitops): restart changed timers dynamically instead of hardcoded list
 - 🟣 2026-08-09 · [claytonia#72](https://github.com/lentago/claytonia/pull/72) — feat: context ledger — fleet-wide host-side Claude context drift tracking
-- 🟣 2026-08-07 · [kalmia#94](https://github.com/lentago/kalmia/pull/94) — docs: correct the branch ruleset description in CLAUDE.md
-- 🟣 2026-08-07 · [kalmia#90](https://github.com/lentago/kalmia/pull/90) — shell: render the config the .bashrc block has always sourced
-- 🟣 2026-08-07 · [kalmia#91](https://github.com/lentago/kalmia/pull/91) — repos: clone by default instead of opt-in
-- 🟣 2026-08-07 · [kalmia#89](https://github.com/lentago/kalmia/pull/89) — repos: clone the org, and stop reporting success on a no-op
-- 🟣 2026-08-07 · [kalmia#92](https://github.com/lentago/kalmia/pull/92) — shell: port the remaining two predecessor helpers
-- 🟣 2026-08-07 · [kalmia#93](https://github.com/lentago/kalmia/pull/93) — shell: stop hardcoding ~/repos in the .bashrc block
-- 🟣 2026-08-07 · [kalmia#88](https://github.com/lentago/kalmia/pull/88) — shell: ship the pull-all helper the Ansible rewrite dropped
-- 🟣 2026-08-07 · [kalmia#87](https://github.com/lentago/kalmia/pull/87) — docs: distinguish M143 availability from M147 default for baguette
-- 🟢 2026-08-07 · [kalmia#83](https://github.com/lentago/kalmia/issues/83) — power: predecessor TLP charge-threshold drop-in overrides the Ansible-managed one
-- 🟣 2026-08-07 · [kalmia#86](https://github.com/lentago/kalmia/pull/86) — power: remove the predecessor TLP charge-threshold drop-in that overrides the managed one
-- 🟣 2026-08-07 · [kalmia#84](https://github.com/lentago/kalmia/pull/84) — docs: mark baguette profile validated end-to-end
-- 🟢 2026-08-07 · [kalmia#80](https://github.com/lentago/kalmia/issues/80) — check-mode robustness follow-ups: self-referencing changed_when, and two residual false positives
-- 🟣 2026-08-07 · [kalmia#82](https://github.com/lentago/kalmia/pull/82) — editors: harden the VS Code extension conditionals against check mode; document known check-mode noise
-- 🟢 2026-08-07 · [kalmia#77](https://github.com/lentago/kalmia/issues/77) — docs: record what the live ubuntu_laptop run proved — and what it did not
-- 🟣 2026-08-07 · [kalmia#81](https://github.com/lentago/kalmia/pull/81) — docs: record what the live ubuntu_laptop run proved, and what it did not
-- 🟢 2026-08-07 · [kalmia#75](https://github.com/lentago/kalmia/issues/75) — languages: --check mode aborts the play and falsely reports a Go reinstall
-- 🟣 2026-08-07 · [kalmia#79](https://github.com/lentago/kalmia/pull/79) — roles: fix --check aborting on read-only version probes
-- 🟢 2026-08-07 · [kalmia#76](https://github.com/lentago/kalmia/issues/76) — common: no way to converge a workstation without also dist-upgrading it
-- 🟣 2026-08-07 · [kalmia#78](https://github.com/lentago/kalmia/pull/78) — common: add a base_system_upgrade toggle to decouple convergence from dist-upgrade
-- 🟢 2026-08-07 · [kalmia#73](https://github.com/lentago/kalmia/issues/73) — editors: debconf pre-seed adds a second VS Code apt source and breaks apt host-wide
-- 🟣 2026-08-07 · [kalmia#74](https://github.com/lentago/kalmia/pull/74) — editors: stop the VS Code postinst from adding a conflicting apt source
-- 🟣 2026-08-07 · [kalmia#72](https://github.com/lentago/kalmia/pull/72) — Update the review prompt for the fifth profile
-- 🟣 2026-08-07 · [kalmia#71](https://github.com/lentago/kalmia/pull/71) — Add a baguette profile for ChromeOS containerless Crostini
-- 🟣 2026-08-03 · [.github#79](https://github.com/lentago/.github/pull/79) — Weekly fleet reports refresh — 2026-08-03
-- 🟣 2026-08-01 · [music-curator#73](https://github.com/lentago/music-curator/pull/73) — chore(harvest): 2026-07 Spotify roll-up
 
 ---
 
@@ -681,7 +658,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | music-curator | 5,622 | 68 | 1,254 | 11,645 | 119,165 |
 | kalmia | 3,530 | 155 | 1,448 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 897 | 6,004 | 0 |
-| .github | 3,418 | 218 | 1,559 | 3,597 | 0 |
+| .github | 3,418 | 218 | 1,559 | 3,599 | 0 |
 | claytonia | 2,507 | 57 | 1,547 | 0 | 0 |
 | betula | 1,832 | 156 | 1,595 | 0 | 0 |
 | site-lentago-dev | 1,802 | 108 | 624 | 0 | 0 |
@@ -696,15 +673,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **47,363 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
+The fleet carries **47,365 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,358 | 20 | **counted as code** |
-| Content / data | 21,246 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Content / data | 21,248 | 697 | payload (vault notes, recipes, test-sets) — excluded |
 | Documentation | 23,314 | 291 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 445 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **47,363** | **1024** | |
+| **All Markdown** | **47,365** | **1024** | |
 
 ---
 
