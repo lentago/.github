@@ -3,13 +3,13 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-09-07 16:50 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-08).
+**Generated:** 2026-09-14 17:14 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-15).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **103** | 269 | 105 | **82,073** | 2,358 (20 files) |
+| **103** | 176 | 63 | **82,073** | 2,358 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,358 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
@@ -207,8 +207,9 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 
 ## Activity — last 30 days
 
-**374 events**, one stream, newest first — 🟣 269 PRs merged · 🟢 105 issues closed
+**239 events**, one stream, newest first — 🟣 176 PRs merged · 🟢 63 issues closed
 
+- 🟣 2026-09-07 · [.github#184](https://github.com/lentago/.github/pull/184) — Weekly fleet reports refresh — 2026-09-07
 - 🟣 2026-08-31 · [.github#181](https://github.com/lentago/.github/pull/181) — Weekly fleet reports refresh — 2026-08-31
 - 🟣 2026-08-31 · [.github#180](https://github.com/lentago/.github/pull/180) — Refresh language census — 2026-08-30
 - 🟣 2026-08-31 · [.github#179](https://github.com/lentago/.github/pull/179) — Weekly fleet reports refresh — 2026-08-31
@@ -447,142 +448,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 - 🟣 2026-08-16 · [kalmia#103](https://github.com/lentago/kalmia/pull/103) — lunaria: enable generic RTMP live-ingest path in mediamtx
 - 🟣 2026-08-15 · [asclepias#5](https://github.com/lentago/asclepias/pull/5) — Reposition the voice: a field guide among colleagues, not a training ground
 - 🟣 2026-08-15 · [.github#110](https://github.com/lentago/.github/pull/110) — asclepias: reposition brand surfaces from training ground to field guide
-- 🟣 2026-08-14 · [kalmia#101](https://github.com/lentago/kalmia/pull/101) — Cast Phase A wiring: registered values committed, pub checkout role-managed
-- 🟣 2026-08-14 · [brasenia#16](https://github.com/lentago/brasenia/pull/16) — cast-app: record registered App ID and plain-HTTP receiver URL
-- 🟣 2026-08-14 · [kalmia#100](https://github.com/lentago/kalmia/pull/100) — Cast receiver watchdog + receiver publishing (brasenia ADR-0006, Phase A)
-- 🟣 2026-08-14 · [brasenia#14](https://github.com/lentago/brasenia/pull/14) — cast-app: Phase A Cast web receiver + registration doc
-- 🟣 2026-08-14 · [brasenia#11](https://github.com/lentago/brasenia/pull/11) — docs: ADR-0006 — Chromecast web receiver as a second client; compositor output becomes a decision
-- 🟣 2026-08-14 · [site-pondviewlane-com#43](https://github.com/lentago/site-pondviewlane-com/pull/43) — Remove stray local skill files that rode in on #42
-- 🟢 2026-08-14 · [site-pondviewlane-com#41](https://github.com/lentago/site-pondviewlane-com/issues/41) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [site-pondviewlane-com#42](https://github.com/lentago/site-pondviewlane-com/pull/42) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟢 2026-08-14 · [.github#108](https://github.com/lentago/.github/issues/108) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [.github#109](https://github.com/lentago/.github/pull/109) — docs: reconstruct architecture decision records under docs/adr
-- 🟢 2026-08-14 · [repo-template#12](https://github.com/lentago/repo-template/issues/12) — Record architecture decisions: add docs/adr from fleet evidence; ship the ADR scaffold in the template
-- 🟣 2026-08-14 · [repo-template#13](https://github.com/lentago/repo-template/pull/13) — docs(adr): add reconstructed architecture decision records
-- 🟢 2026-08-14 · [shared-workflows#35](https://github.com/lentago/shared-workflows/issues/35) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [shared-workflows#36](https://github.com/lentago/shared-workflows/pull/36) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [epigaea#515](https://github.com/lentago/epigaea/pull/515) — docs: reconstruct architecture decision records 0001-0005
-- 🟢 2026-08-14 · [music-curator#80](https://github.com/lentago/music-curator/issues/80) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [music-curator#81](https://github.com/lentago/music-curator/pull/81) — docs(adr): add reconstructed architecture decision records under docs/adr/
-- 🟢 2026-08-14 · [kalmia#97](https://github.com/lentago/kalmia/issues/97) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [kalmia#98](https://github.com/lentago/kalmia/pull/98) — docs: add reconstructed architecture decision records (docs/adr/)
-- 🟢 2026-08-14 · [brasenia#9](https://github.com/lentago/brasenia/issues/9) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [brasenia#10](https://github.com/lentago/brasenia/pull/10) — docs: reconstruct architecture decision records under docs/adr
-- 🟢 2026-08-14 · [asclepias#3](https://github.com/lentago/asclepias/issues/3) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [asclepias#4](https://github.com/lentago/asclepias/pull/4) — Add reconstructed architecture decision records under docs/adr
-- 🟢 2026-08-14 · [betula#102](https://github.com/lentago/betula/issues/102) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [betula#103](https://github.com/lentago/betula/pull/103) — docs(adr): reconstruct seven architecture decision records
-- 🟢 2026-08-14 · [claytonia#96](https://github.com/lentago/claytonia/issues/96) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [claytonia#97](https://github.com/lentago/claytonia/pull/97) — docs(adr): reconstruct architecture decision records (#96)
-- 🟢 2026-08-14 · [drosera#192](https://github.com/lentago/drosera/issues/192) — Record architecture decisions: extend docs/adr from fleet evidence
-- 🟣 2026-08-14 · [drosera#193](https://github.com/lentago/drosera/pull/193) — docs(adr): reconstruct architecture decisions 0002–0007
-- 🟢 2026-08-14 · [site-icecreamtofightwith-com#152](https://github.com/lentago/site-icecreamtofightwith-com/issues/152) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [site-icecreamtofightwith-com#153](https://github.com/lentago/site-icecreamtofightwith-com/pull/153) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟢 2026-08-14 · [site-lentago-dev#44](https://github.com/lentago/site-lentago-dev/issues/44) — Record architecture decisions: add docs/adr from fleet evidence
-- 🟣 2026-08-14 · [site-lentago-dev#45](https://github.com/lentago/site-lentago-dev/pull/45) — docs(adr): reconstruct architecture decision records
-- 🟢 2026-08-14 · [solidago#161](https://github.com/lentago/solidago/issues/161) — Record architecture decisions: extend docs/decisions from fleet evidence
-- 🟣 2026-08-14 · [solidago#162](https://github.com/lentago/solidago/pull/162) — docs: record reconstructed architecture decisions (ADR-0002..0007)
-- 🟢 2026-08-13 · [site-icecreamtofightwith-com#150](https://github.com/lentago/site-icecreamtofightwith-com/issues/150) — Six table-of-contents links in the compiled book do not resolve to their headings
-- 🟣 2026-08-13 · [site-icecreamtofightwith-com#151](https://github.com/lentago/site-icecreamtofightwith-com/pull/151) — Fix seven dead TOC anchor links; add linter check to prevent regression
-- 🟣 2026-08-13 · [site-icecreamtofightwith-com#149](https://github.com/lentago/site-icecreamtofightwith-com/pull/149) — Tone down remaining front matter: fewer profanities, tighter humor beats
-- 🟢 2026-08-13 · [.github#106](https://github.com/lentago/.github/issues/106) — Fleet: add CODEOWNERS to the 11 repos missing it, so proposed changes reach the owner's inbox
-- 🟣 2026-08-13 · [site-pondviewlane-com#40](https://github.com/lentago/site-pondviewlane-com/pull/40) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [asclepias#2](https://github.com/lentago/asclepias/pull/2) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [brasenia#8](https://github.com/lentago/brasenia/pull/8) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [site-icecreamtofightwith-com#148](https://github.com/lentago/site-icecreamtofightwith-com/pull/148) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [epigaea#514](https://github.com/lentago/epigaea/pull/514) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [site-lentago-dev#43](https://github.com/lentago/site-lentago-dev/pull/43) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [repo-template#11](https://github.com/lentago/repo-template/pull/11) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [music-curator#79](https://github.com/lentago/music-curator/pull/79) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [shared-workflows#34](https://github.com/lentago/shared-workflows/pull/34) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [.github#107](https://github.com/lentago/.github/pull/107) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [claytonia#95](https://github.com/lentago/claytonia/pull/95) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [drosera#191](https://github.com/lentago/drosera/pull/191) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [solidago#160](https://github.com/lentago/solidago/pull/160) — Add CODEOWNERS so pull requests request owner review
-- 🟣 2026-08-13 · [site-icecreamtofightwith-com#147](https://github.com/lentago/site-icecreamtofightwith-com/pull/147) — Tone down Introduction: fewer profanities, tighter humor beats
-- 🟢 2026-08-13 · [.github#104](https://github.com/lentago/.github/issues/104) — Org profile: state the free-tier preference, emphatically
-- 🟣 2026-08-13 · [.github#105](https://github.com/lentago/.github/pull/105) — Org profile: state the free-tier preference, emphatically
-- 🟢 2026-08-13 · [.github#102](https://github.com/lentago/.github/issues/102) — Org profile: frame the lab's patterns as candidates, not prescriptions
-- 🟢 2026-08-13 · [.github#101](https://github.com/lentago/.github/issues/101) — Org profile: drop the employer name from the crew line
-- 🟣 2026-08-13 · [.github#103](https://github.com/lentago/.github/pull/103) — Org profile: drop the employer name and frame the patterns as candidates
-- 🟣 2026-08-12 · [.github#100](https://github.com/lentago/.github/pull/100) — Incident register: 14 reports harvested from the 2026-07-13 → 08-12 window
-- 🟣 2026-08-12 · [.github#99](https://github.com/lentago/.github/pull/99) — Weekly fleet reports refresh — 2026-08-12
-- 🟣 2026-08-12 · [.github#98](https://github.com/lentago/.github/pull/98) — terraform: declare the Actions app allowance by its next-format node id
-- 🟣 2026-08-12 · [.github#97](https://github.com/lentago/.github/pull/97) — terraform: import asclepias's live main ruleset
-- 🟣 2026-08-12 · [.github#96](https://github.com/lentago/.github/pull/96) — terraform: gate every merge to main on an org owner/admin
-- 🟢 2026-08-12 · [shared-workflows#32](https://github.com/lentago/shared-workflows/issues/32) — Canonical doctrine drift: Route 53 owner misattributed; solidago#142 still listed as tracked debt
-- 🟣 2026-08-12 · [shared-workflows#33](https://github.com/lentago/shared-workflows/pull/33) — Correct live-surface table DNS owner; record solidago#142 as closed OBE
-- 🟣 2026-08-12 · [.github#95](https://github.com/lentago/.github/pull/95) — brand: render asclepias social-preview card
-- 🟢 2026-08-12 · [.github#91](https://github.com/lentago/.github/issues/91) — Guest readiness: org base permission exposes private repos to all members
-- 🟢 2026-08-12 · [.github#89](https://github.com/lentago/.github/issues/89) — Recommendation: unified operations manual — create a dedicated Training repo
-- 🟢 2026-08-12 · [.github#88](https://github.com/lentago/.github/issues/88) — Team playground repositioning: fleet-wide README + org profile refresh
-- 🟣 2026-08-12 · [asclepias#1](https://github.com/lentago/asclepias/pull/1) — Seed the training ground: manual, labs, onboarding, brand identity
-- 🟣 2026-08-12 · [.github#94](https://github.com/lentago/.github/pull/94) — fleet: adopt asclepias — the Training product
-- 🟣 2026-08-12 · [site-pondviewlane-com#39](https://github.com/lentago/site-pondviewlane-com/pull/39) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [site-lentago-dev#42](https://github.com/lentago/site-lentago-dev/pull/42) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [site-icecreamtofightwith-com#146](https://github.com/lentago/site-icecreamtofightwith-com/pull/146) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [repo-template#10](https://github.com/lentago/repo-template/pull/10) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [music-curator#78](https://github.com/lentago/music-curator/pull/78) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [epigaea#513](https://github.com/lentago/epigaea/pull/513) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [shared-workflows#31](https://github.com/lentago/shared-workflows/pull/31) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [brasenia#7](https://github.com/lentago/brasenia/pull/7) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [betula#101](https://github.com/lentago/betula/pull/101) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [kalmia#96](https://github.com/lentago/kalmia/pull/96) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [claytonia#92](https://github.com/lentago/claytonia/pull/92) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [solidago#159](https://github.com/lentago/solidago/pull/159) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [.github#92](https://github.com/lentago/.github/pull/92) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [drosera#189](https://github.com/lentago/drosera/pull/189) — README: reposition as learning-lab exhibit (patterns, operator vectors, DeepWiki)
-- 🟣 2026-08-12 · [drosera#190](https://github.com/lentago/drosera/pull/190) — dashboards: repoint myosotis commit-link hint to cpitzi/myosotis
-- 🟣 2026-08-12 · [claytonia#94](https://github.com/lentago/claytonia/pull/94) — context-ledger: catch provision/07 references missed by the relocation sweep
-- 🟣 2026-08-12 · [claytonia#93](https://github.com/lentago/claytonia/pull/93) — context-ledger: repoint to cpitzi/myosotis (repo transferred out of org)
-- 🟣 2026-08-12 · [.github#93](https://github.com/lentago/.github/pull/93) — fleet-ops: remove myosotis — transferred to a personal account
-- 🟣 2026-08-11 · [.github#87](https://github.com/lentago/.github/pull/87) — Weekly fleet reports refresh — 2026-08-11
-- 🟢 2026-08-11 · [.github#85](https://github.com/lentago/.github/issues/85) — fleet-reports: weekly run broken by the org's first private repo
-- 🟣 2026-08-11 · [.github#86](https://github.com/lentago/.github/pull/86) — Scope fleet reports to public repos only
-- 🟣 2026-08-11 · [.github#84](https://github.com/lentago/.github/pull/84) — Surface DeepWiki links on the org profile and finish the homepage sweep
-- 🟣 2026-08-11 · [.github#83](https://github.com/lentago/.github/pull/83) — terraform: rename the validate job to tf-validate
-- 🟣 2026-08-11 · [.github#82](https://github.com/lentago/.github/pull/82) — Manage the fleet's GitHub settings with the Terraform GitHub provider
-- 🟣 2026-08-10 · [kalmia#95](https://github.com/lentago/kalmia/pull/95) — lunaria: append extra TV-contract panes to the wall-display rotation
-- 🟢 2026-08-10 · [.github#78](https://github.com/lentago/.github/issues/78) — Pin cloc in the fleet-reports workflow — the unpinned 1.98 drops all Astro source from the census
-- 🟣 2026-08-10 · [.github#80](https://github.com/lentago/.github/pull/80) — fix: pin cloc to v2.06 in fleet-reports workflow
-- 🟣 2026-08-10 · [music-curator#77](https://github.com/lentago/music-curator/pull/77) — Stop re-including graph.json from the vault gitignore the driver writes
-- 🟣 2026-08-10 · [music-curator#76](https://github.com/lentago/music-curator/pull/76) — Untrack vault Obsidian graph.json; document graph-presets swapping
-- 🟢 2026-08-09 · [claytonia#84](https://github.com/lentago/claytonia/issues/84) — docs: context-tracking observability model + alert runbook (visibility layer, part 5)
-- 🟣 2026-08-09 · [claytonia#91](https://github.com/lentago/claytonia/pull/91) — docs(context-ledger): signal model + alert runbook (issue #84)
-- 🟢 2026-08-09 · [drosera#185](https://github.com/lentago/drosera/issues/185) — Alert rules: context tracking (quarantine, stale host, committer silence) (visibility layer, part 3)
-- 🟣 2026-08-09 · [drosera#188](https://github.com/lentago/drosera/pull/188) — Add context-ledger alert rules: quarantine, stale host, committer silence
-- 🟢 2026-08-09 · [claytonia#89](https://github.com/lentago/claytonia/issues/89) — context-snapshot: claude_version '(unavailable)' on workers — claude not on the unit's PATH
-- 🟣 2026-08-09 · [claytonia#90](https://github.com/lentago/claytonia/pull/90) — fix(context-snapshot): add PATH to service unit so claude --version resolves (#89)
-- 🟢 2026-08-09 · [drosera#184](https://github.com/lentago/drosera/issues/184) — Claytonia dashboard: Context Ledger section (visibility layer, part 2)
-- 🟣 2026-08-09 · [drosera#187](https://github.com/lentago/drosera/pull/187) — feat(dashboard): Context Ledger section on Claytonia — Runner Fleet (#184)
-- 🟣 2026-08-09 · [claytonia#88](https://github.com/lentago/claytonia/pull/88) — fix(test): restore closing brace lost at the #86 rebase conflict seam
-- 🟢 2026-08-09 · [claytonia#83](https://github.com/lentago/claytonia/issues/83) — context-ledger: ledger-report CLI — kill the git-log incantations (visibility layer, part 4)
-- 🟣 2026-08-09 · [claytonia#86](https://github.com/lentago/claytonia/pull/86) — feat(context-ledger): ledger-report CLI — visibility layer part 4 (#83)
-- 🟢 2026-08-09 · [claytonia#82](https://github.com/lentago/claytonia/issues/82) — context-ledger: emit structured sweep/host events to Loki (visibility layer, part 1)
-- 🟣 2026-08-09 · [claytonia#87](https://github.com/lentago/claytonia/pull/87) — feat(context-ledger): emit context_sweep/context_host events to Loki (#82)
-- 🟢 2026-08-09 · [drosera#183](https://github.com/lentago/drosera/issues/183) — Loki label contract lags betula: producer emits eight log_source streams, consumer tracks four
-- 🟣 2026-08-09 · [drosera#186](https://github.com/lentago/drosera/pull/186) — Reconcile the Loki label contract with betula's eight streams
-- 🟢 2026-08-09 · [music-curator#74](https://github.com/lentago/music-curator/issues/74) — Active-artist count inconsistency: README says 543, inventory meta says 556
-- 🟣 2026-08-09 · [music-curator#75](https://github.com/lentago/music-curator/pull/75) — docs: correct the active-artist count and name its authoritative source
-- 🟢 2026-08-09 · [claytonia#79](https://github.com/lentago/claytonia/issues/79) — ShellCheck script list missing context-snapshot, context-ledger-commit, transcript-shipper-sync
-- 🟣 2026-08-09 · [claytonia#85](https://github.com/lentago/claytonia/pull/85) — ci: add the three unlinted bin/ scripts to the ShellCheck list
-- 🟢 2026-08-09 · [betula#99](https://github.com/lentago/betula/issues/99) — CI coverage gaps: AWS client unit tests never run in CI; three scripts missing from ShellCheck
-- 🟣 2026-08-09 · [betula#100](https://github.com/lentago/betula/pull/100) — ci: gate AWS client unit tests on every PR; extend ShellCheck to all six scripts
-- 🟢 2026-08-09 · [site-pondviewlane-com#37](https://github.com/lentago/site-pondviewlane-com/issues/37) — Stale doc claims: deploy.yml header cites the removed one-way firewall pipeline; nginx.conf calls the essex vhost inert
-- 🟣 2026-08-09 · [site-pondviewlane-com#38](https://github.com/lentago/site-pondviewlane-com/pull/38) — Correct stale pre-decoupling and pre-launch comments
-- 🟢 2026-08-09 · [solidago#157](https://github.com/lentago/solidago/issues/157) — README module inventory stale: lists 21 modules, omits alb-log-shipper, ask-lambda, grafana-cloud
-- 🟣 2026-08-09 · [solidago#158](https://github.com/lentago/solidago/pull/158) — docs: refresh README module inventory to match modules/ reality
-- 🟢 2026-08-09 · [claytonia#78](https://github.com/lentago/claytonia/issues/78) — README describes the retired n8n submit frontend in present tense
-- 🟣 2026-08-09 · [claytonia#81](https://github.com/lentago/claytonia/pull/81) — docs(readme): mark the n8n submit frontend as retired
-- 🟢 2026-08-09 · [epigaea#511](https://github.com/lentago/epigaea/issues/511) — README drift: File Structure lists home.yaml twice with retired grid-layout annotation; '40+ entities' undersells the registry
-- 🟣 2026-08-09 · [epigaea#512](https://github.com/lentago/epigaea/pull/512) — docs: fix README File Structure duplicate, restate entity counts
-- 🟢 2026-08-09 · [claytonia#77](https://github.com/lentago/claytonia/issues/77) — gitops: manual git pull in /opt/bullpen strands pending bin/ deploys
-- 🟣 2026-08-09 · [claytonia#80](https://github.com/lentago/claytonia/pull/80) — fix(gitops): deploy pass runs unconditionally to self-heal manual-pull drift
-- 🟢 2026-08-09 · [claytonia#73](https://github.com/lentago/claytonia/issues/73) — queue: stale processing/ entry survives job completion — reaper misses month-old orphan
-- 🟣 2026-08-09 · [claytonia#76](https://github.com/lentago/claytonia/pull/76) — fix(queue): janitor sweeps ownerless completed orphans the reaper misses
-- 🟢 2026-08-09 · [claytonia#74](https://github.com/lentago/claytonia/issues/74) — gitops: unit-change restart list doesn't cover the context-ledger timers
-- 🟣 2026-08-09 · [claytonia#75](https://github.com/lentago/claytonia/pull/75) — fix(gitops): restart changed timers dynamically instead of hardcoded list
-- 🟣 2026-08-09 · [claytonia#72](https://github.com/lentago/claytonia/pull/72) — feat: context ledger — fleet-wide host-side Claude context drift tracking
 
 ---
 
@@ -658,7 +523,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | music-curator | 5,622 | 68 | 1,254 | 11,645 | 119,165 |
 | kalmia | 3,530 | 155 | 1,448 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 897 | 6,004 | 0 |
-| .github | 3,418 | 218 | 1,559 | 3,599 | 0 |
+| .github | 3,418 | 218 | 1,559 | 3,576 | 0 |
 | claytonia | 2,507 | 57 | 1,547 | 0 | 0 |
 | betula | 1,832 | 156 | 1,595 | 0 | 0 |
 | site-lentago-dev | 1,802 | 108 | 624 | 0 | 0 |
@@ -673,15 +538,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **47,365 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
+The fleet carries **47,342 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,358 | 20 | **counted as code** |
-| Content / data | 21,248 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Content / data | 21,225 | 697 | payload (vault notes, recipes, test-sets) — excluded |
 | Documentation | 23,314 | 291 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 445 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **47,365** | **1024** | |
+| **All Markdown** | **47,342** | **1024** | |
 
 ---
 
