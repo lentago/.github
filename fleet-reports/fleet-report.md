@@ -3,24 +3,25 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-09-14 17:14 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-15).
+**Generated:** 2026-09-21 17:25 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-22).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **103** | 176 | 63 | **82,073** | 2,358 (20 files) |
+| **109** | 48 | 9 | **82,073** | 2,358 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,358 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 103 across 17 repos
+## Open issues — 109 across 17 repos
 
-### .github — 18 open
+### .github — 19 open
 
 | # | Title |
 |---|-------|
+| [187](https://github.com/lentago/.github/issues/187) | [renewal] pondviewlane.com — domain registration — due 2026-11-03 |
 | [182](https://github.com/lentago/.github/issues/182) | [renewal] lentago.dev — TLS certificate (ACME auto-renew backstop) — due 2026-09-10 |
 | [176](https://github.com/lentago/.github/issues/176) | Codify org settings in Terraform — default_repository_permission is live-only |
 | [175](https://github.com/lentago/.github/issues/175) | A public repo entry with a null template_source cannot receive its first commit |
@@ -62,6 +63,24 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 | [103](https://github.com/lentago/drosera/issues/103) | Scrape node_exporter on the Firewalla via Alloy (bring the gateway into node dashboards) |
 | [101](https://github.com/lentago/drosera/issues/101) | Heartbeat blind spot: tool-less reasoning turns show no activity while tokens burn |
 | [93](https://github.com/lentago/drosera/issues/93) | feat(alloy): attach runid label to the transcript stream from the <sid>.runid sidecar |
+
+### claytonia — 13 open
+
+| # | Title |
+|---|-------|
+| [120](https://github.com/lentago/claytonia/issues/120) | Residual journal chatter: two condition-skipped units re-logged on every timer activation |
+| [117](https://github.com/lentago/claytonia/issues/117) | Make never-merge a boundary: required check that blocks runner-App PRs without a human approval |
+| [116](https://github.com/lentago/claytonia/issues/116) | Close the loop after the PR opens: a capped follow-up job for failing checks and review comments |
+| [115](https://github.com/lentago/claytonia/issues/115) | An eval set for the fleet: replayable tasks, deterministic graders, and outcome measures |
+| [114](https://github.com/lentago/claytonia/issues/114) | Bound every job: default turn, spend and wall-clock limits in run-job |
+| [110](https://github.com/lentago/claytonia/issues/110) | Ship workers/<host>.alive heartbeats to Loki — unblocks the bullpen liveness alerts |
+| [99](https://github.com/lentago/claytonia/issues/99) | Second job type: batch document/report jobs through the queue contract |
+| [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
+| [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
+| [31](https://github.com/lentago/claytonia/issues/31) | Add optional authentication to the n8n Bullpen job-submit form |
+| [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
+| [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
+| [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
 
 ### kalmia — 13 open
 
@@ -115,19 +134,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 | [3](https://github.com/lentago/mitchella/issues/3) | Slack hardening: visible failures, block limits, retries |
 | [2](https://github.com/lentago/mitchella/issues/2) | Hold a conversation: thread context across turns |
 | [1](https://github.com/lentago/mitchella/issues/1) | Exercise the real API path end to end |
-
-### claytonia — 8 open
-
-| # | Title |
-|---|-------|
-| [110](https://github.com/lentago/claytonia/issues/110) | Ship workers/<host>.alive heartbeats to Loki — unblocks the bullpen liveness alerts |
-| [99](https://github.com/lentago/claytonia/issues/99) | Second job type: batch document/report jobs through the queue contract |
-| [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
-| [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
-| [31](https://github.com/lentago/claytonia/issues/31) | Add optional authentication to the n8n Bullpen job-submit form |
-| [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
-| [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
-| [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
 
 ### betula — 5 open
 
@@ -207,8 +213,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 
 ## Activity — last 30 days
 
-**239 events**, one stream, newest first — 🟣 176 PRs merged · 🟢 63 issues closed
+**57 events**, one stream, newest first — 🟣 48 PRs merged · 🟢 9 issues closed
 
+- 🟢 2026-09-20 · [claytonia#118](https://github.com/lentago/claytonia/issues/118) — Idle workers churn ~130 KiB/s of journald writes each and ~7 SMB req/s against the NAS
+- 🟣 2026-09-20 · [claytonia#119](https://github.com/lentago/claytonia/pull/119) — Poll the inbox every 60s and stop journaling per-activation systemd chatter
+- 🟣 2026-09-14 · [.github#186](https://github.com/lentago/.github/pull/186) — Weekly fleet reports refresh — 2026-09-14
 - 🟣 2026-09-07 · [.github#184](https://github.com/lentago/.github/pull/184) — Weekly fleet reports refresh — 2026-09-07
 - 🟣 2026-08-31 · [.github#181](https://github.com/lentago/.github/pull/181) — Weekly fleet reports refresh — 2026-08-31
 - 🟣 2026-08-31 · [.github#180](https://github.com/lentago/.github/pull/180) — Refresh language census — 2026-08-30
@@ -260,194 +269,9 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 - 🟣 2026-08-24 · [.github#172](https://github.com/lentago/.github/pull/172) — Weekly fleet reports refresh — 2026-08-24
 - 🟢 2026-08-23 · [kalmia#126](https://github.com/lentago/kalmia/issues/126) — repos role clones flat into ~/repos/<name>; fleet layout is owner-grouped (lentago/, cpitzi/)
 - 🟣 2026-08-23 · [kalmia#127](https://github.com/lentago/kalmia/pull/127) — repos: clone owner-grouped into ~/repos/<owner>/<name> (closes #126)
-- 🟢 2026-08-22 · [.github#148](https://github.com/lentago/.github/issues/148) — music-curator push allowlist: the Actions-app entry applies successfully but never persists
 - 🟣 2026-08-22 · [.github#169](https://github.com/lentago/.github/pull/169) — fix: drop the dead Actions-app allowance and add a post-apply convergence check
 - 🟣 2026-08-22 · [.github#168](https://github.com/lentago/.github/pull/168) — Weekly fleet reports refresh — 2026-08-22
 - 🟣 2026-08-22 · [.github#166](https://github.com/lentago/.github/pull/166) — docs: catch the org profile and repo docs up to the current fleet
-- 🟢 2026-08-21 · [solidago#186](https://github.com/lentago/solidago/issues/186) — Add ADOPTION.md — the adopter's front door, with BOOTSTRAP as its step reference
-- 🟣 2026-08-21 · [solidago#187](https://github.com/lentago/solidago/pull/187) — docs: add ADOPTION.md as the adopter's front door (#186)
-- 🟢 2026-08-21 · [monarda#4](https://github.com/lentago/monarda/issues/4) — Add ADOPTION.md — the kit's front door in the fleet's standard shape
-- 🟣 2026-08-21 · [monarda#6](https://github.com/lentago/monarda/pull/6) — docs: add ADOPTION.md — standard drill-and-receipt runbook (closes #4)
-- 🟢 2026-08-21 · [lupinus#1](https://github.com/lentago/lupinus/issues/1) — Kit CI: inline docs-check, drop the Claude workflows
-- 🟣 2026-08-21 · [lupinus#2](https://github.com/lentago/lupinus/pull/2) — ci: inline docs-check, drop cross-org Claude workflows
-- 🟣 2026-08-21 · [lupinus#3](https://github.com/lentago/lupinus/pull/3) — feat: the adoption guide and ops-vault scaffold
-- 🟣 2026-08-20 · [solidago#185](https://github.com/lentago/solidago/pull/185) — Elevate the essex Ask persona to full prostration (vendored handler sync)
-- 🟣 2026-08-20 · [site-pondviewlane-com#68](https://github.com/lentago/site-pondviewlane-com/pull/68) — Elevate the Essex Crossing persona to full prostration
-- 🟣 2026-08-20 · [site-pondviewlane-com#67](https://github.com/lentago/site-pondviewlane-com/pull/67) — guides: trees — worked example of the three layers, the 2026 nine-pine removal
-- 🟣 2026-08-20 · [site-pondviewlane-com#66](https://github.com/lentago/site-pondviewlane-com/pull/66) — library: ConCom 7/28/2026 minutes excerpt — nine-pine removal approved (Negative 3)
-- 🟢 2026-08-19 · [.github#162](https://github.com/lentago/.github/issues/162) — Epic: adoption guide (lupinus) — Phase 0 enablers
-- 🟣 2026-08-19 · [shared-workflows#55](https://github.com/lentago/shared-workflows/pull/55) — chore(release): bump internal composite-action refs to v1.2.2 ahead of tagging
-- 🟢 2026-08-19 · [shared-workflows#53](https://github.com/lentago/shared-workflows/issues/53) — shellcheck reusable: apt-get stall wedges required checks — use preinstalled shellcheck + job timeout
-- 🟣 2026-08-19 · [shared-workflows#54](https://github.com/lentago/shared-workflows/pull/54) — fix(shellcheck): use preinstalled shellcheck with guarded apt fallback
-- 🟢 2026-08-19 · [.github#164](https://github.com/lentago/.github/issues/164) — Birth apply races GitHub's async default-label seeding (lupinus lost, osmunda/monarda won)
-- 🟣 2026-08-19 · [.github#165](https://github.com/lentago/.github/pull/165) — docs: record the birth-labels race in the add-a-repo runbook
-- 🟢 2026-08-19 · [.github#161](https://github.com/lentago/.github/issues/161) — Add lupinus to the fleet — the adoption guide and ops-vault kit
-- 🟣 2026-08-19 · [.github#163](https://github.com/lentago/.github/pull/163) — feat: birth lupinus — the adoption guide and ops-vault kit
-- 🟢 2026-08-19 · [solidago#182](https://github.com/lentago/solidago/issues/182) — Adoption enablers: ship terraform.tfvars.example and make Grafana Cloud variables optional
-- 🟣 2026-08-19 · [solidago#183](https://github.com/lentago/solidago/pull/183) — feat(adoption): tfvars.example, optional Grafana Cloud, fix BOOTSTRAP Step 4 (#182)
-- 🟢 2026-08-19 · [monarda#2](https://github.com/lentago/monarda/issues/2) — Remove cross-org CI residue from the template: inline docs-check, drop Claude workflows
-- 🟣 2026-08-19 · [monarda#3](https://github.com/lentago/monarda/pull/3) — Remove cross-org CI residue: inline docs-check, drop Claude workflows
-- 🟢 2026-08-19 · [repo-template#18](https://github.com/lentago/repo-template/issues/18) — Pin shared-workflows caller refs to release tags
-- 🟣 2026-08-19 · [repo-template#19](https://github.com/lentago/repo-template/pull/19) — ci: pin shared-workflows caller refs to v1.2.1
-- 🟢 2026-08-18 · [.github#153](https://github.com/lentago/.github/issues/153) — Policy decision: require signed commits on main? (tf-lint GIT-0004)
-- 🟣 2026-08-18 · [.github#160](https://github.com/lentago/.github/pull/160) — docs: signed commits deliberately not required (resolves #153, option 2)
-- 🟢 2026-08-18 · [kalmia#52](https://github.com/lentago/kalmia/issues/52) — Codify the n8n container's provisioning (Docker + compose) — recreate yields a bare template
-- 🟢 2026-08-18 · [solidago#164](https://github.com/lentago/solidago/issues/164) — Enable ECR scan-on-push for the site repositories
-- 🟢 2026-08-18 · [shared-workflows#39](https://github.com/lentago/shared-workflows/issues/39) — Artifact attestations on site images (SLSA Build L2 → L3 via the reusable deploy)
-- 🟣 2026-08-17 · [site-lentago-dev#55](https://github.com/lentago/site-lentago-dev/pull/55) — chore(deps): Bump the npm-major group across 1 directory with 4 updates
-- 🟣 2026-08-17 · [drosera#210](https://github.com/lentago/drosera/pull/210) — chore(deps): Bump the actions-major group across 1 directory with 7 updates
-- 🟣 2026-08-17 · [site-lentago-dev#60](https://github.com/lentago/site-lentago-dev/pull/60) — build(deps): upgrade Astro 5 → 7.2.2 + @astrojs/react 4 → 6.0.2 (astro-stack)
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#181](https://github.com/lentago/site-icecreamtofightwith-com/pull/181) — build: upgrade Astro 5 → 7.2.2 (astro-stack major migration)
-- 🟣 2026-08-17 · [claytonia#107](https://github.com/lentago/claytonia/pull/107) — chore(deps): bump the actions-major group with 4 updates
-- 🟢 2026-08-17 · [.github#119](https://github.com/lentago/.github/issues/119) — Create the Kubernetes platform repo (k3s + ephemeral EKS, pull-based GitOps, IRSA)
-- 🟣 2026-08-17 · [osmunda#3](https://github.com/lentago/osmunda/pull/3) — feat: EKS drill scripts + measured numbers from drill #1
-- 🟣 2026-08-17 · [site-pondviewlane-com#64](https://github.com/lentago/site-pondviewlane-com/pull/64) — build(deps): upgrade astro 5→7.2.2 + Starlight 0.36→0.41.7 (astro-stack)
-- 🟢 2026-08-17 · [drosera#207](https://github.com/lentago/drosera/issues/207) — Bullpen liveness + retry-event alerting — game-day #1's confirmed gap
-- 🟣 2026-08-17 · [drosera#209](https://github.com/lentago/drosera/pull/209) — feat(alerts): bullpen liveness + retry alerting (#207)
-- 🟢 2026-08-17 · [kalmia#122](https://github.com/lentago/kalmia/issues/122) — Guests with feature flags beyond nesting cannot be born via CI — document the pre-create+import path (hit on k3s pool)
-- 🟣 2026-08-17 · [kalmia#123](https://github.com/lentago/kalmia/pull/123) — docs(terraform): document feature-flag pre-create rail
-- 🟣 2026-08-17 · [drosera#208](https://github.com/lentago/drosera/pull/208) — ci: skip terraform plan for dependabot PRs
-- 🟢 2026-08-17 · [solidago#173](https://github.com/lentago/solidago/issues/173) — Prune the rename-era OIDC trust entries from the app deploy role
-- 🟣 2026-08-17 · [solidago#181](https://github.com/lentago/solidago/pull/181) — iam: prune rename-era dead OIDC trust subs from app deploy role (#173)
-- 🟣 2026-08-17 · [kalmia#117](https://github.com/lentago/kalmia/pull/117) — build(deps): bump the actions-major group with 5 updates
-- 🟣 2026-08-17 · [site-pondviewlane-com#60](https://github.com/lentago/site-pondviewlane-com/pull/60) — Bump sharp from 0.33.5 to 0.35.3 in the npm-routine group across 1 directory
-- 🟣 2026-08-17 · [shared-workflows#49](https://github.com/lentago/shared-workflows/pull/49) — chore(deps): Bump the actions-major group across 1 directory with 5 updates
-- 🟣 2026-08-17 · [site-pondviewlane-com#63](https://github.com/lentago/site-pondviewlane-com/pull/63) — Bump the actions-major group across 1 directory with 2 updates
-- 🟣 2026-08-17 · [site-lentago-dev#57](https://github.com/lentago/site-lentago-dev/pull/57) — chore(deps): Bump the actions-major group across 1 directory with 2 updates
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#176](https://github.com/lentago/site-icecreamtofightwith-com/pull/176) — Bump the actions-major group across 1 directory with 4 updates
-- 🟣 2026-08-17 · [music-curator#84](https://github.com/lentago/music-curator/pull/84) — chore(deps): bump the actions-major group across 1 directory with 2 updates
-- 🟣 2026-08-17 · [.github#156](https://github.com/lentago/.github/pull/156) — build(deps): bump the actions-major group across 1 directory with 7 updates
-- 🟣 2026-08-17 · [epigaea#517](https://github.com/lentago/epigaea/pull/517) — build(deps): bump the actions-major group across 1 directory with 2 updates
-- 🟣 2026-08-17 · [betula#109](https://github.com/lentago/betula/pull/109) — chore(deps): bump the actions-major group with 2 updates
-- 🟢 2026-08-17 · [.github#120](https://github.com/lentago/.github/issues/120) — Create the campaign-site kit template repo
-- 🟢 2026-08-17 · [asclepias#6](https://github.com/lentago/asclepias/issues/6) — Run game-day #1 against the agent fleet; publish the post-mortem
-- 🟣 2026-08-17 · [.github#159](https://github.com/lentago/.github/pull/159) — docs: game-day #1 post-mortem (runner kill → 84s self-heal, no alert fired)
-- 🟣 2026-08-17 · [osmunda#2](https://github.com/lentago/osmunda/pull/2) — fix: n8n memory limit + ingress class (first live deploy findings)
-- 🟢 2026-08-17 · [drosera#196](https://github.com/lentago/drosera/issues/196) — Estate status page (uptime vs SLO, error budget, CI health) + client-facing variant
-- 🟣 2026-08-17 · [drosera#206](https://github.com/lentago/drosera/pull/206) — feat: estate status page (uptime vs SLO, error budget, CI health)
-- 🟢 2026-08-17 · [.github#121](https://github.com/lentago/.github/issues/121) — Publish the fleet's own lock-in ledger; then cut the client template
-- 🟣 2026-08-17 · [.github#158](https://github.com/lentago/.github/pull/158) — Lock-in Ledger: fleet self-audit + client template with renewal-calendar-as-code
-- 🟢 2026-08-17 · [site-lentago-dev#49](https://github.com/lentago/site-lentago-dev/issues/49) — Site v3: sovereignty copy, Offerings↔receipts section, the pledge, bespoke shelf
-- 🟣 2026-08-17 · [site-lentago-dev#59](https://github.com/lentago/site-lentago-dev/pull/59) — Site v3: sovereignty hero, Offerings↔receipts, the pledge, bespoke shelf
-- 🟣 2026-08-17 · [monarda#1](https://github.com/lentago/monarda/pull/1) — P14: campaign-site kit (Astro site + deploy workflows + intake/dry-run)
-- 🟣 2026-08-17 · [osmunda#1](https://github.com/lentago/osmunda/pull/1) — Scaffold osmunda Kubernetes platform (C01)
-- 🟣 2026-08-17 · [kalmia#121](https://github.com/lentago/kalmia/pull/121) — feat(terraform): provision osmunda k3s node pool (C01 phase 1)
-- 🟣 2026-08-17 · [.github#157](https://github.com/lentago/.github/pull/157) — feat: birth osmunda (Kubernetes platform) and monarda (campaign-site kit)
-- 🟣 2026-08-17 · [shared-workflows#52](https://github.com/lentago/shared-workflows/pull/52) — docs: enforced-surfaces table — .github settings are now apply-on-merge
-- 🟢 2026-08-17 · [.github#81](https://github.com/lentago/.github/issues/81) — terraform: wire plan-on-PR and apply-on-merge for the fleet settings module
-- 🟣 2026-08-17 · [.github#155](https://github.com/lentago/.github/pull/155) — ci: require gate — settings apply-on-merge phase complete (R19 step 4)
-- 🟣 2026-08-17 · [.github#152](https://github.com/lentago/.github/pull/152) — ci(terraform): wire plan-on-PR and apply-on-merge (R19 step 3)
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#161](https://github.com/lentago/site-icecreamtofightwith-com/pull/161) — Bump nginx from `963cfe6` to `8541484`
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#180](https://github.com/lentago/site-icecreamtofightwith-com/pull/180) — fix: release workflow missing lmodern (PDF conversion failed)
-- 🟣 2026-08-17 · [.github#154](https://github.com/lentago/.github/pull/154) — ci: require tf-lint / tf-lint on the five Terraform repos
-- 🟣 2026-08-17 · [solidago#179](https://github.com/lentago/solidago/pull/179) — iam: add scoped OIDC terraform role for lentago/.github (R19 step 1)
-- 🟢 2026-08-17 · [site-icecreamtofightwith-com#156](https://github.com/lentago/site-icecreamtofightwith-com/issues/156) — Tagged releases: attested, versioned cookbook PDFs
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#178](https://github.com/lentago/site-icecreamtofightwith-com/pull/178) — ci: tag-driven attested cookbook PDF releases (issue #156)
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#179](https://github.com/lentago/site-icecreamtofightwith-com/pull/179) — fix: spelling in Dockerfile comment (typos gate)
-- 🟣 2026-08-17 · [solidago#178](https://github.com/lentago/solidago/pull/178) — ci: adopt fleet Terraform lint reusable workflow (shared-workflows v1.2.0)
-- 🟣 2026-08-17 · [.github#151](https://github.com/lentago/.github/pull/151) — feat(ci): adopt shared tf-lint reusable workflow
-- 🟣 2026-08-17 · [kalmia#120](https://github.com/lentago/kalmia/pull/120) — ci: adopt fleet shared tf-lint workflow (shared-workflows v1.2.0)
-- 🟣 2026-08-17 · [drosera#205](https://github.com/lentago/drosera/pull/205) — ci: adopt shared tf-lint reusable workflow (v1.2.0)
-- 🟣 2026-08-17 · [claytonia#109](https://github.com/lentago/claytonia/pull/109) — ci(terraform): adopt shared tf-lint reusable workflow (R18)
-- 🟣 2026-08-17 · [site-pondviewlane-com#62](https://github.com/lentago/site-pondviewlane-com/pull/62) — ci: adopt site-deploy reusable workflow @ v1.1.1
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#177](https://github.com/lentago/site-icecreamtofightwith-com/pull/177) — fix: move nginx digest comment off the FROM line (deploys broken since R01 pin)
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#175](https://github.com/lentago/site-icecreamtofightwith-com/pull/175) — ci: adopt shared site-deploy reusable workflow (v1.1.1)
-- 🟣 2026-08-17 · [epigaea#520](https://github.com/lentago/epigaea/pull/520) — docs: add GitOps loop diagram, document HA_SYNC_PAT
-- 🟢 2026-08-17 · [shared-workflows#41](https://github.com/lentago/shared-workflows/issues/41) — Reusable tf-lint workflow (fmt -check, tflint, trivy config) for the five Terraform repos
-- 🟣 2026-08-17 · [shared-workflows#50](https://github.com/lentago/shared-workflows/pull/50) — feat: add reusable Terraform lint workflow (tf-lint.yml)
-- 🟢 2026-08-17 · [.github#118](https://github.com/lentago/.github/issues/118) — Incident register: tag entries deployment-caused y/n
-- 🟣 2026-08-17 · [.github#150](https://github.com/lentago/.github/pull/150) — feat(incidents): add Deployment-caused marker for DORA metrics
-- 🟢 2026-08-17 · [betula#105](https://github.com/lentago/betula/issues/105) — State the per-client destination rule (README + estate atlas)
-- 🟢 2026-08-17 · [betula#104](https://github.com/lentago/betula/issues/104) — README: quantify the pipeline (events/day, GB/month, latency, retention)
-- 🟣 2026-08-17 · [betula#110](https://github.com/lentago/betula/pull/110) — docs(readme): quantify pipeline scale and clarify per-client destination rule
-- 🟣 2026-08-17 · [solidago#177](https://github.com/lentago/solidago/pull/177) — fix(iam): allow ecr:DescribeImages on the deploy role (attestation digest lookup)
-- 🟣 2026-08-17 · [site-lentago-dev#58](https://github.com/lentago/site-lentago-dev/pull/58) — fix(deploy): bump site-deploy reusable to v1.1.1 (concurrency deadlock fix)
-- 🟣 2026-08-17 · [shared-workflows#51](https://github.com/lentago/shared-workflows/pull/51) — fix(site-deploy): drop job-level concurrency — deadlocks callers holding their own group
-- 🟣 2026-08-17 · [site-lentago-dev#56](https://github.com/lentago/site-lentago-dev/pull/56) — ci: adopt shared site-deploy reusable workflow (v1.1.0)
-- 🟣 2026-08-17 · [shared-workflows#48](https://github.com/lentago/shared-workflows/pull/48) — chore(release): bump internal self-references to v1.1.0 ahead of tagging
-- 🟣 2026-08-17 · [epigaea#519](https://github.com/lentago/epigaea/pull/519) — rename: update repo self-description to epigaea
-- 🟣 2026-08-17 · [.github#149](https://github.com/lentago/.github/pull/149) — Weekly fleet reports refresh — 2026-08-17
-- 🟢 2026-08-17 · [.github#116](https://github.com/lentago/.github/issues/116) — Rename homeassistant-config → epigaea (settings-as-code)
-- 🟣 2026-08-17 · [.github#147](https://github.com/lentago/.github/pull/147) — feat(fleet): rename homeassistant-config to epigaea
-- 🟢 2026-08-17 · [shared-workflows#38](https://github.com/lentago/shared-workflows/issues/38) — Reusable site-deploy workflow: build → ECR → ECS → wait-stable → attest
-- 🟣 2026-08-17 · [shared-workflows#47](https://github.com/lentago/shared-workflows/pull/47) — feat: add site-deploy reusable workflow (Astro → ECR → ECS)
-- 🟢 2026-08-17 · [solidago#166](https://github.com/lentago/solidago/issues/166) — ADR: record the dev-tier RDS trade-offs
-- 🟣 2026-08-17 · [solidago#176](https://github.com/lentago/solidago/pull/176) — docs: ADR-0008 — dev-tier RDS deletion-protection/snapshot trade-offs
-- 🟢 2026-08-17 · [music-curator#82](https://github.com/lentago/music-curator/issues/82) — Package the Python surface: pyproject + lockfile
-- 🟣 2026-08-17 · [music-curator#86](https://github.com/lentago/music-curator/pull/86) — chore: package the Python surface with pyproject.toml + pip-tools lockfile
-- 🟢 2026-08-17 · [kalmia#106](https://github.com/lentago/kalmia/issues/106) — README architecture diagram: OIDC → S3 state / LAN runner → Proxmox
-- 🟣 2026-08-17 · [kalmia#118](https://github.com/lentago/kalmia/pull/118) — docs: add hybrid-cloud architecture diagram to README
-- 🟢 2026-08-17 · [claytonia#98](https://github.com/lentago/claytonia/issues/98) — README architecture diagram: job → clean checkout → reviewed PR loop
-- 🟣 2026-08-17 · [claytonia#108](https://github.com/lentago/claytonia/pull/108) — docs(readme): add architecture diagram to top of README
-- 🟢 2026-08-17 · [drosera#195](https://github.com/lentago/drosera/issues/195) — Site availability SLOs, error budgets, and multi-window burn-rate alerts
-- 🟣 2026-08-17 · [drosera#203](https://github.com/lentago/drosera/pull/203) — feat: site availability SLOs, error budgets & multi-window burn-rate alerts (#195)
-- 🟢 2026-08-17 · [.github#117](https://github.com/lentago/.github/issues/117) — Transfer reference-checker out of the org (bespoke shelf)
-- 🟣 2026-08-17 · [.github#146](https://github.com/lentago/.github/pull/146) — chore(fleet): remove reference-checker from fleet settings ahead of transfer
-- 🟢 2026-08-17 · [repo-template#14](https://github.com/lentago/repo-template/issues/14) — Codify the description template (+ kit tier), docs/adr and CLAUDE.md canon in SETUP
-- 🟣 2026-08-17 · [repo-template#17](https://github.com/lentago/repo-template/pull/17) — docs(setup): codify description template, canonical paths, and anti-drift rule
-- 🟢 2026-08-17 · [.github#111](https://github.com/lentago/.github/issues/111) — ADR: the delivery rule — kits into client-owned estates, no hosted multi-tenant services
-- 🟣 2026-08-17 · [.github#145](https://github.com/lentago/.github/pull/145) — docs(adr): record the delivery rule as ADR-0007 (closes #111)
-- 🟢 2026-08-17 · [.github#114](https://github.com/lentago/.github/issues/114) — Fleet sweep: Dependabot on every repo (github-actions, npm, pip)
-- 🟢 2026-08-17 · [.github#113](https://github.com/lentago/.github/issues/113) — Fleet sweep: pin third-party actions to commit SHAs; pin container bases to digests
-- 🟣 2026-08-17 · [site-icecreamtofightwith-com#173](https://github.com/lentago/site-icecreamtofightwith-com/pull/173) — chore: add astro-stack Dependabot group to prevent peer-conflict PRs
-- 🟣 2026-08-17 · [site-pondviewlane-com#59](https://github.com/lentago/site-pondviewlane-com/pull/59) — build(deps): group astro-stack packages in dependabot.yml
-- 🟣 2026-08-17 · [shared-workflows#45](https://github.com/lentago/shared-workflows/pull/45) — ci: supply-chain sweep — Dependabot grouped config
-- 🟣 2026-08-17 · [site-lentago-dev#52](https://github.com/lentago/site-lentago-dev/pull/52) — build: pin GitHub Actions to SHAs, pin nginx digest, add Dependabot config
-- 🟣 2026-08-17 · [epigaea#516](https://github.com/lentago/epigaea/pull/516) — ci: pin third-party actions to commit SHAs, add Dependabot
-- 🟣 2026-08-17 · [music-curator#83](https://github.com/lentago/music-curator/pull/83) — chore(ci): pin third-party actions to commit SHAs; add Dependabot grouping
-- 🟣 2026-08-17 · [brasenia#19](https://github.com/lentago/brasenia/pull/19) — chore: supply-chain sweep — add Dependabot (no third-party actions to pin)
-- 🟣 2026-08-17 · [asclepias#7](https://github.com/lentago/asclepias/pull/7) — chore: supply-chain sweep — pin actions + add Dependabot
-- 🟣 2026-08-17 · [betula#108](https://github.com/lentago/betula/pull/108) — ci: pin third-party actions to SHAs, add Dependabot config
-- 🟣 2026-08-17 · [drosera#201](https://github.com/lentago/drosera/pull/201) — ci: pin third-party actions to SHAs, add grouped dependabot config
-- 🟢 2026-08-16 · [shared-workflows#40](https://github.com/lentago/shared-workflows/issues/40) — Decide and document the @main consumption policy (version tags or a defending ADR)
-- 🟣 2026-08-16 · [shared-workflows#44](https://github.com/lentago/shared-workflows/pull/44) — docs(adr): record immutable semver tag decision; add release process; migrate internal @main refs
-- 🟣 2026-08-16 · [site-icecreamtofightwith-com#171](https://github.com/lentago/site-icecreamtofightwith-com/pull/171) — Bump the npm-routine group with 2 updates
-- 🟣 2026-08-16 · [claytonia#106](https://github.com/lentago/claytonia/pull/106) — feat(dependabot): add update grouping to reduce PR flood
-- 🟣 2026-08-16 · [kalmia#116](https://github.com/lentago/kalmia/pull/116) — ci: group dependabot updates by ecosystem (routine vs major)
-- 🟣 2026-08-16 · [site-icecreamtofightwith-com#170](https://github.com/lentago/site-icecreamtofightwith-com/pull/170) — chore: add Dependabot update groups to reduce PR flood
-- 🟣 2026-08-16 · [site-pondviewlane-com#56](https://github.com/lentago/site-pondviewlane-com/pull/56) — build(deps): add update grouping to dependabot.yml
-- 🟣 2026-08-16 · [.github#142](https://github.com/lentago/.github/pull/142) — ci: group dependabot updates by routine/major per ecosystem
-- 🟣 2026-08-16 · [solidago#175](https://github.com/lentago/solidago/pull/175) — ci: group dependabot updates into routine/major PRs
-- 🟣 2026-08-16 · [repo-template#16](https://github.com/lentago/repo-template/pull/16) — ci: group dependabot updates by routine vs major
-- 🟣 2026-08-16 · [claytonia#105](https://github.com/lentago/claytonia/pull/105) — ci(terraform): skip plan for Dependabot PRs so gate passes
-- 🟣 2026-08-16 · [kalmia#115](https://github.com/lentago/kalmia/pull/115) — ci(terraform): skip plan job for Dependabot PRs
-- 🟣 2026-08-16 · [site-icecreamtofightwith-com#160](https://github.com/lentago/site-icecreamtofightwith-com/pull/160) — chore: pin third-party actions to commit SHAs and add Dependabot
-- 🟣 2026-08-16 · [site-pondviewlane-com#49](https://github.com/lentago/site-pondviewlane-com/pull/49) — build: pin GitHub Actions to SHAs, pin nginx digest, add Dependabot config
-- 🟣 2026-08-16 · [.github#137](https://github.com/lentago/.github/pull/137) — ci: pin third-party actions to SHAs and add Dependabot
-- 🟣 2026-08-16 · [claytonia#100](https://github.com/lentago/claytonia/pull/100) — ci: pin third-party actions to SHAs, add Dependabot config
-- 🟣 2026-08-16 · [kalmia#109](https://github.com/lentago/kalmia/pull/109) — ci: pin third-party actions to SHA and add Dependabot config
-- 🟣 2026-08-16 · [solidago#174](https://github.com/lentago/solidago/pull/174) — ci: pin third-party actions to SHAs, add dependabot config
-- 🟢 2026-08-16 · [.github#115](https://github.com/lentago/.github/issues/115) — Fleet: OpenSSF Scorecard workflow + badge, trust roots first
-- 🟣 2026-08-16 · [.github#136](https://github.com/lentago/.github/pull/136) — feat: add OpenSSF Scorecard workflow and badge
-- 🟣 2026-08-16 · [shared-workflows#43](https://github.com/lentago/shared-workflows/pull/43) — feat: add OpenSSF Scorecard workflow and badge
-- 🟢 2026-08-16 · [site-pondviewlane-com#45](https://github.com/lentago/site-pondviewlane-com/issues/45) — Add a pa11y accessibility smoke to the PR gate
-- 🟣 2026-08-16 · [site-pondviewlane-com#48](https://github.com/lentago/site-pondviewlane-com/pull/48) — feat(a11y): pa11y-ci WCAG2AA smoke check on every PR (#45)
-- 🟢 2026-08-16 · [site-icecreamtofightwith-com#154](https://github.com/lentago/site-icecreamtofightwith-com/issues/154) — Adopt the canonical hardened nginx: security headers + server_tokens off
-- 🟣 2026-08-16 · [site-icecreamtofightwith-com#159](https://github.com/lentago/site-icecreamtofightwith-com/pull/159) — Adopt fleet-canonical hardened nginx: security headers + server_tokens off
-- 🟢 2026-08-16 · [site-lentago-dev#47](https://github.com/lentago/site-lentago-dev/issues/47) — Adopt the canonical hardened nginx: security headers + server_tokens off
-- 🟣 2026-08-16 · [site-lentago-dev#51](https://github.com/lentago/site-lentago-dev/pull/51) — feat(nginx): adopt fleet-canonical hardened security headers
-- 🟢 2026-08-16 · [solidago#165](https://github.com/lentago/solidago/issues/165) — Tighten the app deploy role's OIDC trust from repo:*:* to main-ref or per-site environments
-- 🟣 2026-08-16 · [solidago#171](https://github.com/lentago/solidago/pull/171) — iam: pin app deploy role OIDC trust to refs/heads/main (#165)
-- 🟢 2026-08-16 · [site-icecreamtofightwith-com#155](https://github.com/lentago/site-icecreamtofightwith-com/issues/155) — Add a pa11y accessibility smoke to the PR gate
-- 🟣 2026-08-16 · [site-icecreamtofightwith-com#157](https://github.com/lentago/site-icecreamtofightwith-com/pull/157) — Add pa11y accessibility smoke check to PR gate
-- 🟢 2026-08-16 · [site-lentago-dev#46](https://github.com/lentago/site-lentago-dev/issues/46) — Compute the availability stamp at build time
-- 🟣 2026-08-16 · [site-lentago-dev#50](https://github.com/lentago/site-lentago-dev/pull/50) — feat(config): derive availability quarter at build time
-- 🟢 2026-08-16 · [.github#112](https://github.com/lentago/.github/issues/112) — Org profile v3: badge accuracy, re-pin, audience paths, positioning + pledge, glossary link
-- 🟣 2026-08-16 · [.github#135](https://github.com/lentago/.github/pull/135) — Org profile v3: badge accuracy, positioning + pledge, audience paths, glossary link
-- 🟢 2026-08-16 · [solidago#163](https://github.com/lentago/solidago/issues/163) — Remove committed tfplan artifact; ignore *.tfplan; audit history
-- 🟣 2026-08-16 · [solidago#170](https://github.com/lentago/solidago/pull/170) — chore: remove committed tfplan artifact from index
-- 🟢 2026-08-16 · [site-pondviewlane-com#44](https://github.com/lentago/site-pondviewlane-com/issues/44) — Complete the security-header set and promote this config as the fleet canonical
-- 🟣 2026-08-16 · [site-pondviewlane-com#47](https://github.com/lentago/site-pondviewlane-com/pull/47) — Complete the security-header set (HSTS, X-Frame-Options, Permissions-Policy, CSP Report-Only)
-- 🟣 2026-08-16 · [repo-template#15](https://github.com/lentago/repo-template/pull/15) — feat: supply-chain hardening — dependabot.yml + skeleton docs (fleet sweep)
-- 🟣 2026-08-16 · [shared-workflows#42](https://github.com/lentago/shared-workflows/pull/42) — ci: pin third-party action refs to immutable commit SHAs
-- 🟣 2026-08-16 · [shared-workflows#37](https://github.com/lentago/shared-workflows/pull/37) — Enforced-surfaces table: kalmia row now covers cluster vzdump backup jobs
-- 🟢 2026-08-16 · [kalmia#30](https://github.com/lentago/kalmia/issues/30) — Terraform: bring PVE backup jobs (jobs.cfg) under management
-- 🟣 2026-08-16 · [kalmia#105](https://github.com/lentago/kalmia/pull/105) — Terraform: bring PVE backup jobs (jobs.cfg) under management
-- 🟣 2026-08-16 · [brasenia#18](https://github.com/lentago/brasenia/pull/18) — docs: live-ingest concept, ADR-0007, and acceptance spec
-- 🟢 2026-08-16 · [kalmia#102](https://github.com/lentago/kalmia/issues/102) — lunaria runtime: enable generic RTMP live-ingest path in mediamtx (first client: DJI Fly)
-- 🟣 2026-08-16 · [kalmia#103](https://github.com/lentago/kalmia/pull/103) — lunaria: enable generic RTMP live-ingest path in mediamtx
-- 🟣 2026-08-15 · [asclepias#5](https://github.com/lentago/asclepias/pull/5) — Reposition the voice: a field guide among colleagues, not a training ground
-- 🟣 2026-08-15 · [.github#110](https://github.com/lentago/.github/pull/110) — asclepias: reposition brand surfaces from training ground to field guide
 
 ---
 
@@ -523,7 +347,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | music-curator | 5,622 | 68 | 1,254 | 11,645 | 119,165 |
 | kalmia | 3,530 | 155 | 1,448 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 897 | 6,004 | 0 |
-| .github | 3,418 | 218 | 1,559 | 3,576 | 0 |
+| .github | 3,418 | 218 | 1,559 | 3,441 | 0 |
 | claytonia | 2,507 | 57 | 1,547 | 0 | 0 |
 | betula | 1,832 | 156 | 1,595 | 0 | 0 |
 | site-lentago-dev | 1,802 | 108 | 624 | 0 | 0 |
@@ -538,15 +362,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **47,342 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
+The fleet carries **47,207 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,358 | 20 | **counted as code** |
-| Content / data | 21,225 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Content / data | 21,090 | 697 | payload (vault notes, recipes, test-sets) — excluded |
 | Documentation | 23,314 | 291 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 445 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **47,342** | **1024** | |
+| **All Markdown** | **47,207** | **1024** | |
 
 ---
 
