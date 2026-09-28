@@ -3,13 +3,13 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-09-21 17:25 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-22).
+**Generated:** 2026-09-28 18:56 UTC · Scope: the **19 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-08-29).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **109** | 48 | 9 | **82,073** | 2,358 (20 files) |
+| **109** | 15 | 1 | **81,053** | 2,358 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,358 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
@@ -213,8 +213,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 
 ## Activity — last 30 days
 
-**57 events**, one stream, newest first — 🟣 48 PRs merged · 🟢 9 issues closed
+**16 events**, one stream, newest first — 🟣 15 PRs merged · 🟢 1 issues closed
 
+- 🟣 2026-09-22 · [drosera#214](https://github.com/lentago/drosera/pull/214) — feat(context-ledger)!: remove ledger alerts + dashboard row (decommissioned)
+- 🟣 2026-09-22 · [claytonia#121](https://github.com/lentago/claytonia/pull/121) — feat(context-ledger)!: decommission the context ledger
+- 🟣 2026-09-21 · [.github#188](https://github.com/lentago/.github/pull/188) — Weekly fleet reports refresh — 2026-09-21
 - 🟢 2026-09-20 · [claytonia#118](https://github.com/lentago/claytonia/issues/118) — Idle workers churn ~130 KiB/s of journald writes each and ~7 SMB req/s against the NAS
 - 🟣 2026-09-20 · [claytonia#119](https://github.com/lentago/claytonia/pull/119) — Poll the inbox every 60s and stop journaling per-activation systemd chatter
 - 🟣 2026-09-14 · [.github#186](https://github.com/lentago/.github/pull/186) — Weekly fleet reports refresh — 2026-09-14
@@ -228,50 +231,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,358 lines*
 - 🟣 2026-08-30 · [site-pondviewlane-com#73](https://github.com/lentago/site-pondviewlane-com/pull/73) — Bump the astro-stack group with 2 updates
 - 🟣 2026-08-30 · [site-pondviewlane-com#72](https://github.com/lentago/site-pondviewlane-com/pull/72) — Bump nginx from `8f029c5` to `b34848e`
 - 🟣 2026-08-30 · [.github#178](https://github.com/lentago/.github/pull/178) — build(deps): bump github/codeql-action/upload-sarif from 4.37.7 to 4.37.9 in the actions-routine group
-- 🟣 2026-08-28 · [mitchella#13](https://github.com/lentago/mitchella/pull/13) — Add a roadmap to MVP
-- 🟢 2026-08-28 · [asclepias#8](https://github.com/lentago/asclepias/issues/8) — Re-audit lab and onboarding access statements after the Players team retirement
-- 🟣 2026-08-28 · [asclepias#9](https://github.com/lentago/asclepias/pull/9) — docs: re-audit access statements after Players team retirement
-- 🟣 2026-08-28 · [.github#177](https://github.com/lentago/.github/pull/177) — Cite #176 from the ADR-0003 open-work note
-- 🟣 2026-08-28 · [.github#174](https://github.com/lentago/.github/pull/174) — Add mitchella to the fleet
-- 🟣 2026-08-28 · [.github#173](https://github.com/lentago/.github/pull/173) — Retire the Players team from the merge-gate rationale
-- 🟢 2026-08-26 · [solidago#20](https://github.com/lentago/solidago/issues/20) — Document: Phase 2 Secrets Manager secret unused after RDS-managed password choice
-- 🟣 2026-08-26 · [solidago#192](https://github.com/lentago/solidago/pull/192) — docs: document Phase 2 db-credentials secret as unused
-- 🟣 2026-08-26 · [lupinus#5](https://github.com/lentago/lupinus/pull/5) — build(deps): Bump actions/checkout from 4.2.2 to 7.0.1 in the actions-major group
-- 🟢 2026-08-26 · [kalmia#16](https://github.com/lentago/kalmia/issues/16) — Harden the xubuntu profile for Ubuntu 26.04 (stale comment + Docker CE repo codename)
-- 🟣 2026-08-26 · [kalmia#128](https://github.com/lentago/kalmia/pull/128) — fix(xubuntu): update stale 24.04 comment, fall back Docker CE repo codename
-- 🟢 2026-08-26 · [site-lentago-dev#48](https://github.com/lentago/site-lentago-dev/issues/48) — Add @astrojs/sitemap and a pa11y smoke to the PR gate
-- 🟣 2026-08-26 · [site-lentago-dev#66](https://github.com/lentago/site-lentago-dev/pull/66) — feat: add @astrojs/sitemap and pa11y/axe WCAG 2.2 AA smoke test
-- 🟢 2026-08-26 · [site-lentago-dev#61](https://github.com/lentago/site-lentago-dev/issues/61) — Add a 'Do it yourself' link to the adoption guide
-- 🟣 2026-08-26 · [site-lentago-dev#65](https://github.com/lentago/site-lentago-dev/pull/65) — Add adoption guide link to pledge section
-- 🟢 2026-08-26 · [claytonia#71](https://github.com/lentago/claytonia/issues/71) — Reaper cannot see a job left in processing/ without an .owner file — permanent phantom occupancy
-- 🟣 2026-08-26 · [claytonia#112](https://github.com/lentago/claytonia/pull/112) — fix(reaper): reclaim ownerless processing entries with no completion proof
-- 🟢 2026-08-26 · [solidago#153](https://github.com/lentago/solidago/issues/153) — bootstrap-backend.sh still references a nonexistent "foundry" AWS profile
-- 🟣 2026-08-26 · [solidago#191](https://github.com/lentago/solidago/pull/191) — fix(bootstrap): remove hardcoded foundry AWS_PROFILE and correct KMS key description
-- 🟣 2026-08-26 · [.github#171](https://github.com/lentago/.github/pull/171) — build(deps): bump the actions-major group with 2 updates
-- 🟣 2026-08-26 · [site-lentago-dev#63](https://github.com/lentago/site-lentago-dev/pull/63) — chore(deps): Bump lentago/shared-workflows/.github/workflows/site-deploy.yml from 1.1.1 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [site-pondviewlane-com#70](https://github.com/lentago/site-pondviewlane-com/pull/70) — Bump lentago/shared-workflows/.github/workflows/site-deploy.yml from 1.1.1 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [site-lentago-dev#64](https://github.com/lentago/site-lentago-dev/pull/64) — chore(deps): Bump the astro-stack group with 2 updates
-- 🟣 2026-08-26 · [site-icecreamtofightwith-com#183](https://github.com/lentago/site-icecreamtofightwith-com/pull/183) — Bump the astro-stack group with 2 updates
-- 🟣 2026-08-26 · [site-icecreamtofightwith-com#185](https://github.com/lentago/site-icecreamtofightwith-com/pull/185) — Bump the actions-major group with 2 updates
-- 🟣 2026-08-26 · [site-icecreamtofightwith-com#184](https://github.com/lentago/site-icecreamtofightwith-com/pull/184) — Bump the actions-routine group with 2 updates
-- 🟣 2026-08-26 · [site-pondviewlane-com#71](https://github.com/lentago/site-pondviewlane-com/pull/71) — Bump astro from 7.2.2 to 7.2.4 in the astro-stack group
-- 🟣 2026-08-26 · [site-pondviewlane-com#69](https://github.com/lentago/site-pondviewlane-com/pull/69) — Bump nginx from `8541484` to `8f029c5`
-- 🟣 2026-08-26 · [site-lentago-dev#62](https://github.com/lentago/site-lentago-dev/pull/62) — chore(deps): Bump nginx from `8541484` to `0d4374c`
-- 🟣 2026-08-26 · [site-icecreamtofightwith-com#182](https://github.com/lentago/site-icecreamtofightwith-com/pull/182) — Bump nginx from `8541484` to `0d4374c`
-- 🟣 2026-08-26 · [repo-template#20](https://github.com/lentago/repo-template/pull/20) — Bump the actions-routine group with 3 updates
-- 🟣 2026-08-26 · [monarda#7](https://github.com/lentago/monarda/pull/7) — Bump the actions-major group with 6 updates
-- 🟣 2026-08-26 · [claytonia#111](https://github.com/lentago/claytonia/pull/111) — chore(deps): bump lentago/shared-workflows/.github/workflows/tf-lint.yml from 1.2.0 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [solidago#189](https://github.com/lentago/solidago/pull/189) — build(deps): bump lentago/shared-workflows/.github/workflows/tf-lint.yml from 1.2.0 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [kalmia#125](https://github.com/lentago/kalmia/pull/125) — build(deps): bump lentago/shared-workflows/.github/workflows/tf-lint.yml from 1.2.0 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [drosera#211](https://github.com/lentago/drosera/pull/211) — chore(deps): Bump lentago/shared-workflows/.github/workflows/tf-lint.yml from 1.2.0 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [.github#170](https://github.com/lentago/.github/pull/170) — build(deps): bump lentago/shared-workflows/.github/workflows/tf-lint.yml from 1.2.0 to 1.2.2 in the actions-routine group
-- 🟣 2026-08-26 · [shared-workflows#56](https://github.com/lentago/shared-workflows/pull/56) — chore(deps): Bump the actions-routine group with 3 updates
-- 🟣 2026-08-24 · [.github#172](https://github.com/lentago/.github/pull/172) — Weekly fleet reports refresh — 2026-08-24
-- 🟢 2026-08-23 · [kalmia#126](https://github.com/lentago/kalmia/issues/126) — repos role clones flat into ~/repos/<name>; fleet layout is owner-grouped (lentago/, cpitzi/)
-- 🟣 2026-08-23 · [kalmia#127](https://github.com/lentago/kalmia/pull/127) — repos: clone owner-grouped into ~/repos/<owner>/<name> (closes #126)
-- 🟣 2026-08-22 · [.github#169](https://github.com/lentago/.github/pull/169) — fix: drop the dead Actions-app allowance and add a post-apply convergence check
-- 🟣 2026-08-22 · [.github#168](https://github.com/lentago/.github/pull/168) — Weekly fleet reports refresh — 2026-08-22
-- 🟣 2026-08-22 · [.github#166](https://github.com/lentago/.github/pull/166) — docs: catch the org profile and repo docs up to the current fleet
 
 ---
 
@@ -285,23 +244,23 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 35,173 | 54 | 42.9% |
-| 2 | YAML | 10,988 | 220 | 13.4% |
-| 3 | Python | 9,488 | 70 | 11.6% |
-| 4 | HCL | 7,080 | 116 | 8.6% |
-| 5 | Shell (Bourne + Bash) | 5,499 | 71 | 6.7% |
-| 6 | Text | 3,621 | 27 | 4.4% |
+| 1 | JSON | 34,841 | 54 | 43.0% |
+| 2 | YAML | 10,986 | 220 | 13.6% |
+| 3 | Python | 9,488 | 70 | 11.7% |
+| 4 | HCL | 6,948 | 116 | 8.6% |
+| 5 | Shell (Bourne + Bash) | 4,945 | 67 | 6.1% |
+| 6 | Text | 3,621 | 27 | 4.5% |
 | 7 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,358 | 20 | 2.9% |
 | 8 | Astro | 2,280 | 27 | 2.8% |
 | 9 | JavaScript | 1,875 | 17 | 2.3% |
 | 10 | CSS | 1,402 | 10 | 1.7% |
-| 11 | JSX | 1,023 | 12 | 1.2% |
+| 11 | JSX | 1,023 | 12 | 1.3% |
 | 12 | Jinja Template | 560 | 15 | 0.7% |
 | 13 | TypeScript | 441 | 11 | 0.5% |
 | 14 | TOML | 159 | 6 | 0.2% |
 | 15 | Other (TOML / Dockerfile / …) | 69 | 5 | 0.1% |
 | 16 | HTML | 57 | 1 | 0.1% |
-| | **CODE TOTAL** | **82,073** | **682** | 100% |
+| | **CODE TOTAL** | **81,053** | **678** | 100% |
 | — | _Data / exports — excluded_ | 119,165 | 9 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 36,886 | 96 | — |
 
@@ -341,14 +300,14 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
 | epigaea | 24,022 | 400 | 1,549 | 0 | 0 |
-| drosera | 17,190 | 163 | 1,634 | 0 | 0 |
+| drosera | 16,726 | 163 | 1,623 | 0 | 0 |
 | site-pondviewlane-com | 7,435 | 224 | 2,913 | 0 | 0 |
 | solidago | 6,471 | 99 | 2,527 | 0 | 0 |
 | music-curator | 5,622 | 68 | 1,254 | 11,645 | 119,165 |
 | kalmia | 3,530 | 155 | 1,448 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 897 | 6,004 | 0 |
-| .github | 3,418 | 218 | 1,559 | 3,441 | 0 |
-| claytonia | 2,507 | 57 | 1,547 | 0 | 0 |
+| .github | 3,418 | 218 | 1,559 | 3,265 | 0 |
+| claytonia | 1,951 | 57 | 1,320 | 0 | 0 |
 | betula | 1,832 | 156 | 1,595 | 0 | 0 |
 | site-lentago-dev | 1,802 | 108 | 624 | 0 | 0 |
 | mitchella | 1,443 | 62 | 539 | 0 | 0 |
@@ -362,15 +321,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **47,207 lines of Markdown across 1024 files**; only 5.0% is instruction-code.
+The fleet carries **46,793 lines of Markdown across 1023 files**; only 5.0% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,358 | 20 | **counted as code** |
-| Content / data | 21,090 | 697 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 23,314 | 291 | READMEs, docs, ADRs, runbooks — excluded |
+| Content / data | 20,914 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 23,076 | 290 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 445 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **47,207** | **1024** | |
+| **All Markdown** | **46,793** | **1023** | |
 
 ---
 
