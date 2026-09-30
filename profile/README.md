@@ -2,7 +2,7 @@
 
 ![Lentago Labs — Production that shows up when the need does.](./assets/banner.svg)
 
-**Lentago Labs is a pro-bono operations practice for the organizations nobody builds tools for** — the nonprofit with one tech director, the all-volunteer org with one person who does the computers, the single technician covering a whole shop on dirt pay.
+**Lentago Labs is a pro-bono operations practice for the organizations nobody builds tools for** — the nonprofit with one tech director, the all-volunteer org with one person who does the computers, the single technician covering a whole shop alone.
 
 We help you own your systems outright: the same free tiers you already use, but in your accounts, as code you can fork, run by people we've shown how. Everything here is free to take and use. Call when you need to, if you need to.
 

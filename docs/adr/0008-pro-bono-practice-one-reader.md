@@ -44,7 +44,7 @@ generalist. Two front doors, two voices, for what turned out to be one reader.
 1. **Lentago Labs is a pro-bono operations practice** for organizations that
    run on volunteers, donations, and one overworked tech person: the nonprofit
    with one tech director, the all-volunteer org with one person who does the
-   computers, the single technician covering a whole shop on dirt pay. Help is
+   computers, the single technician covering a whole shop alone. Help is
    free for those organizations; anyone else asks. Everything published here
    is free to take and use.
 
