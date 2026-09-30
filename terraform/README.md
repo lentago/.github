@@ -196,9 +196,9 @@ The state removal is the deliberate step that says "this is intentional."
 
 `protection.tf` puts a classic branch-protection **push allowlist** on `main`
 in every public repo: only `cpitzi` (org owner) can update the ref — direct
-push or PR merge. Contributors work from forks and open PRs; an owner reviews
-and arms auto-merge. No permission level reaches `main` — the allowlist, not
-the permission level, decides who updates the ref. No repo
+push or PR merge. Colleagues hold org-base `write` and contribute via PRs; an
+owner reviews and arms auto-merge. That write grant does not reach `main` — the
+allowlist, not the permission level, decides who updates the ref. No repo
 carries an extra allowance today; `gate_extra_allowances` in `locals.tf` is the
 extension point, and its comment records what GitHub will and will not accept
 there.

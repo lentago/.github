@@ -41,7 +41,7 @@
   ],
   "repos": {
     "asclepias": {
-      "description": "Asclepias — vol. 1 of the Lentago Labs guide: how our estate works (atlas, pattern catalog, enterprise↔practice glossary), a day-one path, and labs you can run against it with nothing but a GitHub account. Milkweed: the host plant every monarch finds its way to.",
+      "description": "Asclepias — the Lentago Labs field guide: the shared operations manual (estate atlas, pattern catalog, enterprise↔lab glossary), a day-one path, and hands-on labs anyone can run against the real fleet. Milkweed: the host plant every monarch finds its way to.",
       "homepage": "https://deepwiki.com/lentago/asclepias",
       "visibility": "public",
       "template": false,
