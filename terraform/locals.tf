@@ -44,10 +44,10 @@ locals {
 
   # ---------------------------------------------------------------------------
   # The merge gate (protection.tf): the push allowlist on `main`. Every merge
-  # lands through an org owner/admin — colleagues hold org-base `write` and
-  # contribute via PRs that an owner reviews and arms; write does not reach
-  # `main`, because this allowlist and not the permission level decides who
-  # updates the ref. "/username" is the provider's user syntax.
+  # lands through an org owner/admin — contributors work from forks and open
+  # PRs that an owner reviews and arms; no permission level reaches `main`,
+  # because this allowlist and not the permission level decides who updates
+  # the ref. "/username" is the provider's user syntax.
   # ---------------------------------------------------------------------------
   gate_allowlist = ["/cpitzi"]
 
