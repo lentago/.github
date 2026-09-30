@@ -1,12 +1,20 @@
 # Lock-in Ledger — template + renewal-calendar-as-code
 
-A **Lock-in Ledger** answers one question for every vendor you depend on: *how
-hard would it be to leave?* It scores each dependency on four fixed axes so the
-answers are comparable across vendors and stay honest over time. The point isn't
-to leave — it's to know the exit exists **before** you need it. That's the
-receipt behind the fleet's delivery pledge (*"firing us is a runbook"*).
+**What you're about to do:** pick up two reusable pieces — a blank scoring
+template and a renewal calendar you keep as code — so you can build your own
+Lock-in Ledger for every vendor your org depends on.
 
-This directory holds the reusable pieces. The fleet's own filled-in ledger — the
+**Why bother:** a Lock-in Ledger answers one question for each vendor: *how
+hard would it be to leave?* It scores each dependency on four fixed axes, so
+the answers are comparable across vendors and stay honest over time. The
+point isn't to leave — it's to know the exit exists **before** you need it.
+That's the receipt behind our delivery pledge (*"firing us is a runbook"*).
+
+**Time:** an afternoon for a whole estate, honestly scored. Half an hour gets
+your first few vendors down; wiring up the renewal calendar is another ten
+minutes.
+
+This directory holds the reusable pieces. Our own filled-in ledger — the
 worked example — lives one level up at
 [`../lock-in-ledger.md`](../lock-in-ledger.md).
 
@@ -28,13 +36,14 @@ in the fleet is closed: in git, reviewed, automated.
 
 ## Using it for your own org
 
-1. Copy `TEMPLATE.md`, fill a row per vendor, and be honest about the bad scores
-   — a flattering self-audit is worthless.
-2. Copy `renewals.yml` and list your dated obligations. **Public-safe only:** no
-   credential values, no account identifiers, no cost figures — name the
-   obligation and its date, nothing more.
-3. Adapt the workflow to your repo (it uses the default `GITHUB_TOKEN` and needs
-   only `issues: write`).
+1. Copy `TEMPLATE.md` and fill in a row per vendor. Be honest about the bad
+   scores — a self-audit that only tells you good news is worthless.
+2. Copy `renewals.yml` and list your own dated obligations. **Public-safe
+   only:** no credential values, no account identifiers, no cost figures —
+   name the obligation and its date, nothing more.
+3. Adapt the workflow to your repo. It runs on `GITHUB_TOKEN`, the token
+   GitHub Actions hands every workflow run automatically, so there's no extra
+   secret to create — it just needs the `issues: write` permission turned on.
 
 Test the calendar locally without creating anything:
 

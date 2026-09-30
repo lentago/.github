@@ -4,24 +4,27 @@
 organization depends on to operate> · **Method:** self-assessment against the
 four-axis rubric below; comparative, not audited.
 
-> A Lock-in Ledger is a vendor-dependency self-audit. For each vendor you rely
-> on, it asks one question — *how hard would it be to leave?* — and answers it on
-> four fixed axes so the answers are comparable across vendors and honest over
-> time. The point is not to leave; the point is to know the exit exists **before**
-> you need it. Fill a row in badly and the row itself is the finding.
+> A Lock-in Ledger is a vendor-dependency self-audit: a document where you score
+> how hard it would be to walk away from each vendor you rely on. For every
+> vendor, it asks one question — *how hard would it be to leave?* — and answers
+> it on four fixed axes, so the answers are comparable across vendors and stay
+> honest over time. The point isn't to leave; it's to know the exit exists
+> **before** you need it. If you fill a row in badly, the row itself is the
+> finding — don't soften it.
 >
-> Pair this file with a [`renewals.yml`](renewals.yml) so that the one lock-in no
-> vendor causes — a lapsed domain, cert, or subscription — can't sneak up on you.
-> A worked example of both, auditing a real fleet, lives one level up at
+> Pair this file with a [`renewals.yml`](renewals.yml) — a renewal calendar kept
+> as code — so that the one kind of lock-in no vendor causes on purpose (a
+> lapsed domain, cert, or subscription) can't sneak up on you. A worked example
+> of both, auditing a real fleet, lives one level up at
 > [`../lock-in-ledger.md`](../lock-in-ledger.md).
 
 ---
 
 ## The rubric
 
-Score every dependency on all four axes. The axes are about **exit**, not about
-how pleasant the vendor is day-to-day — a vendor can be excellent to use and
-still be a trap to leave.
+Score every dependency on all four axes below. The axes are about **exit**,
+not about how pleasant the vendor is day-to-day — a vendor can be excellent to
+use and still be a trap to leave.
 
 | Axis | The question it answers |
 |---|---|
