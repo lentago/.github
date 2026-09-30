@@ -10,8 +10,9 @@ the answers are comparable across vendors and stay honest over time. The
 point isn't to leave — it's to know the exit exists **before** you need it.
 That's the receipt behind our delivery pledge (*"firing us is a runbook"*).
 
-**Time:** about 30 minutes to fill in your first few vendors; wiring up the
-renewal calendar workflow is another 10.
+**Time:** an afternoon for a whole estate, honestly scored. Half an hour gets
+your first few vendors down; wiring up the renewal calendar is another ten
+minutes.
 
 This directory holds the reusable pieces. Our own filled-in ledger — the
 worked example — lives one level up at
