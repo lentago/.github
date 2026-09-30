@@ -34,6 +34,11 @@ org-level operator tooling that governs the rest of the fleet.
   Issue/PR templates are still unset. Changing these is a fleet-wide change;
   confirm scope before editing. Security contact + CoC enforcement address is
   `chris@lentago.dev`.
+- **`docs/voice.md`** — the fleet voice guide: who the one reader is, the
+  register every reader-facing page is written in, the retired-word list, and
+  the canonical README footer / `🛠️` opener blocks. Canon per ADR-0008; guide
+  repos' `CLAUDE.md` files point here rather than restating it. Change the
+  canonical blocks here first, then swap them fleet-wide.
 - **`metrics/language-census.md`** is a periodically-regenerated report (see below).
 - **`terraform/`** — the fleet's GitHub settings as Terraform
   (`integrations/github`). Owns repo **existence** and identity, merge options,

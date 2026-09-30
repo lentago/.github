@@ -2,19 +2,17 @@
 
 ![Lentago Labs — Production that shows up when the need does.](./assets/banner.svg)
 
-**Lentago Labs is a shared learning lab, run by IT-operations people.**
+**Lentago Labs is a pro-bono operations practice for the organizations nobody builds tools for** — the nonprofit with one tech director, the all-volunteer org with one person who does the computers, the single technician covering a whole shop on dirt pay.
 
-The estate is real — a Proxmox homelab cluster and a production-grade AWS platform — but the stakes are deliberately non-critical. **Build it, break it, operate it**, entirely through modern operations patterns, out in the open.
+We help you own your systems outright: the same free tiers you already use, but in your accounts, as code you can fork, run by people we've shown how. Everything here is free to take and use. Call when you need to, if you need to.
 
-<sub>It's a place for the crew — IT-ops colleagues — to explore the estate, exercise the patterns, and carry the automation and agentic ideas back to the day job. Nothing here is claimed to be correct or unique — the patterns are compared against today's industry standards, on adoption and feature usage, to spot the ones that might be useful.</sub>
+<sub>What you're looking at is our own estate — a Proxmox homelab cluster and a production-grade AWS platform — run exactly the way we'd tell you to run yours: everything as code, every change a pull request, in the open. We publish it because a method you can watch working is worth more than one you're asked to trust. <b>We practice what we publish.</b></sub>
 
 <br/>
 
-**The lab** &nbsp;·&nbsp; Real systems, survivable stakes, receipts in git.<br/>
-**The practice** &nbsp;·&nbsp; Own your systems. Exit-ready by construction.<br/>
-<sub>Modern operations, sized for mission-driven organizations.</sub>
-
-<sub>The lab tests patterns in the open on real systems with survivable stakes; the practice puts the ones that earn their keep to work for organizations that run on volunteers and donations. The emphatic free-tier discipline is deliberate operating practice for exactly those constraints — not thrift.</sub>
+**The practice** &nbsp;·&nbsp; Free help for mission-driven orgs. Own your systems. Exit-ready by construction.<br/>
+**The estate** &nbsp;·&nbsp; Real systems, survivable stakes, receipts in git.<br/>
+<sub>Modern operations, sized for organizations that run on volunteers and donations. The emphatic free-tier discipline is deliberate operating practice for exactly those constraints — not thrift.</sub>
 
 <br/>
 
@@ -22,11 +20,11 @@ The estate is real — a Proxmox homelab cluster and a production-grade AWS plat
 
 </div>
 
-> **The pledge** — We will never host your systems for you. You'll own every piece, we'll teach your people, and firing us is a runbook.
+> **The pledge** — We will never host your systems for you. You'll own every piece, we'll show your people how to run it, and firing us is a runbook.
 
 > [DeepWiki](https://deepwiki.com/lentago) maintains an AI-generated wiki over every public Lentago Labs repo — architecture pages, diagrams, and a Q&A box grounded in the actual code. It's the fastest way to orient before reading source. It is AI-generated: trust it to orient you, verify against the code before you act on it.
 
-> **New to how any of this maps to enterprise practice?** The [asclepias glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) translates enterprise practice — CAB, CMDB, PIR and the rest — into what the lab actually does. It's the fastest orientation for either audience.
+> **Heard the enterprise words but never seen them done small?** The [asclepias glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) translates CAB, CMDB, PIR and the rest into what we actually do here — and what you can do too.
 
 ### 🔁 &nbsp; How everything moves
 
@@ -48,7 +46,7 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 ### 🧰 &nbsp; What the estate is built on
 
-<sub><b>Emphatically free-tier, wherever possible.</b> When a service offers a free tier, that's the one the lab runs — caps and retention windows are treated as real operating constraints to be managed, not something to buy past.</sub>
+<sub><b>Emphatically free-tier, wherever possible.</b> When a service offers a free tier, that's the one we run — caps and retention windows are treated as real operating constraints to be managed, not something to buy past.</sub>
 
 <sub>Cloud & containers</sub><br/>
 ![AWS](https://img.shields.io/badge/AWS-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTE4LjcgMTAuMmE2LjYgNi42IDAgMCAwLTEyLjktMS4yQTUuMSA1LjEgMCAwIDAgNi4xIDE5aDExLjZhNC42IDQuNiAwIDAgMCAxLTguOHoiLz48L3N2Zz4K)
@@ -83,7 +81,7 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a><br/><sub><a href="https://deepwiki.com/lentago/osmunda">DeepWiki&nbsp;↗</a></sub></td>
-<td>Kubernetes platform — standing k3s on lab guests, an ephemeral EKS overlay, Flux GitOps throughout.</td>
+<td>Kubernetes platform — standing k3s on homelab guests, an ephemeral EKS overlay, Flux GitOps throughout.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a><br/><sub><a href="https://deepwiki.com/lentago/drosera">DeepWiki&nbsp;↗</a></sub></td>
@@ -106,8 +104,16 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 <td>Campaign-site kit — an Astro template, intake, and a timed dry-run, deploying to the client's own GitHub Pages or S3.</td>
 </tr>
 <tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/mitchella"><b>mitchella</b></a><br/><sub><a href="https://deepwiki.com/lentago/mitchella">DeepWiki&nbsp;↗</a></sub></td>
+<td>Estate front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
+</tr>
+<tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a><br/><sub><a href="https://deepwiki.com/lentago/asclepias">DeepWiki&nbsp;↗</a></sub></td>
-<td>The field guide — operations manual, day-one path, hands-on labs.</td>
+<td>The guide, vol. 1 — how it all works, with labs you can run against our estate before building your own.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/lupinus"><b>lupinus</b></a><br/><sub><a href="https://deepwiki.com/lentago/lupinus">DeepWiki&nbsp;↗</a></sub></td>
+<td>The guide, vol. 2 — pick a product, stand it up in your own accounts, and run it from an ops vault you own.</td>
 </tr>
 </table>
 
@@ -115,39 +121,36 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 ### 🧭 &nbsp; Start here
 
-Three ways in, depending on why you're here.
+Three doors, depending on what you came for.
 
-**Taking part** &nbsp;<sub>(the crew — this is what the lab is for)</sub>
+**You run a nonprofit's tech and want something you can use today**
 
-1. Pick a product repo above and read its **🛠️ Make a change yourself** section.
-2. Ask that repo's **DeepWiki** a question about how it works.
-3. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) — they ladder from *ask the fleet* up to owning a pattern.
-4. Open your first PR — small is fine; the required checks will guide you.
-5. Mention `@claude` on any issue or PR and watch the agent fleet respond.
+1. [**The picker**](https://github.com/lentago/lupinus/blob/main/guide/picker.md) — start from what you need, not from what we built. Every row says what it costs and how ready it is.
+2. [**Your first kit**](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) — a fundraising site in about an hour, deployed into *your* GitHub account, for free.
+3. **The pledge** (above) — you own every piece, we show your people how, firing us is a runbook.
+4. Stuck? **chris@lentago.dev**. No invoice.
 
-**Evaluating the operator** &nbsp;<sub>(technical)</sub>
+**You want to see it working before you trust it**
+
+1. Pick a product repo above and read its **🛠️ Make a change yourself** section. Every vector links to a real merged PR.
+2. Ask that repo's **DeepWiki** a question about how it works, then check the answer against the source.
+3. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) against our estate — they start with a browser and a question and ladder up to breaking something on purpose. A free GitHub account is all you need.
+4. Mention `@claude` on any issue or PR and watch the agent fleet respond.
+
+**You want to kick the tires on us**
 
 1. [**solidago**](https://github.com/lentago/solidago) — the reference AWS platform, 100% Terraform.
-2. [**claytonia**](https://github.com/lentago/claytonia) — the self-hosted agent fleet that does the directed work.
-3. [**epigaea**](https://github.com/lentago/epigaea) — physical-world monitoring, version-controlled.
-
-Then the [incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) for how things break, and the [field-guide glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) to map it all onto enterprise practice.
-
-**Evaluating the practice** &nbsp;<sub>(mission-driven organizations)</sub>
-
-1. **The pledge** (above) — you own every piece, we teach your people, firing us is a runbook.
-2. [**monarda**](https://github.com/lentago/monarda) — the campaign-site kit: a fundraising site in a day, deployed into *your* GitHub or AWS account.
-3. [**site-pondviewlane-com**](https://github.com/lentago/site-pondviewlane-com) — a community organization's public-record fact base with a grounded Ask box.
-4. [**epigaea**](https://github.com/lentago/epigaea) — physical-world monitoring on a donated-scale budget.
-5. [**Incident register**](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) — post-mortems published verbatim.
+2. [**claytonia**](https://github.com/lentago/claytonia) — the self-hosted agent fleet that does the directed work, and never merges.
+3. [**Incident register**](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) — our post-mortems, published verbatim, including the embarrassing ones.
+4. [**Lock-in ledger**](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md) — every vendor we depend on, scored on how hard it would be to leave. The receipt behind *"firing us is a runbook."*
 
 ### 📊 &nbsp; Fleet in numbers
 
-<sub>Regenerated weekly from the repos themselves — we operate in the open.</sub>
+<sub>Regenerated weekly from the repos themselves — we practice what we publish.</sub>
 
 - **[Fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md)** — open issues by repo, a 30-day activity snapshot, and a code census that counts the `CLAUDE.md`-family instruction files as natural-language code.
 - **[Language census](https://github.com/lentago/.github/blob/main/metrics/language-census.md)** — the canonical all-languages breakdown.
-- **[Incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md)** — post-mortems from lab operations, with what broke, what did *not*, and the governance lessons.
+- **[Incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md)** — post-mortems from running our own estate, with what broke, what did *not*, and the governance lessons.
 - **[Lock-in ledger](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md)** — our own vendor dependencies, each scored on export fidelity, format openness, custody, and a documented exit. The receipt behind *"firing us is a runbook."*
 
 <div align="center">

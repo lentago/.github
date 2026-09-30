@@ -11,9 +11,11 @@
 This is the Lentago Labs organization's special `.github` repository. It serves
 two roles: GitHub reads org-level defaults from here, and it houses the
 settings-as-code tooling that governs the rest of the fleet. It is also the
-control plane you learn from: one JSON edit here, applied, moves branch
+control plane worth copying: one JSON edit here, applied, moves branch
 protection, required checks, and labels across every repo — governance as change
-management, where the merged PR *is* the change record.
+management, where the merged PR *is* the change record. The voice every
+reader-facing page in the fleet is written in lives here too, in
+[`docs/voice.md`](docs/voice.md).
 
 ## 📚 Ask this codebase (DeepWiki)
 
@@ -33,7 +35,7 @@ management, where the merged PR *is* the change record.
 
 ## 🧭 What this repo demonstrates
 
-The patterns an ops team can lift wholesale — each row links to where it actually runs.
+The patterns you can lift wholesale into your own org — each row links to where it actually runs.
 
 | Pattern | How it shows up here |
 | :-- | :-- |
@@ -146,11 +148,16 @@ under **Settings → General → Social preview**.
 
 [`docs/adr/`](docs/adr/) records the architectural decisions behind this repo and
 its fleet governance — the merge gate, the Terraform migration, per-repo rulesets,
-and more — reconstructed from repo history and fleet records.
+the client-owned delivery rule, and the 2026-09-30 repositioning as a pro-bono
+practice ([ADR-0008](docs/adr/0008-pro-bono-practice-one-reader.md)). Records
+0001–0006 were reconstructed from repo history; later ones are written at
+decision time.
 
 ## 🛠️ Make a change yourself
 
-This is a lab — the systems are real, the stakes are not. Pick a vector:
+These systems are real, and nothing critical rides on them. That makes this a
+safe place to try a change before you make the same kind of change in your own
+shop. Pick one:
 
 **Add a fleet-wide required status check.** Edit
 [`fleet-ops/required-checks.json`](fleet-ops/required-checks.json) to add a check
@@ -192,10 +199,11 @@ authored by the `lentago-claude-runner` bot and merged by a human.
 
 ---
 
-> 🌱 **Lentago Labs** is a team learning lab — real systems, non-critical stakes, modern
-> operations patterns demonstrated in the open. Start at the
-> [org profile](https://github.com/lentago), and read this repo on
-> [DeepWiki](https://deepwiki.com/lentago/.github).
+> 🌱 **Lentago Labs** is a pro-bono operations practice for organizations that
+> run on volunteers, donations, and one overworked tech person. Everything here
+> is free to take, and we practice what we publish: our own estate runs this
+> way, in the open. Start at the [org profile](https://github.com/lentago), and
+> read this repo on [DeepWiki](https://deepwiki.com/lentago/.github).
 
 ---
 

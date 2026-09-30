@@ -12,9 +12,9 @@ either channel:
   **Security** tab → **Report a vulnerability**.
 - **Email:** chris@lentago.dev
 
-You can expect an acknowledgment within **7 days**. These repos are operated
-by one person as an infrastructure practice — there is no security team and no
-bug bounty, but reports are read and acted on.
+You can expect an acknowledgment within **7 days**. These repos are run by one
+person as a pro-bono practice — there is no security team and no bug bounty,
+but every report is read and acted on, and you'll hear back.
 
 ## What counts
 
