@@ -17,8 +17,8 @@ this first.
 One reader. Write every page to them.
 
 > **The one tech person.** A nonprofit's tech director, or the volunteer who
-> "does the computers," or a single paid technician covering an entire org on
-> dirt pay. A competent generalist, not a site-reliability engineer. No time,
+> "does the computers," or a single paid technician covering an entire org
+> alone. A competent generalist, not a site-reliability engineer. No time,
 > no budget, no backup. Wants to own what they run and stop renting it. Will
 > read your page once, at 9 pm, while something is broken.
 
