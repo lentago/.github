@@ -135,7 +135,8 @@
       "check-examples",
       "test-validator",
       "test-evaluate",
-      "demo"
+      "demo",
+      "test-intake"
     ]
   }
 }
