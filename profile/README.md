@@ -1,18 +1,17 @@
 <div align="center">
 
-![Lentago Labs — Production that shows up when the need does.](./assets/banner.svg)
+<a href="https://lentago.dev"><img src="./assets/banner.svg" alt="Lentago Labs — Production that shows up when the need does." width="100%"></a>
 
-**Lentago Labs is a pro-bono operations practice for the organizations nobody builds tools for** — the nonprofit with one tech director, the all-volunteer org with one person who does the computers, the single technician covering a whole shop alone.
+**Lentago Labs is a pro-bono operations practice for organizations that run on volunteers, donations, and one overworked tech person** — the nonprofit with one tech director, the all-volunteer org with one person who does the computers, the single technician covering a whole shop alone.
 
-We help you own your systems outright: the same free tiers you already use, but in your accounts, as code you can fork, run by people we've shown how. Everything here is free to take and use. Call when you need to, if you need to.
+Most mission-driven teams rent their systems: donated software seats and free vendor tiers they don't own and can't leave. We help you move to infrastructure you own outright — the same free tiers, in your own accounts, set up as code you can copy, run by people we've shown how. Everything here is free to take. Call when you need to, if you need to.
 
-<sub>What you're looking at is our own estate — a Proxmox homelab cluster and a production-grade AWS platform — run exactly the way we'd tell you to run yours: everything as code, every change a pull request, in the open. We publish it because a method you can watch working is worth more than one you're asked to trust. <b>We practice what we publish.</b></sub>
+<sub>What you're looking at is our own estate — a small cluster of servers we own and a production-grade AWS account — run exactly the way we'd tell you to run yours: everything as code, every change a pull request, in the open. We publish it because a method you can watch working is worth more than one you're asked to trust. <b>We practice what we publish.</b></sub>
 
 <br/>
 
-**The practice** &nbsp;·&nbsp; Free help for mission-driven orgs. Own your systems. Exit-ready by construction.<br/>
-**The estate** &nbsp;·&nbsp; Real systems, survivable stakes, receipts in git.<br/>
-<sub>Modern operations, sized for organizations that run on volunteers and donations. The emphatic free-tier discipline is deliberate operating practice for exactly those constraints — not thrift.</sub>
+**[lentago.dev](https://lentago.dev)** &nbsp;·&nbsp; the practice, the pledge, and how to get in touch<br/>
+**This page** &nbsp;·&nbsp; the systems behind it, with receipts in git
 
 <br/>
 
@@ -21,14 +20,29 @@ We help you own your systems outright: the same free tiers you already use, but 
 </div>
 
 > **The pledge** — We will never host your systems for you. You'll own every piece, we'll show your people how to run it, and firing us is a runbook.
+>
+> <sub>Not a slogan — the standing delivery model, written down: [ADR-0007 · client-owned delivery, no multi-tenant SaaS](https://github.com/lentago/.github/blob/main/docs/adr/0007-client-owned-delivery-no-multi-tenant-saas.md).</sub>
 
-> [DeepWiki](https://deepwiki.com/lentago) maintains an AI-generated wiki over every public Lentago Labs repo — architecture pages, diagrams, and a Q&A box grounded in the actual code. It's the fastest way to orient before reading source. It is AI-generated: trust it to orient you, verify against the code before you act on it.
+> [DeepWiki](https://deepwiki.com/lentago) keeps an AI-generated wiki over the Lentago Labs repos — architecture pages, diagrams, and a question box grounded in the actual code. It's the fastest way to orient before reading source. It is AI-generated: trust it to orient you, verify against the code before you act on it.
 
 > **Heard the enterprise words but never seen them done small?** The [asclepias glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) translates CAB, CMDB, PIR and the rest into what we actually do here — and what you can do too.
 
+### 📦 &nbsp; What we build
+
+<sub>Four things we deliver into estates you own. Each one is already running in the open, and each links to a live receipt: a public repo you can read, fork, and run today.</sub>
+
+| | What you get | Receipt |
+| :-- | :-- | :-- |
+| **Public record** | A website for your community's minutes, bylaws, and documents, with an Ask box that answers only from those documents. Lives in a repository you own, runs on a free tier. | [site-pondviewlane-com](https://github.com/lentago/site-pondviewlane-com) |
+| **Platform** | A complete AWS environment written entirely as code: private networking, containers behind a load balancer, a managed database, a firewall, budgets and alarms. No long-lived cloud passwords anywhere. It costs real money, so the runbook also says how to turn it off. | [solidago](https://github.com/lentago/solidago) |
+| **Observability** | Dashboards and alerts for everything you run, on Grafana Cloud's free tier. One small collector per machine; dashboards kept as files you review before they change. | [drosera](https://github.com/lentago/drosera) |
+| **Enablement** | The guide, in two volumes. Vol. 1 walks through how our estate works, with labs you can run against it for free. Vol. 2 gets a product into your accounts and running from an ops vault you own. | [asclepias](https://github.com/lentago/asclepias) · [lupinus](https://github.com/lentago/lupinus) |
+
+<sub>Not a kit? Audits, migrations, incident response, pipeline hardening — sized to your constraints, delivered into your estate under the same pledge. Free for nonprofits and volunteer-run orgs; everyone else, ask. <a href="https://lentago.dev/#contact">Get in touch</a>.</sub>
+
 ### 🔁 &nbsp; How everything moves
 
-Everything is code. Every change is a pull request. Merges apply automatically. A self-hosted Claude agent fleet does directed work. **Humans own every merge.** That is the whole operating model — nothing here changes except through a reviewed PR, and the merged PR *is* the change record.
+Everything is code. Every change is a pull request — a proposed change someone else reviews before it lands. Merges apply automatically. A self-hosted fleet of AI coding agents does directed work. **Humans own every merge.** That is the whole operating model: nothing here changes except through a reviewed PR, and the merged PR *is* the change record.
 
 ### ⚡ &nbsp; Every merge changes something real
 
@@ -36,13 +50,12 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 | Merge here… | …and it moves |
 | :-- | :-- |
-| [**drosera**](https://github.com/lentago/drosera) | your Grafana Cloud dashboards and alerts |
-| [**kalmia**](https://github.com/lentago/kalmia) | every Proxmox VM and LXC in the homelab |
+| [**drosera**](https://github.com/lentago/drosera) | our Grafana Cloud dashboards and alerts |
+| [**kalmia**](https://github.com/lentago/kalmia) | every virtual machine and container on our own hardware |
 | [**claytonia**](https://github.com/lentago/claytonia) | the agent runner pool itself |
-| [**osmunda**](https://github.com/lentago/osmunda) | the k3s cluster's workloads — Flux pulls the merge |
-| [**solidago**](https://github.com/lentago/solidago) | the AWS platform |
-| site repos | the live sites |
-| [**.github**](https://github.com/lentago/.github) | every repo's rulesets, required checks, and labels, via `terraform/` |
+| [**osmunda**](https://github.com/lentago/osmunda) | what runs on our Kubernetes cluster — the cluster pulls the change itself |
+| [**solidago**](https://github.com/lentago/solidago) | the AWS platform, and the live sites it serves |
+| [**.github**](https://github.com/lentago/.github) | every repo's branch rules, required checks, and labels |
 
 ### 🧰 &nbsp; What the estate is built on
 
@@ -72,52 +85,52 @@ Everything is code. Every change is a pull request. Merges apply automatically. 
 
 ### 🌿 &nbsp; The suite
 
-<sub>Each system splits a platform-agnostic core from per-source clients — the current build is always <i>the first client</i>, a working reference rather than a finished product.</sub>
+<sub>Named systems, honest parts. Each one splits a core that doesn't care where it runs from the pieces specific to us, so the parts specific to us swap out for yours. The current build is always <i>the first client</i> — a working reference, not a finished product. The codenames are New England native plants.</sub>
 
 <table>
 <tr>
 <td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a><br/><sub><a href="https://deepwiki.com/lentago/solidago">DeepWiki&nbsp;↗</a></sub></td>
-<td>Reference three-tier AWS platform — 100% Terraform: VPC, ECS Fargate, RDS, WAF.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a><br/><sub><a href="https://deepwiki.com/lentago/osmunda">DeepWiki&nbsp;↗</a></sub></td>
-<td>Kubernetes platform — standing k3s on homelab guests, an ephemeral EKS overlay, Flux GitOps throughout.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a><br/><sub><a href="https://deepwiki.com/lentago/drosera">DeepWiki&nbsp;↗</a></sub></td>
-<td>Git-driven observability into Grafana Cloud — one Alloy container, Terraform-provisioned dashboards.</td>
+<td>Cloud platform — our AWS setup, written entirely as code: network, servers, database, web firewall, encryption keys. Serves lentago.dev and three more live sites.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/kalmia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/kalmia"><b>kalmia</b></a><br/><sub><a href="https://deepwiki.com/lentago/kalmia">DeepWiki&nbsp;↗</a></sub></td>
-<td>Idempotent provisioning for workstations, VMs, and containers.</td>
+<td>Machine setup — turns a fresh Linux install into a fully set-up work machine with one command, and owns every virtual machine and container on our own hardware. Running it again is always safe.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a><br/><sub><a href="https://deepwiki.com/lentago/claytonia">DeepWiki&nbsp;↗</a></sub></td>
-<td>Self-hosted agent fleet — drop a job, get a reviewed PR back.</td>
+<td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a><br/><sub><a href="https://deepwiki.com/lentago/drosera">DeepWiki&nbsp;↗</a></sub></td>
+<td>Monitoring — what your systems are doing right now, on dashboards anyone can read. One small collector per machine; every dashboard saved as code. If it isn't in the repo, it doesn't exist.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a><br/><sub><a href="https://deepwiki.com/lentago/betula">DeepWiki&nbsp;↗</a></sub></td>
-<td>Full-volume log capture &amp; archive → Axiom, at zero query cost.</td>
+<td>Log capture &amp; archive — a complete, searchable record of what happens on a network, kept longer than the vendor keeps it. Our firewall's logs go to a free tier, searchable at $0 a month.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a><br/><sub><a href="https://deepwiki.com/lentago/monarda">DeepWiki&nbsp;↗</a></sub></td>
-<td>Campaign-site kit — an Astro template, intake, and a timed dry-run, deploying to the client's own GitHub Pages or S3.</td>
+<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a><br/><sub><a href="https://deepwiki.com/lentago/claytonia">DeepWiki&nbsp;↗</a></sub></td>
+<td>AI coding agents — a small pool that works unattended on our own hardware. Drop a job, a worker does it on a fresh copy of the code and proposes the change for review. It can't approve its own work; a person always decides.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a><br/><sub><a href="https://deepwiki.com/lentago/osmunda">DeepWiki&nbsp;↗</a></sub></td>
+<td>Kubernetes — a standing cluster on our own hardware, plus a cloud cluster that exists only for the hours a job needs it. The cluster pulls each approved change itself; nothing pushes to it.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/mitchella"><b>mitchella</b></a><br/><sub><a href="https://deepwiki.com/lentago/mitchella">DeepWiki&nbsp;↗</a></sub></td>
 <td>Estate front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
 </tr>
 <tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a></td>
+<td>Campaign-site kit — a site template, a one-page intake, and a timed dry-run, deploying into the client's own GitHub Pages or AWS. Yours, not ours.</td>
+</tr>
+<tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a><br/><sub><a href="https://deepwiki.com/lentago/asclepias">DeepWiki&nbsp;↗</a></sub></td>
 <td>The guide, vol. 1 — how it all works, with labs you can run against our estate before building your own.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/lupinus"><b>lupinus</b></a><br/><sub><a href="https://deepwiki.com/lentago/lupinus">DeepWiki&nbsp;↗</a></sub></td>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/lupinus"><b>lupinus</b></a></td>
 <td>The guide, vol. 2 — pick a product, stand it up in your own accounts, and run it from an ops vault you own.</td>
 </tr>
 </table>
 
-<sub>📖 &nbsp;Every public repo is indexed on <a href="https://deepwiki.com/lentago"><b>DeepWiki</b></a> — browse the wikis or ask the codebases anything.</sub>
+<sub>📖 &nbsp;The <a href="https://deepwiki.com/lentago"><b>DeepWiki</b></a> links above go to the repos with an indexed wiki — browse them or ask the codebases anything. The rest are plain source for now.</sub>
 
 ### 🧭 &nbsp; Start here
 
@@ -125,17 +138,17 @@ Three doors, depending on what you came for.
 
 **You run a nonprofit's tech and want something you can use today**
 
-1. [**The picker**](https://github.com/lentago/lupinus/blob/main/guide/picker.md) — start from what you need, not from what we built. Every row says what it costs and how ready it is.
-2. [**Your first kit**](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) — a fundraising site in about an hour, deployed into *your* GitHub account, for free.
+1. [**The picker**](https://github.com/lentago/lupinus/blob/main/guide/picker.md) — start from what you need, not from what we built. Every row says what it costs per month and how ready it is.
+2. [**Your first kit**](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) — a campaign site with an optional donate button, live in about an hour, deployed into *your* GitHub account, for free.
 3. **The pledge** (above) — you own every piece, we show your people how, firing us is a runbook.
-4. Stuck? **chris@lentago.dev**. No invoice.
+4. Stuck? **chris@lentago.dev**. No invoice. You'll hear back inside a day on weekdays.
 
 **You want to see it working before you trust it**
 
 1. Pick a product repo above and read its **🛠️ Make a change yourself** section. Every vector links to a real merged PR.
 2. Ask that repo's **DeepWiki** a question about how it works, then check the answer against the source.
-3. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) against our estate — they start with a browser and a question and ladder up to breaking something on purpose. A free GitHub account is all you need.
-4. Mention `@claude` on any issue or PR and watch the agent fleet respond.
+3. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) against our estate — they start with a browser and a question and ladder up to breaking something on purpose (that last one is scheduled with us, not self-serve). A free GitHub account is all you need.
+4. Mention `@claude` on any issue or PR in a product repo and watch the agent fleet respond.
 
 **You want to kick the tires on us**
 
@@ -154,5 +167,5 @@ Three doors, depending on what you came for.
 - **[Lock-in ledger](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md)** — our own vendor dependencies, each scored on export fidelity, format openness, custody, and a documented exit. The receipt behind *"firing us is a runbook."*
 
 <div align="center">
-<sub><b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US</sub>
+<sub><b><a href="https://lentago.dev">lentago.dev</a></b> &nbsp;·&nbsp; <b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US &nbsp;·&nbsp; taking new work Q4 2026 forward</sub>
 </div>
