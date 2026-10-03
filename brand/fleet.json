@@ -421,5 +421,43 @@
         "logo": "anthropic"
       }
     ]
+  },
+  "uvularia-records-template": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Records vault template · your records, your receipts",
+    "prompt": "use this template  ·  add a record  ·  merge  ·  it's posted",
+    "badges": [
+      {
+        "label": "Markdown",
+        "logo": "markdown"
+      },
+      {
+        "label": "Obsidian",
+        "logo": "obsidian"
+      },
+      {
+        "label": "Template"
+      }
+    ]
+  },
+  "uvularia-site-template": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Site template · the board, built from what you published",
+    "prompt": "use this template  ·  point it at your vault  ·  watch the board",
+    "badges": [
+      {
+        "label": "Astro",
+        "logo": "astro"
+      },
+      {
+        "label": "GitHub Pages",
+        "logo": "githubpages"
+      },
+      {
+        "label": "Template"
+      }
+    ]
   }
 }

@@ -138,6 +138,12 @@
       "demo",
       "test-intake",
       "test-site"
+    ],
+    "uvularia-records-template": [
+      "validate"
+    ],
+    "uvularia-site-template": [
+      "build-check"
     ]
   }
 }

@@ -535,6 +535,48 @@
         "docs-as-code"
       ],
       "model_labels": []
+    },
+    "uvularia-records-template": {
+      "description": "Template: uvularia records-vault kit \u2014 runs entirely in your org's own accounts; your public records as a plain Markdown vault with posting obligations next to them, validated on every pull request and published with a stamped receipt on merge. Synced from lentago/uvularia templates/records; file issues there.",
+      "homepage": "https://github.com/lentago/uvularia",
+      "visibility": "public",
+      "template": true,
+      "template_source": null,
+      "features": {
+        "issues": false,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "obsidian",
+        "template",
+        "compliance"
+      ],
+      "model_labels": []
+    },
+    "uvularia-site-template": {
+      "description": "Template: uvularia public-site kit \u2014 runs entirely in your org's own accounts; a static site and a live \"Is it posted?\" board built only from your records vault's published artifacts, deployed to your GitHub Pages. Synced from lentago/uvularia templates/site; file issues there.",
+      "homepage": "https://github.com/lentago/uvularia",
+      "visibility": "public",
+      "template": true,
+      "template_source": null,
+      "features": {
+        "issues": false,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "astro",
+        "template",
+        "compliance"
+      ],
+      "model_labels": []
     }
   }
 }
