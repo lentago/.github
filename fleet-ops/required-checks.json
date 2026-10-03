@@ -137,7 +137,8 @@
       "test-evaluate",
       "demo",
       "test-intake",
-      "test-site"
+      "test-site",
+      "test-rules"
     ],
     "uvularia-records-template": [
       "validate"
