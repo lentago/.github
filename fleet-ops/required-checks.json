@@ -136,7 +136,8 @@
       "test-validator",
       "test-evaluate",
       "demo",
-      "test-intake"
+      "test-intake",
+      "test-site"
     ]
   }
 }
