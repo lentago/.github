@@ -29,11 +29,11 @@ Most mission-driven teams rent their systems: donated software seats and free ve
 
 ### 📦 &nbsp; What we build
 
-<sub>Four things we deliver into estates you own. Three are already running in the open, and each of those links to a live receipt: a public repo you can read, fork, and run today.</sub>
+<sub>Four things we deliver into estates you own. Each one is already running in the open, and each links to a live receipt: a public repo you can read, fork, and run today.</sub>
 
 | | What you get | Receipt |
 | :-- | :-- | :-- |
-| **Public record** | A website for your community's minutes, bylaws, and documents, with an Ask box that answers only from those documents. Lives in a repository you own, runs on a free tier. | <sub>ask for a walkthrough</sub> |
+| **Public record** | Your minutes, notices, bylaws, and policies as plain files in a repository you own, with the posting rules next to them. Merge a change and the records publish, a public "Is it posted?" board updates, and a stamped receipt is left behind. Stood up from two templates in about half an hour on a free GitHub account. | [uvularia](https://github.com/lentago/uvularia) · [live board](https://lentago.github.io/uvularia-demo-site/board/) |
 | **Platform** | A complete AWS environment written entirely as code: private networking, containers behind a load balancer, a managed database, a firewall, budgets and alarms. No long-lived cloud passwords anywhere. It costs real money, so the runbook also says how to turn it off. | [solidago](https://github.com/lentago/solidago) |
 | **Observability** | Dashboards and alerts for everything you run, on Grafana Cloud's free tier. One small collector per machine; dashboards kept as files you review before they change. | [drosera](https://github.com/lentago/drosera) |
 | **Enablement** | The guide, in two volumes. Vol. 1 walks through how our estate works, with labs you can run against it for free. Vol. 2 gets a product into your accounts and running from an ops vault you own. | [asclepias](https://github.com/lentago/asclepias) · [lupinus](https://github.com/lentago/lupinus) |
@@ -55,6 +55,7 @@ Everything is code. Every change is a pull request — a proposed change someone
 | [**claytonia**](https://github.com/lentago/claytonia) | the agent runner pool itself |
 | [**osmunda**](https://github.com/lentago/osmunda) | what runs on our Kubernetes cluster — the cluster pulls the change itself |
 | [**solidago**](https://github.com/lentago/solidago) | the AWS platform, and the live sites it serves |
+| [**uvularia-demo-records**](https://github.com/lentago/uvularia-demo-records) | the demonstration vault's published records, its receipts, and the [public board](https://lentago.github.io/uvularia-demo-site/board/) |
 | [**.github**](https://github.com/lentago/.github) | every repo's branch rules, required checks, and labels |
 
 ### 🧰 &nbsp; What the estate is built on
@@ -115,6 +116,10 @@ Everything is code. Every change is a pull request — a proposed change someone
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/mitchella"><b>mitchella</b></a><br/><sub><a href="https://deepwiki.com/lentago/mitchella">DeepWiki&nbsp;↗</a></sub></td>
 <td>Estate front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/uvularia"><b>uvularia</b></a></td>
+<td>Records vault — your public records as plain files with the posting rules next to them; merge and the records publish, a public "Is it posted?" board updates, and a receipt is stamped. <a href="https://lentago.github.io/uvularia-demo-site/board/">Live demo board</a> for a fictional land trust.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a></td>
