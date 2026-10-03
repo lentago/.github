@@ -625,7 +625,7 @@
       "model_labels": []
     },
     "uvularia-rules-template": {
-      "description": "Template: uvularia Ask-rules kit \u2014 runs entirely in your org's own accounts; how your records' Ask box answers: frozen instructions, allowed subjects, refusal policy, caps and kill switch, manual incident overrides, and a golden question set that gates every change against your published records. Synced from lentago/uvularia templates/ask-rules; file issues there.",
+      "description": "Template: uvularia Ask-rules kit \u2014 runs entirely in your org's own accounts; governs how your records' Ask box answers (frozen instructions, allowed subjects, refusals, caps, kill switch, manual overrides) with a golden question set gating every change. Synced from lentago/uvularia templates/ask-rules; file issues there.",
       "homepage": "https://github.com/lentago/uvularia",
       "visibility": "public",
       "template": true,
