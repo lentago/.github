@@ -397,5 +397,29 @@
         "logo": "grafana"
       }
     ]
+  },
+  "uvularia": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Records vault · grounded Ask, live compliance board",
+    "prompt": "drop a record  ·  merge  ·  it's posted",
+    "badges": [
+      {
+        "label": "Markdown",
+        "logo": "markdown"
+      },
+      {
+        "label": "Obsidian",
+        "logo": "obsidian"
+      },
+      {
+        "label": "GitHub Actions",
+        "logo": "githubactions"
+      },
+      {
+        "label": "Claude",
+        "logo": "anthropic"
+      }
+    ]
   }
 }

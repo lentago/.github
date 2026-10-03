@@ -510,6 +510,31 @@
         "retrieval"
       ],
       "model_labels": []
+    },
+    "uvularia": {
+      "description": "Uvularia \u2014 the Lentago Labs records vault: a client-owned Obsidian-compatible vault of public records with obligations-as-code, a grounded Ask box that answers only from the records, and a live \"Is it posted?\" compliance board. Three repos, three pipelines. Bellwort: the bell is the announcement.",
+      "homepage": "https://deepwiki.com/lentago/uvularia",
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": true,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "obsidian",
+        "compliance",
+        "retrieval",
+        "docs-as-code"
+      ],
+      "model_labels": []
     }
   }
 }
