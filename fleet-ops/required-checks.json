@@ -144,6 +144,12 @@
     ],
     "uvularia-site-template": [
       "build-check"
+    ],
+    "uvularia-demo-records": [
+      "validate"
+    ],
+    "uvularia-demo-site": [
+      "build-check"
     ]
   }
 }

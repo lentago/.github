@@ -459,5 +459,39 @@
         "label": "Template"
       }
     ]
+  },
+  "uvularia-demo-records": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Demo vault · a fictional land trust, generated, renameable",
+    "prompt": "generated from org.yaml  ·  late on purpose  ·  honest board",
+    "badges": [
+      {
+        "label": "Markdown",
+        "logo": "markdown"
+      },
+      {
+        "label": "Demo"
+      }
+    ]
+  },
+  "uvularia-demo-site": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Demo site · the board, live, for the fictional land trust",
+    "prompt": "built from the published branch  ·  never a fake green",
+    "badges": [
+      {
+        "label": "Astro",
+        "logo": "astro"
+      },
+      {
+        "label": "GitHub Pages",
+        "logo": "githubpages"
+      },
+      {
+        "label": "Demo"
+      }
+    ]
   }
 }

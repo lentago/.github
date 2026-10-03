@@ -577,6 +577,52 @@
         "compliance"
       ],
       "model_labels": []
+    },
+    "uvularia-demo-records": {
+      "description": "uvularia demonstration vault \u2014 the records repository of a fictional land trust, generated from lentago/uvularia's demo seed (identity in one org.yaml, renameable in one edit). Shows the publish pipeline, the stamped receipts, and an honest board with late notices. Not a starting point for a real client; use the template.",
+      "homepage": null,
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "uvularia-records-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "demo",
+        "obsidian"
+      ],
+      "model_labels": []
+    },
+    "uvularia-demo-site": {
+      "description": "uvularia demonstration site \u2014 the public \"Is it posted?\" board and records pages of a fictional land trust, built only from the demonstration vault's published artifacts and served on GitHub Pages. The live receipt for the public-record offering.",
+      "homepage": null,
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "uvularia-site-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "demo",
+        "astro"
+      ],
+      "model_labels": []
     }
   }
 }
