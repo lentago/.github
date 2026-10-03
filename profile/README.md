@@ -29,11 +29,11 @@ Most mission-driven teams rent their systems: donated software seats and free ve
 
 ### 📦 &nbsp; What we build
 
-<sub>Four things we deliver into estates you own. Each one is already running in the open, and each links to a live receipt: a public repo you can read, fork, and run today.</sub>
+<sub>Four things we deliver into estates you own. Three are already running in the open, and each of those links to a live receipt: a public repo you can read, fork, and run today.</sub>
 
 | | What you get | Receipt |
 | :-- | :-- | :-- |
-| **Public record** | A website for your community's minutes, bylaws, and documents, with an Ask box that answers only from those documents. Lives in a repository you own, runs on a free tier. | [site-pondviewlane-com](https://github.com/lentago/site-pondviewlane-com) |
+| **Public record** | A website for your community's minutes, bylaws, and documents, with an Ask box that answers only from those documents. Lives in a repository you own, runs on a free tier. | <sub>ask for a walkthrough</sub> |
 | **Platform** | A complete AWS environment written entirely as code: private networking, containers behind a load balancer, a managed database, a firewall, budgets and alarms. No long-lived cloud passwords anywhere. It costs real money, so the runbook also says how to turn it off. | [solidago](https://github.com/lentago/solidago) |
 | **Observability** | Dashboards and alerts for everything you run, on Grafana Cloud's free tier. One small collector per machine; dashboards kept as files you review before they change. | [drosera](https://github.com/lentago/drosera) |
 | **Enablement** | The guide, in two volumes. Vol. 1 walks through how our estate works, with labs you can run against it for free. Vol. 2 gets a product into your accounts and running from an ops vault you own. | [asclepias](https://github.com/lentago/asclepias) · [lupinus](https://github.com/lentago/lupinus) |
