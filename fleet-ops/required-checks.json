@@ -154,6 +154,9 @@
     ],
     "uvularia-rules-template": [
       "evals"
+    ],
+    "uvularia-demo-ask-rules": [
+      "evals"
     ]
   }
 }
