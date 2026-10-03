@@ -131,7 +131,11 @@
       "tests / pytest"
     ],
     "uvularia": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "check-examples",
+      "test-validator",
+      "test-evaluate",
+      "demo"
     ]
   }
 }
