@@ -138,7 +138,8 @@
       "demo",
       "test-intake",
       "test-site",
-      "test-rules"
+      "test-rules",
+      "test-ask-function"
     ],
     "uvularia-records-template": [
       "validate"
