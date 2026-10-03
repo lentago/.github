@@ -151,6 +151,9 @@
     ],
     "uvularia-demo-site": [
       "build-check"
+    ],
+    "uvularia-rules-template": [
+      "evals"
     ]
   }
 }

@@ -493,5 +493,24 @@
         "label": "Demo"
       }
     ]
+  },
+  "uvularia-rules-template": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Ask-rules template · how your box answers, gated by evals",
+    "prompt": "use this template  ·  edit the rules  ·  evals gate the merge",
+    "badges": [
+      {
+        "label": "Markdown",
+        "logo": "markdown"
+      },
+      {
+        "label": "Claude",
+        "logo": "anthropic"
+      },
+      {
+        "label": "Template"
+      }
+    ]
   }
 }

@@ -623,6 +623,30 @@
         "astro"
       ],
       "model_labels": []
+    },
+    "uvularia-rules-template": {
+      "description": "Template: uvularia Ask-rules kit \u2014 runs entirely in your org's own accounts; how your records' Ask box answers: frozen instructions, allowed subjects, refusal policy, caps and kill switch, manual incident overrides, and a golden question set that gates every change against your published records. Synced from lentago/uvularia templates/ask-rules; file issues there.",
+      "homepage": "https://github.com/lentago/uvularia",
+      "visibility": "public",
+      "template": true,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": false,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "ai-governance",
+        "template",
+        "compliance"
+      ],
+      "model_labels": []
     }
   }
 }
