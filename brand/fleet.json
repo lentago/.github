@@ -512,5 +512,20 @@
         "label": "Template"
       }
     ]
+  },
+  "uvularia-demo-ask-rules": {
+    "mark": "lentago",
+    "kind": "KIT",
+    "tagline": "Demo Ask rules · how the fictional land trust's box answers",
+    "prompt": "edit the rules  ·  evals gate the merge  ·  the function pins the release",
+    "badges": [
+      {
+        "label": "Claude",
+        "logo": "anthropic"
+      },
+      {
+        "label": "Demo"
+      }
+    ]
   }
 }

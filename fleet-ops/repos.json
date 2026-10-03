@@ -647,6 +647,29 @@
         "compliance"
       ],
       "model_labels": []
+    },
+    "uvularia-demo-ask-rules": {
+      "description": "uvularia demonstration Ask rules \u2014 how the fictional land trust's Ask box answers: instructions, policy, overrides, and a golden question set gating every change, plus the deploy of its sandboxed Ask function. Made from uvularia-rules-template; not a starting point for a real client.",
+      "homepage": null,
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "uvularia-rules-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "public-records",
+        "demo",
+        "ai-governance"
+      ],
+      "model_labels": []
     }
   }
 }
