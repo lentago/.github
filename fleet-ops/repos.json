@@ -670,6 +670,29 @@
         "ai-governance"
       ],
       "model_labels": []
+    },
+    "coderabbit": {
+      "description": "CodeRabbit central configuration for the Lentago Labs fleet \u2014 the org-wide .coderabbit.yaml that every repo without its own file inherits: review profile, path filters for generated trees, path instructions carrying the fleet's conventions, and the voice guide as a code guideline.",
+      "homepage": "https://docs.coderabbit.ai/configuration/central-configuration",
+      "visibility": "public",
+      "template": false,
+      "template_source": {
+        "owner": "lentago",
+        "repository": "repo-template"
+      },
+      "features": {
+        "issues": true,
+        "projects": false,
+        "wiki": false,
+        "discussions": false
+      },
+      "suggest_branch_update": false,
+      "topics": [
+        "code-review",
+        "configuration",
+        "governance"
+      ],
+      "model_labels": []
     }
   }
 }
