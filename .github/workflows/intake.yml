@@ -1,0 +1,316 @@
+# ============================================================================
+# intake — turn an "Add a record" issue into a scaffolded pull request
+# ============================================================================
+# This workflow runs on every issue (opened or edited) and first asks one
+# question: is this the "Add a record" form? It decides by the form's own
+# headings (### Record type, ### Date it takes effect), not by a label — a fresh
+# repo has no custom labels, so keying on one would silently do nothing. Any
+# other issue is left alone with a log line and the job ends green.
+#
+# When it is the form, the workflow:
+#
+#   1. writes the issue body to a file (never through the shell — the body is
+#      untrusted text);
+#   2. runs scripts/intake.py to scaffold records/<type>/<id>.md from the form,
+#      download the attached file into library/, checksum it, and list it in
+#      library/manifest.json;
+#   3. runs core/validate.py on the result and captures its output;
+#   4. opens (or updates) the branch intake/<issue-number> and a pull request
+#      "Intake for #N", with the validator output and the attachment status in
+#      the body;
+#   5. comments on the issue with the pull-request link.
+#
+# The record is scaffolded as a DRAFT. It does not publish until a reviewer sets
+# `status: approved` and the `approved` date on the pull request. If the attached
+# file cannot be downloaded (a private attachment URL needs a browser session),
+# the pull request still opens and says plainly that the file must be added by
+# hand — the workflow never fails silently.
+#
+# The working files (the issue body, the script's JSON result, the validator
+# output) are written to the runner's temp dir, NOT the checkout, so they never
+# land on the intake branch — only the scaffolded record and its library file do.
+#
+# GitHub ships with "Allow GitHub Actions to create and approve pull requests"
+# OFF. When it is off the branch push still works but opening the pull request
+# returns 403; this workflow catches that and comments the branch's compare link
+# and the one-time setting on the issue, then ends green rather than erroring.
+#
+# Everything the record step does is in one stdlib-only Python file a tech
+# director can read: scripts/intake.py. This workflow only wires it to the issue,
+# the branch, and the pull request, using nothing but actions/checkout and
+# actions/github-script.
+# ============================================================================
+
+name: intake
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write        # create the intake branch and commit the scaffold
+  pull-requests: write   # open the pull request
+  issues: write          # comment on the issue
+
+concurrency:
+  # One run per issue, so an edit that arrives mid-run does not race the branch.
+  group: intake-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need origin/main present for the branch and no_delete
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Write the issue body to a file (untrusted — never via the shell)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            fs.writeFileSync(`${process.env.RUNNER_TEMP}/issue-body.md`, context.payload.issue.body || '');
+
+      - name: Is this the "Add a record" form?
+        id: detect
+        run: |
+          set -euo pipefail
+          if python3 scripts/intake.py --detect --body-file "$RUNNER_TEMP/issue-body.md"; then
+            echo "is_form=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_form=false" >> "$GITHUB_OUTPUT"
+            echo "Issue #${{ github.event.issue.number }} is not an \"Add a record\" form (no '### Record type' / '### Date it takes effect' headings). Nothing to do."
+          fi
+
+      - name: Scaffold the record from the form
+        id: scaffold
+        if: steps.detect.outputs.is_form == 'true'
+        continue-on-error: true   # a bad form is reported as a comment, not a crash
+        run: |
+          python3 scripts/intake.py \
+            --vault . \
+            --issue "${{ github.event.issue.number }}" \
+            --body-file "$RUNNER_TEMP/issue-body.md" \
+            --result-file "$RUNNER_TEMP/intake-result.json"
+
+      - name: If the form could not be used, say why on the issue and stop
+        if: steps.scaffold.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let error = 'The form could not be read.';
+            try { error = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/intake-result.json`, 'utf8')).error || error; }
+            catch (e) {}
+            const marker = '<!-- uvularia-intake -->';
+            const body = `${marker}\n**This record could not be scaffolded yet.**\n\n` +
+              `${error}\n\n` +
+              `Edit the issue to fix it and this will run again — no need to open a new one.`;
+            const {owner, repo} = context.repo;
+            const issue_number = context.issue.number;
+            const {data: comments} = await github.rest.issues.listComments({owner, repo, issue_number});
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) await github.rest.issues.updateComment({owner, repo, comment_id: existing.id, body});
+            else await github.rest.issues.createComment({owner, repo, issue_number, body});
+
+      # A branch exists only once scaffolding has succeeded for this issue — a bad
+      # form never reaches here. If the branch is already there, a pull request is
+      # already open and may carry a reviewer's edits (the approval, the file added
+      # by hand): we must not rebuild over it. So we only create the branch once,
+      # and later edits just re-point the comment at the existing pull request.
+      - name: Does the intake branch already exist?
+        id: branch
+        if: steps.scaffold.outcome == 'success'
+        run: |
+          set -euo pipefail
+          branch="intake/${{ github.event.issue.number }}"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit the scaffold onto a new intake branch
+        if: steps.scaffold.outcome == 'success' && steps.branch.outputs.exists == 'false'
+        run: |
+          set -euo pipefail
+          branch="intake/${{ github.event.issue.number }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add -A
+          git commit -m "Intake for #${{ github.event.issue.number }}: scaffold record"
+          git push origin "$branch"
+
+      - name: Validate the scaffolded vault
+        id: validate
+        if: steps.scaffold.outcome == 'success' && steps.branch.outputs.exists == 'false'
+        continue-on-error: true   # the output goes in the PR body either way
+        run: |
+          set -o pipefail
+          python3 core/validate.py . --base-ref "origin/${{ github.event.repository.default_branch }}" 2>&1 | tee "$RUNNER_TEMP/validate.txt"
+
+      - name: Open (or update) the pull request and comment on the issue
+        id: pr
+        if: steps.scaffold.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const num = context.issue.number;
+            const branch = `intake/${num}`;
+            const {owner, repo} = context.repo;
+            const base = context.payload.repository.default_branch;
+
+            const result = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/intake-result.json`, 'utf8'));
+            let validateTxt = '';
+            try { validateTxt = fs.readFileSync(`${process.env.RUNNER_TEMP}/validate.txt`, 'utf8').trim(); } catch (e) {}
+            const validateOk = '${{ steps.validate.outcome }}' === 'success';
+
+            // The attachment status, in plain words.
+            const att = result.attachment || {found: false};
+            let attLine;
+            if (!att.found) {
+              attLine = 'No file was attached; add the original by hand to `library/` before approving.';
+            } else if (att.downloaded) {
+              attLine = `Saved \`${att.file}\` and recorded its checksum in \`library/manifest.json\`.`;
+            } else {
+              attLine = `⚠️ The attached file **could not be downloaded** (${att.reason}). ` +
+                `Add it to \`library/\` by hand — see the note in the record. The record has no \`source\` yet.`;
+            }
+
+            // Upsert the marked issue comment (one per issue, re-pointed on edits).
+            const marker = '<!-- uvularia-intake -->';
+            async function comment(markdown) {
+              const {data: comments} = await github.rest.issues.listComments({owner, repo, issue_number: num});
+              const existing = comments.find(c => c.body && c.body.includes(marker));
+              if (existing) await github.rest.issues.updateComment({owner, repo, comment_id: existing.id, body: markdown});
+              else await github.rest.issues.createComment({owner, repo, issue_number: num, body: markdown});
+            }
+
+            const body = [
+              `Intake for #${num}.`,
+              '',
+              `Scaffolded **\`${result.record_path}\`** as a **draft** record.`,
+              '',
+              '**Heads up:** this record is a draft. It does not publish until a reviewer sets',
+              '`status: approved` and the `approved` date here, and (if it was not downloaded) the',
+              'original document is in place.',
+              '',
+              `**Attached document:** ${attLine}`,
+              '',
+              `**Validation:** ${validateOk ? '✅ passed' : '❌ see output below'}`,
+              '',
+              '<details><summary>core/validate.py output</summary>',
+              '',
+              '```',
+              validateTxt || '(no output captured)',
+              '```',
+              '</details>',
+              '',
+              `Closes #${num} when merged.`,
+            ].join('\n');
+
+            // Find the open pull request for this branch, or open one. We only
+            // write the body when we create the PR — if it already exists it may
+            // carry reviewer edits, so we leave its body alone and only comment.
+            const open = await github.rest.pulls.list({owner, repo, head: `${owner}:${branch}`, state: 'open'});
+            let pr = open.data[0];
+            if (pr) core.setOutput('result', 'exists');
+            if (!pr) {
+              try {
+                const created = await github.rest.pulls.create({
+                  owner, repo, head: branch, base,
+                  title: `Intake for #${num}: ${result.title}`,
+                  body,
+                });
+                pr = created.data;
+                core.setOutput('result', 'opened');
+              } catch (e) {
+                // GitHub ships "Allow GitHub Actions to create and approve pull
+                // requests" OFF; without it POST /pulls returns 403. The branch is
+                // already pushed, so this is not a failure — tell the filer how to
+                // finish by hand or turn the setting on, and end the run green.
+                const forbidden = e.status === 403 &&
+                  /not permitted to create or approve pull requests/i.test(e.message || '');
+                if (!forbidden) throw e;
+                const compare = `https://github.com/${owner}/${repo}/compare/${base}...${branch}?expand=1`;
+                core.warning(
+                  'GitHub Actions is not permitted to create pull requests in this repo. ' +
+                  'The branch was pushed; commented the compare link and the setting on the issue.');
+                await comment(
+                  `${marker}\nYour record is scaffolded on branch \`${branch}\`, but this repo does ` +
+                  `not let GitHub Actions open the pull request for you (that is GitHub's default).\n\n` +
+                  `**Open it yourself in one click:** ${compare}\n\n` +
+                  `**Or turn it on once** so intake opens the PR by itself from now on: ` +
+                  `**Settings → Actions → General → Workflow permissions → Allow GitHub Actions to ` +
+                  `create and approve pull requests**, then edit this issue to re-run.\n\n` +
+                  `Either way the record is a **draft** until a reviewer approves it. ` +
+                  `**Attached document:** ${attLine}`);
+                core.setOutput('result', 'blocked');
+                return;
+              }
+            }
+
+            core.setOutput('number', String(pr.number));
+            await comment(
+              `${marker}\nOpened a pull request for this record: ${pr.html_url}\n\n` +
+              `It is a **draft** until a reviewer approves it. ` +
+              (att.found && !att.downloaded
+                ? `\n\n⚠️ The attached file could not be downloaded automatically — it must be added by hand before approval.`
+                : ''));
+
+      # --- Telemetry (optional; see README "Watch the pipeline") ---------------
+      # Describes this intake (the issue number and what came of it: a pull
+      # request, a pushed branch, or a form that could not be read, plus how many
+      # intake items are open and since when) and pushes it to your own Grafana
+      # Cloud Loki when LOKI_PUSH_URL is set. An issue that is not the "Add a
+      # record" form is not an event. Unset, it prints one "telemetry not
+      # configured" line and asks GitHub nothing. No step here can fail the run.
+      - name: Telemetry — count open intake
+        if: always() && vars.LOKI_PUSH_URL != '' && steps.detect.outputs.is_form == 'true'
+        continue-on-error: true
+        timeout-minutes: 2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/pipeline_snapshot.py intake --out "$RUNNER_TEMP/intake-snapshot.json"
+
+      - name: Telemetry — describe this intake
+        id: telemetry
+        if: always()
+        continue-on-error: true
+        env:
+          LOKI_PUSH_URL: ${{ vars.LOKI_PUSH_URL }}
+          LOKI_CLUSTER: ${{ vars.LOKI_CLUSTER }}
+          LOKI_TOKEN_SET: ${{ secrets.LOKI_WRITE_TOKEN != '' }}
+          JOB_STATUS: ${{ job.status }}
+          ISSUE: ${{ github.event.issue.number }}
+          IS_FORM: ${{ steps.detect.outputs.is_form }}
+          SCAFFOLD: ${{ steps.scaffold.outcome }}
+          BRANCH_EXISTS: ${{ steps.branch.outputs.exists }}
+          PR_RESULT: ${{ steps.pr.outputs.result }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+        run: |
+          python3 scripts/telemetry.py intake --issue "$ISSUE" --is-form "$IS_FORM" \
+            --scaffold "$SCAFFOLD" --branch-exists "$BRANCH_EXISTS" \
+            --pr-result "$PR_RESULT" --pr-number "$PR_NUMBER" --job-status "$JOB_STATUS" \
+            --snapshot "$RUNNER_TEMP/intake-snapshot.json"
+
+      - name: Telemetry — push the intake event
+        if: always() && steps.telemetry.outputs.enabled == 'true'
+        continue-on-error: true
+        timeout-minutes: 1
+        uses: lentago/drosera/.github/actions/loki-event@main
+        with:
+          loki_url: ${{ vars.LOKI_PUSH_URL }}
+          loki_token: ${{ secrets.LOKI_WRITE_TOKEN }}
+          cluster: ${{ steps.telemetry.outputs.cluster }}
+          source: uvularia
+          pipeline: records
+          stage: intake
+          payload-json: ${{ steps.telemetry.outputs.payload }}
