@@ -139,7 +139,8 @@
       "test-intake",
       "test-site",
       "test-rules",
-      "test-ask-function"
+      "test-ask-function",
+      "template-telemetry"
     ],
     "uvularia-records-template": [
       "validate"
