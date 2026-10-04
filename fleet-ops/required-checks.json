@@ -158,6 +158,9 @@
     ],
     "uvularia-demo-ask-rules": [
       "evals"
+    ],
+    "coderabbit": [
+      "docs-check / docs-check"
     ]
   }
 }
