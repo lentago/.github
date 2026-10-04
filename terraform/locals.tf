@@ -71,17 +71,20 @@ locals {
   # The apply job's post-apply convergence check turns a silent drop into a
   # red run (.github/workflows/terraform.yml).
   #
-  # lentago-template-sync (App 5190989, installed on the three uvularia template
-  # repositories only, Contents/Pull requests/Workflows write): opens the sync
-  # pull request on each template repository on every merge to uvularia's main
-  # and arms auto-merge, which needs the allowlist (uvularia#28; first live run
-  # was refused with "not authorized for this protected branch"). The required
-  # checks still gate the merge; this only lets the App press "merge when green".
-  gate_extra_allowances = {
-    "uvularia-records-template" = ["A_kwHOEcLpC84ATzVN"]
-    "uvularia-rules-template"   = ["A_kwHOEcLpC84ATzVN"]
-    "uvularia-site-template"    = ["A_kwHOEcLpC84ATzVN"]
-  }
+  # lentago-template-sync (App 5190989, node A_kwHOEcLpC84ATzVN) IS on the push
+  # allowlist of main on uvularia-records-template, uvularia-rules-template and
+  # uvularia-site-template — but live only, added via
+  #   POST repos/lentago/<repo>/branches/main/protection/restrictions/apps
+  #   body ["lentago-template-sync"]
+  # because FLEET_ADMIN_TOKEN (a fine-grained PAT) can neither resolve that App
+  # node in the mutation nor read the allowance back: #224 tried to declare it
+  # here and the apply failed with "Could not resolve to a node with the global
+  # id" on all three, twice. Terraform therefore does not see the allowance; a
+  # future change to those repos' allowlist will drop it silently. Re-add it
+  # with the POST above after any such change, and verify with the read-back
+  # command. Tracked in #225, which also names the token fix that lets this
+  # entry come back into config.
+  gate_extra_allowances = {}
 
   # ---------------------------------------------------------------------------
   # Free-plan carve-outs. Both are plan limits, not policy choices, and both
