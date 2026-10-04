@@ -32,7 +32,7 @@ renewals:
   - id: domain-lentago-dev
     name: "lentago.dev — domain registration"
     category: domain
-    next_due: 2027-02-14
+    next_due: 2027-07-01
     cadence: annual
     owner: chris@lentago.dev
     lead_days: 45
@@ -44,23 +44,25 @@ renewals:
   - id: domain-pondviewlane-com
     name: "pondviewlane.com — domain registration"
     category: domain
-    next_due: 2026-11-03
-    cadence: annual
+    next_due: 2029-07-15
+    cadence: 3y  # multi-year registration term
     owner: chris@lentago.dev
     lead_days: 45
     notes: >
       Community-organization site domain. Same backstop logic as lentago.dev.
 
   - id: cert-lentago-dev
-    name: "lentago.dev — TLS certificate (ACME auto-renew backstop)"
+    name: "lentago.dev — TLS certificate (ACM managed-renewal backstop)"
     category: cert
-    next_due: 2026-09-10
-    cadence: 90d
+    next_due: 2027-01-21
+    cadence: managed  # ACM-issued; renews itself, not a 90-day ACME cycle
     owner: chris@lentago.dev
     lead_days: 7
     notes: >
-      Certificates auto-renew via ACME; this short-lead entry only fires if a
-      renewal has NOT happened by the expected window — a smoke alarm, not a task.
+      Amazon ACM-issued certificate with managed renewal; ACM rotates it ahead of
+      expiry. This short-lead entry only fires if the certificate has NOT been
+      renewed by the window — a smoke alarm, not a task. Advance next_due to the
+      new notAfter whenever the certificate is reissued.
 
   - id: subscription-fastmail
     name: "Fastmail — annual subscription"
