@@ -1,6 +1,6 @@
 # ADR-0009: uvularia — a client-owned records vault with a grounded Ask box and a live compliance board, as three repos and three pipelines
 
-**Status:** Accepted (2026-10-03)
+**Status:** Accepted (2026-10-03; amended 2026-10-04 — see [Amendment (2026-10-04)](#amendment-2026-10-04))
 
 ## Context
 
@@ -183,3 +183,20 @@ posted on time.
   demonstration client.
 - The org profile and lentago.dev describe the public-record offering with
   this receipt and no other.
+
+## Amendment (2026-10-04)
+
+Decision 2 stands as the shape of a *complete* installation. What changed is
+the order a client meets the parts in. Reviewing the adoption path from the
+reader's side, the full installation is three repositories, one AWS account,
+one Grafana Cloud account and about eight secrets and variables, and the
+adoption guide opened with two repositories whose second existed only to
+render files the first already published to GitHub Pages.
+
+uvularia's own [ADR-0002](https://github.com/lentago/uvularia/blob/main/docs/adr/0002-adoption-ladder-one-repository-first.md)
+makes adoption a ladder of four rungs, each one template click or one
+account, each a working stopping point: the vault (one repository, which now
+publishes its own plain board page), a proper site, the Ask box with its AWS
+account, and the operator pane. The Kit tier is earned on the first rung, and
+the demonstration client shows all four. Decision 5's "Phase 0" is that first
+rung. Nothing in decisions 1, 3, 4 or 6 to 8 changes.
