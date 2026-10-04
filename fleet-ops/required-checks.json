@@ -46,7 +46,11 @@
     "claytonia was the last — its terraform.yml was `on:`-level path-filtered, so",
     "requiring `terraform / validate` as originally proposed would have deadlocked",
     "every non-terraform PR. claytonia#69 moved the filter into a `changes` detector",
-    "job and added the always-on `gate` fan-in, matching the other three."
+    "job and added the always-on `gate` fan-in, matching the other three.",
+    "",
+    "claytonia also requires `queue-core` (.github#221): its bats tests run on every",
+    "pull_request with no path filter (on ubuntu-latest), and bin/ deploys to all",
+    "five worker agents via gitops on merge, so runtime tests prevent regressions."
   ],
   "checks": {
     "asclepias": [
@@ -91,6 +95,7 @@
     ],
     "claytonia": [
       "gate",
+      "queue-core",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
       "tf-lint / tf-lint"

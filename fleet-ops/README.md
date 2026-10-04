@@ -164,11 +164,11 @@ require:
 
 ```jsonc
 "checks": {
-  "kalmia":  ["gate", "ansible-lint", "shellcheck / shellcheck"],
-  "drosera": ["gate", "shellcheck / shellcheck"],
-  "solidago":["gate"],
-  "site-lentago-dev": ["Build"],
-  "claytonia":["shellcheck / shellcheck"]
+  "kalmia":  ["gate", "ansible-lint", "shellcheck / shellcheck", "docs-check / docs-check", "tf-lint / tf-lint"],
+  "drosera": ["gate", "shellcheck / shellcheck", "docs-check / docs-check", "tf-lint / tf-lint"],
+  "solidago":["gate", "docs-check / docs-check", "tf-lint / tf-lint"],
+  "site-lentago-dev": ["Build", "docs-check / docs-check"],
+  "claytonia":["gate", "queue-core", "shellcheck / shellcheck", "docs-check / docs-check", "tf-lint / tf-lint"]
 }
 ```
 
