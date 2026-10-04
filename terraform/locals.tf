@@ -70,7 +70,18 @@ locals {
   #     --jq '.restrictions | {users: [.users[].login], apps: [.apps[].slug]}'
   # The apply job's post-apply convergence check turns a silent drop into a
   # red run (.github/workflows/terraform.yml).
-  gate_extra_allowances = {}
+  #
+  # lentago-template-sync (App 5190989, installed on the three uvularia template
+  # repositories only, Contents/Pull requests/Workflows write): opens the sync
+  # pull request on each template repository on every merge to uvularia's main
+  # and arms auto-merge, which needs the allowlist (uvularia#28; first live run
+  # was refused with "not authorized for this protected branch"). The required
+  # checks still gate the merge; this only lets the App press "merge when green".
+  gate_extra_allowances = {
+    "uvularia-records-template" = ["A_kwHOEcLpC84ATzVN"]
+    "uvularia-rules-template"   = ["A_kwHOEcLpC84ATzVN"]
+    "uvularia-site-template"    = ["A_kwHOEcLpC84ATzVN"]
+  }
 
   # ---------------------------------------------------------------------------
   # Free-plan carve-outs. Both are plan limits, not policy choices, and both
