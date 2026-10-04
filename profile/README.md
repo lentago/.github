@@ -33,7 +33,7 @@ Most mission-driven teams rent their systems: donated software seats and free ve
 
 | | What you get | Receipt |
 | :-- | :-- | :-- |
-| **Public record** | Your minutes, notices, bylaws, and policies as plain files in a repository you own, with the posting rules next to them. Merge a change and the records publish, a public "Is it posted?" board updates, and a stamped receipt is left behind. Stood up from two templates in about half an hour on a free GitHub account. | [uvularia](https://github.com/lentago/uvularia) · [live board](https://lentago.github.io/uvularia-demo-site/board/) |
+| **Public record** | Your minutes, notices, bylaws, and policies as plain files in a repository you own, with the posting rules next to them. Merge a change and the records publish, a public "Is it posted?" board updates, and a stamped receipt is left behind. One repository from one template on a free GitHub account; a branded site, an Ask box and an operator pane are optional further rungs. | [uvularia](https://github.com/lentago/uvularia) · [live board](https://lentago.github.io/uvularia-demo-records/) |
 | **Platform** | A complete AWS environment written entirely as code: private networking, containers behind a load balancer, a managed database, a firewall, budgets and alarms. No long-lived cloud passwords anywhere. It costs real money, so the runbook also says how to turn it off. | [solidago](https://github.com/lentago/solidago) |
 | **Observability** | Dashboards and alerts for everything you run, on Grafana Cloud's free tier. One small collector per machine; dashboards kept as files you review before they change. | [drosera](https://github.com/lentago/drosera) |
 | **Enablement** | The guide, in two volumes. Vol. 1 walks through how our estate works, with labs you can run against it for free. Vol. 2 gets a product into your accounts and running from an ops vault you own. | [asclepias](https://github.com/lentago/asclepias) · [lupinus](https://github.com/lentago/lupinus) |
@@ -55,7 +55,7 @@ Everything is code. Every change is a pull request — a proposed change someone
 | [**claytonia**](https://github.com/lentago/claytonia) | the agent runner pool itself |
 | [**osmunda**](https://github.com/lentago/osmunda) | what runs on our Kubernetes cluster — the cluster pulls the change itself |
 | [**solidago**](https://github.com/lentago/solidago) | the AWS platform, and the live sites it serves |
-| [**uvularia-demo-records**](https://github.com/lentago/uvularia-demo-records) | the demonstration vault's published records, its receipts, and the [public board](https://lentago.github.io/uvularia-demo-site/board/) |
+| [**uvularia-demo-records**](https://github.com/lentago/uvularia-demo-records) | the demonstration vault's published records, its receipts, and the [public board](https://lentago.github.io/uvularia-demo-records/) it publishes itself |
 | [**.github**](https://github.com/lentago/.github) | every repo's branch rules, required checks, and labels |
 
 ### 🧰 &nbsp; What the estate is built on
@@ -119,7 +119,7 @@ Everything is code. Every change is a pull request — a proposed change someone
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/uvularia"><b>uvularia</b></a></td>
-<td>Records vault — your public records as plain files with the posting rules next to them; merge and the records publish, a public "Is it posted?" board updates, and a receipt is stamped. <a href="https://lentago.github.io/uvularia-demo-site/board/">Live demo board</a> for a fictional land trust.</td>
+<td>Records vault — your public records as plain files with the posting rules next to them; merge and the records publish, a public "Is it posted?" board updates, and a receipt is stamped. <a href="https://lentago.github.io/uvularia-demo-records/">Live demo board</a> for a fictional land trust, published by the vault itself; a branded site is an optional second rung.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/lentago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a></td>
