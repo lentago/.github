@@ -140,7 +140,8 @@
       "test-site",
       "test-rules",
       "test-ask-function",
-      "template-telemetry"
+      "template-telemetry",
+      "drift"
     ],
     "uvularia-records-template": [
       "validate"
