@@ -83,12 +83,14 @@
     "solidago": [
       "gate",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "shellcheck / shellcheck"
     ],
     "site-lentago-dev": [
       "Build",
       "docs-check / docs-check",
-      "A11y"
+      "A11y",
+      "shellcheck / shellcheck"
     ],
     "site-pondviewlane-com": [
       "Build",
@@ -110,17 +112,20 @@
     ],
     "epigaea": [
       "check-config",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "shellcheck / shellcheck"
     ],
     "site-icecreamtofightwith-com": [
       "Lint content",
       "Compile and commit",
       "docs-check / docs-check",
       "pa11y accessibility smoke test",
-      "Validate book quality"
+      "Validate book quality",
+      "shellcheck / shellcheck"
     ],
     "brasenia": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "shellcheck / shellcheck"
     ],
     "repo-template": [
       "docs-check / docs-check"
@@ -130,7 +135,8 @@
     ],
     "osmunda": [
       "docs-check / docs-check",
-      "kubeconform"
+      "kubeconform",
+      "shellcheck / shellcheck"
     ],
     "monarda": [
       "docs-check / docs-check"
@@ -153,7 +159,8 @@
       "test-rules",
       "test-ask-function",
       "template-telemetry",
-      "drift"
+      "drift",
+      "shellcheck / shellcheck"
     ],
     "uvularia-records-template": [
       "validate"
