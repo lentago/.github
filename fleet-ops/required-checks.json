@@ -87,11 +87,13 @@
     ],
     "site-lentago-dev": [
       "Build",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "A11y"
     ],
     "site-pondviewlane-com": [
       "Build",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "pa11y WCAG2AA"
     ],
     "claytonia": [
       "gate",
@@ -113,7 +115,9 @@
     "site-icecreamtofightwith-com": [
       "Lint content",
       "Compile and commit",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "pa11y accessibility smoke test",
+      "Validate book quality"
     ],
     "brasenia": [
       "docs-check / docs-check"
@@ -125,7 +129,8 @@
       "docs-check / docs-check"
     ],
     "osmunda": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "kubeconform"
     ],
     "monarda": [
       "docs-check / docs-check"
