@@ -101,8 +101,10 @@
       "tf-lint / tf-lint"
     ],
     "betula": [
+      "gate",
       "shellcheck / shellcheck",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "epigaea": [
       "check-config",
