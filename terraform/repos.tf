@@ -25,6 +25,23 @@ resource "github_repository" "fleet" {
   # alerts on, solidago did not. Declared here so every repo gets it.
   vulnerability_alerts = true
 
+  # Secret scanning + push protection, fleet-wide (#240). Free on public repos,
+  # and every fleet repo is public. Before this, all 27 had both disabled and
+  # the only detection was CodeRabbit's advisory gitleaks run.
+  #
+  # Deliberately NOT declared: `advanced_security` (always on for public repos;
+  # the API rejects setting it), and `secret_scanning_ai_detection` /
+  # `secret_scanning_non_provider_patterns` — in the v6.13.0 schema but neither
+  # sent to the API nor read back, so declaring them is a permanent plan diff.
+  security_and_analysis {
+    secret_scanning {
+      status = "enabled"
+    }
+    secret_scanning_push_protection {
+      status = "enabled"
+    }
+  }
+
   has_issues          = each.value.features.issues
   has_projects        = each.value.features.projects
   has_wiki            = each.value.features.wiki
