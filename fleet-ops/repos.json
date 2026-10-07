@@ -42,7 +42,7 @@
   "repos": {
     "asclepias": {
       "description": "Asclepias — vol. 1 of the Lentago Labs guide: how our estate works (atlas, pattern catalog, enterprise↔practice glossary), a day-one path, and labs you can run against it with nothing but a GitHub account. Milkweed: the host plant every monarch finds its way to.",
-      "homepage": "https://deepwiki.com/lentago/asclepias",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": {
@@ -66,7 +66,7 @@
     },
     "betula": {
       "description": "Betula — the Lentago Labs log capture layer: per-source collectors shipping full-volume logs off-device for long-retention search. Live collectors: Firewalla Gold SE (Zeek DNS/conn/TLS via Fluent Bit → Grafana Cloud Loki, GitOps self-healing) and AWS (ALB access logs + CloudWatch Logs → Axiom). Adding a client never touches existing ones.",
-      "homepage": "https://deepwiki.com/lentago/betula",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -95,7 +95,7 @@
     },
     "brasenia": {
       "description": "Brasenia — the Lentago Labs shared viewport: an always-on wall display whose content is chosen by a rubric, not a remote. Today: the daily brief rendered to live HLS (headless Chromium → ffmpeg → mediamtx) played 24/7 by a sideloaded Roku channel; next: a NAS pane bus + compositor so any Claude agent can claim the screen.",
-      "homepage": "https://deepwiki.com/lentago/brasenia",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": {
@@ -119,7 +119,7 @@
     },
     "claytonia": {
       "description": "Claytonia — the Lentago Labs agent-fleet system, a.k.a. the bullpen: five self-hosted headless coding agents on the LAN, their containers Terraform-applied on merge. Drop a job, an idle worker works it in a clean checkout and opens a PR for review. Claude Code workers today, platform-agnostic next. Cron + NAS-inbox jobs, per-job metrics.",
-      "homepage": "https://deepwiki.com/lentago/claytonia",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -144,7 +144,7 @@
     },
     "drosera": {
       "description": "Drosera — the Lentago Labs observability suite. Git-driven, fully declarative telemetry into Grafana Cloud (Mimir + Loki, free tier): per-host Grafana Alloy pushes metrics + logs with no central chokepoint, and AWS CloudWatch feeds in by assume-role. Terraform-provisioned dashboards, alert rules, and contact points; node_exporter, LogQL.",
-      "homepage": "https://deepwiki.com/lentago/drosera",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -173,7 +173,7 @@
     },
     ".github": {
       "description": "Org-level defaults and fleet governance for Lentago Labs: the profile README rendered at github.com/lentago, community-health defaults, the fleet-ops settings-as-code tooling (per-repo rulesets, required status checks, merge and topic enforcement), and the weekly fleet report + public incident register.",
-      "homepage": "https://deepwiki.com/lentago/.github",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -193,7 +193,7 @@
     },
     "epigaea": {
       "description": "Production residential smart home on Home Assistant + Proxmox, 40+ entities managed declaratively in YAML: Konnected alarm panels (custom ESPHome firmware), Hue/Kasa lighting, Sonos audio, energy + environmental monitoring, an automation library, and two purpose-built dashboards — gitops-deployed.",
-      "homepage": "https://deepwiki.com/lentago/epigaea",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -223,7 +223,7 @@
     },
     "kalmia": {
       "description": "Kalmia — the Lentago Labs provisioning system for workstations, VMs, and containers. Terraform owns the Proxmox guest layer — every VM and LXC on the cluster, applied on merge via a LAN self-hosted runner — with a template forge building the LXC images; Ansible roles provision the machines across four workstation profiles.",
-      "homepage": "https://deepwiki.com/lentago/kalmia",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -245,7 +245,7 @@
     },
     "music-curator": {
       "description": "Turns a messy music collection into a queryable Obsidian vault: dedup and merge tooling over directory trees, Spotify follows, and discography + credit data, building an artist graph with session-tie receipts. Automated follow-harvesting; a taste profile a language model can mine for grounded discovery.",
-      "homepage": "https://deepwiki.com/lentago/music-curator",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -268,7 +268,7 @@
     },
     "repo-template": {
       "description": "Template repo for the Lentago Labs fleet: README/CLAUDE skeletons, MIT, shared-workflows CI wrappers. Templates copy files, not settings — see SETUP.md.",
-      "homepage": "https://deepwiki.com/lentago/repo-template",
+      "homepage": null,
       "visibility": "public",
       "template": true,
       "template_source": null,
@@ -287,7 +287,7 @@
     },
     "shared-workflows": {
       "description": "Reusable GitHub Actions workflows shared across the Lentago Labs fleet: an interactive @claude responder (routes to opus/sonnet/haiku by label), automated PR review, CI patterns, and fleet-wide policy enforcement. The canonical source for cross-repo CI conventions.",
-      "homepage": "https://deepwiki.com/lentago/shared-workflows",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -386,7 +386,7 @@
     },
     "solidago": {
       "description": "Solidago — the Lentago Labs cloud platform: a three-tier AWS environment, 100% Terraform. Multi-AZ VPC, ECS Fargate behind an ALB (ACM/Route 53), RDS Postgres + ElastiCache Valkey, WAFv2, KMS, least-privilege IAM, and CloudWatch/CloudTrail/Config + budget guardrails. Runs four live public sites and a serverless Ask endpoint.",
-      "homepage": "https://deepwiki.com/lentago/solidago",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -416,7 +416,7 @@
     },
     "osmunda": {
       "description": "Osmunda — the Lentago Labs Kubernetes platform: a standing k3s cluster on lab guests plus an ephemeral EKS overlay, pull-based GitOps, and workload identity throughout. Royal fern: a living fossil that grows in interlocking colonies.",
-      "homepage": "https://deepwiki.com/lentago/osmunda",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": {
@@ -441,7 +441,7 @@
     },
     "monarda": {
       "description": "Monarda — the Lentago Labs campaign-site kit: an Astro template plus intake and a timed dry-run, deploying to the client's own GitHub Pages or S3/CloudFront. Bee balm: showy, fast-spreading, a pollinator magnet.",
-      "homepage": "https://deepwiki.com/lentago/monarda",
+      "homepage": null,
       "visibility": "public",
       "template": true,
       "template_source": {
@@ -466,7 +466,7 @@
     },
     "lupinus": {
       "description": "Lupinus — the Lentago Labs adoption guide and ops-vault kit: pick products, run adoption drills with receipts, and operate your estate from an Obsidian-compatible vault in your own org. Sundial lupine: host plant of the Karner blue, a nitrogen-fixer that readies lean soil.",
-      "homepage": "https://deepwiki.com/lentago/lupinus",
+      "homepage": null,
       "visibility": "public",
       "template": true,
       "template_source": {
@@ -491,7 +491,7 @@
     },
     "mitchella": {
       "description": "Mitchella \u2014 the Lentago Labs estate front desk: a corpus-backed chat assistant that checks live state before answering from documentation, and drafts a ticket for a human when it cannot. Partridgeberry: paired flowers, one berry \u2014 several sources, one answer.",
-      "homepage": "https://deepwiki.com/lentago/mitchella",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": null,
@@ -513,7 +513,7 @@
     },
     "uvularia": {
       "description": "Uvularia \u2014 the Lentago Labs records vault: a client-owned Obsidian-compatible vault of public records with obligations-as-code, a grounded Ask box that answers only from the records, and a live \"Is it posted?\" compliance board. Three repos, three pipelines. Bellwort: the bell is the announcement.",
-      "homepage": "https://deepwiki.com/lentago/uvularia",
+      "homepage": null,
       "visibility": "public",
       "template": false,
       "template_source": {

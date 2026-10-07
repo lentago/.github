@@ -2,7 +2,7 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./brand/generated/.github/banner.svg" alt=".github — Org defaults · governance &amp; settings-as-code" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/.github/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/.github/actions) [![License](https://img.shields.io/github/license/lentago/.github?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/.github/blob/main/LICENSE) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/lentago/.github/badge)](https://securityscorecards.dev/#/projects/github.com/lentago/.github) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/.github)
+[![main](https://img.shields.io/github/check-runs/lentago/.github/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/.github/actions) [![License](https://img.shields.io/github/license/lentago/.github?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/.github/blob/main/LICENSE) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/lentago/.github/badge)](https://securityscorecards.dev/#/projects/github.com/lentago/.github)
 
 ![Settings-as-code](https://img.shields.io/badge/Settings--as--code-1b4b2e?style=flat-square&labelColor=0e2b1a) ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=githubactions&logoColor=E0A81C) ![Python](https://img.shields.io/badge/Python-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=python&logoColor=E0A81C)
 
@@ -16,22 +16,6 @@ protection, required checks, and labels across every repo — governance as chan
 management, where the merged PR *is* the change record. The voice every
 reader-facing page in the fleet is written in lives here too, in
 [`docs/voice.md`](docs/voice.md).
-
-## 📚 Ask this codebase (DeepWiki)
-
-<a href="https://deepwiki.com/lentago/.github"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" height="32"></a>
-
-> [DeepWiki](https://deepwiki.com/lentago/.github) maintains an AI-generated wiki over this
-> repository — architecture pages, diagrams, and a Q&A box grounded in the actual code. Every
-> public Lentago Labs repo is indexed ([deepwiki.com/lentago](https://deepwiki.com/lentago));
-> it is the fastest way to orient before reading source. It is AI-generated: trust it to orient
-> you, verify against the code before you act on it.
-
-**Good first questions:**
-
-- How does `fleet-ops/required-checks.json` prevent a required GitHub Actions check from deadlocking PRs on repos where its workflow never runs?
-- What is the current division of labor between `fleet-ops/fleet-apply.sh` and the `terraform/` module for managing Lentago Labs repo settings?
-- How is the weekly `fleet-report.md` generated, and what does the `ci/validate.py` check enforce about it staying reproducible?
 
 ## 🧭 What this repo demonstrates
 
@@ -202,8 +186,7 @@ authored by the `lentago-claude-runner` bot and merged by a human.
 > 🌱 **Lentago Labs** is a pro-bono operations practice for organizations that
 > run on volunteers, donations, and one overworked tech person. Everything here
 > is free to take, and we practice what we publish: our own estate runs this
-> way, in the open. Start at the [org profile](https://github.com/lentago), and
-> read this repo on [DeepWiki](https://deepwiki.com/lentago/.github).
+> way, in the open. Start at the [org profile](https://github.com/lentago).
 
 ---
 

@@ -25,3 +25,4 @@ the time"*), so the historical record is not confused with hindsight.
 | [0007](0007-client-owned-delivery-no-multi-tenant-saas.md) | Kits ship into client-owned estates; the practice never operates a multi-tenant service | 2026-08-17 |
 | [0008](0008-pro-bono-practice-one-reader.md) | Lentago Labs is a pro-bono practice with one reader; the estate is the demonstration | 2026-09-30 |
 | [0009](0009-uvularia-client-owned-records-vault.md) | uvularia: a client-owned records vault with a grounded Ask box and a live compliance board, as three repos and three pipelines (amended 2026-10-04: adoption is a ladder, one repo first) | 2026-10-03 |
+| [0010](0010-retire-deepwiki.md) | Retire DeepWiki across the fleet: no badge, section, footer clause, profile link, or repo homepage points at it; Lab 00 to be deleted and the Devin app uninstalled in the sweep on #237 | 2026-10-07 |

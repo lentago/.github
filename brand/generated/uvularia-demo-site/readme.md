@@ -2,6 +2,6 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="uvularia-demo-site — Demo site · the board, live, for the fictional land trust" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/uvularia-demo-site/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/uvularia-demo-site/actions) [![License](https://img.shields.io/github/license/lentago/uvularia-demo-site?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/uvularia-demo-site/blob/main/LICENSE) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/uvularia-demo-site)
+[![main](https://img.shields.io/github/check-runs/lentago/uvularia-demo-site/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/uvularia-demo-site/actions) [![License](https://img.shields.io/github/license/lentago/uvularia-demo-site?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/uvularia-demo-site/blob/main/LICENSE)
 
 ![Astro](https://img.shields.io/badge/Astro-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=astro&logoColor=E0A81C) ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=githubpages&logoColor=E0A81C) ![Demo](https://img.shields.io/badge/Demo-1b4b2e?style=flat-square&labelColor=0e2b1a)

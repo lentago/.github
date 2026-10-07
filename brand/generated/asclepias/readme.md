@@ -2,6 +2,6 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="asclepias — Field guide · manual, labs, onboarding" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/asclepias/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/asclepias/actions) [![License](https://img.shields.io/github/license/lentago/asclepias?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/asclepias/blob/main/LICENSE) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/asclepias)
+[![main](https://img.shields.io/github/check-runs/lentago/asclepias/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/asclepias/actions) [![License](https://img.shields.io/github/license/lentago/asclepias?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/asclepias/blob/main/LICENSE)
 
 ![Markdown](https://img.shields.io/badge/Markdown-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=markdown&logoColor=E0A81C) ![Docs-as-code](https://img.shields.io/badge/Docs--as--code-1b4b2e?style=flat-square&labelColor=0e2b1a) ![Labs](https://img.shields.io/badge/Labs-1b4b2e?style=flat-square&labelColor=0e2b1a)

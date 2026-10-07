@@ -9,7 +9,7 @@
     "  tagline — mono line under the repo name. Keep <= 58 chars; it is set",
     "            uppercase by the generator.",
     "  prompt  — the '▲ lentago' field-prompt line. Keep <= 64 chars.",
-    "  badges  — stack badges appended after the shared CI/license/DeepWiki set.",
+    "  badges  — stack badges appended after the shared CI/license set.",
     "            {label, logo} renders a shields.io simple-icons badge; a bare",
     "            {label} renders a text-only badge in the same Tidewater colors."
   ],
