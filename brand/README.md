@@ -54,12 +54,13 @@ from the banners without CI noticing.
 - **One genus mark per species.** Every codenamed product carries its own mark;
   template and demo repos inherit their product's (the `uvularia-*` satellites
   point at `uvularia`), and everything else — fleet tooling, site repos, labs —
-  falls back to the lentago blossom. `marks/` is the canonical home of the marks
-  since 2026-10-06 (the first six were pulled in from the Claude Design project;
-  the eight added in #235 are emitted by `marks/draw.py`). The rules a mark
+  falls back to the lentago blossom; [`fleet.json`](fleet.json) holds the
+  assignments. `marks/` is the canonical home of the marks since 2026-10-06
+  (the first six were pulled in from the Claude Design project; the eight added
+  in #235 are emitted by [`marks/draw.py`](marks/draw.py)). The rules a mark
   follows are in [`marks/GRAMMAR.md`](marks/GRAMMAR.md). A repo that earns a
-  mark gets its `fleet.json` entry repointed — drawing one is a design task, not
-  a config change.
+  mark gets its [`fleet.json`](fleet.json) entry repointed — drawing one is a
+  design task, not a config change.
 - **Gold is an accent, never a fill.** Per the brand contract, each banner spends
   its gold on exactly three things: the eyebrow diamond, the field-prompt ▲, and
   the bottom rule. The watermark and contour lines stay under 15% opacity.

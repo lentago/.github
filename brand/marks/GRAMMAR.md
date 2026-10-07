@@ -2,7 +2,8 @@
 
 Every codenamed Lentago product carries a **genus mark**: a small drawing of the
 plant it is named for, on the same grid and in the same hand as the lentago
-blossom. This file records the rules the existing marks follow, so the next one
+blossom ([`fleet.json`](../fleet.json) records which mark each repo carries).
+This file records the rules the existing marks follow, so the next one
 can be drawn to match. It was written down when the set grew from six marks to
 fourteen (#235, 2026-10-06); the rules themselves were read off the first six.
 
@@ -14,9 +15,10 @@ the drawing there and re-run it rather than hand-editing the SVG.
 
 ## The grid
 
-- The canvas is a **64 × 64 viewBox** rendered at 512 px. Coordinates are in
-  grid units; keep the drawing inside roughly `6..58` on both axes so nothing
-  touches the chip's rounded corners.
+- The canvas is a **64 × 64 viewBox** — the SVG's own coordinate space, which
+  stays the same whatever size the mark renders at — rendered here at 512 px.
+  Coordinates are in grid units; keep the drawing inside roughly `6..58` on
+  both axes so nothing touches the chip's rounded corners.
 - The chip is a `#0e2b1a` square with `rx="12"` corners. The marks are drawn
   for this dark ground; the inline/limestone rendering swaps the colors (see
   *Colorways*).
@@ -45,8 +47,9 @@ cannot name the one thing the gold stands for, the mark is not finished.
 ## What a mark shows
 
 - **A field feature.** Each mark shows the thing you would use to identify the
-  plant on a walk: solidago's panicle, drosera's dewed tentacles, betula's
-  lenticels, brasenia's stalk-point in a floating leaf, uvularia's bell on an
+  plant on a walk: solidago's panicle (the branching flower spike), drosera's
+  dewed tentacles, betula's lenticels (the horizontal breathing slits in birch
+  bark), brasenia's stalk-point in a floating leaf, uvularia's bell on an
   arching stem. Not a generic flower with the right petal count.
 - **A silhouette of its own.** The set has to read as a set, so every mark
   shares the grid and the strokes; but at 22 px the shapes must still tell
@@ -74,10 +77,10 @@ watermark, so stray detail that is invisible small will be very visible large.
 ## Files and consumers
 
 - `marks/<genus>-mark-square.svg` — one per codenamed product plus `lentago`.
-  Template and demo repos do not get their own; their `fleet.json` entries point
-  at their product's mark.
-- `brand/fleet.json` → `generate.py` — the banner chip, the banner watermark, and
-  the social-preview card.
+  Template and demo repos do not get their own; their entries in
+  [`fleet.json`](../fleet.json) point at their product's mark.
+- [`fleet.json`](../fleet.json) → [`generate.py`](../generate.py) — the banner
+  chip, the banner watermark, and the social-preview card.
 - `profile/assets/marks/` — a verbatim copy, referenced by the org profile
   README's product rows.
 - `site-lentago-dev/public/marks/` — the same marks, square-cornered, anchoring
