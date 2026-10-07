@@ -51,10 +51,15 @@ from the banners without CI noticing.
   always worked this way. The **OG cards are rasterized here** with the real
   self-hosted Space Grotesk and JetBrains Mono, so the typeface is baked in
   exactly where it survives: link unfurls, which are images anyway.
-- **One genus mark per system.** `solidago`, `drosera`, `kalmia`, `claytonia`,
-  and `betula` have their own; every other repo falls back to the lentago
-  blossom. A repo that earns a mark gets its `fleet.json` entry repointed —
-  drawing one is a design task, not a config change.
+- **One genus mark per species.** Every codenamed product carries its own mark;
+  template and demo repos inherit their product's (the `uvularia-*` satellites
+  point at `uvularia`), and everything else — fleet tooling, site repos, labs —
+  falls back to the lentago blossom. `marks/` is the canonical home of the marks
+  since 2026-10-06 (the first six were pulled in from the Claude Design project;
+  the eight added in #235 are emitted by `marks/draw.py`). The rules a mark
+  follows are in [`marks/GRAMMAR.md`](marks/GRAMMAR.md). A repo that earns a
+  mark gets its `fleet.json` entry repointed — drawing one is a design task, not
+  a config change.
 - **Gold is an accent, never a fill.** Per the brand contract, each banner spends
   its gold on exactly three things: the eyebrow diamond, the field-prompt ▲, and
   the bottom rule. The watermark and contour lines stay under 15% opacity.
