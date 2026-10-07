@@ -3,24 +3,25 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-10-04 15:53 UTC · Scope: the **27 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-04).
+**Generated:** 2026-10-05 19:56 UTC · Scope: the **27 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-05).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **94** | 220 | 72 | **125,031** | 2,455 (21 files) |
+| **95** | 228 | 73 | **125,040** | 2,455 (21 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,455 lines** across 21 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 94 across 18 repos
+## Open issues — 95 across 18 repos
 
-### .github — 18 open
+### .github — 19 open
 
 | # | Title |
 |---|-------|
+| [225](https://github.com/lentago/.github/issues/225) | FLEET_ADMIN_TOKEN cannot resolve GitHub App node ids: merge-gate App allowances are unmanageable by Terraform |
 | [201](https://github.com/lentago/.github/issues/201) | terraform: creating a repo from repos.json fails on GitHub's default labels (422 already_exists) |
 | [200](https://github.com/lentago/.github/issues/200) | Offering: uvularia — client-owned records vault, grounded Ask, live compliance board (supersedes #128) |
 | [196](https://github.com/lentago/.github/issues/196) | Offering: help-desk starter for a private repo — issue forms, labels, a board |
@@ -44,7 +45,7 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 
 | # | Title |
 |---|-------|
-| [234](https://github.com/lentago/drosera/issues/234) | GitHub Actions as a drosera source: fleet-wide run history, queue time, and failure trends |
+| [234](https://github.com/lentago/drosera/issues/234) | GitHub — Actions dashboard: fleet-wide run history, queue time, and failure trends (feed: betula#113) |
 | [204](https://github.com/lentago/drosera/issues/204) | Main-branch workflow failures notify nobody — alert on red deploys/applies |
 | [200](https://github.com/lentago/drosera/issues/200) | Queue SLO for the agent fleet (pickup latency) + burn alert |
 | [199](https://github.com/lentago/drosera/issues/199) | Error-budget monthly section in the fleet report |
@@ -115,10 +116,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
 | [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
 
-### betula — 4 open
+### betula — 5 open
 
 | # | Title |
 |---|-------|
+| [113](https://github.com/lentago/betula/issues/113) | GitHub Actions collector client: poll org run/job history into Grafana Cloud Loki |
 | [107](https://github.com/lentago/betula/issues/107) | Device drift self-report: deployed conf hash vs main |
 | [106](https://github.com/lentago/betula/issues/106) | Third AWS emitter: CloudTrail → archive + weekly access digest |
 | [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
@@ -150,20 +152,19 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
 | [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
 
-### uvularia — 3 open
-
-| # | Title |
-|---|-------|
-| [73](https://github.com/lentago/uvularia/issues/73) | Records template: add .nojekyll to the published branch so Pages serves the artifacts as-is |
-| [57](https://github.com/lentago/uvularia/issues/57) | Records need an event time, and deadlines a local timezone, for lead rules to match the statute for evening meetings |
-| [28](https://github.com/lentago/uvularia/issues/28) | Sync templates/records and templates/site to their GitHub template repos on merge |
-
 ### site-lentago-dev — 2 open
 
 | # | Title |
 |---|-------|
 | [86](https://github.com/lentago/site-lentago-dev/issues/86) | Remove committed .playwright-mcp/ scratch output and gitignore it |
 | [67](https://github.com/lentago/site-lentago-dev/issues/67) | a11y gate ignores `color-contrast`: the Tidewater palette fails 4.5:1 at the design-token level |
+
+### uvularia — 2 open
+
+| # | Title |
+|---|-------|
+| [57](https://github.com/lentago/uvularia/issues/57) | Records need an event time, and deadlines a local timezone, for lead rules to match the statute for evening meetings |
+| [28](https://github.com/lentago/uvularia/issues/28) | Sync templates/records and templates/site to their GitHub template repos on merge |
 
 ### epigaea — 1 open
 
@@ -203,8 +204,17 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 
 ## Activity — last 30 days
 
-**292 events**, one stream, newest first — 🟣 220 PRs merged · 🟢 72 issues closed
+**301 events**, one stream, newest first — 🟣 228 PRs merged · 🟢 73 issues closed
 
+- 🟣 2026-10-04 · [.github#226](https://github.com/lentago/.github/pull/226) — merge gate: the template-sync App allowance is live-only until the fleet token can resolve App nodes
+- 🟣 2026-10-04 · [.github#224](https://github.com/lentago/.github/pull/224) — merge gate: allow lentago-template-sync to arm auto-merge on the three uvularia template repos
+- 🟣 2026-10-04 · [uvularia#77](https://github.com/lentago/uvularia/pull/77) — runbook: the fix for a refused auto-merge is the push allowlist, not a ruleset bypass
+- 🟣 2026-10-04 · [uvularia#76](https://github.com/lentago/uvularia/pull/76) — template-sync: drift waits for sync on push; say plainly when auto-merge is refused
+- 🟣 2026-10-04 · [uvularia-demo-records#18](https://github.com/lentago/uvularia-demo-records/pull/18) — Sync .nojekyll on the published branch from lentago/uvularia@d68c3c3 (#75)
+- 🟣 2026-10-04 · [uvularia-records-template#11](https://github.com/lentago/uvularia-records-template/pull/11) — Sync from lentago/uvularia@d68c3c3
+- 🟢 2026-10-04 · [uvularia#73](https://github.com/lentago/uvularia/issues/73) — Records template: add .nojekyll to the published branch so Pages serves the artifacts as-is
+- 🟣 2026-10-04 · [uvularia#75](https://github.com/lentago/uvularia/pull/75) — records template: .nojekyll on the published branch so Pages serves it verbatim
+- 🟣 2026-10-04 · [.github#223](https://github.com/lentago/.github/pull/223) — Weekly fleet reports refresh — 2026-10-04
 - 🟣 2026-10-04 · [claytonia#132](https://github.com/lentago/claytonia/pull/132) — Link issue claim comments to the run-filtered fleet dashboard
 - 🟢 2026-10-04 · [claytonia#130](https://github.com/lentago/claytonia/issues/130) — Resolve a job's target issue explicitly, not from the first #N in the prompt
 - 🟣 2026-10-04 · [claytonia#131](https://github.com/lentago/claytonia/pull/131) — feat(run-job): resolve a job's target issue explicitly (#130)
@@ -512,7 +522,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 |---|----------|-----:|------:|------:|
 | 1 | JSON | 46,101 | 469 | 36.9% |
 | 2 | Python | 28,567 | 182 | 22.8% |
-| 3 | YAML | 16,300 | 290 | 13.0% |
+| 3 | YAML | 16,309 | 290 | 13.0% |
 | 4 | HCL | 8,445 | 132 | 6.8% |
 | 5 | Shell (Bourne + Bash) | 5,440 | 79 | 4.4% |
 | 6 | Text | 4,817 | 231 | 3.9% |
@@ -527,7 +537,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | 15 | TOML | 193 | 13 | 0.2% |
 | 16 | XML | 129 | 5 | 0.1% |
 | 17 | Other (TOML / Dockerfile / …) | 30 | 4 | 0.0% |
-| | **CODE TOTAL** | **125,031** | **1607** | 100% |
+| | **CODE TOTAL** | **125,040** | **1607** | 100% |
 | — | _Data / exports — excluded_ | 119,165 | 9 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 54,194 | 118 | — |
 
@@ -569,13 +579,13 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 |------|-----:|------:|-------:|-----------:|-----:|
 | epigaea | 24,022 | 400 | 1,552 | 0 | 0 |
 | drosera | 18,694 | 163 | 2,064 | 0 | 0 |
-| uvularia | 16,529 | 79 | 6,146 | 0 | 0 |
-| uvularia-demo-records | 7,759 | 0 | 3,674 | 0 | 0 |
+| uvularia | 16,536 | 79 | 6,167 | 0 | 0 |
+| uvularia-demo-records | 7,760 | 0 | 3,675 | 0 | 0 |
 | site-pondviewlane-com | 7,435 | 224 | 2,914 | 0 | 0 |
 | solidago | 7,129 | 99 | 2,662 | 0 | 0 |
 | music-curator | 5,667 | 68 | 1,254 | 12,754 | 119,165 |
-| uvularia-records-template | 5,119 | 0 | 861 | 0 | 0 |
-| .github | 3,793 | 223 | 2,018 | 3,234 | 0 |
+| uvularia-records-template | 5,120 | 0 | 862 | 0 | 0 |
+| .github | 3,793 | 223 | 2,018 | 3,508 | 0 |
 | kalmia | 3,632 | 155 | 1,502 | 0 | 0 |
 | mitchella | 3,629 | 62 | 614 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,491 | 98 | 901 | 6,004 | 0 |
@@ -597,15 +607,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **61,700 lines of Markdown across 1361 files**; only 4.0% is instruction-code.
+The fleet carries **61,997 lines of Markdown across 1361 files**; only 4.0% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,455 | 21 | **counted as code** |
-| Content / data | 21,992 | 697 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 36,697 | 626 | READMEs, docs, ADRs, runbooks — excluded |
+| Content / data | 22,266 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 36,720 | 626 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 556 | 17 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **61,700** | **1361** | |
+| **All Markdown** | **61,997** | **1361** | |
 
 ---
 
