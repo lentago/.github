@@ -2,6 +2,6 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="drosera — Observability suite · git-driven, no chokepoint" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/drosera/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/drosera/actions) [![License](https://img.shields.io/github/license/lentago/drosera?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/drosera/blob/main/LICENSE) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/drosera)
+[![main](https://img.shields.io/github/check-runs/lentago/drosera/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/drosera/actions) [![License](https://img.shields.io/github/license/lentago/drosera?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/drosera/blob/main/LICENSE)
 
 ![Grafana](https://img.shields.io/badge/Grafana-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=grafana&logoColor=E0A81C) ![Terraform](https://img.shields.io/badge/Terraform-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=terraform&logoColor=E0A81C) ![Alloy](https://img.shields.io/badge/Alloy-1b4b2e?style=flat-square&labelColor=0e2b1a) ![Prometheus](https://img.shields.io/badge/Prometheus-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=prometheus&logoColor=E0A81C)

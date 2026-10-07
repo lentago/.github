@@ -2,6 +2,6 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="uvularia-demo-records — Demo vault · a fictional land trust, generated, renameable" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/uvularia-demo-records/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/uvularia-demo-records/actions) [![License](https://img.shields.io/github/license/lentago/uvularia-demo-records?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/uvularia-demo-records/blob/main/LICENSE) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/uvularia-demo-records)
+[![main](https://img.shields.io/github/check-runs/lentago/uvularia-demo-records/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/uvularia-demo-records/actions) [![License](https://img.shields.io/github/license/lentago/uvularia-demo-records?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/uvularia-demo-records/blob/main/LICENSE)
 
 ![Markdown](https://img.shields.io/badge/Markdown-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=markdown&logoColor=E0A81C) ![Demo](https://img.shields.io/badge/Demo-1b4b2e?style=flat-square&labelColor=0e2b1a)
