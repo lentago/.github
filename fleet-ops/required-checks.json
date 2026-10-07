@@ -83,15 +83,19 @@
     "solidago": [
       "gate",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "shellcheck / shellcheck"
     ],
     "site-lentago-dev": [
       "Build",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "A11y",
+      "shellcheck / shellcheck"
     ],
     "site-pondviewlane-com": [
       "Build",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "pa11y WCAG2AA"
     ],
     "claytonia": [
       "gate",
@@ -101,20 +105,27 @@
       "tf-lint / tf-lint"
     ],
     "betula": [
+      "gate",
       "shellcheck / shellcheck",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "tf-lint / tf-lint"
     ],
     "epigaea": [
       "check-config",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "shellcheck / shellcheck"
     ],
     "site-icecreamtofightwith-com": [
       "Lint content",
       "Compile and commit",
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "pa11y accessibility smoke test",
+      "Validate book quality",
+      "shellcheck / shellcheck"
     ],
     "brasenia": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "shellcheck / shellcheck"
     ],
     "repo-template": [
       "docs-check / docs-check"
@@ -123,7 +134,9 @@
       "docs-check / docs-check"
     ],
     "osmunda": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "kubeconform",
+      "shellcheck / shellcheck"
     ],
     "monarda": [
       "docs-check / docs-check"
@@ -146,7 +159,8 @@
       "test-rules",
       "test-ask-function",
       "template-telemetry",
-      "drift"
+      "drift",
+      "shellcheck / shellcheck"
     ],
     "uvularia-records-template": [
       "validate"

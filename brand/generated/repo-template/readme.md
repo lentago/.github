@@ -2,6 +2,6 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="repo-template — Fleet scaffold · README, CLAUDE.md, CI wrappers" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/repo-template/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/repo-template/actions) [![License](https://img.shields.io/github/license/lentago/repo-template?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/repo-template/blob/main/LICENSE) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/repo-template)
+[![main](https://img.shields.io/github/check-runs/lentago/repo-template/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/repo-template/actions) [![License](https://img.shields.io/github/license/lentago/repo-template?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/repo-template/blob/main/LICENSE)
 
 ![Template](https://img.shields.io/badge/Template-1b4b2e?style=flat-square&labelColor=0e2b1a) ![MIT](https://img.shields.io/badge/MIT-1b4b2e?style=flat-square&labelColor=0e2b1a)

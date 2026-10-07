@@ -9,7 +9,7 @@
     "  tagline — mono line under the repo name. Keep <= 58 chars; it is set",
     "            uppercase by the generator.",
     "  prompt  — the '▲ lentago' field-prompt line. Keep <= 64 chars.",
-    "  badges  — stack badges appended after the shared CI/license/DeepWiki set.",
+    "  badges  — stack badges appended after the shared CI/license set.",
     "            {label, logo} renders a shields.io simple-icons badge; a bare",
     "            {label} renders a text-only badge in the same Tidewater colors."
   ],
@@ -124,7 +124,7 @@
     ]
   },
   "brasenia": {
-    "mark": "lentago",
+    "mark": "brasenia",
     "kind": "SUITE",
     "tagline": "Shared viewport · a rubric, not a remote",
     "prompt": "pane claim  ·  headless chromium · hls · roku",
@@ -146,7 +146,7 @@
     ]
   },
   "asclepias": {
-    "mark": "lentago",
+    "mark": "asclepias",
     "kind": "SUITE",
     "tagline": "Field guide · manual, labs, onboarding",
     "prompt": "day one  ·  read the atlas · run a lab · open a pr",
@@ -279,7 +279,7 @@
     ]
   },
   "epigaea": {
-    "mark": "lentago",
+    "mark": "epigaea",
     "kind": "LAB",
     "tagline": "Smart home · 40+ entities, declarative YAML",
     "prompt": "ha core check  ·  konnected · hue · sonos",
@@ -319,7 +319,7 @@
     ]
   },
   "osmunda": {
-    "mark": "lentago",
+    "mark": "osmunda",
     "kind": "PLATFORM",
     "tagline": "Kubernetes · k3s below, EKS when needed",
     "prompt": "flux reconcile  ·  pull, not push",
@@ -339,7 +339,7 @@
     ]
   },
   "monarda": {
-    "mark": "lentago",
+    "mark": "monarda",
     "kind": "KIT",
     "tagline": "Campaign site in a day · yours, not ours",
     "prompt": "intake  ·  dry-run  ·  live on your account",
@@ -357,7 +357,7 @@
     ]
   },
   "lupinus": {
-    "mark": "lentago",
+    "mark": "lupinus",
     "kind": "KIT",
     "tagline": "Adoption guide · picker, drills, ops vault",
     "prompt": "pick a product  ·  run the drill  ·  map your estate",
@@ -375,7 +375,7 @@
     ]
   },
   "mitchella": {
-    "mark": "lentago",
+    "mark": "mitchella",
     "kind": "SUITE",
     "tagline": "Estate front desk \u00b7 signals first, then the docs",
     "prompt": "ask  \u00b7  check live state \u00b7 answer \u00b7 or draft a ticket",
@@ -399,7 +399,7 @@
     ]
   },
   "uvularia": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Records vault · grounded Ask, live compliance board",
     "prompt": "drop a record  ·  merge  ·  it's posted",
@@ -423,7 +423,7 @@
     ]
   },
   "uvularia-records-template": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Records vault template · your records, your receipts",
     "prompt": "use this template  ·  add a record  ·  merge  ·  it's posted",
@@ -442,7 +442,7 @@
     ]
   },
   "uvularia-site-template": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Site template · the board, built from what you published",
     "prompt": "use this template  ·  point it at your vault  ·  watch the board",
@@ -461,7 +461,7 @@
     ]
   },
   "uvularia-demo-records": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Demo vault · a fictional land trust, generated, renameable",
     "prompt": "generated from org.yaml  ·  late on purpose  ·  honest board",
@@ -476,7 +476,7 @@
     ]
   },
   "uvularia-demo-site": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Demo site · the board, live, for the fictional land trust",
     "prompt": "built from the published branch  ·  never a fake green",
@@ -495,7 +495,7 @@
     ]
   },
   "uvularia-rules-template": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Ask-rules template · how your box answers, gated by evals",
     "prompt": "use this template  ·  edit the rules  ·  evals gate the merge",
@@ -514,7 +514,7 @@
     ]
   },
   "uvularia-demo-ask-rules": {
-    "mark": "lentago",
+    "mark": "uvularia",
     "kind": "KIT",
     "tagline": "Demo Ask rules · how the fictional land trust's box answers",
     "prompt": "edit the rules  ·  evals gate the merge  ·  the function pins the release",

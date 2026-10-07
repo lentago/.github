@@ -2,6 +2,6 @@
      Regenerate there; do not hand-edit the banner or badge URLs. -->
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="coderabbit — Review defaults · one .coderabbit.yaml for the fleet" width="100%"></a>
 
-[![main](https://img.shields.io/github/check-runs/lentago/coderabbit/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/coderabbit/actions) [![License](https://img.shields.io/github/license/lentago/coderabbit?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/coderabbit/blob/main/LICENSE) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=readthedocs&logoColor=E0A81C)](https://deepwiki.com/lentago/coderabbit)
+[![main](https://img.shields.io/github/check-runs/lentago/coderabbit/main?style=flat-square&labelColor=0e2b1a&color=1b4b2e&label=main)](https://github.com/lentago/coderabbit/actions) [![License](https://img.shields.io/github/license/lentago/coderabbit?style=flat-square&labelColor=0e2b1a&color=1b4b2e)](https://github.com/lentago/coderabbit/blob/main/LICENSE)
 
 ![YAML](https://img.shields.io/badge/YAML-1b4b2e?style=flat-square&labelColor=0e2b1a&logo=yaml&logoColor=E0A81C) ![Config](https://img.shields.io/badge/Config-1b4b2e?style=flat-square&labelColor=0e2b1a)
