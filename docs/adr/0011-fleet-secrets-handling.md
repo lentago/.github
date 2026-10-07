@@ -78,8 +78,11 @@ repo that needs an exception records it in its own ADR and links here.
    ([betula `clients/aws/README.md`](https://github.com/lentago/betula/blob/bdac96e1be58041ad5adb361e9d33473dfcd99ce/clients/aws/README.md#L25)),
    `logs:write`-only Grafana tokens
    ([drosera `clients/README.md`](https://github.com/lentago/drosera/blob/4d6f75d6c7606288822d00cfcbdac9f9f5d0759f/clients/README.md#L31)),
-   RBAC-trimmed Proxmox tokens, and fine-grained PATs limited to the repos they
-   serve. A grant widened while debugging is reverted when the debugging ends. On
+   Proxmox tokens whose RBAC role drops identity and permission management
+   ([kalmia ADR-0004](https://github.com/lentago/kalmia/blob/103f953b03934fcbe2d6a7209f7980587bc7bbea/docs/adr/0004-lan-apply-on-merge.md#L49-L53)),
+   and fine-grained PATs limited to the repos they serve (`FLEET_REPORTS_TOKEN`,
+   [`CLAUDE.md` § Weekly fleet reports](../../CLAUDE.md#weekly-fleet-reports-automated)).
+   A grant widened while debugging is reverted when the debugging ends. On
    a credential-shaped failure the first move is to measure the secret (its
    length, an authenticated probe), not to widen it.
 
@@ -111,8 +114,13 @@ repo that needs an exception records it in its own ADR and links here.
    - Where Terraform is itself the issuer, or the only delivery path (a Grafana
      data source's credential, for example), the value does land in state. That
      is why state is treated as a store: it sits in the shared S3 backend with
-     `encrypt = true`, is reached only through each repo's OIDC role, and is
-     never committed. Plan files are never committed either.
+     `encrypt = true` and is never committed. CI reaches it only through each
+     repo's OIDC role, which is scoped to that repo's own key
+     ([kalmia ADR-0004](https://github.com/lentago/kalmia/blob/103f953b03934fcbe2d6a7209f7980587bc7bbea/docs/adr/0004-lan-apply-on-merge.md#L55-L58),
+     [`terraform/README.md` § Phases](../../terraform/README.md#phases)).
+     Operator applies use the `cpitzi-iac` IAM user
+     ([`terraform/README.md` § Auth](../../terraform/README.md#auth)). Plan files
+     are never committed either.
    - The credential Terraform authenticates with stays outside the config it
      drives.
 
@@ -193,7 +201,8 @@ Weighed when this record was written:
   no document said it should be on.
 - **One secrets manager for everything** (a password manager with CLI
   injection, or Vault). Rejected for now. It adds a paid or self-hosted
-  dependency for a single operator. GitHub secrets, the AWS stores and host files
+  dependency for a practice run by one person
+  ([`SECURITY.md`](../../SECURITY.md)). GitHub secrets, the AWS stores and host files
   are each native to where their values are consumed, and the credential
   register (#243) gives the single view without centralising storage.
 - **A CI secret scanner as a required check instead of GitHub's native
