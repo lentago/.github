@@ -6,7 +6,9 @@
 
 Most mission-driven teams rent their systems: donated software seats and free vendor tiers they don't own and can't leave. We help you move to infrastructure you own outright — the same free tiers, in your own accounts, set up as code you can copy, run by people we've shown how. Everything here is free to take. Call when you need to, if you need to.
 
-<sub>What you're looking at is our own estate — a small cluster of servers we own and a production-grade AWS account — run exactly the way we'd tell you to run yours: everything as code, every change a pull request, in the open. We publish it because a method you can watch working is worth more than one you're asked to trust. <b>We practice what we publish.</b></sub>
+<sub>What you're looking at is our own estate — a small cluster of servers we own and a production-grade AWS account — run exactly the way we'd tell you to run yours: everything as code, every change a pull request, in the open. We publish it because a method you can watch working is worth more than one you're asked to trust.
+
+<b>We practice what we publish.</b></sub>
 
 <br/>
 
