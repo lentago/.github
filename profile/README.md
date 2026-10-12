@@ -125,7 +125,7 @@ Everything is code. Every change is a pull request — a proposed change someone
 <td>Front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
 </tr>
 <tr>
-<td colspan="2"><b>Your data and your exit</b> — every export you'd need to leave a vendor, on a schedule, into a repo you own, with a restore you've drilled. The exports come from <a href="https://github.com/lentago/betula"><b>betula</b></a> (above); <a href="https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md">our own lock-in ledger</a> shows what leaving each of our vendors would cost.</td>
+<td colspan="2"><b>Your data and your exit</b> — every export you'd need to leave a vendor, on a schedule, into a repo you own, with a restore you've drilled. Today, <a href="https://github.com/lentago/betula"><b>betula</b></a> (above) keeps the logs longer than the vendor does, and <a href="https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md">our own lock-in ledger</a> shows what leaving each of our vendors would cost; the scheduled exports and the restore drill are on the roadmap (<a href="https://github.com/lentago/.github/issues/123">#123</a>).</td>
 </tr>
 <tr>
 <td colspan="2"><b>When you need them: your building</b> — sensors, and a lobby screen that says whether you're open.</td>
