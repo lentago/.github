@@ -103,7 +103,7 @@ Everything is code. Every change is a pull request — a proposed change someone
 </tr>
 <tr>
 <td><img src="./assets/marks/epigaea-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/epigaea"><b>epigaea</b></a></td>
-<td>Physical-world telemetry — a production Home Assistant, the open-source smart-home hub, kept entirely as plain-text config (declarative YAML): every change is checked before it lands and rolls back if it fails. The base for a prospective cold-chain and facilities kit (<a href="https://github.com/lentago/.github/issues/129">#129</a>).</td>
+<td>Readings from the building (temperatures, doors, power) — a production Home Assistant, the open-source smart-home hub, kept entirely as plain-text config (declarative YAML): every change is checked before it lands and rolls back if it fails. The base for a prospective kit for buildings and cold storage (refrigeration that must stay cold) (<a href="https://github.com/lentago/.github/issues/129">#129</a>).</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/brasenia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/brasenia"><b>brasenia</b></a></td>
