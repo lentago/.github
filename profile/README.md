@@ -102,6 +102,14 @@ Everything is code. Every change is a pull request — a proposed change someone
 <td>Log capture &amp; archive — a complete, searchable record of what happens on a network, kept longer than the vendor keeps it. Our firewall's logs go to a free tier, searchable at $0 a month.</td>
 </tr>
 <tr>
+<td><img src="./assets/marks/epigaea-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/epigaea"><b>epigaea</b></a></td>
+<td>Readings from the building (temperatures, doors, power) — a production Home Assistant, the open-source smart-home hub, kept entirely as plain-text config (declarative YAML): every change is checked before it lands and rolls back if it fails. The base for a prospective kit for buildings and cold storage (refrigeration that must stay cold) (<a href="https://github.com/lentago/.github/issues/129">#129</a>).</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/brasenia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/brasenia"><b>brasenia</b></a></td>
+<td>Wall display — one always-on screen whose content is chosen by a rubric, not a remote: panes surface when something needs eyes and sink when it resolves. Roku and Chromecast today.</td>
+</tr>
+<tr>
 <td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a></td>
 <td>AI coding agents — a small pool that works unattended on our own hardware. Drop a job, a worker does it on a fresh copy of the code and proposes the change for review. It can't approve its own work; a person always decides.</td>
 </tr>

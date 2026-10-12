@@ -104,7 +104,7 @@
   "betula": {
     "mark": "betula",
     "kind": "SUITE",
-    "tagline": "Log capture · collectors to long-retention search",
+    "tagline": "Log capture · collectors to off-device search",
     "prompt": "fluent-bit tail  ·  zeek · cloudtrail · axiom",
     "badges": [
       {
