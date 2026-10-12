@@ -107,6 +107,34 @@ safe place to try a change before you make the same kind of change in your own
 shop. Pick one:
 ```
 
+### The six promises
+
+The offering, in the words every surface copies ([ADR-0012](adr/0012-six-promises-codenames-are-parts.md)).
+Codenames never appear in a headline; they appear in the parts list under their
+promise.
+
+```markdown
+- **Your site and giving page** — a campaign page you own outright, with a
+  donate button that goes straight to your payment processor.
+- **Your records and your proof** — minutes, policies, and filings in one vault,
+  the posting rules beside them, and a public board that shows what went up on
+  time. When the board, the auditor, the funder, or the insurer asks, you send
+  a link.
+- **Your machines and logins** — every laptop set up the same way, every login
+  with a named owner, and leaving is a pull request, a proposed change someone
+  else reviews before it lands.
+- **Your alarms and status** — know when something breaks before the executive
+  director does, and a file that says who gets the call.
+- **Your help desk and runbooks** — requests land in a list, answers come from
+  runbooks you wrote once, and the front desk answers at 9 pm.
+- **Your data and your exit** — every export you'd need to leave a vendor, on a
+  schedule, into a repo you own, with a restore you've drilled.
+
+When you need them: **your building** (sensors, and a lobby screen that says
+whether you're open), **cloud you own** (a real AWS environment in your account,
+as code), **AI with receipts** (agents that open pull requests and never merge).
+```
+
 ### The pledge (unchanged)
 
 ```markdown
