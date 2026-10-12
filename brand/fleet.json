@@ -16,7 +16,7 @@
   "solidago": {
     "mark": "solidago",
     "kind": "SUITE",
-    "tagline": "Cloud platform · AWS, 100% Terraform",
+    "tagline": "Cloud you own · AWS, 100% Terraform",
     "prompt": "terraform apply  ·  vpc · ecs · rds · waf",
     "badges": [
       {
@@ -38,7 +38,7 @@
   "drosera": {
     "mark": "drosera",
     "kind": "SUITE",
-    "tagline": "Observability suite · git-driven, no chokepoint",
+    "tagline": "Alerts and status · git-driven, no chokepoint",
     "prompt": "alloy push  ·  mimir · loki · grafana cloud",
     "badges": [
       {
@@ -61,7 +61,7 @@
   "kalmia": {
     "mark": "kalmia",
     "kind": "SUITE",
-    "tagline": "Provisioning · workstations, VMs, containers",
+    "tagline": "Machine setup · workstations, VMs, containers",
     "prompt": "terraform apply  ·  proxmox guests · ansible roles",
     "badges": [
       {
@@ -81,7 +81,7 @@
   "claytonia": {
     "mark": "claytonia",
     "kind": "SUITE",
-    "tagline": "Agent fleet · drop a job, get a reviewed PR",
+    "tagline": "AI with receipts · drop a job, get a reviewed PR",
     "prompt": "cr-submit  ·  five headless workers · never merges",
     "badges": [
       {
@@ -104,7 +104,7 @@
   "betula": {
     "mark": "betula",
     "kind": "SUITE",
-    "tagline": "Log capture · collectors to off-device search",
+    "tagline": "Capture and keep · collectors to off-device search",
     "prompt": "fluent-bit tail  ·  zeek · cloudtrail · axiom",
     "badges": [
       {
@@ -126,7 +126,7 @@
   "brasenia": {
     "mark": "brasenia",
     "kind": "SUITE",
-    "tagline": "Shared viewport · a rubric, not a remote",
+    "tagline": "Lobby screen · a rubric, not a remote",
     "prompt": "pane claim  ·  headless chromium · hls · roku",
     "badges": [
       {
@@ -281,7 +281,7 @@
   "epigaea": {
     "mark": "epigaea",
     "kind": "LAB",
-    "tagline": "Smart home · 40+ entities, declarative YAML",
+    "tagline": "Building sensors · 40+ entities, declarative YAML",
     "prompt": "ha core check  ·  konnected · hue · sonos",
     "badges": [
       {
@@ -321,7 +321,7 @@
   "osmunda": {
     "mark": "osmunda",
     "kind": "PLATFORM",
-    "tagline": "Kubernetes · k3s below, EKS when needed",
+    "tagline": "Cloud you own · k3s below, EKS when needed",
     "prompt": "flux reconcile  ·  pull, not push",
     "badges": [
       {
@@ -341,7 +341,7 @@
   "monarda": {
     "mark": "monarda",
     "kind": "KIT",
-    "tagline": "Campaign site in a day · yours, not ours",
+    "tagline": "Campaign page · site in a day, yours not ours",
     "prompt": "intake  ·  dry-run  ·  live on your account",
     "badges": [
       {
@@ -377,7 +377,7 @@
   "mitchella": {
     "mark": "mitchella",
     "kind": "SUITE",
-    "tagline": "Estate front desk \u00b7 signals first, then the docs",
+    "tagline": "Front desk \u00b7 signals first, then the docs",
     "prompt": "ask  \u00b7  check live state \u00b7 answer \u00b7 or draft a ticket",
     "badges": [
       {
@@ -401,7 +401,7 @@
   "uvularia": {
     "mark": "uvularia",
     "kind": "KIT",
-    "tagline": "Records vault · grounded Ask, live compliance board",
+    "tagline": "Records and deadlines · grounded Ask, live board",
     "prompt": "drop a record  ·  merge  ·  it's posted",
     "badges": [
       {

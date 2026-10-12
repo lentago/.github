@@ -82,62 +82,83 @@ Everything is code. Every change is a pull request — a proposed change someone
 
 ### 🌿 &nbsp; The suite
 
-<sub>Named systems, honest parts. Each one splits a core that doesn't care where it runs from the pieces specific to us, so the parts specific to us swap out for yours. The current build is always <i>the first client</i> — a working reference, not a finished product. The codenames are New England native plants.</sub>
+<sub>Six promises every shop needs, plus three for when you need them. Each part below sits under one promise, and its codename is the part's name. Named systems, honest parts. Each one splits a core that doesn't care where it runs from the pieces specific to us, so the parts specific to us swap out for yours. The current build is always <i>the first client</i> — a working reference, not a finished product. The codenames are New England native plants.</sub>
 
 <table>
 <tr>
-<td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a></td>
-<td>Cloud platform — our AWS setup, written entirely as code: network, servers, database, web firewall, encryption keys. Serves lentago.dev and three more live sites.</td>
+<td colspan="2"><b>Your site and giving page</b> — a campaign page you own outright, with a donate button that goes straight to your payment processor.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/monarda-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a></td>
+<td>Campaign page — a site template, a one-page intake, and a timed dry-run, deploying into the client's own GitHub Pages or AWS. Yours, not ours.</td>
+</tr>
+<tr>
+<td colspan="2"><b>Your records and your proof</b> — minutes, policies, and filings in one vault, the posting rules beside them, and a public board that shows what went up on time. When the board, the auditor, the funder, or the insurer asks, you send a link.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/uvularia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/uvularia"><b>uvularia</b></a></td>
+<td>Records and deadlines — your public records as plain files with the posting rules next to them; merge and the records publish, a public "Is it posted?" board updates, and a receipt is stamped. <a href="https://lentago.github.io/uvularia-demo-records/">Live demo board</a> for a fictional land trust, published by the vault itself; a branded site is an optional second rung.</td>
+</tr>
+<tr>
+<td colspan="2"><b>Your machines and logins</b> — every laptop set up the same way, every login with a named owner, and leaving is a pull request, a proposed change someone else reviews before it lands.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/kalmia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/kalmia"><b>kalmia</b></a></td>
 <td>Machine setup — turns a fresh Linux install into a fully set-up work machine with one command, and owns every virtual machine and container on our own hardware. Running it again is always safe.</td>
 </tr>
 <tr>
+<td colspan="2"><b>Your alarms and status</b> — know when something breaks before the executive director does, and a file that says who gets the call.</td>
+</tr>
+<tr>
 <td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a></td>
-<td>Monitoring — what your systems are doing right now, on dashboards anyone can read. One small collector per machine; every dashboard saved as code. If it isn't in the repo, it doesn't exist.</td>
+<td>Alerts and status — what your systems are doing right now, on dashboards anyone can read. One small collector per machine; every dashboard saved as code. If it isn't in the repo, it doesn't exist.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a></td>
-<td>Log capture &amp; archive — a complete, searchable record of what happens on a network, kept longer than the vendor keeps it. Our firewall's logs go to a free tier, searchable at $0 a month.</td>
+<td>Capture and keep — a complete, searchable record of what happens on a network, kept longer than the vendor keeps it. Our firewall's logs go to a free tier, searchable at $0 a month.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/epigaea-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/epigaea"><b>epigaea</b></a></td>
-<td>Readings from the building (temperatures, doors, power) — a production Home Assistant, the open-source smart-home hub, kept entirely as plain-text config (declarative YAML): every change is checked before it lands and rolls back if it fails. The base for a prospective kit for buildings and cold storage (refrigeration that must stay cold) (<a href="https://github.com/lentago/.github/issues/129">#129</a>).</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/brasenia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/brasenia"><b>brasenia</b></a></td>
-<td>Wall display — one always-on screen whose content is chosen by a rubric, not a remote: panes surface when something needs eyes and sink when it resolves. Roku and Chromecast today.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a></td>
-<td>AI coding agents — a small pool that works unattended on our own hardware. Drop a job, a worker does it on a fresh copy of the code and proposes the change for review. It can't approve its own work; a person always decides.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/osmunda-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a></td>
-<td>Kubernetes — a standing cluster on our own hardware, plus a cloud cluster that exists only for the hours a job needs it. The cluster pulls each approved change itself; nothing pushes to it.</td>
+<td colspan="2"><b>Your help desk and runbooks</b> — requests land in a list, answers come from runbooks you wrote once, and the front desk answers at 9 pm.</td>
 </tr>
 <tr>
 <td><img src="./assets/marks/mitchella-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/mitchella"><b>mitchella</b></a></td>
-<td>Estate front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
+<td>Front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/uvularia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/uvularia"><b>uvularia</b></a></td>
-<td>Records vault — your public records as plain files with the posting rules next to them; merge and the records publish, a public "Is it posted?" board updates, and a receipt is stamped. <a href="https://lentago.github.io/uvularia-demo-records/">Live demo board</a> for a fictional land trust, published by the vault itself; a branded site is an optional second rung.</td>
+<td colspan="2"><b>Your data and your exit</b> — every export you'd need to leave a vendor, on a schedule, into a repo you own, with a restore you've drilled. The exports come from <a href="https://github.com/lentago/betula"><b>betula</b></a> (above); <a href="https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md">our own lock-in ledger</a> shows what leaving each of our vendors would cost.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/monarda-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a></td>
-<td>Campaign-site kit — a site template, a one-page intake, and a timed dry-run, deploying into the client's own GitHub Pages or AWS. Yours, not ours.</td>
+<td colspan="2"><b>When you need them: your building</b> — sensors, and a lobby screen that says whether you're open.</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/asclepias-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a></td>
-<td>The guide, vol. 1 — how it all works, with labs you can run against our estate before building your own.</td>
+<td><img src="./assets/marks/epigaea-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/epigaea"><b>epigaea</b></a></td>
+<td>Building sensors (temperatures, doors, power) — a production Home Assistant, the open-source smart-home hub, kept entirely as plain-text config (declarative YAML): every change is checked before it lands and rolls back if it fails. The base for a prospective kit for buildings and cold storage (refrigeration that must stay cold) (<a href="https://github.com/lentago/.github/issues/129">#129</a>).</td>
 </tr>
 <tr>
-<td><img src="./assets/marks/lupinus-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/lupinus"><b>lupinus</b></a></td>
-<td>The guide, vol. 2 — pick a product, stand it up in your own accounts, and run it from an ops vault you own.</td>
+<td><img src="./assets/marks/brasenia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/brasenia"><b>brasenia</b></a></td>
+<td>Lobby screen — one always-on screen whose content is chosen by a rubric, not a remote: panes surface when something needs eyes and sink when it resolves. Roku and Chromecast today.</td>
+</tr>
+<tr>
+<td colspan="2"><b>When you need them: cloud you own</b> — a real AWS environment in your account, as code.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a></td>
+<td>Cloud you own — our AWS setup, written entirely as code: network, servers, database, web firewall, encryption keys. Serves lentago.dev and three more live sites.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/osmunda-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a></td>
+<td>Cloud you own — a standing cluster on our own hardware, plus a cloud cluster that exists only for the hours a job needs it. The cluster pulls each approved change itself; nothing pushes to it.</td>
+</tr>
+<tr>
+<td colspan="2"><b>When you need them: AI with receipts</b> — agents that open pull requests and never merge.</td>
+</tr>
+<tr>
+<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a></td>
+<td>AI with receipts — a small pool that works unattended on our own hardware. Drop a job, a worker does it on a fresh copy of the code and proposes the change for review. It can't approve its own work; a person always decides.</td>
 </tr>
 </table>
+
+<sub>Under all of it, the guide: <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a> (vol. 1, how it all works, with labs) and <a href="https://github.com/lentago/lupinus"><b>lupinus</b></a> (vol. 2, pick a part and run it from an ops vault you own). The pledge above covers every part.</sub>
 
 ### 🧭 &nbsp; Start here
 
