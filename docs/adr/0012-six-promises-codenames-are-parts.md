@@ -46,7 +46,7 @@ control.
    | uvularia | records and deadlines | records and proof |
    | kalmia | machine setup | machines and logins |
    | drosera | alerts and status | alarms and status |
-   | betula | capture and keep | alarms and status; data and exit |
+   | betula | capture and keep | alarms and status |
    | mitchella | front desk | help desk and runbooks |
    | lock-in ledger | what you'd lose | data and exit |
    | epigaea | building sensors | your building |
@@ -55,7 +55,8 @@ control.
    | claytonia | AI with receipts | AI with receipts |
 
    betula is the one part that serves two promises (logs under alarms, exports
-   under data and exit); it is listed under alarms and status and cross-referenced.
+   under data and exit); it is listed once, under alarms and status, and data and
+   exit cross-references it for exports.
 3. **The guide is the spine, not a product.** asclepias (vol. 1) and lupinus
    (vol. 2) sit under the map as the manual, and the adopter's ops vault is part of
    promise five. The pledge ([ADR-0007](0007-client-owned-delivery-no-multi-tenant-saas.md))

@@ -121,7 +121,8 @@ promise.
   time. When the board, the auditor, the funder, or the insurer asks, you send
   a link.
 - **Your machines and logins** — every laptop set up the same way, every login
-  with a named owner, and leaving is a pull request.
+  with a named owner, and leaving is a pull request, a proposed change someone
+  else reviews before it lands.
 - **Your alarms and status** — know when something breaks before the executive
   director does, and a file that says who gets the call.
 - **Your help desk and runbooks** — requests land in a list, answers come from
