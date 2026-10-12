@@ -3,24 +3,36 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-10-05 19:56 UTC · Scope: the **27 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-05).
+**Generated:** 2026-10-12 20:35 UTC · Scope: the **27 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-12).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **95** | 228 | 73 | **125,040** | 2,455 (21 files) |
+| **135** | 378 | 148 | **134,198** | 2,497 (21 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**2,455 lines** across 21 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**2,497 lines** across 21 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 95 across 18 repos
+## Open issues — 135 across 18 repos
 
-### .github — 19 open
+### .github — 31 open
 
 | # | Title |
 |---|-------|
+| [253](https://github.com/lentago/.github/issues/253) | Offering: Offboarding drill — the access register made real |
+| [252](https://github.com/lentago/.github/issues/252) | Offering: Backup with a receipt — object-locked copies and a drilled restore |
+| [251](https://github.com/lentago/.github/issues/251) | Offering: Email trust receipt — SPF, DKIM and DMARC as code, an MFA audit, the phishing habit |
+| [249](https://github.com/lentago/.github/issues/249) | Offering: Board pack — a one-page monthly operations report the board actually reads |
+| [248](https://github.com/lentago/.github/issues/248) | Offering: EOL radar — support end dates open Issues before they bite |
+| [247](https://github.com/lentago/.github/issues/247) | Offering: Accessible by default — every page checked, a receipt per build |
+| [243](https://github.com/lentago/.github/issues/243) | Credential register: every fleet credential's store, scope, issuer and expiry (names only) |
+| [242](https://github.com/lentago/.github/issues/242) | Re-mint two over-broad GitHub tokens: FLEET_REPORTS_TOKEN and the workstation PAT |
+| [239](https://github.com/lentago/.github/issues/239) | brand: README header blocks drifted from brand/generated in monarda, osmunda, shared-workflows; coderabbit has none |
+| [237](https://github.com/lentago/.github/issues/237) | Retire DeepWiki across the fleet |
+| [235](https://github.com/lentago/.github/issues/235) | Genus marks for the eight unmarked species |
+| [234](https://github.com/lentago/.github/issues/234) | Enable Dependabot security updates fleet-wide (codified in terraform) |
 | [225](https://github.com/lentago/.github/issues/225) | FLEET_ADMIN_TOKEN cannot resolve GitHub App node ids: merge-gate App allowances are unmanageable by Terraform |
 | [201](https://github.com/lentago/.github/issues/201) | terraform: creating a repo from repos.json fails on GitHub's default labels (422 already_exists) |
 | [200](https://github.com/lentago/.github/issues/200) | Offering: uvularia — client-owned records vault, grounded Ask, live compliance board (supersedes #128) |
@@ -28,23 +40,26 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [195](https://github.com/lentago/.github/issues/195) | Offering: sensor trip opens a work order — epigaea alert to GitHub Issue |
 | [176](https://github.com/lentago/.github/issues/176) | Codify org settings in Terraform — default_repository_permission is live-only |
 | [175](https://github.com/lentago/.github/issues/175) | A public repo entry with a null template_source cannot receive its first commit |
-| [134](https://github.com/lentago/.github/issues/134) | Offerings pipeline — sovereignty track (2026-08 review) |
+| [134](https://github.com/lentago/.github/issues/134) | Offerings roadmap — tracking epic (refreshed 2026-10-06) |
 | [133](https://github.com/lentago/.github/issues/133) | Offering: Ops-in-a-Box — the miniature estate starter kit |
 | [132](https://github.com/lentago/.github/issues/132) | Spike: volunteer-ops scheduling — evaluate, don't build (decision memo) |
 | [131](https://github.com/lentago/.github/issues/131) | Offering: privacy posture kit for newly covered orgs |
 | [130](https://github.com/lentago/.github/issues/130) | Offering: funder-report fact pipeline |
 | [129](https://github.com/lentago/.github/issues/129) | Offering: cold-chain & facilities telemetry kit |
-| [127](https://github.com/lentago/.github/issues/127) | Offering: AI-with-receipts — the reviewed-merge operating model as an adoption framework |
-| [126](https://github.com/lentago/.github/issues/126) | Offering: Institutional Memory kit + private grounded Ask |
+| [127](https://github.com/lentago/.github/issues/127) | Guide page: AI-with-receipts — the reviewed-merge operating model, written for the one reader (ships in lupinus) |
+| [126](https://github.com/lentago/.github/issues/126) | Offering: Institutional Memory kit — the uvularia Ask box on a private lupinus vault |
 | [125](https://github.com/lentago/.github/issues/125) | Offering: Insurance-Receipts Pack — controls with evidence exhaust |
 | [124](https://github.com/lentago/.github/issues/124) | Offering: Digital Custody audit — ownership insurance for the org's presence |
 | [123](https://github.com/lentago/.github/issues/123) | Offering: Liberation Pipeline — SaaS-export collectors + restore drills |
-| [122](https://github.com/lentago/.github/issues/122) | Offering: Good-Standing Kit — obligations-as-code + registry reconciliation (MA pack first) |
+| [122](https://github.com/lentago/.github/issues/122) | Offering: Good-Standing Kit — registry reconciliation on the uvularia vault (MA pack first) |
 
-### drosera — 14 open
+### drosera — 16 open
 
 | # | Title |
 |---|-------|
+| [272](https://github.com/lentago/drosera/issues/272) | Notification-sink contract: one event shape, four sinks, "who gets the call" as a file |
+| [264](https://github.com/lentago/drosera/issues/264) | terraform: cloud_usage rule group shows a perpetual repeat_interval diff (1d vs 24h) |
+| [251](https://github.com/lentago/drosera/issues/251) | Change pipeline: see every merge travel from push to live, keyed by commit SHA |
 | [234](https://github.com/lentago/drosera/issues/234) | GitHub — Actions dashboard: fleet-wide run history, queue time, and failure trends (feed: betula#113) |
 | [204](https://github.com/lentago/drosera/issues/204) | Main-branch workflow failures notify nobody — alert on red deploys/applies |
 | [200](https://github.com/lentago/drosera/issues/200) | Queue SLO for the agent fleet (pickup latency) + burn alert |
@@ -54,7 +69,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [194](https://github.com/lentago/drosera/issues/194) | Adopt grafana-stack (LXC 105) guest capacity from kalmia |
 | [169](https://github.com/lentago/drosera/issues/169) | Complete the homelab-observability → drosera rename through CI and hosts |
 | [165](https://github.com/lentago/drosera/issues/165) | New-domain radar: alert when an IoT/smart-home device queries a never-before-seen domain (migrated from betula#11) |
-| [151](https://github.com/lentago/drosera/issues/151) | device-inventory publisher: cron reinstall hook failed silently — root-cause and make the schedule survivable/verifiable |
 | [131](https://github.com/lentago/drosera/issues/131) | Roadmap: multi-client telemetry pane — homelab and solidago (AWS) as peer sources |
 | [103](https://github.com/lentago/drosera/issues/103) | Scrape node_exporter on the Firewalla via Alloy (bring the gateway into node dashboards) |
 | [101](https://github.com/lentago/drosera/issues/101) | Heartbeat blind spot: tool-less reasoning turns show no activity while tokens burn |
@@ -76,10 +90,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [2](https://github.com/lentago/mitchella/issues/2) | Hold a conversation: thread context across turns |
 | [1](https://github.com/lentago/mitchella/issues/1) | Exercise the real API path end to end |
 
-### claytonia — 9 open
+### claytonia — 10 open
 
 | # | Title |
 |---|-------|
+| [137](https://github.com/lentago/claytonia/issues/137) | brasenia on the fleet: share mount on the workers, pane command in the worker prompt, fleet beacons |
 | [117](https://github.com/lentago/claytonia/issues/117) | Make never-merge a boundary: required check that blocks runner-App PRs without a human approval |
 | [116](https://github.com/lentago/claytonia/issues/116) | Close the loop after the PR opens: a capped follow-up job for failing checks and review comments |
 | [115](https://github.com/lentago/claytonia/issues/115) | An eval set for the fleet: replayable tasks, deterministic graders, and outcome measures |
@@ -90,10 +105,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
 | [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
 
-### kalmia — 8 open
+### kalmia — 9 open
 
 | # | Title |
 |---|-------|
+| [151](https://github.com/lentago/kalmia/issues/151) | OS stance for a nonprofit fleet; ChromeOS Flex as the first donated-hardware profile |
 | [124](https://github.com/lentago/kalmia/issues/124) | Retire CT 113 (n8n LXC) after the osmunda burn-in window |
 | [108](https://github.com/lentago/kalmia/issues/108) | Forge: golden images with receipts (checksums, SBOM, provenance) |
 | [107](https://github.com/lentago/kalmia/issues/107) | Donated-hardware refresh profiles (new client class) |
@@ -103,10 +119,11 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [20](https://github.com/lentago/kalmia/issues/20) | Roadmap: provisioning clients beyond Ansible-on-workstations — VMs and containers as peer targets |
 | [14](https://github.com/lentago/kalmia/issues/14) | Live-test the ubuntu_laptop profile on real ThinkPad hardware |
 
-### solidago — 8 open
+### solidago — 9 open
 
 | # | Title |
 |---|-------|
+| [213](https://github.com/lentago/solidago/issues/213) | Fail the apply when an out-of-band secret still holds its placeholder |
 | [184](https://github.com/lentago/solidago/issues/184) | CI plans are never clean: standing task-definition replacements and a recreating SNS email subscription |
 | [180](https://github.com/lentago/solidago/issues/180) | Hardening backlog from tf-lint's first trivy run (ECR immutability, CI-role least-privilege, SNS encryption) |
 | [172](https://github.com/lentago/solidago/issues/172) | SNS alert email subscription is recreated on every apply — alerts may be reaching nobody |
@@ -116,33 +133,65 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
 | [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
 
-### betula — 5 open
+### betula — 8 open
 
 | # | Title |
 |---|-------|
-| [113](https://github.com/lentago/betula/issues/113) | GitHub Actions collector client: poll org run/job history into Grafana Cloud Loki |
+| [133](https://github.com/lentago/betula/issues/133) | GitHub Actions feed: carry the PR number so PR head SHAs join to merge commits (drosera ADR-0010) |
+| [130](https://github.com/lentago/betula/issues/130) | GitHub collector: first-tick backfill ran 7.5 min against a 10 min TimeoutStartSec; checkpoint per repo and reuse connections |
+| [126](https://github.com/lentago/betula/issues/126) | Liberation Pipeline: SaaS-export collectors + restore drills, as betula clients (lentago/.github#123) |
+| [119](https://github.com/lentago/betula/issues/119) | Terraform the Axiom tokens (exact import + rotation handoff) |
 | [107](https://github.com/lentago/betula/issues/107) | Device drift self-report: deployed conf hash vs main |
 | [106](https://github.com/lentago/betula/issues/106) | Third AWS emitter: CloudTrail → archive + weekly access digest |
 | [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
 | [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
 
-### brasenia — 4 open
+### uvularia — 8 open
 
 | # | Title |
 |---|-------|
+| [98](https://github.com/lentago/uvularia/issues/98) | Intake hint says "under library/" but validate resolves source.file from the repo root; first record fails the PR |
+| [95](https://github.com/lentago/uvularia/issues/95) | Retention ledger as an obligation pack: the org's own retention policy evaluated against live retention |
+| [92](https://github.com/lentago/uvularia/issues/92) | Phase 3 — consumers: the vault-side contract for the funder-report pipeline and Good-Standing reconciliation |
+| [91](https://github.com/lentago/uvularia/issues/91) | templates/site: astro check fails on TypeScript 6 (28 strict-mode errors) |
+| [85](https://github.com/lentago/uvularia/issues/85) | Template workflow action pins have no automated updater |
+| [81](https://github.com/lentago/uvularia/issues/81) | http-cache-semantics GHSA-ch52-4w7c-c8xp: no patched release; not reachable in static builds |
+| [57](https://github.com/lentago/uvularia/issues/57) | Records need an event time, and deadlines a local timezone, for lead rules to match the statute for evening meetings |
+| [28](https://github.com/lentago/uvularia/issues/28) | Sync templates/records and templates/site to their GitHub template repos on merge |
+
+### brasenia — 7 open
+
+| # | Title |
+|---|-------|
+| [43](https://github.com/lentago/brasenia/issues/43) | README intro still calls the pane bus and compositor "the roadmap"; ADR-0008 says they run |
+| [41](https://github.com/lentago/brasenia/issues/41) | Lobby-pane variant: a visitor-facing screen in a client's own front room |
+| [31](https://github.com/lentago/brasenia/issues/31) | Focus producer: unauthenticated 304s spend the GitHub budget, so focus panes refresh every few minutes, not every minute |
+| [26](https://github.com/lentago/brasenia/issues/26) | Phase 2: pane bus, compositor, and the first live panes (Cast-first) |
 | [17](https://github.com/lentago/brasenia/issues/17) | Live-ingest pane: concept + ADR, acceptance spec, and VideoScene repoint to `live` with board fallback |
 | [15](https://github.com/lentago/brasenia/issues/15) | Adopt the display guest (LXC 118) capacity from kalmia |
-| [13](https://github.com/lentago/brasenia/issues/13) | Cast client: custom web receiver + current-pane pointer contract |
 | [12](https://github.com/lentago/brasenia/issues/12) | Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain |
 
-### lupinus — 4 open
+### lupinus — 7 open
 
 | # | Title |
 |---|-------|
+| [21](https://github.com/lentago/lupinus/issues/21) | Tier registry: brasenia row is stale since 2026-10-07; mitchella has no row |
+| [20](https://github.com/lentago/lupinus/issues/20) | Picker: "What we are not" names phones, printers and Wi-Fi |
+| [19](https://github.com/lentago/lupinus/issues/19) | Stories: one spine, three rungs, one map; a six-row coverage matrix |
 | [10](https://github.com/lentago/lupinus/issues/10) | One canonical product list; support/README.md is missing claytonia, epigaea, and brasenia |
 | [9](https://github.com/lentago/lupinus/issues/9) | Reconcile the single-file ADOPTION.md template with the INTAKE/DRY-RUN split the exemplar uses |
 | [8](https://github.com/lentago/lupinus/issues/8) | Kit rows carry no receipt: mark them provisional or demote until a drill is recorded |
 | [4](https://github.com/lentago/lupinus/issues/4) | Epic: adoption guide — Phase 1 (launch set: solidago + monarda) |
+
+### monarda — 5 open
+
+| # | Title |
+|---|-------|
+| [20](https://github.com/lentago/monarda/issues/20) | npm run a11y: the pinned 127.0.0.1 URL fails when run against the live site as the runbooks say |
+| [19](https://github.com/lentago/monarda/issues/19) | First run is red: deploy-pages triggers on the template's initial commit before Pages is enabled |
+| [18](https://github.com/lentago/monarda/issues/18) | Decision: a plain org-site rung (multi-page) and a rescue import from WordPress or Squarespace |
+| [17](https://github.com/lentago/monarda/issues/17) | Processor presets in the donate block, each with a sandbox walkthrough; one of them is the #5 receipt |
+| [11](https://github.com/lentago/monarda/issues/11) | Clear the npm security-alert backlog; add npm to dependabot.yml |
 
 ### music-curator — 3 open
 
@@ -152,49 +201,40 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 | [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
 | [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
 
-### site-lentago-dev — 2 open
+### site-lentago-dev — 3 open
 
 | # | Title |
 |---|-------|
+| [99](https://github.com/lentago/site-lentago-dev/issues/99) | Suite section becomes the six-promise map |
 | [86](https://github.com/lentago/site-lentago-dev/issues/86) | Remove committed .playwright-mcp/ scratch output and gitignore it |
 | [67](https://github.com/lentago/site-lentago-dev/issues/67) | a11y gate ignores `color-contrast`: the Tidewater palette fails 4.5:1 at the design-token level |
 
-### uvularia — 2 open
+### osmunda — 2 open
 
 | # | Title |
 |---|-------|
-| [57](https://github.com/lentago/uvularia/issues/57) | Records need an event time, and deadlines a local timezone, for lead rules to match the statute for evening meetings |
-| [28](https://github.com/lentago/uvularia/issues/28) | Sync templates/records and templates/site to their GitHub template repos on merge |
+| [12](https://github.com/lentago/osmunda/issues/12) | Decide how Flux-managed workloads receive secrets, before the n8n cutover |
+| [4](https://github.com/lentago/osmunda/issues/4) | The k3s install is disclaimed by both osmunda and kalmia — it exists nowhere |
+
+### shared-workflows — 2 open
+
+| # | Title |
+|---|-------|
+| [68](https://github.com/lentago/shared-workflows/issues/68) | claude-responder: skip events initiated by bots instead of failing the `claude / claude` check |
+| [57](https://github.com/lentago/shared-workflows/issues/57) | Rapid successive merges cancel site deploys, and `:latest`-pinned task defs make the survivor non-deterministic |
+
+### site-icecreamtofightwith-com — 2 open
+
+| # | Title |
+|---|-------|
+| [198](https://github.com/lentago/site-icecreamtofightwith-com/issues/198) | Clear the npm security-alert backlog (45 open, 42 patchable) |
+| [158](https://github.com/lentago/site-icecreamtofightwith-com/issues/158) | Tier accent swatches fail WCAG AA contrast as chip/step backgrounds (design decision needed) |
 
 ### epigaea — 1 open
 
 | # | Title |
 |---|-------|
 | [518](https://github.com/lentago/epigaea/issues/518) | Complete the epigaea rename through runtime (tiers 3–4) |
-
-### monarda — 1 open
-
-| # | Title |
-|---|-------|
-| [5](https://github.com/lentago/monarda/issues/5) | Run the dry-run and record the first receipt |
-
-### osmunda — 1 open
-
-| # | Title |
-|---|-------|
-| [4](https://github.com/lentago/osmunda/issues/4) | The k3s install is disclaimed by both osmunda and kalmia — it exists nowhere |
-
-### shared-workflows — 1 open
-
-| # | Title |
-|---|-------|
-| [57](https://github.com/lentago/shared-workflows/issues/57) | Rapid successive merges cancel site deploys, and `:latest`-pinned task defs make the survivor non-deterministic |
-
-### site-icecreamtofightwith-com — 1 open
-
-| # | Title |
-|---|-------|
-| [158](https://github.com/lentago/site-icecreamtofightwith-com/issues/158) | Tier accent swatches fail WCAG AA contrast as chip/step backgrounds (design decision needed) |
 
 ### site-pondviewlane-com — 1 open
 
@@ -204,8 +244,234 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 
 ## Activity — last 30 days
 
-**301 events**, one stream, newest first — 🟣 228 PRs merged · 🟢 73 issues closed
+**526 events**, one stream, newest first — 🟣 378 PRs merged · 🟢 148 issues closed
 
+- 🟢 2026-10-12 · [uvularia#96](https://github.com/lentago/uvularia/issues/96) — README says Phase 0 complete while Phase 1 and 2 artifacts are in-tree; name the Ask function's relationship to mitchella
+- 🟣 2026-10-12 · [uvularia#97](https://github.com/lentago/uvularia/pull/97) — README: Phases 1 and 2 are built, receipts pending; name the front desk
+- 🟢 2026-10-12 · [mitchella#25](https://github.com/lentago/mitchella/issues/25) — ROADMAP says no live API call has been made; uvularia's Ask function runs the engine — record the relationship
+- 🟣 2026-10-12 · [mitchella#26](https://github.com/lentago/mitchella/pull/26) — Record the uvularia Ask function as the first front desk (ADR-0007)
+- 🟢 2026-10-12 · [monarda#5](https://github.com/lentago/monarda/issues/5) — Run the dry-run and record the first receipt
+- 🟣 2026-10-12 · [monarda#21](https://github.com/lentago/monarda/pull/21) — Record the first timed dry-run: 3 min 01 s, two defects filed
+- 🟢 2026-10-12 · [.github#254](https://github.com/lentago/.github/issues/254) — Profile suite table omits epigaea and brasenia; betula banner tagline overstates retention
+- 🟣 2026-10-12 · [.github#255](https://github.com/lentago/.github/pull/255) — Profile suite rows for epigaea, brasenia; betula tagline off-device
+- 🟣 2026-10-12 · [epigaea#530](https://github.com/lentago/epigaea/pull/530) — docs: facilities kit is tracked, not built — README and CLAUDE.md
+- 🟢 2026-10-12 · [betula#137](https://github.com/lentago/betula/issues/137) — README still carries the retired learning-lab blurb; banner overstates retention
+- 🟣 2026-10-12 · [betula#138](https://github.com/lentago/betula/pull/138) — docs: drop retired learning-lab blurb; banner says off-device search
+- 🟢 2026-10-12 · [drosera#255](https://github.com/lentago/drosera/issues/255) — docs/adr/README.md index is missing rows for ADR-0008 and ADR-0009
+- 🟢 2026-10-12 · [drosera#257](https://github.com/lentago/drosera/issues/257) — docs/adr/README.md index is missing the rows for ADR-0008 and ADR-0009
+- 🟣 2026-10-12 · [drosera#273](https://github.com/lentago/drosera/pull/273) — docs(adr): add index rows for ADR-0008 and ADR-0009
+- 🟢 2026-10-12 · [kalmia#152](https://github.com/lentago/kalmia/issues/152) — CLAUDE.md says four target profiles; README and the tree have five
+- 🟣 2026-10-12 · [kalmia#153](https://github.com/lentago/kalmia/pull/153) — CLAUDE.md: five target profiles, not four
+- 🟣 2026-10-09 · [lupinus#18](https://github.com/lentago/lupinus/pull/18) — Stories: cite uvularia for the watershed's public records, drop pondviewlane and closed #128
+- 🟣 2026-10-08 · [.github#246](https://github.com/lentago/.github/pull/246) — Revise README content for better presentation
+- 🟣 2026-10-08 · [site-pondviewlane-com#88](https://github.com/lentago/site-pondviewlane-com/pull/88) — ci: version.json without source identity so the content guard passes
+- 🟢 2026-10-08 · [drosera#270](https://github.com/lentago/drosera/issues/270) — Change pipeline: stuck alert, the newest main commit with no live event after its budget
+- 🟣 2026-10-08 · [drosera#271](https://github.com/lentago/drosera/pull/271) — feat(alerts): Change pipeline stuck alert for heads not live
+- 🟢 2026-10-08 · [kalmia#148](https://github.com/lentago/kalmia/issues/148) — pub: run brasenia's change-pipeline pane producer next to the focus producer
+- 🟣 2026-10-08 · [kalmia#149](https://github.com/lentago/kalmia/pull/149) — pub: run the change-pipeline pane producer beside the focus producer
+- 🟢 2026-10-08 · [drosera#266](https://github.com/lentago/drosera/issues/266) — Change pipeline: pipeline.json producer on LXC 105 and the change_pipeline_state stream
+- 🟣 2026-10-08 · [drosera#269](https://github.com/lentago/drosera/pull/269) — pipeline-producer: pipeline.json producer and change_pipeline_state
+- 🟣 2026-10-08 · [site-pondviewlane-com#87](https://github.com/lentago/site-pondviewlane-com/pull/87) — ci: site-deploy v1.3.0 so the build serves /version.json
+- 🟣 2026-10-08 · [site-icecreamtofightwith-com#201](https://github.com/lentago/site-icecreamtofightwith-com/pull/201) — ci: site-deploy v1.3.0 so the build serves /version.json
+- 🟢 2026-10-08 · [brasenia#36](https://github.com/lentago/brasenia/issues/36) — Change-pipeline pane: a producer on pub that renders the in-flight changes from pipeline.json
+- 🟣 2026-10-08 · [brasenia#40](https://github.com/lentago/brasenia/pull/40) — feat(producers): change-pipeline pane from pipeline.json
+- 🟢 2026-10-08 · [drosera#267](https://github.com/lentago/drosera/issues/267) — Change pipeline: sites live probe on LXC 105 reading each site's version.json
+- 🟣 2026-10-08 · [drosera#268](https://github.com/lentago/drosera/pull/268) — feat(sites-live): sites live probe reading version.json
+- 🟣 2026-10-08 · [site-lentago-dev#98](https://github.com/lentago/site-lentago-dev/pull/98) — ci: site-deploy v1.3.0 so the build serves /version.json
+- 🟢 2026-10-08 · [brasenia#32](https://github.com/lentago/brasenia/issues/32) — Focus producer: main's "latest completed run" is often a skipped comment-triggered workflow
+- 🟣 2026-10-08 · [brasenia#38](https://github.com/lentago/brasenia/pull/38) — fix(focus): show main's latest meaningful push run
+- 🟢 2026-10-07 · [kalmia#146](https://github.com/lentago/kalmia/issues/146) — pub: proxy /viewport/pipeline.json to drosera's pipeline producer on LXC 105
+- 🟣 2026-10-07 · [kalmia#147](https://github.com/lentago/kalmia/pull/147) — pub: proxy /viewport/pipeline.json to the producer on LXC 105
+- 🟣 2026-10-07 · [shared-workflows#71](https://github.com/lentago/shared-workflows/pull/71) — release: internal action refs to v1.3.0, date the changelog
+- 🟢 2026-10-07 · [shared-workflows#69](https://github.com/lentago/shared-workflows/issues/69) — site-deploy: write public/version.json with the commit before the Astro build
+- 🟣 2026-10-07 · [shared-workflows#70](https://github.com/lentago/shared-workflows/pull/70) — site-deploy: write version.json with the commit pre-build
+- 🟢 2026-10-07 · [brasenia#37](https://github.com/lentago/brasenia/issues/37) — ADR: the compositor and the producers run on pub, the display guest stays a client
+- 🟢 2026-10-07 · [betula#134](https://github.com/lentago/betula/issues/134) — GitHub collector: emit a github_branch_head event per repo per tick (the newest main for the stuck alert)
+- 🟣 2026-10-07 · [betula#135](https://github.com/lentago/betula/pull/135) — feat(github): emit github_branch_head per repo per tick
+- 🟣 2026-10-07 · [brasenia#39](https://github.com/lentago/brasenia/pull/39) — docs(adr): ADR-0008 compositor and producers run on pub
+- 🟢 2026-10-07 · [drosera#262](https://github.com/lentago/drosera/issues/262) — Change — Pipeline: per-repo stage strip with the Graphviz panel
+- 🟣 2026-10-07 · [drosera#265](https://github.com/lentago/drosera/pull/265) — Change — Pipeline: per-repo stage strip with the Graphviz panel
+- 🟣 2026-10-07 · [drosera#263](https://github.com/lentago/drosera/pull/263) — terraform: install the Graphviz panel plugin for the per-repo stage strip
+- 🟢 2026-10-07 · [kalmia#144](https://github.com/lentago/kalmia/issues/144) — pub: sortable directory index, and codify the Caddy config in the pub role
+- 🟣 2026-10-07 · [kalmia#145](https://github.com/lentago/kalmia/pull/145) — pub: sortable directory index, Caddy config managed by the role
+- 🟣 2026-10-07 · [.github#227](https://github.com/lentago/.github/pull/227) — Weekly fleet reports refresh — 2026-10-05
+- 🟣 2026-10-07 · [site-icecreamtofightwith-com#195](https://github.com/lentago/site-icecreamtofightwith-com/pull/195) — Bump wait-on from 9.1.0 to 9.5.1 in the npm-routine group across 1 directory
+- 🟣 2026-10-07 · [site-icecreamtofightwith-com#193](https://github.com/lentago/site-icecreamtofightwith-com/pull/193) — Bump the astro-stack group across 1 directory with 2 updates
+- 🟣 2026-10-07 · [uvularia#84](https://github.com/lentago/uvularia/pull/84) — build(deps): bump the actions-major group across 1 directory with 3 updates
+- 🟣 2026-10-07 · [solidago#206](https://github.com/lentago/solidago/pull/206) — build(deps): bump aws-actions/configure-aws-credentials from 6.2.4 to 6.3.0 in the actions-routine group across 1 directory
+- 🟣 2026-10-07 · [site-lentago-dev#88](https://github.com/lentago/site-lentago-dev/pull/88) — chore(deps): Bump the astro-stack group across 1 directory with 2 updates
+- 🟣 2026-10-07 · [site-icecreamtofightwith-com#194](https://github.com/lentago/site-icecreamtofightwith-com/pull/194) — Bump crate-ci/typos from 1.49.1 to 1.50.3 in the actions-routine group across 1 directory
+- 🟣 2026-10-07 · [shared-workflows#61](https://github.com/lentago/shared-workflows/pull/61) — chore(deps): Bump the actions-routine group with 4 updates
+- 🟣 2026-10-07 · [monarda#10](https://github.com/lentago/monarda/pull/10) — Bump aws-actions/configure-aws-credentials from 6.2.4 to 6.3.0 in the actions-routine group
+- 🟣 2026-10-07 · [mitchella#19](https://github.com/lentago/mitchella/pull/19) — Bump actions/setup-python from 5.6.0 to 7.0.0 in the actions-major group
+- 🟣 2026-10-07 · [coderabbit#3](https://github.com/lentago/coderabbit/pull/3) — Bump the actions-major group with 2 updates
+- 🟢 2026-10-07 · [.github#244](https://github.com/lentago/.github/issues/244) — ADR-0011: how the fleet handles secrets
+- 🟣 2026-10-07 · [.github#245](https://github.com/lentago/.github/pull/245) — ADR-0011: how the fleet handles secrets
+- 🟢 2026-10-07 · [.github#240](https://github.com/lentago/.github/issues/240) — Enable secret scanning and push protection on every fleet repo
+- 🟣 2026-10-07 · [.github#241](https://github.com/lentago/.github/pull/241) — Enable secret scanning and push protection on every fleet repo
+- 🟣 2026-10-07 · [drosera#261](https://github.com/lentago/drosera/pull/261) — change-pipeline: escape the regex dot as \\. in LogQL strings so Grafana's frontend accepts the queries
+- 🟣 2026-10-07 · [drosera#260](https://github.com/lentago/drosera/pull/260) — change-pipeline: run the table panels as instant queries; match the merged value field name
+- 🟢 2026-10-07 · [kalmia#142](https://github.com/lentago/kalmia/issues/142) — lunaria-frames follows the viewport pointer: the Roku/HLS adapter for the brasenia compositor
+- 🟣 2026-10-07 · [kalmia#143](https://github.com/lentago/kalmia/pull/143) — feat(lunaria): lunaria-frames follows the viewport pointer (#142)
+- 🟢 2026-10-07 · [drosera#258](https://github.com/lentago/drosera/issues/258) — Change — Pipeline dashboard: where every merge stands, from the Actions feed and the live emitters
+- 🟣 2026-10-07 · [drosera#259](https://github.com/lentago/drosera/pull/259) — feat(dashboard): Change — Pipeline, where every merge stands
+- 🟢 2026-10-07 · [brasenia#34](https://github.com/lentago/brasenia/issues/34) — `pane` command: claim, renew and release a pane on the viewport bus, plus the governance page every Claude reads
+- 🟣 2026-10-07 · [brasenia#35](https://github.com/lentago/brasenia/pull/35) — feat(bin): pane command and the claiming-the-display page
+- 🟢 2026-10-07 · [kalmia#140](https://github.com/lentago/kalmia/issues/140) — Run the brasenia compositor and focus producer on pub (LXC 114) from /srv/brasenia
+- 🟣 2026-10-07 · [kalmia#141](https://github.com/lentago/kalmia/pull/141) — feat(pub): run the brasenia compositor and focus producer on pub (#140)
+- 🟢 2026-10-07 · [brasenia#27](https://github.com/lentago/brasenia/issues/27) — Compositor v1: rank the pane bus by rubric and publish current.json; write the v1 contracts into concept.md
+- 🟣 2026-10-07 · [brasenia#30](https://github.com/lentago/brasenia/pull/30) — Compositor v1: rank the pane bus by rubric v1 and publish current.json
+- 🟢 2026-10-07 · [drosera#252](https://github.com/lentago/drosera/issues/252) — session-heartbeat.sh: write a viewport focus beacon alongside the Loki heartbeat
+- 🟣 2026-10-07 · [drosera#254](https://github.com/lentago/drosera/pull/254) — feat(claude-cost-export): viewport focus beacon alongside heartbeat
+- 🟢 2026-10-07 · [brasenia#28](https://github.com/lentago/brasenia/issues/28) — Focus producer: render an open-PRs pane for every repo with a fresh session beacon
+- 🟣 2026-10-07 · [brasenia#33](https://github.com/lentago/brasenia/pull/33) — feat(producers): focus producer — open-PRs pane per beaconed repo
+- 🟢 2026-10-07 · [betula#131](https://github.com/lentago/betula/issues/131) — Firewalla gitops-sync emits a `live` change-pipeline event with the deployed SHA
+- 🟣 2026-10-07 · [betula#132](https://github.com/lentago/betula/pull/132) — feat(gitops-sync): emit live change-pipeline event per sync tick
+- 🟢 2026-10-07 · [drosera#253](https://github.com/lentago/drosera/issues/253) — ADR-0010: the change pipeline keyed by commit SHA, and the first `live` emitter (alloy gitops on LXC 105)
+- 🟣 2026-10-07 · [drosera#256](https://github.com/lentago/drosera/pull/256) — ADR-0010 change pipeline keyed by SHA, and the first live emitter (alloy gitops)
+- 🟢 2026-10-07 · [brasenia#13](https://github.com/lentago/brasenia/issues/13) — Cast client: custom web receiver + current-pane pointer contract
+- 🟣 2026-10-07 · [brasenia#29](https://github.com/lentago/brasenia/pull/29) — feat(cast-app): receiver follows the compositor pointer (Phase B)
+- 🟢 2026-10-07 · [betula#113](https://github.com/lentago/betula/issues/113) — GitHub Actions collector client: poll org run/job history into Grafana Cloud Loki
+- 🟣 2026-10-07 · [betula#129](https://github.com/lentago/betula/pull/129) — feat(github): GitHub Actions collector client → Grafana Cloud Loki (#113)
+- 🟢 2026-10-07 · [osmunda#10](https://github.com/lentago/osmunda/issues/10) — Align the README header block with brand/generated
+- 🟣 2026-10-07 · [osmunda#11](https://github.com/lentago/osmunda/pull/11) — Align the README header block with brand/generated
+- 🟢 2026-10-07 · [monarda#15](https://github.com/lentago/monarda/issues/15) — Align the README header block with brand/generated
+- 🟣 2026-10-07 · [monarda#16](https://github.com/lentago/monarda/pull/16) — Align the README header block with brand/generated
+- 🟢 2026-10-07 · [epigaea#529](https://github.com/lentago/epigaea/issues/529) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [site-pondviewlane-com#86](https://github.com/lentago/site-pondviewlane-com/issues/86) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [asclepias#16](https://github.com/lentago/asclepias/issues/16) — Retire DeepWiki: README, Lab 00, day-one, glossary, pattern catalog, CLAUDE.md
+- 🟢 2026-10-07 · [lupinus#17](https://github.com/lentago/lupinus/issues/17) — Remove DeepWiki from the README, CLAUDE.md, and the story footers
+- 🟢 2026-10-07 · [music-curator#94](https://github.com/lentago/music-curator/issues/94) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [drosera#250](https://github.com/lentago/drosera/issues/250) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [shared-workflows#67](https://github.com/lentago/shared-workflows/issues/67) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [coderabbit#5](https://github.com/lentago/coderabbit/issues/5) — Remove DeepWiki from the README footer
+- 🟢 2026-10-07 · [solidago#212](https://github.com/lentago/solidago/issues/212) — Remove DeepWiki from the README and .mcp.json
+- 🟢 2026-10-07 · [betula#128](https://github.com/lentago/betula/issues/128) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [repo-template#25](https://github.com/lentago/repo-template/issues/25) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [uvularia#90](https://github.com/lentago/uvularia/issues/90) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [claytonia#136](https://github.com/lentago/claytonia/issues/136) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [brasenia#25](https://github.com/lentago/brasenia/issues/25) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [site-icecreamtofightwith-com#200](https://github.com/lentago/site-icecreamtofightwith-com/issues/200) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [site-lentago-dev#97](https://github.com/lentago/site-lentago-dev/issues/97) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [mitchella#23](https://github.com/lentago/mitchella/issues/23) — Remove DeepWiki from the README
+- 🟢 2026-10-07 · [kalmia#139](https://github.com/lentago/kalmia/issues/139) — Remove DeepWiki from the README
+- 🟣 2026-10-07 · [claytonia#135](https://github.com/lentago/claytonia/pull/135) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [site-icecreamtofightwith-com#199](https://github.com/lentago/site-icecreamtofightwith-com/pull/199) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [uvularia#89](https://github.com/lentago/uvularia/pull/89) — fleet: retire DeepWiki — header badge, footer clause
+- 🟣 2026-10-07 · [site-pondviewlane-com#85](https://github.com/lentago/site-pondviewlane-com/pull/85) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [lupinus#16](https://github.com/lentago/lupinus/pull/16) — fleet: retire DeepWiki — header badge, footer clause, story footers
+- 🟣 2026-10-07 · [epigaea#528](https://github.com/lentago/epigaea/pull/528) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [asclepias#15](https://github.com/lentago/asclepias/pull/15) — fleet: retire DeepWiki — header badge, README section, footer clause, Lab 00
+- 🟣 2026-10-07 · [solidago#211](https://github.com/lentago/solidago/pull/211) — fleet: retire DeepWiki — header badge, README section, footer clause, `.mcp.json`
+- 🟣 2026-10-07 · [coderabbit#4](https://github.com/lentago/coderabbit/pull/4) — fleet: retire DeepWiki — footer clause
+- 🟣 2026-10-07 · [site-lentago-dev#96](https://github.com/lentago/site-lentago-dev/pull/96) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [kalmia#138](https://github.com/lentago/kalmia/pull/138) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [mitchella#22](https://github.com/lentago/mitchella/pull/22) — fleet: retire DeepWiki — header badge
+- 🟣 2026-10-07 · [music-curator#93](https://github.com/lentago/music-curator/pull/93) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [repo-template#24](https://github.com/lentago/repo-template/pull/24) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [shared-workflows#66](https://github.com/lentago/shared-workflows/pull/66) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [osmunda#9](https://github.com/lentago/osmunda/pull/9) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [monarda#14](https://github.com/lentago/monarda/pull/14) — fleet: retire DeepWiki — header badge, footer clause
+- 🟣 2026-10-07 · [drosera#249](https://github.com/lentago/drosera/pull/249) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [betula#127](https://github.com/lentago/betula/pull/127) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [brasenia#24](https://github.com/lentago/brasenia/pull/24) — fleet: retire DeepWiki — header badge, README section, footer clause
+- 🟣 2026-10-07 · [.github#238](https://github.com/lentago/.github/pull/238) — fleet: retire DeepWiki — generator, footer, profile, homepages, ADR-0010
+- 🟢 2026-10-07 · [site-lentago-dev#94](https://github.com/lentago/site-lentago-dev/issues/94) — Offerings grid: uvularia card predates the one-repository first rung
+- 🟣 2026-10-07 · [site-lentago-dev#95](https://github.com/lentago/site-lentago-dev/pull/95) — Offerings grid: uvularia card reflects the one-repository first rung
+- 🟢 2026-10-07 · [site-lentago-dev#92](https://github.com/lentago/site-lentago-dev/issues/92) — Carry the eight new genus marks; point mark canon at lentago/.github
+- 🟣 2026-10-07 · [site-lentago-dev#93](https://github.com/lentago/site-lentago-dev/pull/93) — Carry the eight new genus marks; point mark canon at lentago/.github
+- 🟢 2026-10-07 · [epigaea#526](https://github.com/lentago/epigaea/issues/526) — Banner with the epigaea genus mark
+- 🟣 2026-10-07 · [epigaea#527](https://github.com/lentago/epigaea/pull/527) — Banner with the epigaea genus mark
+- 🟢 2026-10-07 · [asclepias#13](https://github.com/lentago/asclepias/issues/13) — Banner with the asclepias genus mark
+- 🟣 2026-10-07 · [asclepias#14](https://github.com/lentago/asclepias/pull/14) — Banner with the asclepias genus mark
+- 🟢 2026-10-07 · [lupinus#14](https://github.com/lentago/lupinus/issues/14) — Banner with the lupinus genus mark
+- 🟣 2026-10-07 · [lupinus#15](https://github.com/lentago/lupinus/pull/15) — Banner with the lupinus genus mark
+- 🟢 2026-10-07 · [uvularia#87](https://github.com/lentago/uvularia/issues/87) — Banner with the uvularia genus mark
+- 🟣 2026-10-07 · [uvularia#88](https://github.com/lentago/uvularia/pull/88) — Banner with the uvularia genus mark
+- 🟢 2026-10-07 · [osmunda#7](https://github.com/lentago/osmunda/issues/7) — Banner with the osmunda genus mark
+- 🟣 2026-10-07 · [osmunda#8](https://github.com/lentago/osmunda/pull/8) — Banner with the osmunda genus mark
+- 🟢 2026-10-07 · [brasenia#22](https://github.com/lentago/brasenia/issues/22) — Banner with the brasenia genus mark
+- 🟣 2026-10-07 · [brasenia#23](https://github.com/lentago/brasenia/pull/23) — Banner with the brasenia genus mark
+- 🟢 2026-10-07 · [mitchella#20](https://github.com/lentago/mitchella/issues/20) — Banner with the mitchella genus mark
+- 🟣 2026-10-07 · [mitchella#21](https://github.com/lentago/mitchella/pull/21) — Banner with the mitchella genus mark
+- 🟢 2026-10-07 · [monarda#12](https://github.com/lentago/monarda/issues/12) — Banner with the monarda genus mark
+- 🟣 2026-10-07 · [monarda#13](https://github.com/lentago/monarda/pull/13) — Banner with the monarda genus mark
+- 🟣 2026-10-07 · [.github#236](https://github.com/lentago/.github/pull/236) — brand: genus marks for the eight unmarked species
+- 🟣 2026-10-07 · [uvularia#86](https://github.com/lentago/uvularia/pull/86) — Revert Dependabot template directories (workflows are scanned at the root only)
+- 🟣 2026-10-07 · [uvularia#82](https://github.com/lentago/uvularia/pull/82) — Dependabot: scan the templates' GitHub Actions pins
+- 🟣 2026-10-07 · [uvularia-demo-site#6](https://github.com/lentago/uvularia-demo-site/pull/6) — ci: SHA-pin third-party actions (hand-sync from uvularia-site-template)
+- 🟣 2026-10-07 · [uvularia-demo-ask-rules#15](https://github.com/lentago/uvularia-demo-ask-rules/pull/15) — ci: SHA-pin third-party actions (hand-sync from uvularia-rules-template)
+- 🟣 2026-10-07 · [uvularia-demo-records#20](https://github.com/lentago/uvularia-demo-records/pull/20) — ci: SHA-pin third-party actions (hand-sync from uvularia-records-template)
+- 🟣 2026-10-07 · [uvularia-records-template#13](https://github.com/lentago/uvularia-records-template/pull/13) — Sync from lentago/uvularia@3364e23
+- 🟣 2026-10-07 · [epigaea#525](https://github.com/lentago/epigaea/pull/525) — One shellcheck gate: shared caller at style severity, inline job removed
+- 🟣 2026-10-07 · [uvularia-rules-template#9](https://github.com/lentago/uvularia-rules-template/pull/9) — Sync from lentago/uvularia@3364e23
+- 🟣 2026-10-07 · [claytonia#134](https://github.com/lentago/claytonia/pull/134) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [uvularia-site-template#7](https://github.com/lentago/uvularia-site-template/pull/7) — Sync from lentago/uvularia@3364e23
+- 🟣 2026-10-07 · [uvularia#80](https://github.com/lentago/uvularia/pull/80) — ci: SHA-pin third-party actions in templates and own workflows
+- 🟣 2026-10-07 · [drosera#248](https://github.com/lentago/drosera/pull/248) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [kalmia#137](https://github.com/lentago/kalmia/pull/137) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [site-icecreamtofightwith-com#197](https://github.com/lentago/site-icecreamtofightwith-com/pull/197) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [site-pondviewlane-com#84](https://github.com/lentago/site-pondviewlane-com/pull/84) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [solidago#210](https://github.com/lentago/solidago/pull/210) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [betula#125](https://github.com/lentago/betula/pull/125) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [site-lentago-dev#91](https://github.com/lentago/site-lentago-dev/pull/91) — Move remaining shared-workflows pins to v1.2.3
+- 🟣 2026-10-07 · [.github#233](https://github.com/lentago/.github/pull/233) — Move remaining shared-workflows pins to v1.2.3
+- 🟢 2026-10-06 · [shared-workflows#64](https://github.com/lentago/shared-workflows/issues/64) — ADR-0005 migration: move the remaining @main callers to v1.2.3
+- 🟣 2026-10-06 · [repo-template#23](https://github.com/lentago/repo-template/pull/23) — Retire the dispatch-only claude-code-review stub
+- 🟣 2026-10-06 · [site-lentago-dev#90](https://github.com/lentago/site-lentago-dev/pull/90) — Retire the dispatch-only claude-code-review stub
+- 🟣 2026-10-06 · [.github#232](https://github.com/lentago/.github/pull/232) — Require shellcheck on the seven repos that just gained a caller
+- 🟣 2026-10-06 · [uvularia#79](https://github.com/lentago/uvularia/pull/79) — Retire the dispatch-only claude-code-review stub
+- 🟣 2026-10-06 · [music-curator#92](https://github.com/lentago/music-curator/pull/92) — Retire the dispatch-only claude-code-review stub
+- 🟣 2026-10-06 · [uvularia-demo-ask-rules#14](https://github.com/lentago/uvularia-demo-ask-rules/pull/14) — Vendor the loki-event action; drop the lentago/drosera@main dependency
+- 🟣 2026-10-06 · [uvularia-demo-records#19](https://github.com/lentago/uvularia-demo-records/pull/19) — Vendor the loki-event action; drop the lentago/drosera@main dependency
+- 🟣 2026-10-06 · [epigaea#524](https://github.com/lentago/epigaea/pull/524) — CLAUDE.md: required checks match the live ruleset
+- 🟣 2026-10-06 · [betula#124](https://github.com/lentago/betula/pull/124) — CLAUDE.md CI section: match the live required checks
+- 🟣 2026-10-06 · [uvularia-site-template#6](https://github.com/lentago/uvularia-site-template/pull/6) — Sync from lentago/uvularia@df4a41e
+- 🟣 2026-10-06 · [uvularia-rules-template#8](https://github.com/lentago/uvularia-rules-template/pull/8) — Sync from lentago/uvularia@df4a41e
+- 🟣 2026-10-06 · [mitchella#18](https://github.com/lentago/mitchella/pull/18) — Add Dependabot for GitHub Actions and pip
+- 🟣 2026-10-06 · [uvularia-records-template#12](https://github.com/lentago/uvularia-records-template/pull/12) — Sync from lentago/uvularia@df4a41e
+- 🟣 2026-10-06 · [coderabbit#2](https://github.com/lentago/coderabbit/pull/2) — Add Dependabot and CODEOWNERS, SHA-pin validate's actions, pin docs-check to v1.2.3
+- 🟢 2026-10-06 · [.github#229](https://github.com/lentago/.github/issues/229) — Fleet alignment 2026-10-06: stale repos.json facts and ready-to-require checks
+- 🟣 2026-10-06 · [.github#230](https://github.com/lentago/.github/pull/230) — Fleet alignment 2026-10-06: stale repos.json facts and ready-to-require checks
+- 🟣 2026-10-06 · [shared-workflows#65](https://github.com/lentago/shared-workflows/pull/65) — Enforced-surfaces table: every org repo (27), not 15
+- 🟣 2026-10-06 · [uvularia#78](https://github.com/lentago/uvularia/pull/78) — Pin shared-workflows to v1.2.3, add ShellCheck, vendor loki-event into the templates
+- 🟣 2026-10-06 · [claytonia#133](https://github.com/lentago/claytonia/pull/133) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [solidago#209](https://github.com/lentago/solidago/pull/209) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [.github#231](https://github.com/lentago/.github/pull/231) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [epigaea#523](https://github.com/lentago/epigaea/pull/523) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [repo-template#22](https://github.com/lentago/repo-template/pull/22) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [site-pondviewlane-com#83](https://github.com/lentago/site-pondviewlane-com/pull/83) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [site-lentago-dev#89](https://github.com/lentago/site-lentago-dev/pull/89) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [drosera#247](https://github.com/lentago/drosera/pull/247) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [kalmia#136](https://github.com/lentago/kalmia/pull/136) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [site-icecreamtofightwith-com#196](https://github.com/lentago/site-icecreamtofightwith-com/pull/196) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [asclepias#12](https://github.com/lentago/asclepias/pull/12) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [osmunda#6](https://github.com/lentago/osmunda/pull/6) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [music-curator#91](https://github.com/lentago/music-curator/pull/91) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [brasenia#21](https://github.com/lentago/brasenia/pull/21) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟣 2026-10-06 · [betula#123](https://github.com/lentago/betula/pull/123) — Pin shared workflows to v1.2.3 (ADR-0005)
+- 🟢 2026-10-06 · [betula#121](https://github.com/lentago/betula/issues/121) — Require gate and tf-lint now that betula carries Terraform
+- 🟣 2026-10-06 · [.github#228](https://github.com/lentago/.github/pull/228) — Require gate and tf-lint now that betula carries Terraform
+- 🟣 2026-10-06 · [betula#122](https://github.com/lentago/betula/pull/122) — Require gate and tf-lint now that betula carries Terraform
+- 🟢 2026-10-06 · [shared-workflows#62](https://github.com/lentago/shared-workflows/issues/62) — Add Axiom datasets and Firewalla on-box config to the enforced-surfaces table
+- 🟣 2026-10-06 · [shared-workflows#63](https://github.com/lentago/shared-workflows/pull/63) — Add Axiom datasets and Firewalla on-box config to the enforced-surfaces table
+- 🟢 2026-10-06 · [betula#118](https://github.com/lentago/betula/issues/118) — Terraform the Axiom side: datasets, retention, ingest tokens
+- 🟣 2026-10-06 · [betula#120](https://github.com/lentago/betula/pull/120) — Terraform the Axiom side: datasets, retention, ingest tokens
+- 🟢 2026-10-06 · [solidago#207](https://github.com/lentago/solidago/issues/207) — OIDC role for betula's Terraform state (betula/terraform.tfstate)
+- 🟣 2026-10-06 · [solidago#208](https://github.com/lentago/solidago/pull/208) — OIDC role for betula's Terraform state (betula/terraform.tfstate)
+- 🟢 2026-10-05 · [drosera#243](https://github.com/lentago/drosera/issues/243) — Retire drosera's device-inventory publisher after the betula move; decide its egress path (ADR-0006)
+- 🟣 2026-10-05 · [drosera#246](https://github.com/lentago/drosera/pull/246) — Retire drosera's device-inventory publisher after the betula move; decide its egress path (ADR-0006)
+- 🟣 2026-10-05 · [betula#117](https://github.com/lentago/betula/pull/117) — Push device inventory direct to Grafana Cloud Loki
+- 🟢 2026-10-05 · [drosera#238](https://github.com/lentago/drosera/issues/238) — Transient Grafana Cloud query errors page as critical DatasourceError — use KeepLast on paging groups
+- 🟣 2026-10-05 · [drosera#241](https://github.com/lentago/drosera/pull/241) — Transient Grafana Cloud query errors page as critical DatasourceError — use KeepLast on paging groups
+- 🟢 2026-10-05 · [betula#115](https://github.com/lentago/betula/issues/115) — Own the Firewalla device-inventory publisher as a betula collector
+- 🟣 2026-10-05 · [betula#116](https://github.com/lentago/betula/pull/116) — Own the Firewalla device-inventory publisher as a betula collector
+- 🟢 2026-10-05 · [drosera#151](https://github.com/lentago/drosera/issues/151) — device-inventory publisher: cron reinstall hook failed silently — root-cause and make the schedule survivable/verifiable
+- 🟣 2026-10-05 · [drosera#244](https://github.com/lentago/drosera/pull/244) — Retire drosera's device-inventory publisher after the betula move
+- 🟢 2026-10-05 · [drosera#239](https://github.com/lentago/drosera/issues/239) — Billable metric series ~26k vs 10k free-tier cap — 15s node cadence bills ~4 DPM per series
+- 🟣 2026-10-05 · [drosera#245](https://github.com/lentago/drosera/pull/245) — Billable metric series ~26k vs 10k free-tier cap — 15s node cadence bills ~4 DPM per series
+- 🟢 2026-10-05 · [drosera#237](https://github.com/lentago/drosera/issues/237) — Uvularia stale-digest alert flaps between heartbeat runs while digest is current
+- 🟣 2026-10-05 · [drosera#240](https://github.com/lentago/drosera/pull/240) — Uvularia stale-digest alert flaps between heartbeat runs while digest is current
 - 🟣 2026-10-04 · [.github#226](https://github.com/lentago/.github/pull/226) — merge gate: the template-sync App allowance is live-only until the fleet token can resolve App nodes
 - 🟣 2026-10-04 · [.github#224](https://github.com/lentago/.github/pull/224) — merge gate: allow lentago-template-sync to arm auto-merge on the three uvularia template repos
 - 🟣 2026-10-04 · [uvularia#77](https://github.com/lentago/uvularia/pull/77) — runbook: the fix for a refused auto-merge is the push allowlist, not a ruleset bypass
@@ -506,7 +772,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,455 lines*
 - 🟢 2026-09-20 · [claytonia#118](https://github.com/lentago/claytonia/issues/118) — Idle workers churn ~130 KiB/s of journald writes each and ~7 SMB req/s against the NAS
 - 🟣 2026-09-20 · [claytonia#119](https://github.com/lentago/claytonia/pull/119) — Poll the inbox every 60s and stop journaling per-activation systemd chatter
 - 🟣 2026-09-14 · [.github#186](https://github.com/lentago/.github/pull/186) — Weekly fleet reports refresh — 2026-09-14
-- 🟣 2026-09-07 · [.github#184](https://github.com/lentago/.github/pull/184) — Weekly fleet reports refresh — 2026-09-07
 
 ---
 
@@ -520,102 +785,102 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 46,101 | 469 | 36.9% |
-| 2 | Python | 28,567 | 182 | 22.8% |
-| 3 | YAML | 16,309 | 290 | 13.0% |
-| 4 | HCL | 8,445 | 132 | 6.8% |
-| 5 | Shell (Bourne + Bash) | 5,440 | 79 | 4.4% |
-| 6 | Text | 4,817 | 231 | 3.9% |
-| 7 | JavaScript | 4,776 | 56 | 3.8% |
-| 8 | Astro | 3,831 | 51 | 3.1% |
-| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,455 | 21 | 2.0% |
-| 10 | CSS | 1,402 | 10 | 1.1% |
+| 1 | JSON | 47,814 | 474 | 35.6% |
+| 2 | Python | 34,243 | 242 | 25.5% |
+| 3 | YAML | 16,679 | 299 | 12.4% |
+| 4 | HCL | 8,877 | 137 | 6.6% |
+| 5 | Shell (Bourne + Bash) | 6,159 | 86 | 4.6% |
+| 6 | JavaScript | 4,848 | 56 | 3.6% |
+| 7 | Text | 4,817 | 231 | 3.6% |
+| 8 | Astro | 3,831 | 51 | 2.9% |
+| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,497 | 21 | 1.9% |
+| 10 | CSS | 1,402 | 10 | 1.0% |
 | 11 | JSX | 1,046 | 12 | 0.8% |
 | 12 | TypeScript | 682 | 35 | 0.5% |
-| 13 | Jinja Template | 560 | 15 | 0.4% |
-| 14 | HTML | 257 | 2 | 0.2% |
-| 15 | TOML | 193 | 13 | 0.2% |
+| 13 | Jinja Template | 611 | 18 | 0.5% |
+| 14 | HTML | 340 | 3 | 0.3% |
+| 15 | TOML | 193 | 13 | 0.1% |
 | 16 | XML | 129 | 5 | 0.1% |
 | 17 | Other (TOML / Dockerfile / …) | 30 | 4 | 0.0% |
-| | **CODE TOTAL** | **125,040** | **1607** | 100% |
+| | **CODE TOTAL** | **134,198** | **1697** | 100% |
 | — | _Data / exports — excluded_ | 119,165 | 9 | — |
-| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 54,194 | 118 | — |
+| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 52,658 | 134 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (21 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,455 lines**
+- **Hygiene family** (21 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,497 lines**
 - **Prompt-programs** (0 files · reference-checker auditors): **0 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
 
 | Repo | File | Lines |
 |------|------|------:|
-| epigaea | `CLAUDE.md` | 400 |
-| shared-workflows | `CLAUDE.md` | 239 |
+| epigaea | `CLAUDE.md` | 406 |
+| shared-workflows | `CLAUDE.md` | 241 |
 | site-pondviewlane-com | `CLAUDE.md` | 224 |
 | .github | `CLAUDE.md` | 223 |
-| betula | `CLAUDE.md` | 156 |
+| betula | `CLAUDE.md` | 185 |
 | kalmia | `CLAUDE.md` | 155 |
 | site-lentago-dev | `CLAUDE.md` | 108 |
 | solidago | `CLAUDE.md` | 99 |
+| drosera | `CLAUDE.md` | 98 |
 | site-icecreamtofightwith-com | `CLAUDE.md` | 98 |
-| drosera | `CLAUDE.md` | 96 |
 | uvularia | `CLAUDE.md` | 79 |
 | lupinus | `CLAUDE.md` | 73 |
 | asclepias | `CLAUDE.md` | 70 |
+| drosera | `AGENTS.md` | 68 |
 | music-curator | `CLAUDE.md` | 68 |
-| drosera | `AGENTS.md` | 67 |
 | mitchella | `CLAUDE.md` | 62 |
+| brasenia | `CLAUDE.md` | 58 |
 | claytonia | `CLAUDE.md` | 57 |
-| brasenia | `CLAUDE.md` | 56 |
 | osmunda | `CLAUDE.md` | 53 |
 | monarda | `CLAUDE.md` | 50 |
 | repo-template | `CLAUDE.md` | 22 |
-| **21 files** | | **2,455** |
+| **21 files** | | **2,497** |
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| epigaea | 24,022 | 400 | 1,552 | 0 | 0 |
-| drosera | 18,694 | 163 | 2,064 | 0 | 0 |
-| uvularia | 16,536 | 79 | 6,167 | 0 | 0 |
-| uvularia-demo-records | 7,760 | 0 | 3,675 | 0 | 0 |
-| site-pondviewlane-com | 7,435 | 224 | 2,914 | 0 | 0 |
-| solidago | 7,129 | 99 | 2,662 | 0 | 0 |
-| music-curator | 5,667 | 68 | 1,254 | 12,754 | 119,165 |
-| uvularia-records-template | 5,120 | 0 | 862 | 0 | 0 |
-| .github | 3,793 | 223 | 2,018 | 3,508 | 0 |
-| kalmia | 3,632 | 155 | 1,502 | 0 | 0 |
-| mitchella | 3,629 | 62 | 614 | 0 | 0 |
-| site-icecreamtofightwith-com | 3,491 | 98 | 901 | 6,004 | 0 |
-| site-lentago-dev | 2,851 | 108 | 674 | 0 | 0 |
-| uvularia-demo-ask-rules | 2,808 | 0 | 424 | 0 | 0 |
-| claytonia | 2,106 | 57 | 1,392 | 0 | 0 |
+| epigaea | 23,996 | 406 | 1,544 | 0 | 0 |
+| drosera | 22,010 | 166 | 2,623 | 0 | 0 |
+| uvularia | 16,773 | 79 | 6,176 | 0 | 0 |
+| uvularia-demo-records | 7,882 | 0 | 3,675 | 0 | 0 |
+| site-pondviewlane-com | 7,438 | 224 | 2,898 | 0 | 0 |
+| solidago | 7,190 | 99 | 2,650 | 0 | 0 |
+| music-curator | 5,629 | 68 | 1,247 | 12,754 | 119,165 |
+| uvularia-records-template | 5,242 | 0 | 865 | 0 | 0 |
+| .github | 4,000 | 223 | 2,335 | 3,518 | 0 |
+| kalmia | 3,998 | 155 | 1,590 | 0 | 0 |
+| mitchella | 3,659 | 62 | 725 | 0 | 0 |
+| betula | 3,477 | 185 | 1,851 | 0 | 0 |
+| site-icecreamtofightwith-com | 3,463 | 98 | 893 | 6,004 | 0 |
+| brasenia | 3,342 | 58 | 2,074 | 0 | 0 |
+| uvularia-demo-ask-rules | 2,930 | 0 | 424 | 0 | 0 |
+| site-lentago-dev | 2,810 | 108 | 671 | 0 | 0 |
+| claytonia | 2,076 | 57 | 1,380 | 0 | 0 |
 | uvularia-site-template | 2,011 | 0 | 191 | 0 | 0 |
 | uvularia-demo-site | 2,009 | 0 | 191 | 0 | 0 |
-| betula | 1,865 | 156 | 1,599 | 0 | 0 |
-| shared-workflows | 1,170 | 239 | 772 | 0 | 0 |
-| uvularia-rules-template | 979 | 0 | 241 | 0 | 0 |
-| monarda | 960 | 50 | 555 | 0 | 0 |
-| osmunda | 394 | 53 | 466 | 0 | 0 |
-| brasenia | 307 | 56 | 1,612 | 0 | 0 |
-| lupinus | 226 | 73 | 1,315 | 0 | 0 |
-| coderabbit | 180 | 0 | 39 | 0 | 0 |
-| asclepias | 178 | 70 | 792 | 0 | 0 |
-| repo-template | 88 | 22 | 272 | 0 | 0 |
+| shared-workflows | 1,189 | 241 | 773 | 0 | 0 |
+| uvularia-rules-template | 1,101 | 0 | 243 | 0 | 0 |
+| monarda | 960 | 50 | 647 | 0 | 0 |
+| osmunda | 364 | 53 | 454 | 0 | 0 |
+| lupinus | 226 | 73 | 1,308 | 0 | 0 |
+| coderabbit | 196 | 0 | 38 | 0 | 0 |
+| asclepias | 158 | 70 | 735 | 0 | 0 |
+| repo-template | 69 | 22 | 271 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **61,997 lines of Markdown across 1361 files**; only 4.0% is instruction-code.
+The fleet carries **63,801 lines of Markdown across 1377 files**; only 3.9% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 2,455 | 21 | **counted as code** |
-| Content / data | 22,266 | 697 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 36,720 | 626 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 2,497 | 21 | **counted as code** |
+| Content / data | 22,276 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 38,472 | 642 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 556 | 17 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **61,997** | **1361** | |
+| **All Markdown** | **63,801** | **1377** | |
 
 ---
 
