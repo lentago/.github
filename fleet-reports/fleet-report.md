@@ -3,24 +3,25 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised copy renders on the Lentago lab LAN.
 
-**Generated:** 2026-10-12 20:35 UTC · Scope: the **27 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-12).
+**Generated:** 2026-10-13 14:28 UTC · Scope: the **27 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-13).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **135** | 378 | 148 | **134,198** | 2,497 (21 files) |
+| **134** | 411 | 161 | **135,692** | 2,500 (21 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**2,497 lines** across 21 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**2,500 lines** across 21 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 135 across 18 repos
+## Open issues — 134 across 18 repos
 
-### .github — 31 open
+### .github — 32 open
 
 | # | Title |
 |---|-------|
+| [257](https://github.com/lentago/.github/issues/257) | Adopt the six-promise map (ADR-0012) — rollout epic |
 | [253](https://github.com/lentago/.github/issues/253) | Offering: Offboarding drill — the access register made real |
 | [252](https://github.com/lentago/.github/issues/252) | Offering: Backup with a receipt — object-locked copies and a drilled restore |
 | [251](https://github.com/lentago/.github/issues/251) | Offering: Email trust receipt — SPF, DKIM and DMARC as code, an MFA audit, the phishing habit |
@@ -74,6 +75,23 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [101](https://github.com/lentago/drosera/issues/101) | Heartbeat blind spot: tool-less reasoning turns show no activity while tokens burn |
 | [93](https://github.com/lentago/drosera/issues/93) | feat(alloy): attach runid label to the transcript stream from the <sid>.runid sidecar |
 
+### claytonia — 12 open
+
+| # | Title |
+|---|-------|
+| [140](https://github.com/lentago/claytonia/issues/140) | Runner default Node 18.20 is below Astro's minimum; workers switch by hand |
+| [139](https://github.com/lentago/claytonia/issues/139) | Runners have no browser: Chrome for render.sh, Chromium libs for pa11y |
+| [137](https://github.com/lentago/claytonia/issues/137) | brasenia on the fleet: share mount on the workers, pane command in the worker prompt, fleet beacons |
+| [117](https://github.com/lentago/claytonia/issues/117) | Make never-merge a boundary: required check that blocks runner-App PRs without a human approval |
+| [116](https://github.com/lentago/claytonia/issues/116) | Close the loop after the PR opens: a capped follow-up job for failing checks and review comments |
+| [115](https://github.com/lentago/claytonia/issues/115) | An eval set for the fleet: replayable tasks, deterministic graders, and outcome measures |
+| [99](https://github.com/lentago/claytonia/issues/99) | Second job type: batch document/report jobs through the queue contract |
+| [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
+| [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
+| [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
+| [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
+| [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
+
 ### mitchella — 11 open
 
 | # | Title |
@@ -89,21 +107,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [4](https://github.com/lentago/mitchella/issues/4) | ADR: supersede ADR-0005 to authorise one scoped write path |
 | [2](https://github.com/lentago/mitchella/issues/2) | Hold a conversation: thread context across turns |
 | [1](https://github.com/lentago/mitchella/issues/1) | Exercise the real API path end to end |
-
-### claytonia — 10 open
-
-| # | Title |
-|---|-------|
-| [137](https://github.com/lentago/claytonia/issues/137) | brasenia on the fleet: share mount on the workers, pane command in the worker prompt, fleet beacons |
-| [117](https://github.com/lentago/claytonia/issues/117) | Make never-merge a boundary: required check that blocks runner-App PRs without a human approval |
-| [116](https://github.com/lentago/claytonia/issues/116) | Close the loop after the PR opens: a capped follow-up job for failing checks and review comments |
-| [115](https://github.com/lentago/claytonia/issues/115) | An eval set for the fleet: replayable tasks, deterministic graders, and outcome measures |
-| [99](https://github.com/lentago/claytonia/issues/99) | Second job type: batch document/report jobs through the queue contract |
-| [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
-| [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
-| [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
-| [22](https://github.com/lentago/claytonia/issues/22) | Fleet PR lane separation: rebase-before-merge + dispatch-time overlap check (no two writers on one file/panel) |
-| [21](https://github.com/lentago/claytonia/issues/21) | Queue admission control: job ownership, fleet occupancy, and capacity awareness at submit time |
 
 ### kalmia — 9 open
 
@@ -133,6 +136,20 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
 | [21](https://github.com/lentago/solidago/issues/21) | Evaluate migration from ElastiCache node-based to serverless |
 
+### uvularia — 9 open
+
+| # | Title |
+|---|-------|
+| [102](https://github.com/lentago/uvularia/issues/102) | Dependabot alert 27: http-cache-semantics in templates/site, no fix yet |
+| [98](https://github.com/lentago/uvularia/issues/98) | Intake hint says "under library/" but validate resolves source.file from the repo root; first record fails the PR |
+| [95](https://github.com/lentago/uvularia/issues/95) | Retention ledger as an obligation pack: the org's own retention policy evaluated against live retention |
+| [92](https://github.com/lentago/uvularia/issues/92) | Phase 3 — consumers: the vault-side contract for the funder-report pipeline and Good-Standing reconciliation |
+| [91](https://github.com/lentago/uvularia/issues/91) | templates/site: astro check fails on TypeScript 6 (28 strict-mode errors) |
+| [85](https://github.com/lentago/uvularia/issues/85) | Template workflow action pins have no automated updater |
+| [81](https://github.com/lentago/uvularia/issues/81) | http-cache-semantics GHSA-ch52-4w7c-c8xp: no patched release; not reachable in static builds |
+| [57](https://github.com/lentago/uvularia/issues/57) | Records need an event time, and deadlines a local timezone, for lead rules to match the statute for evening meetings |
+| [28](https://github.com/lentago/uvularia/issues/28) | Sync templates/records and templates/site to their GitHub template repos on merge |
+
 ### betula — 8 open
 
 | # | Title |
@@ -146,19 +163,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
 | [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
 
-### uvularia — 8 open
-
-| # | Title |
-|---|-------|
-| [98](https://github.com/lentago/uvularia/issues/98) | Intake hint says "under library/" but validate resolves source.file from the repo root; first record fails the PR |
-| [95](https://github.com/lentago/uvularia/issues/95) | Retention ledger as an obligation pack: the org's own retention policy evaluated against live retention |
-| [92](https://github.com/lentago/uvularia/issues/92) | Phase 3 — consumers: the vault-side contract for the funder-report pipeline and Good-Standing reconciliation |
-| [91](https://github.com/lentago/uvularia/issues/91) | templates/site: astro check fails on TypeScript 6 (28 strict-mode errors) |
-| [85](https://github.com/lentago/uvularia/issues/85) | Template workflow action pins have no automated updater |
-| [81](https://github.com/lentago/uvularia/issues/81) | http-cache-semantics GHSA-ch52-4w7c-c8xp: no patched release; not reachable in static builds |
-| [57](https://github.com/lentago/uvularia/issues/57) | Records need an event time, and deadlines a local timezone, for lead rules to match the statute for evening meetings |
-| [28](https://github.com/lentago/uvularia/issues/28) | Sync templates/records and templates/site to their GitHub template repos on merge |
-
 ### brasenia — 7 open
 
 | # | Title |
@@ -171,25 +175,21 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [15](https://github.com/lentago/brasenia/issues/15) | Adopt the display guest (LXC 118) capacity from kalmia |
 | [12](https://github.com/lentago/brasenia/issues/12) | Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain |
 
-### lupinus — 7 open
+### lupinus — 4 open
 
 | # | Title |
 |---|-------|
-| [21](https://github.com/lentago/lupinus/issues/21) | Tier registry: brasenia row is stale since 2026-10-07; mitchella has no row |
-| [20](https://github.com/lentago/lupinus/issues/20) | Picker: "What we are not" names phones, printers and Wi-Fi |
-| [19](https://github.com/lentago/lupinus/issues/19) | Stories: one spine, three rungs, one map; a six-row coverage matrix |
-| [10](https://github.com/lentago/lupinus/issues/10) | One canonical product list; support/README.md is missing claytonia, epigaea, and brasenia |
+| [28](https://github.com/lentago/lupinus/issues/28) | check_product_list: compare picker Tier values with the registry |
 | [9](https://github.com/lentago/lupinus/issues/9) | Reconcile the single-file ADOPTION.md template with the INTAKE/DRY-RUN split the exemplar uses |
 | [8](https://github.com/lentago/lupinus/issues/8) | Kit rows carry no receipt: mark them provisional or demote until a drill is recorded |
 | [4](https://github.com/lentago/lupinus/issues/4) | Epic: adoption guide — Phase 1 (launch set: solidago + monarda) |
 
-### monarda — 5 open
+### monarda — 4 open
 
 | # | Title |
 |---|-------|
-| [20](https://github.com/lentago/monarda/issues/20) | npm run a11y: the pinned 127.0.0.1 URL fails when run against the live site as the runbooks say |
 | [19](https://github.com/lentago/monarda/issues/19) | First run is red: deploy-pages triggers on the template's initial commit before Pages is enabled |
-| [18](https://github.com/lentago/monarda/issues/18) | Decision: a plain org-site rung (multi-page) and a rescue import from WordPress or Squarespace |
+| [18](https://github.com/lentago/monarda/issues/18) | Rung 2: the plain organization site, with a rescue import and editing without git — epic |
 | [17](https://github.com/lentago/monarda/issues/17) | Processor presets in the donate block, each with a sandbox walkthrough; one of them is the #5 receipt |
 | [11](https://github.com/lentago/monarda/issues/11) | Clear the npm security-alert backlog; add npm to dependabot.yml |
 
@@ -200,14 +200,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [87](https://github.com/lentago/music-curator/issues/87) | follow-fold's bot merge cannot work under GITHUB_TOKEN — two blockers; decide App identity vs human merge |
 | [45](https://github.com/lentago/music-curator/issues/45) | Web-verify the promoted person nodes' credit rows |
 | [44](https://github.com/lentago/music-curator/issues/44) | Producer-class connectors: decide representation |
-
-### site-lentago-dev — 3 open
-
-| # | Title |
-|---|-------|
-| [99](https://github.com/lentago/site-lentago-dev/issues/99) | Suite section becomes the six-promise map |
-| [86](https://github.com/lentago/site-lentago-dev/issues/86) | Remove committed .playwright-mcp/ scratch output and gitignore it |
-| [67](https://github.com/lentago/site-lentago-dev/issues/67) | a11y gate ignores `color-contrast`: the Tidewater palette fails 4.5:1 at the design-token level |
 
 ### osmunda — 2 open
 
@@ -230,6 +222,13 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 | [198](https://github.com/lentago/site-icecreamtofightwith-com/issues/198) | Clear the npm security-alert backlog (45 open, 42 patchable) |
 | [158](https://github.com/lentago/site-icecreamtofightwith-com/issues/158) | Tier accent swatches fail WCAG AA contrast as chip/step backgrounds (design decision needed) |
 
+### site-lentago-dev — 2 open
+
+| # | Title |
+|---|-------|
+| [86](https://github.com/lentago/site-lentago-dev/issues/86) | Remove committed .playwright-mcp/ scratch output and gitignore it |
+| [67](https://github.com/lentago/site-lentago-dev/issues/67) | a11y gate ignores `color-contrast`: the Tidewater palette fails 4.5:1 at the design-token level |
+
 ### epigaea — 1 open
 
 | # | Title |
@@ -244,8 +243,54 @@ The fleet's hand-maintained natural-language instruction surface (**2,497 lines*
 
 ## Activity — last 30 days
 
-**526 events**, one stream, newest first — 🟣 378 PRs merged · 🟢 148 issues closed
+**572 events**, one stream, newest first — 🟣 411 PRs merged · 🟢 161 issues closed
 
+- 🟢 2026-10-13 · [.github#260](https://github.com/lentago/.github/issues/260) — Plain-words pass on two brand taglines flagged in the banner rollout
+- 🟣 2026-10-13 · [coderabbit#7](https://github.com/lentago/coderabbit/pull/7) — Exempt README banner alt text from the define-on-first-use rule
+- 🟣 2026-10-13 · [uvularia#103](https://github.com/lentago/uvularia/pull/103) — brand: re-copy the banner after the eyebrow kind change
+- 🟣 2026-10-13 · [osmunda#14](https://github.com/lentago/osmunda/pull/14) — brand: re-copy the banner after the eyebrow kind change
+- 🟣 2026-10-13 · [monarda#31](https://github.com/lentago/monarda/pull/31) — brand: re-copy the banner after the eyebrow kind change
+- 🟣 2026-10-13 · [lupinus#29](https://github.com/lentago/lupinus/pull/29) — brand: re-copy the banner after the eyebrow kind change
+- 🟣 2026-10-13 · [asclepias#19](https://github.com/lentago/asclepias/pull/19) — brand: re-copy the banner after the eyebrow kind change
+- 🟢 2026-10-13 · [.github#261](https://github.com/lentago/.github/issues/261) — Banner eyebrow kinds KIT and PLATFORM read as tiers (ADR-0012 audit)
+- 🟣 2026-10-13 · [.github#262](https://github.com/lentago/.github/pull/262) — Stop using tier words in the banner eyebrow kind
+- 🟢 2026-10-12 · [lupinus#26](https://github.com/lentago/lupinus/issues/26) — Picker grouped by promise, each row keeping its need-shaped wording
+- 🟣 2026-10-12 · [lupinus#27](https://github.com/lentago/lupinus/pull/27) — picker: regroup by promise, each row keeping its need-shaped wording
+- 🟢 2026-10-12 · [monarda#23](https://github.com/lentago/monarda/issues/23) — Rescue import: WordPress and Squarespace exports to rung-2 Markdown; Wayback as the last resort
+- 🟣 2026-10-12 · [monarda#28](https://github.com/lentago/monarda/pull/28) — feat: rescue import for WordPress and Squarespace exports
+- 🟣 2026-10-12 · [brasenia#44](https://github.com/lentago/brasenia/pull/44) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [uvularia#101](https://github.com/lentago/uvularia/pull/101) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [claytonia#141](https://github.com/lentago/claytonia/pull/141) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [drosera#274](https://github.com/lentago/drosera/pull/274) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [monarda#29](https://github.com/lentago/monarda/pull/29) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [epigaea#531](https://github.com/lentago/epigaea/pull/531) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [kalmia#154](https://github.com/lentago/kalmia/pull/154) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [mitchella#27](https://github.com/lentago/mitchella/pull/27) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [osmunda#13](https://github.com/lentago/osmunda/pull/13) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [betula#139](https://github.com/lentago/betula/pull/139) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [solidago#215](https://github.com/lentago/solidago/pull/215) — Brand header: tagline leads with the role (ADR-0012)
+- 🟣 2026-10-12 · [site-lentago-dev#101](https://github.com/lentago/site-lentago-dev/pull/101) — Suite: uvularia gets its Kit chip from the tier registry
+- 🟢 2026-10-12 · [lupinus#24](https://github.com/lentago/lupinus/issues/24) — Tier registry: uvularia has no row
+- 🟢 2026-10-12 · [lupinus#10](https://github.com/lentago/lupinus/issues/10) — One canonical product list; support/README.md is missing claytonia, epigaea, and brasenia
+- 🟢 2026-10-12 · [lupinus#19](https://github.com/lentago/lupinus/issues/19) — Stories: one spine, three rungs, one map; a six-row coverage matrix
+- 🟣 2026-10-12 · [lupinus#25](https://github.com/lentago/lupinus/pull/25) — Stories: one spine, three rungs, one map; one canonical product list
+- 🟢 2026-10-12 · [monarda#24](https://github.com/lentago/monarda/issues/24) — Editing without git: a git-backed editor (Sveltia CMS or Pages CMS) in front of the organization's own repository
+- 🟣 2026-10-12 · [monarda#27](https://github.com/lentago/monarda/pull/27) — docs: editing without git (Sveltia CMS, off by default)
+- 🟣 2026-10-12 · [uvularia#100](https://github.com/lentago/uvularia/pull/100) — ADOPTION: the one-repository rung has a time, 6 min 09 s
+- 🟢 2026-10-12 · [monarda#20](https://github.com/lentago/monarda/issues/20) — npm run a11y: the pinned 127.0.0.1 URL fails when run against the live site as the runbooks say
+- 🟢 2026-10-12 · [monarda#22](https://github.com/lentago/monarda/issues/22) — Rung 2: the plain organization site page set (home, about, programs, events, donate, contact)
+- 🟣 2026-10-12 · [monarda#26](https://github.com/lentago/monarda/pull/26) — feat: rung 2, the plain organization site page set
+- 🟢 2026-10-12 · [site-lentago-dev#99](https://github.com/lentago/site-lentago-dev/issues/99) — Suite section becomes the six-promise map
+- 🟣 2026-10-12 · [site-lentago-dev#100](https://github.com/lentago/site-lentago-dev/pull/100) — Suite: redraw #systems as the six-promise map (ADR-0012)
+- 🟣 2026-10-12 · [.github#259](https://github.com/lentago/.github/pull/259) — Regroup the profile suite table by promise; taglines lead with role
+- 🟣 2026-10-12 · [monarda#25](https://github.com/lentago/monarda/pull/25) — ADR-0004: a second rung, the plain organization site
+- 🟣 2026-10-12 · [.github#258](https://github.com/lentago/.github/pull/258) — ADR-0012: the offering is six promises; codenames are parts
+- 🟣 2026-10-12 · [lupinus#23](https://github.com/lentago/lupinus/pull/23) — Cite the two 2026-10-12 receipts: monarda timed, uvularia rung 1 timed
+- 🟣 2026-10-12 · [uvularia#99](https://github.com/lentago/uvularia/pull/99) — Receipts: one-repository rung timed (6 min 09 s); Ask box's first live answer
+- 🟢 2026-10-12 · [lupinus#21](https://github.com/lentago/lupinus/issues/21) — Tier registry: brasenia row is stale since 2026-10-07; mitchella has no row
+- 🟢 2026-10-12 · [lupinus#20](https://github.com/lentago/lupinus/issues/20) — Picker: "What we are not" names phones, printers and Wi-Fi
+- 🟣 2026-10-12 · [lupinus#22](https://github.com/lentago/lupinus/pull/22) — Tiers: refresh brasenia, add mitchella; picker: phones, printers, Wi-Fi
+- 🟣 2026-10-12 · [.github#256](https://github.com/lentago/.github/pull/256) — Weekly fleet reports refresh — 2026-10-12
 - 🟢 2026-10-12 · [uvularia#96](https://github.com/lentago/uvularia/issues/96) — README says Phase 0 complete while Phase 1 and 2 artifacts are in-tree; name the Ask function's relationship to mitchella
 - 🟣 2026-10-12 · [uvularia#97](https://github.com/lentago/uvularia/pull/97) — README: Phases 1 and 2 are built, receipts pending; name the front desk
 - 🟢 2026-10-12 · [mitchella#25](https://github.com/lentago/mitchella/issues/25) — ROADMAP says no live API call has been made; uvularia's Ask function runs the engine — record the relationship
@@ -785,30 +830,30 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 47,814 | 474 | 35.6% |
-| 2 | Python | 34,243 | 242 | 25.5% |
-| 3 | YAML | 16,679 | 299 | 12.4% |
-| 4 | HCL | 8,877 | 137 | 6.6% |
-| 5 | Shell (Bourne + Bash) | 6,159 | 86 | 4.6% |
-| 6 | JavaScript | 4,848 | 56 | 3.6% |
-| 7 | Text | 4,817 | 231 | 3.6% |
-| 8 | Astro | 3,831 | 51 | 2.9% |
-| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,497 | 21 | 1.9% |
+| 1 | JSON | 47,816 | 474 | 35.2% |
+| 2 | Python | 34,351 | 243 | 25.3% |
+| 3 | YAML | 16,713 | 300 | 12.3% |
+| 4 | HCL | 8,877 | 137 | 6.5% |
+| 5 | Shell (Bourne + Bash) | 6,159 | 86 | 4.5% |
+| 6 | JavaScript | 5,471 | 58 | 4.0% |
+| 7 | Text | 4,817 | 231 | 3.5% |
+| 8 | Astro | 4,065 | 56 | 3.0% |
+| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,500 | 21 | 1.8% |
 | 10 | CSS | 1,402 | 10 | 1.0% |
-| 11 | JSX | 1,046 | 12 | 0.8% |
-| 12 | TypeScript | 682 | 35 | 0.5% |
+| 11 | JSX | 1,219 | 12 | 0.9% |
+| 12 | TypeScript | 796 | 39 | 0.6% |
 | 13 | Jinja Template | 611 | 18 | 0.5% |
-| 14 | HTML | 340 | 3 | 0.3% |
-| 15 | TOML | 193 | 13 | 0.1% |
-| 16 | XML | 129 | 5 | 0.1% |
+| 14 | HTML | 356 | 4 | 0.3% |
+| 15 | XML | 316 | 6 | 0.2% |
+| 16 | TOML | 193 | 13 | 0.1% |
 | 17 | Other (TOML / Dockerfile / …) | 30 | 4 | 0.0% |
-| | **CODE TOTAL** | **134,198** | **1697** | 100% |
+| | **CODE TOTAL** | **135,692** | **1712** | 100% |
 | — | _Data / exports — excluded_ | 119,165 | 9 | — |
-| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 52,658 | 134 | — |
+| — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 52,758 | 135 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (21 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,497 lines**
+- **Hygiene family** (21 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,500 lines**
 - **Prompt-programs** (0 files · reference-checker auditors): **0 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -833,10 +878,10 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | mitchella | `CLAUDE.md` | 62 |
 | brasenia | `CLAUDE.md` | 58 |
 | claytonia | `CLAUDE.md` | 57 |
+| monarda | `CLAUDE.md` | 53 |
 | osmunda | `CLAUDE.md` | 53 |
-| monarda | `CLAUDE.md` | 50 |
 | repo-template | `CLAUDE.md` | 22 |
-| **21 files** | | **2,497** |
+| **21 files** | | **2,500** |
 
 ### Per-repo
 
@@ -844,43 +889,43 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 |------|-----:|------:|-------:|-----------:|-----:|
 | epigaea | 23,996 | 406 | 1,544 | 0 | 0 |
 | drosera | 22,010 | 166 | 2,623 | 0 | 0 |
-| uvularia | 16,773 | 79 | 6,176 | 0 | 0 |
+| uvularia | 16,773 | 79 | 6,295 | 0 | 0 |
 | uvularia-demo-records | 7,882 | 0 | 3,675 | 0 | 0 |
 | site-pondviewlane-com | 7,438 | 224 | 2,898 | 0 | 0 |
 | solidago | 7,190 | 99 | 2,650 | 0 | 0 |
 | music-curator | 5,629 | 68 | 1,247 | 12,754 | 119,165 |
 | uvularia-records-template | 5,242 | 0 | 865 | 0 | 0 |
-| .github | 4,000 | 223 | 2,335 | 3,518 | 0 |
+| .github | 4,000 | 223 | 2,470 | 3,783 | 0 |
 | kalmia | 3,998 | 155 | 1,590 | 0 | 0 |
 | mitchella | 3,659 | 62 | 725 | 0 | 0 |
 | betula | 3,477 | 185 | 1,851 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,463 | 98 | 893 | 6,004 | 0 |
 | brasenia | 3,342 | 58 | 2,074 | 0 | 0 |
+| site-lentago-dev | 2,983 | 108 | 671 | 0 | 0 |
 | uvularia-demo-ask-rules | 2,930 | 0 | 424 | 0 | 0 |
-| site-lentago-dev | 2,810 | 108 | 671 | 0 | 0 |
+| monarda | 2,166 | 53 | 1,388 | 0 | 0 |
 | claytonia | 2,076 | 57 | 1,380 | 0 | 0 |
 | uvularia-site-template | 2,011 | 0 | 191 | 0 | 0 |
 | uvularia-demo-site | 2,009 | 0 | 191 | 0 | 0 |
 | shared-workflows | 1,189 | 241 | 773 | 0 | 0 |
 | uvularia-rules-template | 1,101 | 0 | 243 | 0 | 0 |
-| monarda | 960 | 50 | 647 | 0 | 0 |
 | osmunda | 364 | 53 | 454 | 0 | 0 |
-| lupinus | 226 | 73 | 1,308 | 0 | 0 |
-| coderabbit | 196 | 0 | 38 | 0 | 0 |
+| lupinus | 336 | 73 | 1,417 | 0 | 0 |
+| coderabbit | 201 | 0 | 38 | 0 | 0 |
 | asclepias | 158 | 70 | 735 | 0 | 0 |
 | repo-template | 69 | 22 | 271 | 0 | 0 |
 
 ### Markdown taxonomy
 
-The fleet carries **63,801 lines of Markdown across 1377 files**; only 3.9% is instruction-code.
+The fleet carries **65,173 lines of Markdown across 1391 files**; only 3.8% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 2,497 | 21 | **counted as code** |
-| Content / data | 22,276 | 697 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 38,472 | 642 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 2,500 | 21 | **counted as code** |
+| Content / data | 22,541 | 697 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 39,576 | 656 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 556 | 17 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **63,801** | **1377** | |
+| **All Markdown** | **65,173** | **1391** | |
 
 ---
 
