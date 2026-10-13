@@ -95,6 +95,20 @@ locals {
   # so private repos are simply out of scope for the ruleset resource.
   ruleset_repos = { for name, repo in local.repos : name => repo if repo.visibility == "public" }
 
+  # Require a PR branch to be current with main before it can merge (the
+  # ruleset's "strict" required-status-checks policy), only where a stale merge
+  # applies stale state: the repos whose CI applies main to a live surface on
+  # every merge, so a plan computed against an old main would be the one that
+  # runs. Everywhere else the fleet relies on the practice recorded in
+  # lentago/claytonia#144 (workers open PRs current with main; the merger runs
+  # `gh pr update-branch` on a BEHIND PR before arming). lentago/.github#266
+  # holds the decision and the options weighed. Cost on these five: a PR that
+  # falls behind main must be updated and re-checked before auto-merge fires,
+  # and Dependabot's grouped PRs need an `@dependabot rebase` more often.
+  # The rule only exists alongside required contexts, so a key listed here with
+  # no entry in required-checks.json has no effect.
+  strict_up_to_date_repos = toset([".github", "betula", "claytonia", "drosera", "kalmia"])
+
   # ---------------------------------------------------------------------------
   # Derived: the repo x label matrix.
   #
