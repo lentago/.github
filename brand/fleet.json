@@ -298,26 +298,6 @@
       }
     ]
   },
-  "music-curator": {
-    "mark": "lentago",
-    "kind": "LAB",
-    "tagline": "Music wiki · a collection made queryable",
-    "prompt": "vault build  ·  dedup · follows · session ties",
-    "badges": [
-      {
-        "label": "Obsidian",
-        "logo": "obsidian"
-      },
-      {
-        "label": "Spotify",
-        "logo": "spotify"
-      },
-      {
-        "label": "Python",
-        "logo": "python"
-      }
-    ]
-  },
   "osmunda": {
     "mark": "osmunda",
     "kind": "SUITE",
