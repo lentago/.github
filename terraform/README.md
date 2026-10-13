@@ -54,7 +54,7 @@ repositories in the org. Mint a fine-grained PAT scoped to `lentago`, all repos:
 | Repository → Administration | Read and write |
 | Repository → Metadata | Read |
 | Repository → Issues | Read and write |
-| Organization → Administration | Read and write (repo creation only) |
+| Organization → Administration | Read and write. Used only to create repositories. The level also admits org-settings writes; this tree deliberately never exercises them, so org settings stay human-applied (decided in lentago/.github#176) |
 
 Deliberately **not** `delete_repo`. Without it the token physically cannot
 delete a repository, which is the outermost rail below.
