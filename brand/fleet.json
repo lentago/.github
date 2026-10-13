@@ -5,7 +5,7 @@
     "",
     "  mark    — basename in brand/marks/. Repos without their own genus mark",
     "            fall back to 'lentago' (the org blossom).",
-    "  kind    — eyebrow category: SUITE | FLEET | SITE | LAB",
+    "  kind    — eyebrow category: SUITE | FLEET | SITE | LAB | GUIDE | TEMPLATE | DEMO",
     "  tagline — mono line under the repo name. Keep <= 58 chars; it is set",
     "            uppercase by the generator.",
     "  prompt  — the '▲ lentago' field-prompt line. Keep <= 64 chars.",
@@ -147,7 +147,7 @@
   },
   "asclepias": {
     "mark": "asclepias",
-    "kind": "SUITE",
+    "kind": "GUIDE",
     "tagline": "Field guide · manual, labs, onboarding",
     "prompt": "day one  ·  read the atlas · run a lab · open a pr",
     "badges": [
@@ -320,7 +320,7 @@
   },
   "osmunda": {
     "mark": "osmunda",
-    "kind": "PLATFORM",
+    "kind": "SUITE",
     "tagline": "Cloud you own · k3s below, EKS when needed",
     "prompt": "flux reconcile  ·  pull, not push",
     "badges": [
@@ -340,7 +340,7 @@
   },
   "monarda": {
     "mark": "monarda",
-    "kind": "KIT",
+    "kind": "SUITE",
     "tagline": "Campaign page · site in a day, yours not ours",
     "prompt": "intake  ·  dry-run  ·  live on your account",
     "badges": [
@@ -358,7 +358,7 @@
   },
   "lupinus": {
     "mark": "lupinus",
-    "kind": "KIT",
+    "kind": "GUIDE",
     "tagline": "Adoption guide · picker, drills, ops vault",
     "prompt": "pick a product  ·  run the drill  ·  map your estate",
     "badges": [
@@ -400,7 +400,7 @@
   },
   "uvularia": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "SUITE",
     "tagline": "Records and deadlines · grounded Ask, live board",
     "prompt": "drop a record  ·  merge  ·  it's posted",
     "badges": [
@@ -424,7 +424,7 @@
   },
   "uvularia-records-template": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "TEMPLATE",
     "tagline": "Records vault template · your records, your receipts",
     "prompt": "use this template  ·  add a record  ·  merge  ·  it's posted",
     "badges": [
@@ -443,7 +443,7 @@
   },
   "uvularia-site-template": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "TEMPLATE",
     "tagline": "Site template · the board, built from what you published",
     "prompt": "use this template  ·  point it at your vault  ·  watch the board",
     "badges": [
@@ -462,7 +462,7 @@
   },
   "uvularia-demo-records": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "DEMO",
     "tagline": "Demo vault · a fictional land trust, generated, renameable",
     "prompt": "generated from org.yaml  ·  late on purpose  ·  honest board",
     "badges": [
@@ -477,7 +477,7 @@
   },
   "uvularia-demo-site": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "DEMO",
     "tagline": "Demo site · the board, live, for the fictional land trust",
     "prompt": "built from the published branch  ·  never a fake green",
     "badges": [
@@ -496,7 +496,7 @@
   },
   "uvularia-rules-template": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "TEMPLATE",
     "tagline": "Ask-rules template · how your box answers, gated by evals",
     "prompt": "use this template  ·  edit the rules  ·  evals gate the merge",
     "badges": [
@@ -515,7 +515,7 @@
   },
   "uvularia-demo-ask-rules": {
     "mark": "uvularia",
-    "kind": "KIT",
+    "kind": "DEMO",
     "tagline": "Demo Ask rules · how the fictional land trust's box answers",
     "prompt": "edit the rules  ·  evals gate the merge  ·  the function pins the release",
     "badges": [
