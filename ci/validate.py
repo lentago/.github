@@ -348,13 +348,10 @@ def check_brand_assets():
 # Terraform-enforced dashboards-as-code, and homeassistant-config's root
 # automations.yaml is real config, not the context/ snapshot dir.
 CLASSIFIER_CASES = [
-    ("music-curator", "data/music-collection-tunemymusic.csv", True),
-    ("music-curator", "data/music-collection-spotify-misses.csv", True),
-    ("music-curator", "data/harvests/follow-events.jsonl", True),
-    ("music-curator", "./data/inventory.json", True),
-    ("music-curator", "data/harvests/README.md", False),
-    ("music-curator", "scripts/harvest_merge.py", False),
-    ("music-curator", "vault/notes/foo.csv", False),
+    ("homeassistant-config", "./context/devices.json", True),
+    ("homeassistant-config", "context/README.md", False),
+    ("homeassistant-config", "scripts/foo.py", False),
+    ("homeassistant-config", "packages/foo.csv", False),
     ("homeassistant-config", "context/entities.json", True),
     ("homeassistant-config", "context/automations-ui.yaml", True),
     ("homeassistant-config", "automations.yaml", False),
@@ -380,7 +377,7 @@ GENERATED_CASES = [
 MD_CASES = [
     ("kalmia", "CLAUDE.md", "instructions"),
     ("drosera", "docs/adr/0001-metrics-only.md", "documentation"),
-    ("music-curator", "vault/artists/foo.md", "content"),
+    ("site-icecreamtofightwith-com", "recipes/foo.md", "content"),
     ("kalmia", "CONTRIBUTING.md", "community"),
     (".github", "fleet-reports/fleet-report.md", "content"),
 ]

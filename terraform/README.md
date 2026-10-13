@@ -193,6 +193,13 @@ So: archive the repo, then remove it from `repos.json`, `required-checks.json`
 and `brand/fleet.json`, and `terraform state rm` its resources in the same PR.
 The state removal is the deliberate step that says "this is intentional."
 
+> **Transfers, not retirements** (`reference-checker` 2026-08-17, `music-curator`
+> 2026-10-13): a repo leaving for another owner follows the same path without the
+> archive step. Remove its rows, `terraform state rm` its resources (twelve per
+> repo: the repository, the merge gate, the ruleset, nine labels), then transfer.
+> Transferring first leaves config declaring a repo the org no longer has, and
+> the next plan proposes creating an empty one in its place (#146).
+
 ### The merge gate — every merge to `main` lands through an owner/admin
 
 `protection.tf` puts a classic branch-protection **push allowlist** on `main`

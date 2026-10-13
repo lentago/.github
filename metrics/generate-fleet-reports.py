@@ -104,7 +104,7 @@ GEN_DIR_PREFIX = {".github": ("brand/generated/",)}
 # data-serialisation extension is a payload, whatever format the export happens to use.
 # (Markdown is deliberately absent — a README.md describing a data dir is documentation,
 # and classify_md() already routes it.)
-DATA_DIR_PREFIX = {"music-curator":("data/",), "homeassistant-config":("context/",)}
+DATA_DIR_PREFIX = {"homeassistant-config":("context/",)}
 DATA_EXT = {".json",".jsonl",".ndjson",".csv",".tsv",".xml",".yaml",".yml",".parquet"}
 
 def is_generated(repo, path):
@@ -135,7 +135,6 @@ def classify_md(repo, path):
     if base in ("CONTRIBUTING.md","SECURITY.md","CODE_OF_CONDUCT.md","SUPPORT.md","GOVERNANCE.md"):
         return "community"
     if "issue_template" in low or base=="pull_request_template.md": return "community"
-    if repo=="music-curator" and (low.startswith("vault/") or low.startswith("examples/")): return "content"
     if repo=="reference-checker" and (low.startswith("test-sets/") or low.startswith("reports/")): return "content"
     if repo=="site-icecreamtofightwith-com" and (low.startswith("recipes/") or low.startswith("front_matter/")
         or low.startswith("back_matter/") or low.startswith("canonical_samples/") or low.startswith("images/")
@@ -399,10 +398,9 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
              "third-party clones are out of scope; archived repos are frozen and excluded.")
     L.append("- **Markdown classifier:** instruction-code = `CLAUDE.md`/`AGENTS.md`/`SKILL.md` or a versioned "
              "`prompts/*-auditor.md`; community-health = governance filenames + issue/PR templates; content = "
-             "repo-scoped payload paths (music-curator `vault/`, ice-cream `recipes/`·manuscript, reference-checker "
+             "repo-scoped payload paths (ice-cream `recipes/`·manuscript, reference-checker "
              "`test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.")
-    L.append("- **Data / generated carve-outs:** exported payloads under the declared data dirs (music-curator "
-             "`data/`, homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, "
+    L.append("- **Data / generated carve-outs:** exported payloads under the declared data dirs (homeassistant-config `context/`) count as data whatever their serialisation — JSON, JSONL, "
              "CSV/TSV, XML, YAML — as does reference-checker's rendered `reports/*.html`; lockfiles, SVG and "
              "`.github/brand/generated/` (emitted from `brand/fleet.json`) are "
              "generated. drosera's `dashboards/*.json` stay in code as Terraform-enforced dashboards-as-code.")

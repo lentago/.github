@@ -70,10 +70,6 @@
       "docs-check / docs-check",
       "tf-lint / tf-lint"
     ],
-    "music-curator": [
-      "integrity",
-      "docs-check / docs-check"
-    ],
     "drosera": [
       "gate",
       "shellcheck / shellcheck",

@@ -243,29 +243,6 @@
       ],
       "model_labels": []
     },
-    "music-curator": {
-      "description": "Turns a messy music collection into a queryable Obsidian vault: dedup and merge tooling over directory trees, Spotify follows, and discography + credit data, building an artist graph with session-tie receipts. Automated follow-harvesting; a taste profile a language model can mine for grounded discovery.",
-      "homepage": null,
-      "visibility": "public",
-      "template": false,
-      "template_source": null,
-      "features": {
-        "issues": true,
-        "projects": true,
-        "wiki": true,
-        "discussions": false
-      },
-      "suggest_branch_update": false,
-      "topics": [
-        "curation",
-        "music",
-        "music-discovery",
-        "prompt-engineering",
-        "recommender-system",
-        "taste-profile"
-      ],
-      "model_labels": []
-    },
     "repo-template": {
       "description": "Template repo for the Lentago Labs fleet: README/CLAUDE skeletons, MIT, shared-workflows CI wrappers. Templates copy files, not settings — see SETUP.md.",
       "homepage": null,
