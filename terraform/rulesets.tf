@@ -49,7 +49,7 @@ resource "github_repository_ruleset" "main" {
       for_each = length(lookup(local.checks_cfg, each.key, [])) > 0 ? [1] : []
 
       content {
-        strict_required_status_checks_policy = false
+        strict_required_status_checks_policy = contains(local.strict_up_to_date_repos, each.key)
         do_not_enforce_on_create             = false
 
         dynamic "required_check" {
