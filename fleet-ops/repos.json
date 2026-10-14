@@ -82,7 +82,7 @@
         "dns",
         "firewalla",
         "fluent-bit",
-        "homelab",
+        "self-hosted",
         "logging",
         "observability",
         "security",
@@ -135,7 +135,6 @@
         "automation",
         "bash",
         "gitops",
-        "homelab",
         "job-queue",
         "llm",
         "self-hosted"
@@ -160,7 +159,7 @@
         "grafana",
         "grafana-alloy",
         "grafana-cloud",
-        "homelab",
+        "self-hosted",
         "loki",
         "mimir",
         "observability",
@@ -208,7 +207,7 @@
         "automation",
         "esphome",
         "home-assistant",
-        "homelab",
+        "self-hosted",
         "hue",
         "konnected",
         "proxmox",
@@ -392,7 +391,7 @@
       ]
     },
     "osmunda": {
-      "description": "Osmunda — the Lentago Labs Kubernetes platform: a standing k3s cluster on lab guests plus an ephemeral EKS overlay, pull-based GitOps, and workload identity throughout. Royal fern: a living fossil that grows in interlocking colonies.",
+      "description": "Osmunda — the Lentago Labs Kubernetes platform: a standing k3s cluster on on-prem guests plus an ephemeral EKS overlay, pull-based GitOps, and workload identity throughout. Royal fern: a living fossil that grows in interlocking colonies.",
       "homepage": null,
       "visibility": "public",
       "template": false,

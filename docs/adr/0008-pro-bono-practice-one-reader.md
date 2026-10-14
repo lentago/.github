@@ -125,3 +125,9 @@ repositories, not the organization record) and were changed by hand on
 - [#90](https://github.com/lentago/.github/issues/90) (the engagement ladder
   for new members) is closed as overtaken by events; the ladder itself
   survives, fork-first, in asclepias.
+
+**Amendment (2026-10-14, [#269](https://github.com/lentago/.github/issues/269)):** the on-prem half of
+the estate is called *on-prem* on every surface, paired with *the cloud*; the
+words "homelab", "home lab", "home network", and the singular "lab" meaning
+the hardware join the retire column in `docs/voice.md`. Decision 2's own
+wording ("the homelab cluster") is left as written, per rule 6.

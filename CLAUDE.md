@@ -58,7 +58,7 @@ org-level operator tooling that governs the rest of the fleet.
   from here: `dotgithub/fleet-ops/fleet-apply.sh`. See `fleet-ops/README.md`.
 - **`archive/`** — local-only holding pen, **`.gitignore`d so it is never
   published**. Holds relocated scratchpads (e.g. the interactive Lentago Labs
-  portfolio mockup) that embed Lentago lab LAN topology and therefore must not land
+  portfolio mockup) that embed on-prem LAN topology and therefore must not land
   in this **public** repo. Keep this dir out of git.
 
 Note: only `profile/`, the root community-health files, `ISSUE_TEMPLATE/`,
@@ -252,8 +252,8 @@ question open. The register renders the per-incident value plus a fleet-wide
 yes/no/unknown tally.
 
 **Policy exception — incident reports are published verbatim.** Unlike
-`fleet-report.md` (public metadata only, *"no homelab-internal detail"*), the
-incident reports **deliberately keep their homelab-internal architecture detail**
+`fleet-report.md` (public metadata only, *"no on-prem-internal detail"*), the
+incident reports **deliberately keep their on-prem-internal architecture detail**
 (container IDs, Proxmox/`pct`/`root@pam`/`vzdump`, hostnames) — that specificity
 *is* the CTO-methodology value, and this is a **public** repo by design (Chris's
 call, 2026-07-13). The one hard line: **never** a credential, key, private IP-plus-

@@ -360,8 +360,8 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L.append("> [!NOTE]")
     L.append("> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). "
              "Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo "
-             "contents) — no personal, security, or homelab-internal detail is included. A prettier, editorialised "
-             "copy renders on the Lentago lab LAN.")
+             "contents) — no personal, security, or on-prem-internal detail is included. A prettier, editorialised "
+             "copy renders on the on-prem LAN.")
     L.append("")
     L.append(f"**Generated:** {ts} · Scope: the **{len(repos)} active** `lentago` repos "
              f"(archived repos frozen &amp; excluded) · Activity window: last {ACTIVITY_WINDOW_DAYS} days "
@@ -390,7 +390,7 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L.append("")
     L.append("- **Issues:** open issues via `gh search issues --owner lentago --state open`; activity from "
              f"`gh search prs --owner lentago --merged` and closed issues filtered to the {ACTIVITY_WINDOW_DAYS}-day "
-             "window. Public metadata only — no transcript harvest, ops items, or homelab detail (those live in "
+             "window. Public metadata only — no transcript harvest, ops items, or on-prem detail (those live in "
              "the LAN copy).")
     L.append("- **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count "
              "(build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.")
@@ -411,7 +411,7 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     return "\n".join(L)
 
 # ---------------------------------------------------------------- incident register
-# Incident reports are harvested from local Lentago lab activity (the /incident-digest
+# Incident reports are harvested from local session activity (the /incident-digest
 # playbook) and dropped into fleet-reports/incidents/<YYYY-MM-DD>-<slug>.md out-of-band
 # (by a local session, not this generator). This builds the public register that indexes
 # them — the incident sibling of fleet-report.md. It reads only local files, so it needs
@@ -487,11 +487,11 @@ def build_incident_register(out_dir, ts):
     L.append("")
     L.append("> [!NOTE]")
     L.append("> **Co-authored with [Claude](https://claude.ai)** (the `/incident-digest` playbook). "
-             "A chronological register of incident reports harvested from local Lentago lab activity "
+             "A chronological register of incident reports harvested from local session activity "
              "and published as a periodic fleet report. Each row links to the full write-up under "
              "[`fleet-reports/incidents/`](incidents/). Unlike the "
              "[fleet report](fleet-report.md), these are published **verbatim** and *do* include "
-             "homelab-internal architecture detail — but never credentials, keys, or secrets.")
+             "on-prem-internal architecture detail — but never credentials, keys, or secrets.")
     L.append("")
     L.append(f"**Generated:** {ts} · **{n} incident{'' if n == 1 else 's'} logged.**")
     L.append("")

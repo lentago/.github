@@ -8,8 +8,8 @@
 # It is also the highest-blast-radius resource in the fleet, so read
 # README.md § Rails before changing anything here.
 #
-# trivy:ignore:AVD-GIT-0001 — public visibility is the fleet's premise (learning
-# lab + public portfolio), set per-repo in repos.json, not an oversight.
+# trivy:ignore:AVD-GIT-0001 — public visibility is the fleet's premise (we
+# practice what we publish), set per-repo in repos.json, not an oversight.
 #trivy:ignore:AVD-GIT-0001
 resource "github_repository" "fleet" {
   for_each = local.repos
