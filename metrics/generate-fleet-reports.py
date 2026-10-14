@@ -360,7 +360,7 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L.append("> [!NOTE]")
     L.append("> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). "
              "Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo "
-             "contents) — no personal, security, or on-prem-internal detail is included. A prettier, editorialised "
+             "contents) — no personal, security, or on-prem-internal detail is included (on-prem: the machines in our own building). A prettier, editorialised "
              "copy renders on the on-prem LAN.")
     L.append("")
     L.append(f"**Generated:** {ts} · Scope: the **{len(repos)} active** `lentago` repos "
@@ -491,7 +491,7 @@ def build_incident_register(out_dir, ts):
              "and published as a periodic fleet report. Each row links to the full write-up under "
              "[`fleet-reports/incidents/`](incidents/). Unlike the "
              "[fleet report](fleet-report.md), these are published **verbatim** and *do* include "
-             "on-prem-internal architecture detail — but never credentials, keys, or secrets.")
+             "on-prem-internal architecture detail (on-prem: the machines in our own building) — but never credentials, keys, or secrets.")
     L.append("")
     L.append(f"**Generated:** {ts} · **{n} incident{'' if n == 1 else 's'} logged.**")
     L.append("")
