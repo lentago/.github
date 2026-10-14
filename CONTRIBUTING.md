@@ -8,9 +8,11 @@ Thanks for stopping by. These are the org-wide defaults for every
 
 Lentago Labs is a pro-bono operations practice for organizations that run on
 volunteers, donations, and one overworked tech person. Most repos here are our
-own working estate — a homelab cluster, an AWS platform, and the tooling that
-runs them — published because we practice what we publish: you can watch the
-method working before you decide to use it. A few repos are kits built to be
+own working estate — an on-prem Proxmox cluster (the machines in our own
+building, declared in [kalmia](https://github.com/lentago/kalmia)), an AWS
+platform ([solidago](https://github.com/lentago/solidago)), and the tooling that
+runs them — published because we practice what we publish: you can watch the method working before you decide
+to use it. A few repos are kits built to be
 copied into your own accounts.
 
 That means these are not community projects with a roadmap looking for

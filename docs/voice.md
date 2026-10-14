@@ -72,11 +72,26 @@ Not everything gets this register, and that is deliberate:
 - **Evidence tables** in READMEs (the `🧭 What this repo demonstrates` rows)
   stay terse. The prose around them gets the voice; the rows do not.
 
+## The two halves of the estate
+
+The estate is everything we run. It has two halves, and every page says which
+one it means: **on-prem**, the machines in our own building (a Proxmox cluster
+and its guests, declared in [kalmia](https://github.com/lentago/kalmia); a NAS;
+the network gear, configured from [betula](https://github.com/lentago/betula)),
+and **the cloud**, a real AWS environment in our own account, as code
+([solidago](https://github.com/lentago/solidago)). *On-prem* is the word the reader already hears from every
+vendor, so it is the one we use; define it the first time it appears on a page.
+In identifiers (labels, dashboard titles, DNS) the token is `onprem`. Decided
+2026-10-14 ([#269](https://github.com/lentago/.github/issues/269)); the words
+it retires are in the table below.
+
 ## Word swaps
 
 | Retire | Use instead |
 |---|---|
-| the lab, the learning lab, the team learning lab | our shop, our own estate, the fleet |
+| the lab, the learning lab, the team learning lab | our shop, our own estate, the fleet; **on-prem** when "the lab" meant the hardware |
+| the homelab, home lab, the home network, hobbyist (of the estate or its budget) | **on-prem**: "the on-prem cluster", "our on-prem estate". Define it on first use: *the machines in your own building* |
+| the household (as the wall display's audience) | the room, the lobby screen, whoever's in the room |
 | the crew, colleagues, IT-ops colleagues, members, the day job | you, your org, the one tech person |
 | trainee, curriculum, training ground, "prove you can" | (rewrite the sentence) |
 | dogfooding | practice what we publish |
