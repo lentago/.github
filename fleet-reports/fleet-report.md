@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or on-prem-internal detail is included (on-prem: the machines in our own building). A prettier, editorialised copy renders on the on-prem LAN.
 
-**Generated:** 2026-10-19 17:57 UTC · Scope: the **26 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-19).
+**Generated:** 2026-10-26 17:53 UTC · Scope: the **26 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-09-26).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **125** | 471 | 181 | **131,492** | 2,438 (20 files) |
+| **127** | 472 | 181 | **132,453** | 2,438 (20 files) |
 
 The fleet's hand-maintained natural-language instruction surface (**2,438 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
-## Open issues — 125 across 17 repos
+## Open issues — 127 across 17 repos
 
 ### .github — 31 open
 
@@ -146,6 +146,19 @@ The fleet's hand-maintained natural-language instruction surface (**2,438 lines*
 | [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
 | [74](https://github.com/lentago/betula/issues/74) | Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients |
 
+### brasenia — 8 open
+
+| # | Title |
+|---|-------|
+| [51](https://github.com/lentago/brasenia/issues/51) | Pane bus: a producer's author check isn't atomic with its write, so a claim made in between gets overwritten |
+| [49](https://github.com/lentago/brasenia/issues/49) | CI: Python 3.9 jobs fail on ubuntu-latest (now 26.04) |
+| [43](https://github.com/lentago/brasenia/issues/43) | README intro still calls the pane bus and compositor "the roadmap"; ADR-0008 says they run |
+| [41](https://github.com/lentago/brasenia/issues/41) | Lobby-pane variant: a visitor-facing screen in a client's own front room |
+| [31](https://github.com/lentago/brasenia/issues/31) | Focus producer: unauthenticated 304s spend the GitHub budget, so focus panes refresh every few minutes, not every minute |
+| [17](https://github.com/lentago/brasenia/issues/17) | Live-ingest pane: concept + ADR, acceptance spec, and VideoScene repoint to `live` with board fallback |
+| [15](https://github.com/lentago/brasenia/issues/15) | Adopt the display guest (LXC 118) capacity from kalmia |
+| [12](https://github.com/lentago/brasenia/issues/12) | Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain |
+
 ### claytonia — 8 open
 
 | # | Title |
@@ -158,17 +171,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,438 lines*
 | [65](https://github.com/lentago/claytonia/issues/65) | Complete the bullpen → claytonia rename on-host |
 | [47](https://github.com/lentago/claytonia/issues/47) | Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract |
 | [24](https://github.com/lentago/claytonia/issues/24) | Branch hygiene across overlapping sessions: clean-desk session-end + prefer fleet dispatch |
-
-### brasenia — 6 open
-
-| # | Title |
-|---|-------|
-| [43](https://github.com/lentago/brasenia/issues/43) | README intro still calls the pane bus and compositor "the roadmap"; ADR-0008 says they run |
-| [41](https://github.com/lentago/brasenia/issues/41) | Lobby-pane variant: a visitor-facing screen in a client's own front room |
-| [31](https://github.com/lentago/brasenia/issues/31) | Focus producer: unauthenticated 304s spend the GitHub budget, so focus panes refresh every few minutes, not every minute |
-| [17](https://github.com/lentago/brasenia/issues/17) | Live-ingest pane: concept + ADR, acceptance spec, and VideoScene repoint to `live` with board fallback |
-| [15](https://github.com/lentago/brasenia/issues/15) | Adopt the display guest (LXC 118) capacity from kalmia |
-| [12](https://github.com/lentago/brasenia/issues/12) | Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain |
 
 ### monarda — 4 open
 
@@ -229,8 +231,14 @@ The fleet's hand-maintained natural-language instruction surface (**2,438 lines*
 
 ## Activity — last 30 days
 
-**652 events**, one stream, newest first — 🟣 471 PRs merged · 🟢 181 issues closed
+**653 events**, one stream, newest first — 🟣 472 PRs merged · 🟢 181 issues closed
 
+- 🟢 2026-10-26 · [kalmia#163](https://github.com/lentago/kalmia/issues/163) — pub: publish the Family Brief JSON and run brasenia's family-brief producer
+- 🟣 2026-10-26 · [kalmia#164](https://github.com/lentago/kalmia/pull/164) — pub: publish the Family Brief JSON and run brasenia's family-brief producer
+- 🟣 2026-10-26 · [brasenia#48](https://github.com/lentago/brasenia/pull/48) — Family brief producer: today and tomorrow on the wall
+- 🟣 2026-10-25 · [drosera#285](https://github.com/lentago/drosera/pull/285) — Pve storage alerts
+- 🟣 2026-10-25 · [kalmia#161](https://github.com/lentago/kalmia/pull/161) — PVE storage hardening; xubuntu-ws as always-on primary
+- 🟣 2026-10-19 · [.github#273](https://github.com/lentago/.github/pull/273) — Weekly fleet reports refresh — 2026-10-19
 - 🟢 2026-10-14 · [.github#269](https://github.com/lentago/.github/issues/269) — Scrub "homelab" and kin: the on-prem half of the estate is "on-prem"
 - 🟣 2026-10-14 · [.github#270](https://github.com/lentago/.github/pull/270) — voice: the on-prem half of the estate is "on-prem"; retire "homelab" and "lab"
 - 🟣 2026-10-14 · [epigaea#534](https://github.com/lentago/epigaea/pull/534) — epigaea: retire "homelab"/"lab" wording for on-prem
@@ -878,11 +886,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,438 lines*
 - 🟣 2026-09-30 · [.github#190](https://github.com/lentago/.github/pull/190) — Reposition Lentago Labs as a pro-bono practice with one reader (ADR-0008)
 - 🟣 2026-09-30 · [site-lentago-dev#75](https://github.com/lentago/site-lentago-dev/pull/75) — Say plainly that help is free for mission-driven orgs
 - 🟣 2026-09-28 · [.github#189](https://github.com/lentago/.github/pull/189) — Weekly fleet reports refresh — 2026-09-28
-- 🟣 2026-09-22 · [drosera#214](https://github.com/lentago/drosera/pull/214) — feat(context-ledger)!: remove ledger alerts + dashboard row (decommissioned)
-- 🟣 2026-09-22 · [claytonia#121](https://github.com/lentago/claytonia/pull/121) — feat(context-ledger)!: decommission the context ledger
-- 🟣 2026-09-21 · [.github#188](https://github.com/lentago/.github/pull/188) — Weekly fleet reports refresh — 2026-09-21
-- 🟢 2026-09-20 · [claytonia#118](https://github.com/lentago/claytonia/issues/118) — Idle workers churn ~130 KiB/s of journald writes each and ~7 SMB req/s against the NAS
-- 🟣 2026-09-20 · [claytonia#119](https://github.com/lentago/claytonia/pull/119) — Poll the inbox every 60s and stop journaling per-activation systemd chatter
 
 ---
 
@@ -896,24 +899,24 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 47,811 | 466 | 36.4% |
-| 2 | Python | 30,114 | 224 | 22.9% |
-| 3 | YAML | 16,625 | 295 | 12.6% |
-| 4 | HCL | 8,889 | 137 | 6.8% |
-| 5 | Shell (Bourne + Bash) | 6,407 | 86 | 4.9% |
-| 6 | JavaScript | 5,471 | 58 | 4.2% |
+| 1 | JSON | 47,862 | 467 | 36.1% |
+| 2 | Python | 30,624 | 234 | 23.1% |
+| 3 | YAML | 16,785 | 300 | 12.7% |
+| 4 | HCL | 8,971 | 137 | 6.8% |
+| 5 | Shell (Bourne + Bash) | 6,524 | 88 | 4.9% |
+| 6 | JavaScript | 5,471 | 58 | 4.1% |
 | 7 | Text | 4,667 | 230 | 3.5% |
 | 8 | Astro | 4,071 | 56 | 3.1% |
-| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,438 | 20 | 1.9% |
+| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,438 | 20 | 1.8% |
 | 10 | CSS | 1,402 | 10 | 1.1% |
 | 11 | JSX | 1,219 | 12 | 0.9% |
 | 12 | TypeScript | 902 | 41 | 0.7% |
-| 13 | Jinja Template | 611 | 18 | 0.5% |
+| 13 | Jinja Template | 652 | 22 | 0.5% |
 | 14 | HTML | 356 | 4 | 0.3% |
 | 15 | XML | 316 | 6 | 0.2% |
 | 16 | TOML | 163 | 12 | 0.1% |
 | 17 | Other (TOML / Dockerfile / …) | 30 | 4 | 0.0% |
-| | **CODE TOTAL** | **131,492** | **1679** | 100% |
+| | **CODE TOTAL** | **132,453** | **1701** | 100% |
 | — | _Data / exports — excluded_ | 0 | 0 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 49,298 | 132 | — |
 
@@ -953,18 +956,18 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
 | epigaea | 23,996 | 406 | 1,544 | 0 | 0 |
-| drosera | 23,008 | 166 | 2,626 | 0 | 0 |
+| drosera | 23,132 | 166 | 2,632 | 0 | 0 |
 | uvularia | 16,853 | 79 | 6,296 | 0 | 0 |
 | uvularia-demo-records | 7,882 | 0 | 3,675 | 0 | 0 |
 | site-pondviewlane-com | 7,438 | 224 | 2,898 | 0 | 0 |
 | solidago | 7,190 | 99 | 2,650 | 0 | 0 |
 | uvularia-records-template | 5,242 | 0 | 865 | 0 | 0 |
-| kalmia | 4,009 | 155 | 1,594 | 0 | 0 |
-| .github | 3,947 | 223 | 2,495 | 3,828 | 0 |
+| kalmia | 4,259 | 155 | 1,683 | 0 | 0 |
+| .github | 3,947 | 223 | 2,495 | 3,894 | 0 |
+| brasenia | 3,929 | 58 | 2,173 | 0 | 0 |
 | mitchella | 3,659 | 62 | 725 | 0 | 0 |
 | betula | 3,477 | 185 | 1,851 | 0 | 0 |
 | site-icecreamtofightwith-com | 3,463 | 98 | 893 | 6,004 | 0 |
-| brasenia | 3,342 | 58 | 2,089 | 0 | 0 |
 | site-lentago-dev | 2,983 | 108 | 671 | 0 | 0 |
 | uvularia-demo-ask-rules | 2,930 | 0 | 424 | 0 | 0 |
 | claytonia | 2,317 | 61 | 1,503 | 0 | 0 |
@@ -981,15 +984,15 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **51,262 lines of Markdown across 774 files**; only 4.8% is instruction-code.
+The fleet carries **51,507 lines of Markdown across 776 files**; only 4.7% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
 | **Instructions** | 2,438 | 20 | **counted as code** |
-| Content / data | 9,832 | 94 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 38,527 | 644 | READMEs, docs, ADRs, runbooks — excluded |
+| Content / data | 9,898 | 94 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 38,706 | 646 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 465 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **51,262** | **774** | |
+| **All Markdown** | **51,507** | **776** | |
 
 ---
 
