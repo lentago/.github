@@ -35,9 +35,25 @@ import {
   id       = each.key
 }
 
+# The same lesson one level down (ADR-0013's labels, PR #277): guarding label
+# imports on the *repo* existing meant the palette could be adopted but never
+# grown — a label newly added to labels.json has no live object on any repo,
+# so every import failed with a 404 before creation was considered. Imports are
+# now intersected with the labels each live repo actually carries; a new
+# palette label is created, an existing one is adopted.
+data "github_issue_labels" "live" {
+  for_each   = { for name in keys(local.repos) : name => name if contains(local.live_repo_names, name) }
+  repository = each.key
+}
+
+locals {
+  live_label_keys = toset(flatten([
+    for repo, d in data.github_issue_labels.live : [for l in d.labels : "${repo}:${l.name}"]
+  ]))
+}
+
 import {
-  # Same guard: labels on a repo that does not exist yet cannot be imported.
-  for_each = { for k, v in local.repo_labels : k => v if contains(local.live_repo_names, v.repository) }
+  for_each = { for k, v in local.repo_labels : k => v if contains(local.live_label_keys, k) }
   to       = github_issue_label.fleet[each.key]
   id       = "${each.value.repository}:${each.value.name}"
 }

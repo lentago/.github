@@ -89,7 +89,8 @@ reach, and against one CodeRabbit had reviewed:
    CodeRabbit was their only automated reviewer, and retiring it leaves them
    with none in CI. That is intended. The arming rule (point 4) still applies
    to them: whoever arms one of their PRs first runs the same reviewer locally,
-   read-only, as was done on 2026-10-29.
+   read-only, as was done on 2026-10-29, and posts its output on the PR as a
+   comment headed "Review (Haiku, local)".
 3. **Triggers and labels.** The caller runs on `pull_request` types `opened`,
    `ready_for_review` and `labeled`. A `labeled` event reviews only when the
    label is `re-review` (Haiku) or `review:sonnet` (Sonnet). The caller picks
@@ -107,7 +108,8 @@ reach, and against one CodeRabbit had reviewed:
    nor this repo's terraform makes the reviewer a required status check.
    Instead, nobody arms a PR until both of these hold:
    - **a review has posted for the PR.** ADR-0003's soft-fail comment ("could
-     not complete") is not a review: label `re-review` and wait. Commits that
+     not complete") is not a review: label `re-review` and wait. In a repo with
+     no caller, the posted local review (point 2) is the review. Commits that
      only answer review findings do not need a fresh review. Any other
      substantive change pushed after the review does: label `re-review` again.
    - **every finding is triaged on the PR,** either fixed with the commit named
