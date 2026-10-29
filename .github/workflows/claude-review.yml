@@ -1,0 +1,116 @@
+# ============================================================================
+# Claude Code — Automated PR Review (advisory)
+# ============================================================================
+# Thin wrapper around lentago/shared-workflows/claude-review.yml, per
+# lentago/.github ADR-0013. This file is copied from repo-template's; only the
+# review_prompt differs per repo.
+#
+# - Runs when a PR is opened or marked ready for review, and again when it is
+#   labelled `re-review` (Haiku) or `review:sonnet` (Sonnet). It does NOT run on
+#   every push: it shares the fleet's Claude subscription with the bullpen.
+# - Advisory, never a required status check (shared-workflows ADR-0003). The
+#   gate is the arming rule: don't arm until a review has posted and every
+#   finding is triaged on the PR (shared-workflows CLAUDE.md, Auto-merge
+#   arming). A "could not complete" soft-fail comment is not a review —
+#   label `re-review`.
+# - After a labelled run, `clear-label` removes the label so adding it again
+#   triggers again.
+# - A PR that adds or changes THIS file is not reviewed by it: the Claude Code
+#   action skips unless the workflow is identical to the default branch's copy,
+#   and the reusable workflow (v1.5.0+) posts a "not a review" notice instead.
+#   Review such PRs locally and post the result as "Review (Haiku, local)"
+#   (ADR-0013 Decision 2).
+# - Dependabot PRs are skipped: Dependabot runs don't receive Actions secrets,
+#   so the required token would fail the call. Review a bump locally if it
+#   warrants one.
+# - Drafts are skipped (by the reusable workflow) and keep their trigger label
+#   until they are ready.
+# ============================================================================
+
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, labeled]
+
+jobs:
+  review:
+    if: >-
+      github.actor != 'dependabot[bot]' &&
+      github.event.pull_request.draft == false &&
+      (github.event.action != 'labeled' ||
+       github.event.label.name == 're-review' ||
+       github.event.label.name == 'review:sonnet')
+    # One review at a time per PR: a re-label during a running review queues
+    # behind it instead of posting a duplicate.
+    concurrency:
+      group: claude-review-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+    uses: lentago/shared-workflows/.github/workflows/claude-review.yml@v1.5.0
+    secrets: inherit
+    with:
+      model: ${{ github.event.label.name == 'review:sonnet' && 'sonnet' || 'haiku' }}
+      review_prompt: |
+        This repository is lentago/.github, the Lentago Labs org meta-repo: the
+        public org profile, the community-health defaults, the fleet voice guide
+        and brand generator, and the Terraform and JSON that govern every repo's
+        GitHub settings. It is public, and an applied change reaches the whole
+        fleet. Focus your review on:
+
+        - **Terraform and live-apply safety**: `terraform/` is applied by CI on
+          merge to `main`. Look for changes that would destroy, rename or
+          recreate a repo, ruleset or label (repos are guarded by
+          `prevent_destroy`), loosen branch protection or the merge gate, or
+          leave `imports.tf` out of step with `repos.json`. Check `terraform fmt`
+          alignment, since the fmt check names the file but not the lines.
+        - **Fleet config consistency**: `fleet-ops/*.json` and `brand/fleet.json`
+          must agree on which repos exist. Flag a required check that no
+          workflow reports (it deadlocks the repo), a public repo missing from
+          `required-checks.json`, or a typo in `repos.json`, where a typo is a
+          repository. `fleet-apply.sh` should stay shellcheck-clean.
+        - **Secrets and public exposure**: never a credential, key, token, or a
+          private IP-plus-purpose map in a public repo. Incident reports may keep
+          on-prem architecture detail, but check each new one for secrets and
+          confirm it carries a `**Deployment-caused:** yes|no|unknown` line.
+          Workflows must keep untrusted event data out of `run:` lines, request
+          minimal permissions, and pin reusable workflows and actions.
+        - **Generated artifacts**: `brand/generated/` and
+          `fleet-reports/incidents.md` are produced by scripts and must never be
+          hand-edited. Flag a diff that changes them without the matching source
+          change, and `fleet-reports/` files that the weekly job overwrites.
+        - **Brand and voice**: the Tidewater palette (forest-teal, gold as a
+          single accent and never a fill, dark text on gold), the blossom mark,
+          the gold ▲ prompt and the tagline. The register and retired-word list in
+          `docs/voice.md` are canon. Flag the retired colours and prompts.
+        - **Org-wide defaults**: `CONTRIBUTING.md`, `SECURITY.md`,
+          `CODE_OF_CONDUCT.md` and `profile/README.md` apply to every repo
+          without its own. Confirm scope, working contact addresses, and links
+          that resolve.
+
+  clear-label:
+    needs: review
+    if: >-
+      always() && github.event.action == 'labeled' &&
+      github.event.pull_request.draft == false &&
+      (github.event.label.name == 're-review' || github.event.label.name == 'review:sonnet')
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Remove the trigger label so it can be added again
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          LABEL: ${{ github.event.label.name }}
+        # REST, not `gh pr edit`: the GraphQL path can trip on PR project
+        # fields with GITHUB_TOKEN, and a label left behind would make the
+        # next re-add a no-op (no `labeled` event).
+        run: |
+          enc=$(jq -rn --arg l "$LABEL" '$l|@uri')
+          gh api --method DELETE "repos/$REPO/issues/$PR/labels/$enc" >/dev/null
