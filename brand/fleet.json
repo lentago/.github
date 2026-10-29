@@ -11,7 +11,10 @@
     "  prompt  — the '▲ lentago' field-prompt line. Keep <= 64 chars.",
     "  badges  — stack badges appended after the shared CI/license set.",
     "            {label, logo} renders a shields.io simple-icons badge; a bare",
-    "            {label} renders a text-only badge in the same Tidewater colors."
+    "            {label} renders a text-only badge in the same Tidewater colors.",
+    "  roku    — optional; true for a repo that ships a Roku channel. Emits",
+    "            roku-poster.html, which render.sh turns into the channel's",
+    "            home-screen posters (roku-poster-fhd.png, roku-poster-hd.png)."
   ],
   "solidago": {
     "mark": "solidago",
@@ -143,7 +146,8 @@
         "label": "Roku",
         "logo": "roku"
       }
-    ]
+    ],
+    "roku": true
   },
   "asclepias": {
     "mark": "asclepias",

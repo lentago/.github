@@ -281,8 +281,10 @@ def check_brand_assets():
 
     The banners carry a 'generated — do not hand-edit' header and get copied
     verbatim into 15 repos, so a hand-tweak here silently forks the fleet's
-    identity from its source. Regenerate into a temp tree and diff. og.png is
-    skipped: rasterizing needs Chrome, which CI has no reason to carry.
+    identity from its source. Regenerate into a temp tree and diff. og.png and
+    the Roku poster PNGs are skipped: rasterizing needs Chrome, which CI has no
+    reason to carry. The poster's source page is checked, since its PNGs are
+    copied verbatim into the channel repo the same way the banners are.
     """
     brand = os.path.join(ROOT, "brand")
     fleet_path = os.path.join(brand, "fleet.json")
@@ -325,10 +327,19 @@ def check_brand_assets():
     finally:
         sys.path.pop(0)
 
-    stale = []
+    stale, orphaned = [], []
     for repo, cfg in sorted(fleet.items()):
-        for filename, produce in (("banner.svg", generate.banner),
-                                  ("readme.md", generate.readme_block)):
+        outputs = [("banner.svg", generate.banner),
+                   ("readme.md", generate.readme_block)]
+        if cfg.get("roku"):
+            outputs.append(("roku-poster.html", generate.roku_poster_html))
+        else:
+            # generate.py never deletes, so a poster left after the key is
+            # dropped would still read as current output.
+            for leftover in ("roku-poster.html", "roku-poster-fhd.png", "roku-poster-hd.png"):
+                if os.path.exists(os.path.join(brand, "generated", repo, leftover)):
+                    orphaned.append(f"{repo}/{leftover}")
+        for filename, produce in outputs:
             path = os.path.join(brand, "generated", repo, filename)
             if not os.path.exists(path):
                 stale.append(f"{repo}/{filename} (missing)")
@@ -340,6 +351,9 @@ def check_brand_assets():
     if stale:
         fail("brand", "brand/generated is stale or hand-edited: "
                       + ", ".join(stale) + " — run `python3 brand/generate.py`")
+    if orphaned:
+        fail("brand", "brand/generated has Roku posters for repos without \"roku\": true: "
+                      + ", ".join(orphaned) + " — delete them")
 
 
 # ------------------------------------------------------------------ census
