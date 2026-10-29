@@ -37,6 +37,11 @@
     { "name": "wontfix",          "color": "748983", "ensure": true,
       "description": "Deliberately not being done" },
 
+    { "name": "re-review",        "color": "8fbfae", "ensure": true,
+      "description": "Run the Haiku PR reviewer again (ADR-0013)" },
+    { "name": "review:sonnet",    "color": "2f6b4a", "ensure": true,
+      "description": "Run the PR reviewer again with Sonnet (ADR-0013)" },
+
     { "name": "model:haiku",      "color": "8fbfae", "ensure": false,
       "description": "Route @claude to the fast tier — mechanical tasks" },
     { "name": "model:sonnet",     "color": "2f6b4a", "ensure": false,
