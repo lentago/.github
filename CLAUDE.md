@@ -138,7 +138,7 @@ consistent with it:
   `:>` / `$` / `>` prompt.
 - Per-repo identity is generated, not hand-drawn: `brand/fleet.json` +
   `brand/generate.py` emit each repo's README banner, badge row, and social-preview
-  card. See `brand/README.md`; `ci/validate.py`'s **brand** check fails on a
+  card, plus the home-screen poster for a repo that ships a Roku channel. See `brand/README.md`; `ci/validate.py`'s **brand** check fails on a
   hand-edited `brand/generated/`.
 - Tagline: **"Production that shows up when the need does."** (carries over from
   the former Pitzi Labs — same business, same voice; only name/palette/mark

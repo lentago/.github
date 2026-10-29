@@ -13,7 +13,9 @@ brand/
   fonts/        Space Grotesk + JetBrains Mono woff2, vendored for OG rasterizing
   fleet.json    Per-repo identity: mark, category, tagline, prompt line, badges
   generate.py   fleet.json -> generated/<repo>/{banner.svg, og.html, readme.md}
-  render.sh     generated/<repo>/og.html -> og.png via headless Chrome
+                (+ roku-poster.html for a repo with "roku": true)
+  render.sh     og.html -> og.png, roku-poster.html -> roku-poster-{fhd,hd}.png,
+                via headless Chrome
   generated/    Committed output. Generated — never hand-edit (CI enforces this).
 ```
 
@@ -24,6 +26,7 @@ brand/
 | `banner.svg` | the repo's `assets/banner.svg`, shown at the top of its README | copied in by PR |
 | badge row | the repo's README, under the banner | copied in by PR |
 | `og.png` | the repo's **social preview** | **manual upload — GitHub has no API for it** |
+| `roku-poster-fhd.png` (540×405), `roku-poster-hd.png` (290×218) | a Roku channel's home-screen tile, named by `mm_icon_focus_fhd` / `mm_icon_focus_hd` in its manifest. Only repos with `"roku": true` (brasenia: `roku-app/images/`) | copied in by PR |
 
 `generated/<repo>/readme.md` holds the exact header block a repo should carry,
 so applying it is mechanical rather than a matter of taste.
@@ -33,15 +36,16 @@ so applying it is mechanical rather than a matter of taste.
 ```bash
 python3 brand/generate.py          # all repos
 python3 brand/generate.py --repo solidago
-./brand/render.sh                  # og.html -> og.png (needs Chrome/Chromium)
+./brand/render.sh                  # og.png + Roku posters (needs Chrome/Chromium)
 ./brand/render.sh solidago
 ```
 
-`ci/validate.py`'s **brand** check regenerates `banner.svg` and `readme.md` into
-memory and diffs them against what's committed, so a hand-edit fails CI. It
-skips `og.png` — rasterizing needs a browser, which CI has no reason to carry.
-**Re-run `render.sh` yourself whenever `fleet.json` changes**, or the cards drift
-from the banners without CI noticing.
+`ci/validate.py`'s **brand** check regenerates `banner.svg`, `readme.md` and
+`roku-poster.html` into memory and diffs them against what's committed, so a
+hand-edit fails CI. It skips the PNGs — rasterizing needs a browser, which CI
+has no reason to carry. **Re-run `render.sh` yourself whenever `fleet.json` or
+`generate.py` changes**, or the cards and posters drift from the banners without
+CI noticing.
 
 ## Design notes
 

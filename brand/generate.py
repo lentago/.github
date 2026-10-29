@@ -10,6 +10,10 @@ For every repo in fleet.json this emits, under brand/generated/<repo>/:
                render.sh turns this into og.png via headless Chrome.
   readme.md    The exact README header block (banner + badge row) the target
                repo should carry, so applying it is mechanical.
+  roku-poster.html
+               Only for repos with "roku": true. The Roku channel's home-screen
+               poster, drawn on the 540x405 grid; render.sh turns it into
+               roku-poster-fhd.png (540x405) and roku-poster-hd.png (290x218).
 
 Banners deliberately keep the font *stack* rather than converting text to
 paths: GitHub proxies README SVGs through camo and will not load a webfont, so
@@ -228,6 +232,47 @@ html,body{{width:{w}px;height:{h}px;overflow:hidden}}
 """
 
 
+def roku_poster_html(repo: str, cfg: dict) -> str:
+    """Roku home-screen poster: the genus chip over the repo name.
+
+    One SVG on Roku's 540x405 FHD poster grid, scaled to the window, so
+    render.sh rasterizes both manifest sizes from this one page. The home
+    screen shows it at thumbnail size, so it carries only the mark and the name.
+    """
+    w, h = 540, 405
+    inner_chip = mark_inner(mark_svg(cfg["mark"]), drop_chip=False)
+    face = font_face("Space Grotesk", "space-grotesk-latin.woff2", "400 700")
+    size = max(40, min(72, int(440 / (max(len(repo), 1) * 0.58))))
+
+    return f"""<!doctype html>
+<meta charset="utf-8">
+<title>{esc(repo)} — roku poster</title>
+<style>
+{face}
+*{{margin:0;padding:0}}
+html,body{{width:100%;height:100%;overflow:hidden;background:{INK_STRONG}}}
+svg{{display:block;width:100vw;height:100vh}}
+</style>
+<svg viewBox="0 0 {w} {h}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+{HERO_DEFS.format(w=w, h=h)}
+
+  <g clip-path="url(#frame)">
+    <rect width="{w}" height="{h}" fill="url(#hero)"></rect>
+{contours(292, 318, 0.72)}
+
+    <!-- fill="none" is the mark's own root default, which mark_inner() strips -->
+    <g transform="translate(186,62) scale(2.625)" fill="none">
+{inner_chip}
+    </g>
+
+    <text x="{w // 2}" y="330" text-anchor="middle" font-family="{DISPLAY}" font-weight="700" font-size="{size}" fill="{LIMESTONE}" letter-spacing="-2">{esc(repo)}</text>
+
+    <rect x="0" y="{h - 6}" width="{w}" height="6" fill="{ACCENT}"></rect>
+  </g>
+</svg>
+"""
+
+
 def badge(label: str, logo: str | None, color: str = BRAND) -> str:
     slug = label.replace("-", "--").replace("_", "__").replace(" ", "%20")
     url = f"{BADGE}/{slug}-{color.lstrip('#')}?{SHIELD_STYLE}"
@@ -280,10 +325,12 @@ def main() -> None:
         (d / "banner.svg").write_text(banner(repo, cfg))
         (d / "og.html").write_text(og_html(repo, cfg))
         (d / "readme.md").write_text(readme_block(repo, cfg))
+        if cfg.get("roku"):
+            (d / "roku-poster.html").write_text(roku_poster_html(repo, cfg))
         print(f"  {repo:<30} mark={cfg['mark']:<10} {cfg['kind']}")
 
     print(f"\n{len(fleet)} repo(s) → {OUT.relative_to(ROOT.parent)}/")
-    print("Next: ./brand/render.sh   (og.html → og.png via headless Chrome)")
+    print("Next: ./brand/render.sh   (og.html → og.png, roku-poster.html → roku-poster-*.png)")
 
 
 if __name__ == "__main__":

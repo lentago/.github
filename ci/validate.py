@@ -281,8 +281,10 @@ def check_brand_assets():
 
     The banners carry a 'generated — do not hand-edit' header and get copied
     verbatim into 15 repos, so a hand-tweak here silently forks the fleet's
-    identity from its source. Regenerate into a temp tree and diff. og.png is
-    skipped: rasterizing needs Chrome, which CI has no reason to carry.
+    identity from its source. Regenerate into a temp tree and diff. og.png and
+    the Roku poster PNGs are skipped: rasterizing needs Chrome, which CI has no
+    reason to carry. The poster's source page is checked, since its PNGs are
+    copied verbatim into the channel repo the same way the banners are.
     """
     brand = os.path.join(ROOT, "brand")
     fleet_path = os.path.join(brand, "fleet.json")
@@ -327,8 +329,11 @@ def check_brand_assets():
 
     stale = []
     for repo, cfg in sorted(fleet.items()):
-        for filename, produce in (("banner.svg", generate.banner),
-                                  ("readme.md", generate.readme_block)):
+        outputs = [("banner.svg", generate.banner),
+                   ("readme.md", generate.readme_block)]
+        if cfg.get("roku"):
+            outputs.append(("roku-poster.html", generate.roku_poster_html))
+        for filename, produce in outputs:
             path = os.path.join(brand, "generated", repo, filename)
             if not os.path.exists(path):
                 stale.append(f"{repo}/{filename} (missing)")
