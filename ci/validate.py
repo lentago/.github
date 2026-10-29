@@ -327,12 +327,18 @@ def check_brand_assets():
     finally:
         sys.path.pop(0)
 
-    stale = []
+    stale, orphaned = [], []
     for repo, cfg in sorted(fleet.items()):
         outputs = [("banner.svg", generate.banner),
                    ("readme.md", generate.readme_block)]
         if cfg.get("roku"):
             outputs.append(("roku-poster.html", generate.roku_poster_html))
+        else:
+            # generate.py never deletes, so a poster left after the key is
+            # dropped would still read as current output.
+            for leftover in ("roku-poster.html", "roku-poster-fhd.png", "roku-poster-hd.png"):
+                if os.path.exists(os.path.join(brand, "generated", repo, leftover)):
+                    orphaned.append(f"{repo}/{leftover}")
         for filename, produce in outputs:
             path = os.path.join(brand, "generated", repo, filename)
             if not os.path.exists(path):
@@ -345,6 +351,9 @@ def check_brand_assets():
     if stale:
         fail("brand", "brand/generated is stale or hand-edited: "
                       + ", ".join(stale) + " — run `python3 brand/generate.py`")
+    if orphaned:
+        fail("brand", "brand/generated has Roku posters for repos without \"roku\": true: "
+                      + ", ".join(orphaned) + " — delete them")
 
 
 # ------------------------------------------------------------------ census
