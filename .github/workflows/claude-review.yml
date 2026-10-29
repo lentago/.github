@@ -85,8 +85,7 @@ jobs:
           change, and `fleet-reports/` files that the weekly job overwrites.
         - **Brand and voice**: the Tidewater palette (forest-teal, gold as a
           single accent and never a fill, dark text on gold), the blossom mark,
-          the gold ▲ prompt, the tagline, and Claude co-authorship disclosed as
-          operator-directed. The register and retired-word list in
+          the gold ▲ prompt and the tagline. The register and retired-word list in
           `docs/voice.md` are canon. Flag the retired colours and prompts.
         - **Org-wide defaults**: `CONTRIBUTING.md`, `SECURITY.md`,
           `CODE_OF_CONDUCT.md` and `profile/README.md` apply to every repo
