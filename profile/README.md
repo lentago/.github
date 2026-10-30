@@ -189,6 +189,7 @@ Three doors, depending on what you came for.
 <sub>Regenerated weekly from the repos themselves — we practice what we publish.</sub>
 
 - **[Fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md)** — open issues by repo, a 30-day activity snapshot, and a code census that counts the `CLAUDE.md`-family instruction files as natural-language code.
+- **[Epics report](https://github.com/lentago/.github/blob/main/fleet-reports/epics.md)** — what the open issues add up to: each tracking issue with its sub-issue progress, the month's merged PRs attributed to it, and the work no epic describes.
 - **[Language census](https://github.com/lentago/.github/blob/main/metrics/language-census.md)** — the canonical all-languages breakdown.
 - **[Incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md)** — post-mortems from running our own estate, with what broke, what did *not*, and the governance lessons.
 - **[Lock-in ledger](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md)** — our own vendor dependencies, each scored on export fidelity, format openness, custody, and a documented exit. The receipt behind *"firing us is a runbook."*

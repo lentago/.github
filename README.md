@@ -29,7 +29,7 @@ The patterns you can lift wholesale into your own org — each row links to wher
 | **DRY CI via shared workflows** | [`docs-check.yml`](.github/workflows/docs-check.yml) and [`claude.yml`](.github/workflows/claude.yml) `uses:` reusables from [`shared-workflows`](https://github.com/lentago/shared-workflows) instead of copy-pasted YAML |
 | **Drift detection for config** | [`ci/validate.py`](ci/validate.py) asserts the JSON manifests, generated brand assets, and generated reports all stay reproducible from source — hand-edits fail the PR |
 | **Agent-authored, human-merged PRs** | [PR #80](https://github.com/lentago/.github/pull/80) was opened by the `lentago-claude-runner` bot against required checks and merged by a human — the worker never merges itself |
-| **Automated periodic reporting** | [`fleet-reports.yml`](.github/workflows/fleet-reports.yml) runs [`metrics/generate-fleet-reports.py`](metrics/generate-fleet-reports.py) on a schedule to refresh `fleet-report.md` and `incidents.md` |
+| **Automated periodic reporting** | [`fleet-reports.yml`](.github/workflows/fleet-reports.yml) runs [`metrics/generate-fleet-reports.py`](metrics/generate-fleet-reports.py) on a schedule to refresh `fleet-report.md`, `epics.md` and `incidents.md` |
 | **Config-driven identity** | [`brand/generate.py`](brand/generate.py) emits every repo's banner and card from [`brand/fleet.json`](brand/fleet.json) — IaC applied to branding, CI-enforced against hand-edits |
 
 ## Org profile
@@ -90,13 +90,16 @@ Periodically regenerated reports published in this repo.
 - **`fleet-report.md`** — the weekly fleet report: open issues by repo, a 30-day
   merge/close activity snapshot, and an instruction-as-code language census. Auto-
   refreshed every Monday by a GitHub Actions workflow.
+- **`epics.md`** — the weekly epics report: every tracking issue (labelled `epic`,
+  or an open parent of sub-issues) with its sub-issue progress, the month's merged
+  PRs attributed to each, and the open issues no epic covers. Same Monday refresh.
 - **`incidents.md`** — the public incident register, linking to post-mortems under
   `fleet-reports/incidents/`. New reports are harvested from session transcripts
   via the local `/incident-digest` playbook.
 
 ### [`metrics/`](metrics/)
 
-- **`generate-fleet-reports.py`** — generates both `fleet-report.md` and
+- **`generate-fleet-reports.py`** — generates `fleet-report.md`, `epics.md` and
   `incidents.md`.
 - **`language-census.md`** — a periodic `cloc`-based language breakdown across
   all in-scope org repos.
