@@ -3,15 +3,15 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state. An **epic** here is a tracking issue: one labelled `epic`, or an open issue with sub-issues and no parent of its own. Progress is GitHub's own sub-issue count plus the issue's checklist, so an epic that is not kept up to date shows as not moving — that is the point. The sibling [fleet report](fleet-report.md) lists every open issue; this one asks what the issues add up to, and how much of the merged work they describe.
 
-**Generated:** 2026-10-30 15:08 UTC · Scope: the **26 active** `lentago` repos · Merged-PR window: last 30 days (since 2026-09-30) · closed epics shown for 90 days.
+**Generated:** 2026-10-30 15:15 UTC · Scope: the **26 active** `lentago` repos · Merged-PR window: last 30 days (since 2026-09-30) · closed epics shown for 90 days.
 
 ## Snapshot
 
 | Open epics | Closed epics (90d) | Open issues under an epic | Merged PRs (30d) | …that trace to an epic | …loose, with an issue | …loose, no issue | …bots |
 |---:|---:|---:|---:|---:|---:|---:|---:|
-| **10** | 3 | **90 / 142** (63%) | 619 | **113** (22% of non-bot) | 346 | 61 | 99 |
+| **10** | 3 | **80 / 132** (61%) | 619 | **113** (22% of non-bot) | 346 | 61 | 99 |
 
-The *trace to an epic* share is the headline: how much of the month's merged work the epics describe. The two loose columns are work that happened outside any epic — tracked by a stand-alone issue, or by nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share.
+The *trace to an epic* share is the headline: how much of the month's merged work the epics describe. The two loose columns are work that happened outside any epic — tracked by a stand-alone issue, or by nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share. *Open issues under an epic* counts the issues other than the epics themselves; its complement is the list at the end.
 
 ---
 
@@ -19,7 +19,7 @@ The *trace to an epic* share is the headline: how much of the month's merged wor
 
 | Epic | Since | Sub-issues closed | Checklist | PRs (30d) | Last activity |
 |------|-------|-------------------|-----------|----------:|---------------|
-| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 2026-08-16 | `████░░░░░░` 18/45 | 7/8 | 41 ⚠︎ 1 PR cited in comments only | 2026-10-12 |
+| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 2026-08-16 | `████░░░░░░` 18/45 | 7/8 | 41 ⚠︎ 1 known from comments only | 2026-10-12 |
 | [.github#285](https://github.com/lentago/.github/issues/285) Rename debt: the tier 3–4 renames still open across the fleet | 2026-10-30 | `░░░░░░░░░░` 0/13 | — | 22 | 2026-10-30 |
 | [.github#235](https://github.com/lentago/.github/issues/235) Genus marks for the eight unmarked species | 2026-10-07 | `░░░░░░░░░░` 0/2 | 11/13 | 11 | 2026-10-13 |
 | [brasenia#130](https://github.com/lentago/brasenia/issues/130) Phase 3: the fleet on the display, and what stays open after ADR-0020 | 2026-10-30 | `█░░░░░░░░░` 1/9 | — | 8 | 2026-10-30 |
@@ -30,7 +30,7 @@ The *trace to an epic* share is the headline: how much of the month's merged wor
 | [.github#234](https://github.com/lentago/.github/issues/234) Enable Dependabot security updates fleet-wide (codified in terraform) | 2026-10-07 | `░░░░░░░░░░` 0/5 | — | 1 | 2026-10-07 |
 | [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 2026-07-04 | `░░░░░░░░░░` 0/2 | — | 0 | 2026-08-16 |
 
-*Sub-issues closed* is GitHub's native parent/child count (it crosses repos). *Checklist* is the `- [ ]` boxes in the epic's body. ⚠︎ marks progress that was recorded in comments while the body's checklist was not updated — the epic is moving, but its face is stale.
+*Sub-issues closed* is GitHub's native parent/child count (it crosses repos). *Checklist* is the `- [ ]` boxes in the epic's body. ⚠︎ counts merged PRs this report could attribute to the epic only because a comment on the epic cites them: neither the body nor a sub-issue names them, so a reader of the epic's face would miss that work.
 
 ### Offerings roadmap — tracking epic (refreshed 2026-10-06)
 
@@ -434,8 +434,8 @@ A closed epic with open sub-issues is a hand-off: the work was spun out and stil
 | [brasenia#130](https://github.com/lentago/brasenia/issues/130) Phase 3: the fleet on the display, and what stays open after ADR-0020 | 8 | 1% |
 | [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 5 | 1% |
 | [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 4 | 1% |
-| [lupinus#4](https://github.com/lentago/lupinus/issues/4) Epic: adoption guide — Phase 1 (launch set: solidago + monarda) _(closed)_ | 3 | 0% |
 | [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 3 | 0% |
+| [lupinus#4](https://github.com/lentago/lupinus/issues/4) Epic: adoption guide — Phase 1 (launch set: solidago + monarda) _(closed)_ | 3 | 0% |
 | [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 3 | 0% |
 | [.github#234](https://github.com/lentago/.github/issues/234) Enable Dependabot security updates fleet-wide (codified in terraform) | 1 | 0% |
 | [.github#162](https://github.com/lentago/.github/issues/162) Epic: adoption guide (lupinus) — Phase 0 enablers _(closed)_ | 1 | 0% |
@@ -608,7 +608,7 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 
 ## Method
 
-- **Epics:** `gh search issues --owner lentago --label epic` (open, plus closed within 90 days) ∪ every open issue with sub-issues and no parent. A labelled epic that sits under a parent renders there, not at top level.
+- **Epics:** `gh search issues --owner lentago --label epic` (open, plus closed within 90 days) ∪ every issue with sub-issues and no parent that is open or closed within those 90 days. A labelled open epic that sits under a parent renders there, not at top level; a closed one is taken at top level, since the closed listing carries no parent field this report reads.
 - **Sub-issues:** GitHub's native parent/child links, read through the REST `sub_issues` endpoint and followed 3 levels deep. They cross repos inside the org. Link one with `gh api -X POST repos/lentago/<repo>/issues/<epic>/sub_issues -F sub_issue_id=<child id>`.
 - **Attribution:** a merged PR counts toward an epic when the epic's body or comments cite the PR, or when the PR's body references an issue in the epic's tree (or the epic itself). Otherwise it is loose: with an issue, or without one. Dependabot and the fleet's own bots are set aside.
 - **Limits:** a citation is a citation — an epic that mentions a PR as an example counts it as work. An issue cannot have two parents, so a piece of work that serves two programs sits under one; the other may still cite it.

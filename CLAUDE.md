@@ -227,9 +227,12 @@ reproducible against each other.
 
 `fleet-reports/epics.md` asks what the open issues add up to. An **epic** is a
 tracking issue: one labelled `epic` (palette label in `fleet-ops/labels.json`,
-created on every repo by the Terraform apply), or any open issue that has
-sub-issues and no parent of its own. The same generator builds it (`--epics-only`
-needs `gh`, not `cloc`); the weekly workflow refreshes it alongside the other two.
+created on every repo by the Terraform apply), or any issue that has sub-issues
+and no parent of its own, open or closed within the last 90 days. The same
+generator builds it (`--epics-only` needs `gh`, not `cloc`); the weekly workflow
+refreshes it alongside the other two. A `gh` failure other than "issues disabled"
+stops the run rather than publishing a thinner report, and a listing that fills
+its cap does the same.
 
 - **Progress is GitHub's native sub-issue count** (parent/child links, which cross
   repos inside the org) plus the body checklist. Link a child with
@@ -241,8 +244,9 @@ needs `gh`, not `cloc`); the weekly workflow refreshes it alongside the other tw
   epic's tree; otherwise it is loose (with an issue, or with none). The *trace to an
   epic* share is the report's headline. "De-facto epics" are loose issues that many
   PRs cite — candidates for the label or a parent.
-- **Keep the face current.** Progress recorded in comments while the body checklist
-  stays stale is flagged (⚠︎). When an epic closes with work spun out, link the
+- **Keep the face current.** A merged PR the report can attribute to an epic only
+  because a comment on the epic cites it is flagged (⚠︎): neither the body nor a
+  sub-issue names that work. When an epic closes with work spun out, link the
   spin-out as a sub-issue; the report shows closed epics with open children as
   hand-offs.
 - **Convention (2026-10-30):** a program that will take more than a handful of PRs

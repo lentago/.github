@@ -529,6 +529,17 @@ EPIC_LABEL = "epic"
 EPIC_CLOSED_WINDOW_DAYS = 90   # closed epics stay on the report this long
 TREE_DEPTH = 3                 # sub-issue nesting followed below an epic
 DEFACTO_MIN_PRS = 4            # a loose issue this many merged PRs cite is a de-facto epic
+LIST_CAP = 500                 # per-repo issue listings
+SEARCH_CAP = 1000              # org-wide searches (gh's maximum)
+
+def _issues_disabled(exc):
+    return "disabled issues" in str(exc)
+
+def _check_cap(items, cap, what):
+    """A capped listing that fills its cap may have dropped rows; the report must not
+    publish a silently thinner picture, so stop instead."""
+    if len(items) >= cap:
+        raise RuntimeError(f"{what}: {len(items)} rows hit the cap of {cap}; raise the cap")
 
 def gh_api(path):
     out = sh(["gh", "api", path])
@@ -571,10 +582,13 @@ def list_open_issues(repos):
     for r in repos:
         try:
             data = gh_json(["issue", "list", "--repo", f"lentago/{r['name']}", "--state", "open",
-                            "--limit", "500", "--json",
+                            "--limit", str(LIST_CAP), "--json",
                             "number,title,labels,createdAt,updatedAt,url,parent,subIssuesSummary"])
-        except RuntimeError:
-            continue   # a repo with issues disabled (the uvularia templates) has none to list
+        except RuntimeError as exc:
+            if _issues_disabled(exc):
+                continue   # the uvularia templates have issues disabled: nothing to list
+            raise          # a rate limit or auth failure must stop the run, not thin the report
+        _check_cap(data, LIST_CAP, f"open issues of {r['name']}")
         for i in data:
             i["repo"] = r["name"]
             out.append(i)
@@ -603,8 +617,10 @@ def discover_epics(repos, open_issues, cutoff_closed):
     names = {r["name"] for r in repos}
     found = set()
     for state, extra in (("open", []), ("closed", ["--closed", f">={cutoff_closed[:10]}"])):
-        for i in gh_json(["search", "issues", "--owner", "lentago", "--label", EPIC_LABEL,
-                          "--state", state, "--limit", "200", "--json", "repository,number"] + extra):
+        hits = gh_json(["search", "issues", "--owner", "lentago", "--label", EPIC_LABEL,
+                        "--state", state, "--limit", str(SEARCH_CAP), "--json", "repository,number"] + extra)
+        _check_cap(hits, SEARCH_CAP, f"{state} epics")
+        for i in hits:
             if i["repository"]["name"] in names:
                 found.add((i["repository"]["name"], i["number"]))
     has_parent = {(i["repo"], i["number"]) for i in open_issues if i.get("parent")}
@@ -616,14 +632,19 @@ def discover_epics(repos, open_issues, cutoff_closed):
     for r in repos:
         try:
             closed = gh_json(["issue", "list", "--repo", f"lentago/{r['name']}", "--state", "closed",
-                              "--limit", "300", "--search", f"closed:>={cutoff_closed[:10]}",
+                              "--limit", str(LIST_CAP), "--search", f"closed:>={cutoff_closed[:10]}",
                               "--json", "number,parent,subIssuesSummary"])
-        except RuntimeError:
-            continue
+        except RuntimeError as exc:
+            if _issues_disabled(exc):
+                continue
+            raise
+        _check_cap(closed, LIST_CAP, f"closed issues of {r['name']}")
         for i in closed:
             if (i.get("subIssuesSummary") or {}).get("total", 0) and not i.get("parent"):
                 found.add((r["name"], i["number"]))
-    # A labelled epic that itself sits under a parent renders there, not at top level.
+    # A labelled *open* epic that itself sits under a parent renders there, not at top
+    # level. has_parent is built from the open listing only, so a closed labelled epic
+    # under a parent would still surface at top level — acceptable for a hand-off view.
     return sorted(k for k in found if k not in has_parent)
 
 def build_epic(repo, number):
@@ -644,8 +665,9 @@ def build_epic(repo, number):
 
 def get_merged_prs(cutoff_iso, fleet_names):
     prs = gh_json(["search", "prs", "--owner", "lentago", "--merged", "--merged-at",
-                   f">={cutoff_iso[:10]}", "--limit", "1000",
+                   f">={cutoff_iso[:10]}", "--limit", str(SEARCH_CAP),
                    "--json", "repository,number,title,closedAt,body,author,url"])
+    _check_cap(prs, SEARCH_CAP, "merged PRs in the window")
     return [p for p in prs if p["repository"]["name"] in fleet_names
             and p.get("closedAt", "") >= cutoff_iso]
 
@@ -719,11 +741,13 @@ def build_epics_report(ts, cutoff, repos, open_issues, epics, prs, attribution):
     per_epic, buckets, loose_hits, comments_only, issue_to_epic = attribution
     open_epics = [e for e in epics if e["state"] == "open"]
     closed_epics = [e for e in epics if e["state"] != "open"]
-    covered = {k for k in issue_to_epic}
+    epic_keys = {(e["repo"], e["number"]) for e in epics}
+    covered = {k for k in issue_to_epic if k not in epic_keys}
     outside = [i for i in open_issues
-               if (i["repo"], i["number"]) not in covered]
+               if (i["repo"], i["number"]) not in covered and (i["repo"], i["number"]) not in epic_keys]
     n_open_issues = len(open_issues)
-    n_under = n_open_issues - len(outside)
+    n_epic_issues = sum(1 for i in open_issues if (i["repo"], i["number"]) in epic_keys)
+    n_under = n_open_issues - n_epic_issues - len(outside)
     n_prs = len(prs)
     n_epic_prs = len({(p["repository"]["name"], p["number"]) for l in per_epic.values() for p in l})
     n_bots = len(buckets["deps"]) + len(buckets["automation"])
@@ -749,13 +773,16 @@ def build_epics_report(ts, cutoff, repos, open_issues, epics, prs, attribution):
     L.append("")
     L.append("| Open epics | Closed epics (90d) | Open issues under an epic | Merged PRs (30d) | …that trace to an epic | …loose, with an issue | …loose, no issue | …bots |")
     L.append("|---:|---:|---:|---:|---:|---:|---:|---:|")
-    L.append(f"| **{len(open_epics)}** | {len(closed_epics)} | **{n_under} / {n_open_issues}** ({pct(n_under, n_open_issues)}) | "
+    n_rest = n_open_issues - n_epic_issues
+    L.append(f"| **{len(open_epics)}** | {len(closed_epics)} | **{n_under} / {n_rest}** ({pct(n_under, n_rest)}) | "
              f"{n_prs} | **{n_epic_prs}** ({pct(n_epic_prs, n_work)} of non-bot) | {len(buckets['loose_issue'])} | "
              f"{len(buckets['no_issue'])} | {n_bots} |")
     L.append("")
     L.append("The *trace to an epic* share is the headline: how much of the month's merged work the epics describe. "
              "The two loose columns are work that happened outside any epic — tracked by a stand-alone issue, or by "
-             "nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share.")
+             "nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share. "
+             "*Open issues under an epic* counts the issues other than the epics themselves; its complement is the "
+             "list at the end.")
     L.append("")
     L.append("---")
     L.append("")
@@ -772,13 +799,14 @@ def build_epics_report(ts, cutoff, repos, open_issues, epics, prs, attribution):
         chk = f"{cd}/{ct}" if ct else "—"
         note = ""
         if comments_only.get(key):
-            note = f" ⚠︎ {comments_only[key]} PR{'s' if comments_only[key] != 1 else ''} cited in comments only"
+            note = f" ⚠︎ {comments_only[key]} known from comments only"
         L.append(f"| {_ref(*key, e['url'])} {_esc(e['title'])} | {e['created']} | {subs} | {chk} | "
                  f"{len(per_epic.get(key, []))}{note} | {e['updated']} |")
     L.append("")
     L.append("*Sub-issues closed* is GitHub's native parent/child count (it crosses repos). *Checklist* is the "
-             "`- [ ]` boxes in the epic's body. ⚠︎ marks progress that was recorded in comments while the body's "
-             "checklist was not updated — the epic is moving, but its face is stale.")
+             "`- [ ]` boxes in the epic's body. ⚠︎ counts merged PRs this report could attribute to the epic only "
+             "because a comment on the epic cites them: neither the body nor a sub-issue names them, so a reader "
+             "of the epic's face would miss that work.")
     L.append("")
     # ---- per-epic detail
     for e in sorted(open_epics, key=lambda e: (e["repo"], e["number"])):
@@ -914,8 +942,10 @@ def build_epics_report(ts, cutoff, repos, open_issues, epics, prs, attribution):
     L.append("## Method")
     L.append("")
     L.append(f"- **Epics:** `gh search issues --owner lentago --label {EPIC_LABEL}` (open, plus closed within "
-             f"{EPIC_CLOSED_WINDOW_DAYS} days) ∪ every open issue with sub-issues and no parent. A labelled epic "
-             "that sits under a parent renders there, not at top level.")
+             f"{EPIC_CLOSED_WINDOW_DAYS} days) ∪ every issue with sub-issues and no parent that is open or closed "
+             f"within those {EPIC_CLOSED_WINDOW_DAYS} days. A labelled open epic that sits under a parent renders "
+             "there, not at top level; a closed one is taken at top level, since the closed listing carries no "
+             "parent field this report reads.")
     L.append(f"- **Sub-issues:** GitHub's native parent/child links, read through the REST `sub_issues` endpoint "
              f"and followed {TREE_DEPTH} levels deep. They cross repos inside the org. Link one with "
              "`gh api -X POST repos/lentago/<repo>/issues/<epic>/sub_issues -F sub_issue_id=<child id>`.")
