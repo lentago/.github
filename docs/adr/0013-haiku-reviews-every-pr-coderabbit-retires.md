@@ -1,6 +1,6 @@
 # ADR-0013: Haiku reviews every PR in the operating repos; CodeRabbit retires
 
-**Status:** Accepted (2026-10-29)
+**Status:** Accepted (2026-10-29; amended 2026-10-29: Decision 5's `.coderabbit.yaml` step was superseded, see there)
 
 ## Context
 
@@ -115,9 +115,14 @@ reach, and against one CodeRabbit had reviewed:
    - **every finding is triaged on the PR,** either fixed with the commit named
      or declined with a reason.
 5. **CodeRabbit retires once the callers are live:**
-   - auto-review goes off in the central `.coderabbit.yaml`;
+   - ~~auto-review goes off in the central `.coderabbit.yaml`~~ (*superseded
+     2026-10-29*: uninstalling the app stops all CodeRabbit activity at once,
+     and the repo is archived read-only, so a config edit first would only add
+     a PR to a closing repo; see #284);
    - the app is uninstalled from the org;
-   - `lentago/coderabbit` is archived through this repo's terraform.
+   - `lentago/coderabbit` is archived and removed from this repo's fleet
+     config and terraform state (`terraform/README.md` "Retiring a repo";
+     #284).
 
 ## Alternatives
 
