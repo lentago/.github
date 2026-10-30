@@ -14,7 +14,10 @@
     "",
     "Accent discipline (BRAND.md): anther gold #E0A81C is one element per",
     "region. 'help wanted' is the fleet's single gold label — it is the only",
-    "one that is a call to action."
+    "one that is a call to action.",
+    "",
+    "'epic' marks a tracking issue whose sub-issues are the work; the Epics",
+    "report (fleet-reports/epics.md) discovers epics by it and by sub-issues."
   ],
 
   "labels": [
@@ -36,6 +39,9 @@
       "description": "Not actionable as filed" },
     { "name": "wontfix",          "color": "748983", "ensure": true,
       "description": "Deliberately not being done" },
+
+    { "name": "epic",             "color": "12311f", "ensure": true,
+      "description": "Tracking issue: its sub-issues are the work (Epics report)" },
 
     { "name": "re-review",        "color": "8fbfae", "ensure": true,
       "description": "Run the Haiku PR reviewer again (ADR-0013)" },

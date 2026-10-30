@@ -7,6 +7,11 @@ Produces one file under the output tree:
                                   in which CLAUDE.md-family instruction markdown is
                                   counted as natural-language code (docs / content /
                                   data reported separately, excluded). Public data only.
+  fleet-reports/epics.md        — the epics report: every tracking issue (labelled
+                                  `epic`, or an open parent of sub-issues) with its
+                                  sub-issue progress, the merged PRs of the window
+                                  attributed to each, and the open issues no epic covers.
+  fleet-reports/incidents.md    — the incident register, from the local report files.
 
 Scope: every active repo whose owner is the `lentago` org (derived at runtime — new/
 renamed repos are picked up automatically; archived repos are excluded). Third-party
@@ -512,6 +517,466 @@ def build_incident_register(out_dir, ts):
     L.append("")
     return "\n".join(L)
 
+# ---------------------------------------------------------------- epics report
+# The third periodic fleet report: fleet-reports/epics.md. An *epic* is a tracking
+# issue — one labelled `epic`, or an open issue that has sub-issues and no parent
+# of its own. Progress is GitHub's own sub-issue count (native parent/child links,
+# which cross repos inside the org) plus the body checklist. The report also
+# attributes the window's merged PRs to epics, so the share of real work an epic
+# accounts for is visible — and so is the complement: the work no epic describes.
+# Public metadata only, like fleet-report.md. Needs gh, not cloc (--epics-only).
+EPIC_LABEL = "epic"
+EPIC_CLOSED_WINDOW_DAYS = 90   # closed epics stay on the report this long
+TREE_DEPTH = 3                 # sub-issue nesting followed below an epic
+DEFACTO_MIN_PRS = 4            # a loose issue this many merged PRs cite is a de-facto epic
+LIST_CAP = 500                 # per-repo issue listings
+SEARCH_CAP = 1000              # org-wide searches (gh's maximum)
+
+def _issues_disabled(exc):
+    return "disabled issues" in str(exc)
+
+def _check_cap(items, cap, what):
+    """A capped listing that fills its cap may have dropped rows; the report must not
+    publish a silently thinner picture, so stop instead."""
+    if len(items) >= cap:
+        raise RuntimeError(f"{what}: {len(items)} rows hit the cap of {cap}; raise the cap")
+
+def gh_api(path):
+    out = sh(["gh", "api", path])
+    return json.loads(out) if out.strip() else []
+
+def _repo_of(repository_url):
+    return repository_url.rstrip("/").rsplit("/", 1)[1]
+
+CHECK_RE = re.compile(r"^\s*[-*]\s+\[([ xX])\]", re.M)
+def checklist(body):
+    marks = CHECK_RE.findall(body or "")
+    return sum(1 for m in marks if m in "xX"), len(marks)
+
+# Issue/PR references in free text: a github.com URL, `repo#N` / `lentago/repo#N`
+# (a repo name may start with a dot, as `.github` does), or a bare `#N` in the
+# text's own repo. Numbers alone cannot tell an issue from a PR; callers resolve
+# that against the sets they hold.
+REF_RE = re.compile(r"https://github\.com/lentago/([\w.-]+)/(?:issues|pull)/(\d+)"
+                    r"|(?<![\w/])(?:lentago/)?([\w.-]+)#(\d+)"
+                    r"|(?<![\w/#])#(\d+)")
+def refs(text, repo):
+    out = set()
+    for m in REF_RE.finditer(text or ""):
+        if m.group(1): out.add((m.group(1), int(m.group(2))))
+        elif m.group(3): out.add((m.group(3).rstrip("."), int(m.group(4))))
+        else: out.add((repo, int(m.group(5))))
+    return out
+
+def _first_para(body, limit=320):
+    for para in re.split(r"\n\s*\n", body or ""):
+        p = para.strip()
+        if not p or p[0] in "#>|-*!<[" or p.startswith("```"):
+            continue
+        return _first_sentence(_strip_md(p), limit)
+    return ""
+
+def list_open_issues(repos):
+    """Every open issue in the public fleet, with its parent and sub-issue summary."""
+    out = []
+    for r in repos:
+        try:
+            data = gh_json(["issue", "list", "--repo", f"lentago/{r['name']}", "--state", "open",
+                            "--limit", str(LIST_CAP), "--json",
+                            "number,title,labels,createdAt,updatedAt,url,parent,subIssuesSummary"])
+        except RuntimeError as exc:
+            if _issues_disabled(exc):
+                continue   # the uvularia templates have issues disabled: nothing to list
+            raise          # a rate limit or auth failure must stop the run, not thin the report
+        _check_cap(data, LIST_CAP, f"open issues of {r['name']}")
+        for i in data:
+            i["repo"] = r["name"]
+            out.append(i)
+    return out
+
+def fetch_tree(repo, number, depth=0):
+    kids = gh_api(f"repos/lentago/{repo}/issues/{number}/sub_issues?per_page=100")
+    nodes = []
+    for k in kids:
+        kr = _repo_of(k["repository_url"])
+        node = {"repo": kr, "number": k["number"], "title": k["title"], "state": k["state"],
+                "url": k["html_url"], "closed_at": (k.get("closed_at") or "")[:10], "children": []}
+        if (k.get("sub_issues_summary") or {}).get("total", 0) and depth < TREE_DEPTH:
+            node["children"] = fetch_tree(kr, k["number"], depth + 1)
+        nodes.append(node)
+    return nodes
+
+def flatten(nodes):
+    for n in nodes:
+        yield n
+        yield from flatten(n["children"])
+
+def discover_epics(repos, open_issues, cutoff_closed):
+    """Labelled epics (open, or closed inside the window) plus unlabelled parents:
+    open issues with sub-issues and no parent. Scoped to the public fleet."""
+    names = {r["name"] for r in repos}
+    found = set()
+    for state, extra in (("open", []), ("closed", ["--closed", f">={cutoff_closed[:10]}"])):
+        hits = gh_json(["search", "issues", "--owner", "lentago", "--label", EPIC_LABEL,
+                        "--state", state, "--limit", str(SEARCH_CAP), "--json", "repository,number"] + extra)
+        _check_cap(hits, SEARCH_CAP, f"{state} epics")
+        for i in hits:
+            if i["repository"]["name"] in names:
+                found.add((i["repository"]["name"], i["number"]))
+    has_parent = {(i["repo"], i["number"]) for i in open_issues if i.get("parent")}
+    for i in open_issues:
+        if (i.get("subIssuesSummary") or {}).get("total", 0) and not i.get("parent"):
+            found.add((i["repo"], i["number"]))
+    # Closed parents inside the window count too, label or not: an epic that closed
+    # with sub-issues still open is a hand-off the report should show.
+    for r in repos:
+        try:
+            closed = gh_json(["issue", "list", "--repo", f"lentago/{r['name']}", "--state", "closed",
+                              "--limit", str(LIST_CAP), "--search", f"closed:>={cutoff_closed[:10]}",
+                              "--json", "number,parent,subIssuesSummary"])
+        except RuntimeError as exc:
+            if _issues_disabled(exc):
+                continue
+            raise
+        _check_cap(closed, LIST_CAP, f"closed issues of {r['name']}")
+        for i in closed:
+            if (i.get("subIssuesSummary") or {}).get("total", 0) and not i.get("parent"):
+                found.add((r["name"], i["number"]))
+    # A labelled *open* epic that itself sits under a parent renders there, not at top
+    # level. has_parent is built from the open listing only, so a closed labelled epic
+    # under a parent would still surface at top level — acceptable for a hand-off view.
+    return sorted(k for k in found if k not in has_parent)
+
+def build_epic(repo, number):
+    iss = gh_api(f"repos/lentago/{repo}/issues/{number}")
+    body = iss.get("body") or ""
+    comments = sh(["gh", "api", f"repos/lentago/{repo}/issues/{number}/comments",
+                   "--paginate", "--jq", ".[].body"], check=False)
+    tree = fetch_tree(repo, number)
+    kids = list(flatten(tree))
+    done, total = checklist(body)
+    return {"repo": repo, "number": number, "title": iss["title"], "state": iss["state"],
+            "url": iss["html_url"], "created": iss["created_at"][:10],
+            "updated": iss["updated_at"][:10], "closed": (iss.get("closed_at") or "")[:10],
+            "summary": _first_para(body), "check": (done, total), "tree": tree, "kids": kids,
+            "kids_open": sum(1 for k in kids if k["state"] == "open"),
+            "kids_closed": sum(1 for k in kids if k["state"] != "open"),
+            "cites_body": refs(body, repo), "cites_comments": refs(comments, repo)}
+
+def get_merged_prs(cutoff_iso, fleet_names):
+    prs = gh_json(["search", "prs", "--owner", "lentago", "--merged", "--merged-at",
+                   f">={cutoff_iso[:10]}", "--limit", str(SEARCH_CAP),
+                   "--json", "repository,number,title,closedAt,body,author,url"])
+    _check_cap(prs, SEARCH_CAP, "merged PRs in the window")
+    return [p for p in prs if p["repository"]["name"] in fleet_names
+            and p.get("closedAt", "") >= cutoff_iso]
+
+def attribute_prs(prs, epics):
+    """Each merged PR lands in exactly one place: an epic (several, if it serves
+    several), or one of four loose buckets. A PR counts toward an epic when the
+    epic's body or comments cite it, or when its own body references an issue in
+    the epic's sub-issue tree (or the epic itself)."""
+    issue_to_epic, pr_cited = {}, {}
+    for e in epics:
+        key = (e["repo"], e["number"])
+        issue_to_epic[key] = key
+        for k in e["kids"]:
+            issue_to_epic[(k["repo"], k["number"])] = key
+        for ref in e["cites_body"]:
+            pr_cited.setdefault(ref, set()).add((key, "body"))
+        for ref in e["cites_comments"]:
+            pr_cited.setdefault(ref, set()).add((key, "comments"))
+    prset = {(p["repository"]["name"], p["number"]) for p in prs}
+    per_epic = defaultdict(list)
+    comments_only = defaultdict(int)
+    buckets = {"deps": [], "automation": [], "loose_issue": [], "no_issue": []}
+    loose_hits = defaultdict(list)
+    for p in prs:
+        key = (p["repository"]["name"], p["number"])
+        login = (p.get("author") or {}).get("login", "")
+        if login == "dependabot[bot]" or p["title"].startswith(("build(deps)", "chore(deps)")):
+            buckets["deps"].append(p); continue
+        if (login.endswith("[bot]") and login != "lentago-claude-runner[bot]") \
+                or p["title"].startswith("Weekly fleet reports refresh"):
+            buckets["automation"].append(p); continue
+        hits = set()
+        if key in pr_cited:
+            wheres = {w for _, w in pr_cited[key]}
+            for ek, _ in pr_cited[key]:
+                hits.add(ek)
+                if wheres == {"comments"}: comments_only[ek] += 1
+        irs = [r for r in refs(p.get("body"), key[0]) if r not in prset]
+        for r in irs:
+            if r in issue_to_epic: hits.add(issue_to_epic[r])
+        if hits:
+            for ek in hits: per_epic[ek].append(p)
+        elif irs:
+            buckets["loose_issue"].append(p)
+            for r in irs: loose_hits[r].append(p)
+        else:
+            buckets["no_issue"].append(p)
+    return per_epic, buckets, loose_hits, comments_only, issue_to_epic
+
+def _bar(done, total, width=10):
+    if not total: return "·" * width
+    filled = round(width * done / total)
+    return "█" * filled + "░" * (width - filled)
+
+def _ref(repo, number, url=None):
+    url = url or f"https://github.com/lentago/{repo}/issues/{number}"
+    return f"[{repo}#{number}]({url})"
+
+def _render_tree(nodes, L, indent=0):
+    for n in sorted(nodes, key=lambda n: (n["state"] != "open", n["repo"], n["number"])):
+        mark = "⬜" if n["state"] == "open" else "✅"
+        sub = ""
+        if n["children"]:
+            c = list(flatten(n["children"]))
+            sub = f" — {sum(1 for k in c if k['state'] != 'open')}/{len(c)} sub-issues closed"
+        L.append(f"{'  ' * indent}- {mark} {_ref(n['repo'], n['number'], n['url'])} {_esc(n['title'])}{sub}")
+        if n["children"]:
+            _render_tree(n["children"], L, indent + 1)
+
+def build_epics_report(ts, cutoff, repos, open_issues, epics, prs, attribution):
+    per_epic, buckets, loose_hits, comments_only, issue_to_epic = attribution
+    open_epics = [e for e in epics if e["state"] == "open"]
+    closed_epics = [e for e in epics if e["state"] != "open"]
+    epic_keys = {(e["repo"], e["number"]) for e in epics}
+    covered = {k for k in issue_to_epic if k not in epic_keys}
+    outside = [i for i in open_issues
+               if (i["repo"], i["number"]) not in covered and (i["repo"], i["number"]) not in epic_keys]
+    n_open_issues = len(open_issues)
+    n_epic_issues = sum(1 for i in open_issues if (i["repo"], i["number"]) in epic_keys)
+    n_under = n_open_issues - n_epic_issues - len(outside)
+    n_prs = len(prs)
+    n_epic_prs = len({(p["repository"]["name"], p["number"]) for l in per_epic.values() for p in l})
+    n_bots = len(buckets["deps"]) + len(buckets["automation"])
+    n_work = n_prs - n_bots
+    pct = lambda a, b: f"{100 * a / b:.0f}%" if b else "—"
+
+    L = []
+    L.append("# Lentago Labs Epics Report")
+    L.append("")
+    L.append("> [!NOTE]")
+    L.append("> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). "
+             "Auto-generated weekly from the fleet's public state. An **epic** here is a tracking issue: one "
+             f"labelled `{EPIC_LABEL}`, or an open issue with sub-issues and no parent of its own. Progress is "
+             "GitHub's own sub-issue count plus the issue's checklist, so an epic that is not kept up to date "
+             "shows as not moving — that is the point. The sibling [fleet report](fleet-report.md) lists every "
+             "open issue; this one asks what the issues add up to, and how much of the merged work they describe.")
+    L.append("")
+    L.append(f"**Generated:** {ts} · Scope: the **{len(repos)} active** `lentago` repos · "
+             f"Merged-PR window: last {ACTIVITY_WINDOW_DAYS} days (since {cutoff[:10]}) · "
+             f"closed epics shown for {EPIC_CLOSED_WINDOW_DAYS} days.")
+    L.append("")
+    L.append("## Snapshot")
+    L.append("")
+    L.append("| Open epics | Closed epics (90d) | Open issues under an epic | Merged PRs (30d) | …that trace to an epic | …loose, with an issue | …loose, no issue | …bots |")
+    L.append("|---:|---:|---:|---:|---:|---:|---:|---:|")
+    n_rest = n_open_issues - n_epic_issues
+    L.append(f"| **{len(open_epics)}** | {len(closed_epics)} | **{n_under} / {n_rest}** ({pct(n_under, n_rest)}) | "
+             f"{n_prs} | **{n_epic_prs}** ({pct(n_epic_prs, n_work)} of non-bot) | {len(buckets['loose_issue'])} | "
+             f"{len(buckets['no_issue'])} | {n_bots} |")
+    L.append("")
+    L.append("The *trace to an epic* share is the headline: how much of the month's merged work the epics describe. "
+             "The two loose columns are work that happened outside any epic — tracked by a stand-alone issue, or by "
+             "nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share. "
+             "*Open issues under an epic* counts the issues other than the epics themselves; its complement is the "
+             "list at the end.")
+    L.append("")
+    L.append("---")
+    L.append("")
+    # ---- open epics table
+    L.append(f"## Open epics — {len(open_epics)}")
+    L.append("")
+    L.append("| Epic | Since | Sub-issues closed | Checklist | PRs (30d) | Last activity |")
+    L.append("|------|-------|-------------------|-----------|----------:|---------------|")
+    for e in sorted(open_epics, key=lambda e: (-len(per_epic.get((e["repo"], e["number"]), [])), e["repo"], e["number"])):
+        key = (e["repo"], e["number"])
+        kc, kt = e["kids_closed"], len(e["kids"])
+        cd, ct = e["check"]
+        subs = f"`{_bar(kc, kt)}` {kc}/{kt}" if kt else "—"
+        chk = f"{cd}/{ct}" if ct else "—"
+        note = ""
+        if comments_only.get(key):
+            note = f" ⚠︎ {comments_only[key]} known from comments only"
+        L.append(f"| {_ref(*key, e['url'])} {_esc(e['title'])} | {e['created']} | {subs} | {chk} | "
+                 f"{len(per_epic.get(key, []))}{note} | {e['updated']} |")
+    L.append("")
+    L.append("*Sub-issues closed* is GitHub's native parent/child count (it crosses repos). *Checklist* is the "
+             "`- [ ]` boxes in the epic's body. ⚠︎ counts merged PRs this report could attribute to the epic only "
+             "because a comment on the epic cites them: neither the body nor a sub-issue names them, so a reader "
+             "of the epic's face would miss that work.")
+    L.append("")
+    # ---- per-epic detail
+    for e in sorted(open_epics, key=lambda e: (e["repo"], e["number"])):
+        key = (e["repo"], e["number"])
+        L.append(f"### {_esc(e['title'])}")
+        L.append("")
+        L.append(f"{_ref(*key, e['url'])} · open since {e['created']} · last activity {e['updated']}")
+        L.append("")
+        if e["summary"]:
+            L.append(f"> {_esc(e['summary'])}")
+            L.append("")
+        kc, kt = e["kids_closed"], len(e["kids"])
+        cd, ct = e["check"]
+        bits = []
+        if kt: bits.append(f"**{kc}/{kt}** sub-issues closed")
+        if ct: bits.append(f"checklist **{cd}/{ct}**")
+        n = len(per_epic.get(key, []))
+        bits.append(f"**{n}** PR{'s' if n != 1 else ''} merged in the window")
+        L.append("Progress: " + " · ".join(bits))
+        L.append("")
+        if e["tree"]:
+            L.append("<details><summary>Sub-issues</summary>")
+            L.append("")
+            _render_tree(e["tree"], L)
+            L.append("")
+            L.append("</details>")
+            L.append("")
+        else:
+            L.append("_No sub-issues linked — progress is visible only through the checklist and cited PRs._")
+            L.append("")
+        if per_epic.get(key):
+            L.append("<details><summary>Merged PRs attributed (30d)</summary>")
+            L.append("")
+            for p in sorted(per_epic[key], key=lambda p: p["closedAt"], reverse=True):
+                r = p["repository"]["name"]
+                L.append(f"- {p['closedAt'][:10]} · [{r}#{p['number']}]({p['url']}) — {_esc(p['title'])}")
+            L.append("")
+            L.append("</details>")
+            L.append("")
+    L.append("---")
+    L.append("")
+    # ---- closed epics
+    L.append(f"## Closed in the last {EPIC_CLOSED_WINDOW_DAYS} days — {len(closed_epics)}")
+    L.append("")
+    if not closed_epics:
+        L.append("_None._")
+        L.append("")
+    else:
+        L.append("| Closed | Epic | Sub-issues | Still open underneath | PRs (30d) |")
+        L.append("|--------|------|-----------:|----------------------:|----------:|")
+        for e in sorted(closed_epics, key=lambda e: e["closed"], reverse=True):
+            key = (e["repo"], e["number"])
+            left = e["kids_open"]
+            L.append(f"| {e['closed']} | {_ref(*key, e['url'])} {_esc(e['title'])} | {len(e['kids'])} | "
+                     f"{'**' + str(left) + '**' if left else '0'} | {len(per_epic.get(key, []))} |")
+        L.append("")
+        L.append("A closed epic with open sub-issues is a hand-off: the work was spun out and still owes a result.")
+        L.append("")
+    L.append("---")
+    L.append("")
+    # ---- coverage
+    L.append(f"## Where the last {ACTIVITY_WINDOW_DAYS} days went")
+    L.append("")
+    L.append(f"**{n_prs} PRs merged** across the fleet. Each is attributed once (an epic, or one loose bucket); "
+             "a PR that serves two epics counts for both.")
+    L.append("")
+    L.append("| Destination | PRs | Share |")
+    L.append("|-------------|----:|------:|")
+    rows = sorted(per_epic.items(), key=lambda kv: -len(kv[1]))
+    for key, l in rows:
+        e = next(x for x in epics if (x["repo"], x["number"]) == key)
+        tag = "" if e["state"] == "open" else " _(closed)_"
+        L.append(f"| {_ref(*key, e['url'])} {_esc(e['title'])}{tag} | {len(l)} | {pct(len(l), n_prs)} |")
+    L.append(f"| **All epics** | **{n_epic_prs}** | **{pct(n_epic_prs, n_prs)}** |")
+    L.append(f"| Loose — closes or cites an issue outside any epic | {len(buckets['loose_issue'])} | {pct(len(buckets['loose_issue']), n_prs)} |")
+    L.append(f"| Loose — no issue reference at all | {len(buckets['no_issue'])} | {pct(len(buckets['no_issue']), n_prs)} |")
+    L.append(f"| Dependabot | {len(buckets['deps'])} | {pct(len(buckets['deps']), n_prs)} |")
+    L.append(f"| Fleet automation (report refreshes, template sync) | {len(buckets['automation'])} | {pct(len(buckets['automation']), n_prs)} |")
+    L.append("")
+    # de-facto epics
+    defacto = [(r, l) for r, l in loose_hits.items() if len(l) >= DEFACTO_MIN_PRS]
+    if defacto:
+        L.append("### De-facto epics")
+        L.append("")
+        L.append(f"Issues outside any epic that at least {DEFACTO_MIN_PRS} merged PRs reference. Each is a campaign "
+                 "that ran on a single issue; if it is still open, it is a candidate for the `epic` label or a parent.")
+        L.append("")
+        L.append("| Issue | PRs | Repos touched | State |")
+        L.append("|-------|----:|--------------:|-------|")
+        for (r, n), l in sorted(defacto, key=lambda kv: -len(kv[1])):
+            try:
+                iss = gh_api(f"repos/lentago/{r}/issues/{n}")
+                title, state = iss["title"], iss["state"]
+            except Exception:
+                title, state = "(not readable)", "?"
+            repos_touched = len({p["repository"]["name"] for p in l})
+            L.append(f"| {_ref(r, n)} {_esc(title)} | {len(l)} | {repos_touched} | {state} |")
+        L.append("")
+    # untracked by repo
+    loose_all = buckets["loose_issue"] + buckets["no_issue"]
+    if loose_all:
+        by_repo = defaultdict(lambda: [0, 0])
+        for p in buckets["loose_issue"]: by_repo[p["repository"]["name"]][0] += 1
+        for p in buckets["no_issue"]: by_repo[p["repository"]["name"]][1] += 1
+        L.append("### Loose work by repo")
+        L.append("")
+        L.append("Where the merged work that no epic describes landed. A tall row is either a program that deserves "
+                 "an epic, or a repo whose convention is direct PRs.")
+        L.append("")
+        L.append("| Repo | With an issue | No issue | Total |")
+        L.append("|------|--------------:|---------:|------:|")
+        for r, (a, b) in sorted(by_repo.items(), key=lambda kv: -(kv[1][0] + kv[1][1])):
+            L.append(f"| {r} | {a} | {b} | **{a + b}** |")
+        L.append("")
+    L.append("---")
+    L.append("")
+    # ---- outside any epic
+    by_repo = defaultdict(list)
+    for i in outside: by_repo[i["repo"]].append(i)
+    L.append(f"## Open issues outside any epic — {len(outside)}")
+    L.append("")
+    L.append("The backlog the epics do not describe. Some of it is deliberately small and stand-alone; the rest is "
+             "either a program without a parent or an issue that should be linked under one.")
+    L.append("")
+    for r in sorted(by_repo, key=lambda r: (-len(by_repo[r]), r)):
+        L.append(f"**{r}** — {len(by_repo[r])}")
+        L.append("")
+        for i in sorted(by_repo[r], key=lambda i: -i["number"]):
+            L.append(f"- [{r}#{i['number']}]({i['url']}) {_esc(i['title'])} _(since {i['createdAt'][:10]})_")
+        L.append("")
+    L.append("---")
+    L.append("")
+    L.append("## Method")
+    L.append("")
+    L.append(f"- **Epics:** `gh search issues --owner lentago --label {EPIC_LABEL}` (open, plus closed within "
+             f"{EPIC_CLOSED_WINDOW_DAYS} days) ∪ every issue with sub-issues and no parent that is open or closed "
+             f"within those {EPIC_CLOSED_WINDOW_DAYS} days. A labelled open epic that sits under a parent renders "
+             "there, not at top level; a closed one is taken at top level, since the closed listing carries no "
+             "parent field this report reads.")
+    L.append(f"- **Sub-issues:** GitHub's native parent/child links, read through the REST `sub_issues` endpoint "
+             f"and followed {TREE_DEPTH} levels deep. They cross repos inside the org. Link one with "
+             "`gh api -X POST repos/lentago/<repo>/issues/<epic>/sub_issues -F sub_issue_id=<child id>`.")
+    L.append("- **Attribution:** a merged PR counts toward an epic when the epic's body or comments cite the PR, or "
+             "when the PR's body references an issue in the epic's tree (or the epic itself). Otherwise it is loose: "
+             "with an issue, or without one. Dependabot and the fleet's own bots are set aside.")
+    L.append("- **Limits:** a citation is a citation — an epic that mentions a PR as an example counts it as work. "
+             "An issue cannot have two parents, so a piece of work that serves two programs sits under one; the "
+             "other may still cite it.")
+    L.append("- **Regenerating:** `python3 metrics/generate-fleet-reports.py --out-dir . --epics-only` "
+             "(needs `gh`, not `cloc`).")
+    L.append("")
+    L.append("_Generated with Claude Code (Repo Claude)._")
+    L.append("")
+    return "\n".join(L)
+
+def run_epics(out_dir, ts, cutoff, repos):
+    cutoff_closed = (datetime.now(timezone.utc) - timedelta(days=EPIC_CLOSED_WINDOW_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    names = {r["name"] for r in repos}
+    open_issues = list_open_issues(repos)
+    keys = discover_epics(repos, open_issues, cutoff_closed)
+    epics = [build_epic(r, n) for r, n in keys]
+    prs = get_merged_prs(cutoff, names)
+    attribution = attribute_prs(prs, epics)
+    report = build_epics_report(ts, cutoff, repos, open_issues, epics, prs, attribution)
+    path = os.path.join(out_dir, "fleet-reports", "epics.md")
+    with open(path, "w") as f: f.write(report)
+    print(f"wrote fleet-reports/epics.md into {out_dir}")
+    print(f"  {sum(1 for e in epics if e['state']=='open')} open epics · {len(prs)} merged PRs attributed")
+
+
 # ---------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
@@ -521,6 +986,8 @@ def main():
     ap.add_argument("--incidents-only", action="store_true",
                     help="regenerate only fleet-reports/incidents.md from local report files "
                          "(no gh/cloc needed — used when a new incident report is filed)")
+    ap.add_argument("--epics-only", action="store_true",
+                    help="regenerate only fleet-reports/epics.md (needs gh, not cloc)")
     args = ap.parse_args()
 
     now = datetime.now(timezone.utc)
@@ -538,6 +1005,9 @@ def main():
         return
 
     repos = get_repos()
+    if args.epics_only:
+        run_epics(out, ts, cutoff, repos)
+        return
     work_dir = args.work_dir or tempfile.mkdtemp(prefix="fleet-census-")
     clones = ensure_clones(repos, args.source_dir, work_dir)
 
@@ -552,6 +1022,7 @@ def main():
     code_total = sum(s["lines"] for s in fleet["code"].values())
     print(f"wrote fleet-reports/fleet-report.md into {out}")
     print(f"  {len(open_issues)} open issues · {code_total:,} code lines")
+    run_epics(out, ts, cutoff, repos)
 
 if __name__ == "__main__":
     main()
