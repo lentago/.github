@@ -1,6 +1,6 @@
 name: Weekly fleet reports
 
-# Regenerates fleet-reports/fleet-report.md (combined issue report + code census)
+# Regenerates fleet-reports/fleet-report.md (issue report, site error budgets, code census)
 # and fleet-reports/epics.md (tracking issues, their sub-issue progress, and the
 # merged work attributed to each) from the fleet's public state, plus
 # fleet-reports/incidents.md (the incident register, rebuilt from the local report
@@ -10,6 +10,34 @@ name: Weekly fleet reports
 # fine-grained PAT stored as the repo secret FLEET_REPORTS_TOKEN (resource owner
 # `lentago`, repo `.github`, permissions Contents + Pull requests: write). The
 # generator's cross-repo reads work because every lentago repo is public.
+#
+# Site error budgets (lentago/drosera#199): fleet-report.md's error-budget table
+# queries drosera's Grafana Cloud stack with a second, optional secret,
+# FLEET_REPORTS_GRAFANA_TOKEN. It is passed to the regenerate step only. When it is
+# unset the table renders a one-line "not configured" note and the run stays green;
+# when it is set but fails (expired, revoked) the table says so and the run warns.
+#   Scope: a Grafana service-account token (`glsa_…`) under an account with the
+#   built-in Viewer role, which is enough to query the `grafanacloud-prom` data
+#   source through /api/datasources/proxy and can change nothing. Not a Cloud
+#   access-policy token and not the `terraform-iac` Admin account.
+#   Creating it (ADR-0011 rule 4: Terraform holds the slot, the value is set by hand):
+#     1. In lentago/drosera, add to terraform/service_accounts.tf (and its row to
+#        terraform/README.md § Service accounts), and merge so CI applies it:
+#          resource "grafana_service_account" "fleet_reports_viewer" {
+#            name        = "fleet-reports-viewer"
+#            role        = "Viewer"
+#            is_disabled = false
+#          }
+#     2. In https://lentago.grafana.net, Administration → Users and access →
+#        Service accounts → fleet-reports-viewer → Add service account token,
+#        named `lentago/.github fleet-reports`. Copy it (shown once).
+#     3. Store it without echoing it:
+#          gh secret set FLEET_REPORTS_GRAFANA_TOKEN --repo lentago/.github
+#        (paste at the prompt). Record any expiry in the credential register (#243).
+#     4. Run this workflow by hand (workflow_dispatch) and check that the refresh PR's
+#        fleet-report.md shows the table rather than the note (ADR-0011 rule 5).
+#   Rotate: mint a new token, `gh secret set` again, delete the old token.
+#   Revoke: delete the token in the stack; the table falls back to an error note.
 
 on:
   schedule:
@@ -61,6 +89,9 @@ jobs:
           sudo install -m 0755 /tmp/cloc-2.06.pl /usr/local/bin/cloc
 
       - name: Regenerate reports
+        env:
+          # Optional; empty when the secret is unset. See the header.
+          FLEET_REPORTS_GRAFANA_TOKEN: ${{ secrets.FLEET_REPORTS_GRAFANA_TOKEN }}
         run: python3 metrics/generate-fleet-reports.py --out-dir .
 
       - name: Open auto-merging PR if anything changed

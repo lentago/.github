@@ -6,7 +6,8 @@ Produces one file under the output tree:
                                   a 30-day activity snapshot, followed by a code census
                                   in which CLAUDE.md-family instruction markdown is
                                   counted as natural-language code (docs / content /
-                                  data reported separately, excluded). Public data only.
+                                  data reported separately, excluded), and a 30-day
+                                  error-budget table for the public sites. Public data only.
   fleet-reports/epics.md        — the epics report: every tracking issue (labelled
                                   `epic`, or an open parent of sub-issues) with its
                                   sub-issue progress, the merged PRs of the window
@@ -23,7 +24,9 @@ Usage:
 
 If --source-dir is given and contains the clones, they're reused (fast local runs).
 Otherwise every lentago repo is shallow-cloned into --work-dir (default: a temp dir).
-Requires: git, gh (authenticated), cloc.
+Requires: git, gh (authenticated), cloc. Optional: FLEET_REPORTS_GRAFANA_TOKEN (a Grafana
+Viewer service-account token) for the error-budget section; without it the section is a
+one-line "not configured" note.
 """
 import argparse, json, os, re, subprocess, sys, tempfile, shutil
 from collections import defaultdict
@@ -355,8 +358,167 @@ def census_section(fleet, per_repo, instr_files, INSTR_LABEL, repos):
     L.append("")
     return L
 
+# ---------------------------------------------------------------- site error budgets
+# Per-site error budgets for the public sites, from drosera's blackbox probes in Grafana
+# Cloud (lentago/drosera#199). The SLO, the site list and every PromQL expression below
+# are drosera's, not this generator's: lentago/drosera docs/adr/0008-site-availability-
+# slos-and-burn-rate-alerts.md, dashboards/sites-slo-error-budget.json (the stat
+# panels) and terraform/alerts.tf (group "Site SLO burn rate"). Change them there first.
+#
+# Read path: Grafana's data-source proxy, which exposes the stack's Prometheus data
+# source (uid grafanacloud-prom, the one the alert rules name) as the Prometheus HTTP
+# API. It authenticates with a Viewer service-account token from the environment; with
+# no token the section renders a one-line note and the run carries on.
+SLO_TARGET = 0.999
+SLO_BUDGET_MINUTES = 43.2                 # (1 - 0.999) * 30 days
+SLO_WINDOW_DAYS = 30
+SLO_SITES = ("lentago.dev", "icecreamtofightwith.com", "pondviewlane.com")  # drosera local.slo_sites
+GRAFANA_URL = os.environ.get("FLEET_REPORTS_GRAFANA_URL", "https://lentago.grafana.net")
+GRAFANA_PROM_UID = "grafanacloud-prom"
+GRAFANA_TOKEN_ENV = "FLEET_REPORTS_GRAFANA_TOKEN"
+# (label, long window, short window, burn threshold, range-query step in seconds).
+# Thresholds and windows are the rules' own. The step is coarser than the rules' 60s
+# evaluation to keep the 30-day range query cheap. Each step is no longer than its
+# short window (5m for 5m, 1h for 2h), so the sampled windows leave no gap in time.
+BURN_TIERS = (("page", "1h", "5m", 14.4, 300),
+              ("ticket", "24h", "2h", 3, 3600))
+
+class SloUnavailable(Exception):
+    pass
+
+def slo_exprs(site):
+    """The SLO board's three stat-panel expressions for one site, verbatim."""
+    sel = f'probe_success{{job="integrations/blackbox/{site}"}}'
+    return {
+        "attainment": f"avg_over_time({sel}[30d])",
+        "remaining": f"1 - (1 - avg_over_time({sel}[30d])) / 0.001",
+        "minutes": f"(0.001 - (1 - avg_over_time({sel}[30d]))) * 43200",
+    }
+
+def burn_expr(site, window):
+    """The burn-rate expression of the alert rules and the board's burn panels."""
+    return f'(1 - avg_over_time(probe_success{{job="integrations/blackbox/{site}"}}[{window}])) / 0.001'
+
+def prom_get(token, endpoint, params):
+    import http.client, urllib.error, urllib.parse, urllib.request
+    url = (f"{GRAFANA_URL}/api/datasources/proxy/uid/{GRAFANA_PROM_UID}/api/v1/{endpoint}?"
+           + urllib.parse.urlencode(params))
+    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            body = json.load(resp)
+    except urllib.error.HTTPError as exc:
+        # Status only: never echo the request (it carries the token) into the CI log.
+        raise SloUnavailable(f"HTTP {exc.code} from Grafana Cloud") from None
+    except (OSError, http.client.HTTPException, ValueError) as exc:
+        raise SloUnavailable(f"Grafana Cloud unreachable ({type(exc).__name__})") from None
+    if not isinstance(body, dict) or body.get("status") != "success":
+        raise SloUnavailable("query rejected: "
+                             f"{body.get('errorType', '?') if isinstance(body, dict) else 'not a Prometheus response'}")
+    try:
+        return body["data"]["result"]
+    except (KeyError, TypeError):
+        raise SloUnavailable("query returned no result field") from None
+
+def burn_episodes(long_pts, short_pts, threshold, step):
+    """Count the runs of steps where both windows exceed the threshold — the rules'
+    `A > t and B > t`. Points are (unix_ts, value) pairs. Returns (episodes, last_ts)."""
+    short = dict(short_pts)
+    hot = sorted(t for t, v in long_pts if v > threshold and short.get(t, 0) > threshold)
+    episodes, prev = 0, None
+    for t in hot:
+        if prev is None or t - prev > step:
+            episodes += 1
+        prev = t
+    return episodes, (hot[-1] if hot else None)
+
+def _range_points(result, worst):
+    """Collapse a range result to one (ts, value) series; several series for one job
+    (more than one probe) are merged by taking the worse value at each step."""
+    merged = {}
+    for series in result:
+        for t, v in series["values"]:
+            t, v = int(float(t)), float(v)
+            merged[t] = worst(merged[t], v) if t in merged else v
+    return sorted(merged.items())
+
+def collect_error_budgets(now):
+    """One row per SLO site, or a reason string when the data cannot be had."""
+    token = os.environ.get(GRAFANA_TOKEN_ENV, "").strip()
+    if not token:
+        return None, "not configured"
+    end = int(now.timestamp())
+    start = end - SLO_WINDOW_DAYS * 86400
+    rows = []
+    try:
+        for site in SLO_SITES:
+            row = {"site": site}
+            for key, expr in slo_exprs(site).items():
+                res = prom_get(token, "query", {"query": expr, "time": end})
+                # More than one probe series for a job: report the worst one.
+                vals = [float(s["value"][1]) for s in res]
+                row[key] = min(vals) if vals else None
+            row["burns"] = []
+            for label, long_w, short_w, threshold, step in BURN_TIERS:
+                pts = [_range_points(prom_get(token, "query_range",
+                                              {"query": burn_expr(site, w), "start": start,
+                                               "end": end, "step": step}), max)
+                       for w in (long_w, short_w)]
+                n, last = burn_episodes(pts[0], pts[1], threshold, step)
+                row["burns"].append((label, n, last))
+            rows.append(row)
+    except SloUnavailable as exc:
+        return None, str(exc)
+    return rows, None
+
+def _fmt_burns(burns):
+    hits = []
+    for label, n, last in burns:
+        if n:
+            day = datetime.fromtimestamp(last, timezone.utc).strftime("%Y-%m-%d")
+            hits.append(f"{label} ×{n} (last {day})")
+    return " · ".join(hits) if hits else "none"
+
+def error_budget_section(rows, reason):
+    L = []
+    L.append(f"## Site error budgets — last {SLO_WINDOW_DAYS} days")
+    L.append("")
+    if rows is None:
+        if reason == "not configured":
+            L.append(f"_Not configured: the `{GRAFANA_TOKEN_ENV}` secret is unset, so this run did not query "
+                     "Grafana Cloud (setup: [`fleet-reports.yml`](../.github/workflows/fleet-reports.yml))._")
+        else:
+            L.append(f"_Unavailable this run: {_esc(reason)}. The rest of the report is unaffected._")
+        L.append("")
+        return L
+    L.append(f"Each public site's availability objective, from drosera's "
+             "[ADR-0008](https://github.com/lentago/drosera/blob/main/docs/adr/0008-site-availability-slos-and-burn-rate-alerts.md): "
+             f"{100 * SLO_TARGET:g}% of blackbox probes succeed over a rolling {SLO_WINDOW_DAYS} days, which allows "
+             f"{SLO_BUDGET_MINUTES:g} minutes of downtime. The figures are the ones the SLO board shows, from the same "
+             "queries. The probes run from our own building, so a local internet outage counts against every site.")
+    L.append("")
+    L.append(f"| Site | SLO | Availability ({SLO_WINDOW_DAYS}d) | Budget used | Budget left | Burn alerts ({SLO_WINDOW_DAYS}d) |")
+    L.append("|------|----:|------------------:|------------:|------------:|------------------|")
+    for r in rows:
+        if r["attainment"] is None:
+            L.append(f"| {r['site']} | {100 * SLO_TARGET:g}% | _no data_ | — | — | — |")
+            continue
+        used = 100 * (1 - r["remaining"])
+        left = f"{r['minutes']:.1f} min"
+        if r["minutes"] < 0:
+            left = f"**{left}** (overspent)"
+        L.append(f"| {r['site']} | {100 * SLO_TARGET:g}% | {100 * r['attainment']:.3f}% | {used:.0f}% | "
+                 f"{left} | {_fmt_burns(r['burns'])} |")
+    L.append("")
+    L.append("*Burn alerts* counts the separate stretches in which a burn-rate rule's condition held: **page** is "
+             "14.4× the budget rate over both 1h and 5m, **ticket** is 3× over both 24h and 2h. It re-evaluates "
+             "the rules' own expressions at 5-minute (page) and 1-hour (ticket) steps, and does not apply their "
+             "`for` delays, so it can count a stretch shorter than a rule needs to fire.")
+    L.append("")
+    return L
+
 def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
-                  open_issues, recent_closed, merged_prs, recent_open):
+                  open_issues, recent_closed, merged_prs, recent_open, budgets=(None, "not configured")):
     code_total = sum(s["lines"] for s in fleet["code"].values())
     instr = fleet["code"].get(LBL, {"files":0,"lines":0})
     L = []
@@ -365,7 +527,7 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L.append("> [!NOTE]")
     L.append("> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). "
              "Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo "
-             "contents) — no personal, security, or on-prem-internal detail is included (on-prem: the machines in our own building). A prettier, editorialised "
+             "contents) and the public sites' availability probes — no personal, security, or on-prem-internal detail is included (on-prem: the machines in our own building). A prettier, editorialised "
              "copy renders on the on-prem LAN.")
     L.append("")
     L.append(f"**Generated:** {ts} · Scope: the **{len(repos)} active** `lentago` repos "
@@ -388,6 +550,9 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
     L += issue_section(open_issues, recent_closed, merged_prs, recent_open)
     L.append("---")
     L.append("")
+    L += error_budget_section(*budgets)
+    L.append("---")
+    L.append("")
     L += census_section(fleet, per_repo, instr_files, LBL, repos)
     L.append("---")
     L.append("")
@@ -397,6 +562,10 @@ def render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
              f"`gh search prs --owner lentago --merged` and closed issues filtered to the {ACTIVITY_WINDOW_DAYS}-day "
              "window. Public metadata only — no transcript harvest, ops items, or on-prem detail (those live in "
              "the LAN copy).")
+    L.append("- **Error budgets:** drosera's SLO-board and burn-rule PromQL over `probe_success`, sent to the "
+             "Grafana Cloud stack's Prometheus data source through Grafana's data-source proxy with a read-only "
+             f"Viewer token (`{GRAFANA_TOKEN_ENV}`). Without the token the section says so and the rest of the "
+             "report is unchanged.")
     L.append("- **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count "
              "(build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.")
     L.append("- **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and "
@@ -1014,8 +1183,12 @@ def main():
     fleet, per_repo, instr_files, LBL = run_census(repos, clones)
     open_issues, recent_closed, merged_prs, recent_open = get_issue_data(
         cutoff, {r["name"] for r in repos})
+    budgets = collect_error_budgets(now)
+    if budgets[1] and budgets[1] != "not configured":
+        # Visible in the run summary, but not a failure: the token is optional.
+        print(f"::warning::Site error budgets unavailable: {budgets[1]}")
     report = render_report(fleet, per_repo, instr_files, LBL, repos, ts, cutoff,
-                           open_issues, recent_closed, merged_prs, recent_open)
+                           open_issues, recent_closed, merged_prs, recent_open, budgets)
 
     path = os.path.join(out,"fleet-reports","fleet-report.md")
     with open(path,"w") as f: f.write(report)
