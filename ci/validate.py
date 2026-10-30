@@ -17,6 +17,9 @@ org landing page. Those have real failure modes, and this asserts against them:
   census    metrics/generate-fleet-reports.py imports, and its data/code classifier
             still routes known paths correctly (regression cover for #59, where a
             JSON-only carve-out counted 15,595 lines of CSV exports as source).
+  budget    the site error-budget section degrades to a one-line note without its
+            token, counts burn stretches correctly, and still sends drosera's own
+            PromQL (pinned verbatim from its SLO board and burn rules).
   register  fleet-reports/incidents.md is reproducible from fleet-reports/incidents/.
             It is generated, not hand-authored; a hand-edit here is a change that the
             next weekly refresh silently reverts.
@@ -40,6 +43,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FAILURES = []
@@ -428,6 +432,60 @@ def check_census_classifier():
             fail("census", f"classify_md({repo!r}, {path!r}) returned {got!r}, expected {want!r}")
 
 
+# ------------------------------------------------------------------ budget
+# Verbatim from lentago/drosera dashboards/sites-slo-error-budget.json (stat panels) and
+# terraform/alerts.tf (burn rules), for lentago.dev. If drosera changes them, update the
+# generator and these together — the report must show the board's numbers.
+BUDGET_EXPRS = {
+    "attainment": 'avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d])',
+    "remaining": '1 - (1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d])) / 0.001',
+    "minutes": '(0.001 - (1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d]))) * 43200',
+}
+BURN_1H = '(1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[1h])) / 0.001'
+
+# (long points, short points, threshold, step, expected (episodes, last ts)).
+# The second case is the one that matters: the long window alone is hot for a
+# stretch, but only steps where the short window agrees count, and a gap splits
+# them into two episodes.
+BURN_CASES = [
+    ([(0, 0.0), (300, 0.0)], [(0, 0.0), (300, 0.0)], 14.4, 300, (0, None)),
+    ([(0, 20), (300, 20), (600, 20), (900, 20), (1200, 20)],
+     [(0, 20), (300, 1), (600, 20), (900, 20), (1200, 1)], 14.4, 300, (2, 900)),
+    ([(0, 14.4)], [(0, 99)], 14.4, 300, (0, None)),       # gt, not ge — as the rules
+]
+
+
+def check_error_budget_section():
+    try:
+        gen = load_generator()
+    except Exception as exc:                                  # noqa: BLE001
+        fail("budget", f"metrics/generate-fleet-reports.py failed to import — {exc}")
+        return
+
+    if gen.slo_exprs("lentago.dev") != BUDGET_EXPRS:
+        fail("budget", "slo_exprs() no longer matches drosera's SLO-board PromQL verbatim")
+    if gen.burn_expr("lentago.dev", "1h") != BURN_1H:
+        fail("budget", "burn_expr() no longer matches drosera's burn-rule PromQL verbatim")
+
+    for long_pts, short_pts, thr, step, want in BURN_CASES:
+        got = gen.burn_episodes(long_pts, short_pts, thr, step)
+        if got != want:
+            fail("budget", f"burn_episodes(…, {thr}, {step}) returned {got}, expected {want}")
+
+    saved = os.environ.pop(gen.GRAFANA_TOKEN_ENV, None)
+    try:
+        rows, reason = gen.collect_error_budgets(datetime.now(timezone.utc))
+    finally:
+        if saved is not None:
+            os.environ[gen.GRAFANA_TOKEN_ENV] = saved
+    if rows is not None or reason != "not configured":
+        fail("budget", f"with no token, collect_error_budgets() returned {(rows, reason)!r}")
+        return
+    body = [ln for ln in gen.error_budget_section(rows, reason) if ln and not ln.startswith("## ")]
+    if len(body) != 1 or "Not configured" not in body[0]:
+        fail("budget", f"with no token the section should be one 'Not configured' line, got {body!r}")
+
+
 # ------------------------------------------------------------------ register
 GENERATED_LINE = re.compile(r"^\*\*Generated:\*\*")
 
@@ -482,6 +540,7 @@ CHECKS = [
     ("fleet", check_fleet_coverage),
     ("brand", check_brand_assets),
     ("census", check_census_classifier),
+    ("budget", check_error_budget_section),
     ("register", check_incident_register_reproducible),
 ]
 
