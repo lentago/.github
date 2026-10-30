@@ -196,8 +196,8 @@ The state removal is the deliberate step that says "this is intentional."
 > **Transfers, not retirements** (`reference-checker` 2026-08-17, `music-curator`
 > 2026-10-13): a repo leaving for another owner follows the same path without the
 > archive step. Remove its rows in a PR; run `terraform state rm` for its
-> resources (twelve per repo: the repository, the merge gate, the ruleset, nine
-> labels) right before that PR merges, so no plan runs in between, since a plan
+> resources (fourteen per repo since ADR-0013's two review labels: the
+> repository, the merge gate, the ruleset, eleven labels) right before that PR merges, so no plan runs in between, since a plan
 > that sees a configured repo missing from state proposes creating it again;
 > transfer only after the merge. Transferring first leaves config declaring a
 > repo the org no longer has, with the same result (#146).
