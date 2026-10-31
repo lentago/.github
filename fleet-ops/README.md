@@ -62,7 +62,7 @@ Two conventions worth knowing before editing it:
 `required-checks.json`, `labels.json` and `brand/fleet.json` — a repo present in
 one but missing from another is caught here rather than in a plan.
 
-## `fleet-apply.sh` — merge settings + topic spine
+## `fleet-apply.sh` — the drift check and its flags
 
 ```bash
 ./fleet-apply.sh                 # read-only check of all non-archived org repos
@@ -75,12 +75,17 @@ one but missing from another is caught here rather than in a plan.
 Idempotent. Read-only by default; only `--apply` (settings),
 `--prune-branches` (branch deletion) and `--apply-labels` (label color and
 description) mutate, and they are **independent flags**
-so the destructive branch sweep is always opt-in. It enforces
-squash-only + auto-merge + delete-branch-on-merge and the `lentago`+`claude`
-topic spine, **creates the per-repo `main` branch ruleset** (`repo-ruleset.json`)
-if one is missing, and **warns** if any repo still carries the copy-pasted
-`bash bootstrap scripts…` review prompt (the regression fixed in June 2026). It
-does not touch signature topics or existing rulesets.
+so the destructive branch sweep is always opt-in. The read-only check reports
+merge-option, topic-spine, ruleset and required-check drift, and **warns** if
+any repo still carries the copy-pasted `bash bootstrap scripts…` review prompt
+(the regression fixed in June 2026). Settings drift is corrected through
+`terraform/`, but not by itself. The apply runs only on a merge to `main` that
+touches `terraform/` or `fleet-ops/*.json`, and there is no scheduled plan, so
+drift stands until the next such merge puts live back to the declared state.
+The legacy `--apply` enforces squash-only + auto-merge + delete-branch-on-merge
+and the `lentago`+`claude` topic spine live, and **creates the per-repo `main`
+branch ruleset** (`repo-ruleset.json`) if one is missing, racing the Terraform
+state as it does. It does not touch signature topics or existing rulesets.
 
 ## `labels.json` + `--apply-labels` — the Tidewater label palette
 
@@ -89,6 +94,12 @@ cyan, `#7057ff` violet), which clash with the brand everywhere issues and PRs
 are listed — the highest-frequency colored surface the fleet has. `labels.json`
 carries the Tidewater replacements, mirroring
 [`site-lentago-dev/BRAND.md`](https://github.com/lentago/site-lentago-dev/blob/main/BRAND.md).
+
+[`../terraform/labels.tf`](../terraform/labels.tf) applies the palette on merge
+to `main`, with the `model:*` routing labels opted in per repo through
+`repos.json`'s `model_labels`, so a palette change is a PR. The legacy
+`--apply-labels` flag aligns the same labels live, racing the Terraform state,
+and the `ensure` behaviors below are its semantics:
 
 ```bash
 ./fleet-apply.sh --apply-labels              # fleet-wide
@@ -135,20 +146,28 @@ deletes the residue and still only *reports* orphans. Squash-merge-safe: it keys
 off PR merge state, not commit ancestry, so a squashed branch (which always looks
 "ahead" of `main`) is still correctly seen as merged.
 
-Bootstrapping a freshly created repo is therefore one command:
+A freshly created repo needs no bootstrap command. Adding it to `repos.json`
+(with its `labels.json` and `brand/fleet.json` entries) and merging is what
+creates it, together with its settings, ruleset and labels. A public repo also
+needs the `required-checks.json` entry `ci/validate.py` demands. At creation,
+list only contexts the repo's `main` already produces, such as
+`docs-check / docs-check` for a repo created from `repo-template`, which ships
+that workflow. Add anything else later by the
+[rollout order](#rollout-order-do-not-invert). Afterwards, the read-only check
+confirms live matches:
 
 ```bash
-./fleet-apply.sh --apply --repo <new-repo-name>
+./fleet-apply.sh --repo <new-repo-name>
 ```
 
 ## `repo-ruleset.json` — the per-repo branch ruleset
 
-The minimal branch ruleset applied to each repo's default branch: PR-required
-(0 approvals), squash-only merge, no force-push, no branch deletion. The
-required *status checks* layer on top of this base ruleset is the
-`required_status_checks` rule managed separately by `--require-checks` (next
-section) — it edits this same `main` ruleset in place rather than adding a
-second one.
+The minimal branch ruleset for each repo's default branch: PR-required
+(0 approvals), squash-only merge, no force-push, no branch deletion.
+[`../terraform/rulesets.tf`](../terraform/rulesets.tf) now declares this shape
+for every repo, with the required *status checks* from `required-checks.json`
+(next section) as a `required_status_checks` rule in the same `main` ruleset.
+This file is what the legacy `--apply` POSTs to a repo that has no ruleset.
 
 ## `required-checks.json` + `--require-checks` — required status checks
 
@@ -178,9 +197,11 @@ missing=[…]` is want − live (the file wants a check live doesn't have yet);
 file doesn't list). For each missing context it also runs the required-context
 preflight and adds `✗ req-checks never-seen-on-a-PR=[…]` for any context that
 has not appeared on the repo's recent PRs. Requiring one of those would deadlock
-the repo. `--require-checks` applies the file by editing each repo's
-`main` ruleset's `required_status_checks` rule (`integration_id` 15368 = GitHub
-Actions):
+the repo. [`../terraform/rulesets.tf`](../terraform/rulesets.tf) applies the
+file on merge to `main`, as each repo's `main` ruleset's
+`required_status_checks` rule (`integration_id` 15368 = GitHub Actions), so
+changing a repo's required checks is a PR to this file. The legacy
+`--require-checks` flag edits the same rule live, racing the Terraform state:
 
 ```bash
 ./fleet-apply.sh --require-checks              # fleet-wide
@@ -199,31 +220,38 @@ Three rules make this safe rather than a fleet-wide foot-gun:
    forever and deadlocks every non-matching PR. The terraform repos solve this
    with an always-on `gate` job (see each repo's `terraform.yml`); only ever map
    checks that report on *every* PR (or skip at the job level, which counts as
-   passing). `--require-checks` preflights every context against the repo's most
-   recent PR check runs and **refuses** to require one that has never reported.
+   passing). Before the change merges, the read-only check's preflight flags any
+   context that has never reported on the repo's recent PRs as
+   `✗ req-checks never-seen-on-a-PR`. The legacy `--require-checks` **refuses**
+   to require one.
 3. **A context required live but absent from the file is never silently
-   dropped.** `--require-checks` PUTs a wholesale replacement of the
-   `required_status_checks` rule, so a context missing from the file — added via
-   the UI, or the file simply lagging live — would otherwise vanish on the next
-   sweep with no distinguishing output (lentago/.github#71: #68 dropped
-   `Compile and commit` from `site-icecreamtofightwith-com` exactly this way,
-   restored in #70). The apply now diffs live against the file first, reports
+   dropped.** Under Terraform the removal is visible before it happens: the
+   read-only check reports it as `⚠ req-checks live-not-in-file`, a
+   `terraform/` PR's plan shows it, and the next apply on `main` makes it. The
+   rule came from the legacy path: `--require-checks` PUTs a wholesale
+   replacement of the `required_status_checks` rule, so a context missing from
+   the file (added via the UI, or the file simply lagging live) would otherwise
+   vanish on the next sweep with no distinguishing output (lentago/.github#71:
+   #68 dropped `Compile and commit` from `site-icecreamtofightwith-com` exactly
+   this way, restored in #70). That flag now diffs live against the file first, reports
    any such removal, and refuses to apply it unless run with
    `--allow-check-removal`. When it *does* proceed with removals it says so
    inline: `→ required checks set on X: […] (REMOVING: Compile and commit)`.
-   Add the missing context(s) to `required-checks.json` instead of reaching for
-   the flag, unless the removal is actually intentional.
+   Either way, add the missing context(s) to `required-checks.json` unless the
+   removal is actually intentional.
 
 ### Rollout order (do not invert)
 
 The producing workflow must be **merged to `main` and observed reporting green
 on a real PR before** the ruleset requires its check — never the reverse.
-Requiring a check that isn't producing yet deadlocks the repo until the ruleset
-is hand-reverted. So for each repo: (1) merge the workflow that emits the check;
-(2) confirm it reports on a PR (a docs-only PR should show the check green with
-the heavy jobs skipped); (3) `--require-checks`. The preflight enforces step 2
-mechanically, but step 1 (merged to main, not just open in a PR) is on the
-operator.
+Requiring a check that isn't producing yet deadlocks the repo until a revert of
+the `required-checks.json` change is applied. So for each repo: (1) merge the
+workflow that emits the check; (2) confirm it reports on a PR (a docs-only PR
+should show the check green with the heavy jobs skipped); (3) merge the
+`required-checks.json` change, and the terraform apply on merge requires it. The
+read-only check's preflight checks step 2 mechanically: run it on the branch and
+look for `✗ req-checks never-seen-on-a-PR`. Step 1 (merged to main, not just
+open in a PR) is on the operator.
 
 ## `org-ruleset.json` — PARKED (needs GitHub Team)
 
@@ -239,5 +267,5 @@ gh auth refresh -h github.com -s admin:org          # scope (necessary but not s
 gh api -X POST orgs/lentago/rulesets --input fleet-ops/org-ruleset.json
 ```
 
-Until then, `fleet-apply.sh` + `repo-ruleset.json` cover the same ground
-per-repo.
+Until then, [`../terraform/rulesets.tf`](../terraform/rulesets.tf) covers the
+same ground per repo.

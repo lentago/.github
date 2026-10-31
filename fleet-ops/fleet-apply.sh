@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # ============================================================================
-# fleet-apply.sh — enforce Lentago Labs fleet repo settings that GitHub templates
-# and branch rulesets do NOT carry: merge-button options, the topic spine, and
-# the per-repo required status checks (required-checks.json).
+# fleet-apply.sh — the Lentago Labs fleet's read-only drift check, its
+# required-context preflight, and the merged-branch prune.
+#
+# Repo settings (merge-button options, the topic spine, rulesets, required
+# status checks, labels, repo existence) are owned by terraform/ and change
+# through a PR; the terraform apply on merge to main makes them live. The
+# settings flags below (--apply, --require-checks, --apply-labels) predate it,
+# still work, and race its state (fleet-ops/README.md).
 #
 #   ./fleet-apply.sh                 # check ALL non-archived org repos (read-only)
 #   ./fleet-apply.sh --apply         # apply merge/topic fixes to ALL repos
@@ -24,21 +29,25 @@
 # retroactively clean branches whose PR merged before the setting was enabled,
 # nor abandoned no-PR branches — the branch scan closes that gap. The base
 # branch protection (PR-required, squash-only, no force-push/deletion) is the
-# per-repo `main` ruleset created by --apply; the required *status checks* layer
-# on top of it is --require-checks (see "Required status checks" below).
+# per-repo `main` ruleset, declared with the required *status checks* layer on
+# top of it in terraform/rulesets.tf (the legacy --apply and --require-checks
+# write the same two layers live; see "Required status checks" below).
 #
 # Required status checks (lentago/.github#27): the fleet rulesets used to define
 # no required checks, so `gh pr merge --auto --squash` could not arm ("clean
 # status") and a red plan/lint blocked nothing. required-checks.json maps each
-# repo to the EXACT check-run contexts to require. --require-checks applies that
-# map, but ONLY after a preflight confirms each context has actually reported on
-# a recent PR — requiring a context whose workflow never triggers deadlocks the
-# repo (see README § Required status checks and the rollout order there).
+# repo to the EXACT check-run contexts to require, and terraform/ applies that
+# map on merge to main. The read-only check preflights every context the file
+# adds (✗ req-checks never-seen-on-a-PR) — requiring a context whose workflow
+# never triggers deadlocks the repo; the legacy --require-checks refuses one
+# outright (see README § Required status checks and the rollout order there).
 #
 # Issue labels: labels.json carries the fleet's Tidewater label palette. Every
 # repo ships GitHub's stock label colors, which clash with the brand everywhere
-# issues and PRs are listed. --apply-labels aligns color + description for the
-# labels named there and creates the ones marked ensure=true. Labels absent from
+# issues and PRs are listed. terraform/labels.tf declares color + description
+# for the labels named there on every repo, with the model:* routing labels
+# opted in per repo by repos.json's model_labels (the legacy --apply-labels
+# aligns them live, and creates the ones marked ensure=true). Labels absent from
 # labels.json are never touched or deleted — per-repo labels stay the repo's own.
 # ============================================================================
 set -euo pipefail
@@ -128,7 +137,7 @@ require_checks_apply() {
   id=$(gh api "repos/$ORG/$r/rulesets" \
         --jq '.[] | select(.target=="branch" and .name=="main") | .id' 2>/dev/null | head -1)
   if [ -z "$id" ]; then
-    echo "      ! $r: no main branch ruleset (run --apply first) — skipping required checks"
+    echo "      ! $r: no main branch ruleset (terraform/ declares it — check the last apply on main) — skipping required checks"
     return 1
   fi
   local -a seen=() unseen=()
@@ -151,8 +160,9 @@ require_checks_apply() {
   done
   if [ ${#removing[@]} -gt 0 ] && [ "$ALLOW_REMOVAL" -ne 1 ]; then
     echo "      ! $r: required-checks.json is missing currently-required context(s): [${removing[*]}]"
-    echo "        refusing — applying would silently REMOVE them. Add to required-checks.json, or pass"
-    echo "        --allow-check-removal once the removal is intentional."
+    echo "        refusing — applying would silently REMOVE them, as will the next terraform apply on main."
+    echo "        Add them to required-checks.json, or, if the removal is intentional, let terraform/ make it"
+    echo "        (--allow-check-removal overrides this refusal for a live sweep)."
     return 1
   fi
   local checks_json body
@@ -405,7 +415,12 @@ else
   fi
 fi
 if [ "$MODE" = check ]; then
-  echo "check complete — $drift_total repo(s) with drift. Re-run with --apply to fix merge/topics."
+  echo "check complete — $drift_total repo(s) with drift."
+  if [ "$drift_total" -gt 0 ]; then
+    echo "Settings drift (merge-fixes, add-topics, no-branch-ruleset, req-checks) means live has diverged from terraform/:" \
+         "the next terraform apply on main corrects it, and that runs only on a merge touching terraform/ or fleet-ops/*.json," \
+         "whose plan shows it. Branch residue is --prune-branches; orphan branches need manual review."
+  fi
 else
   echo "apply complete."
 fi
