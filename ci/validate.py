@@ -104,9 +104,9 @@ HEX6 = re.compile(r"^[0-9a-fA-F]{6}$")
 
 
 def check_label_palette(rel, doc):
-    """labels.json drives `gh label edit` across every repo in one sweep.
+    """labels.json drives terraform/labels.tf across every repo in one apply.
 
-    A bad hex or a missing key fails partway through, leaving the fleet
+    The GitHub API rejects a bad hex partway through the apply, leaving the fleet
     half-recolored — cheaper to catch here than to unpick afterwards.
     """
     labels = doc.get("labels")
@@ -135,9 +135,6 @@ def check_label_palette(rel, doc):
 
         if not isinstance(label.get("description"), str):
             fail("configs", f"{where} ('{name}') has no string 'description'")
-
-        if not isinstance(label.get("ensure"), bool):
-            fail("configs", f"{where} ('{name}') needs an explicit boolean 'ensure'")
 
 
 SPINE_TOPICS = {"lentago", "claude"}
