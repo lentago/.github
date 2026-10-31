@@ -92,10 +92,8 @@ carries the Tidewater replacements, mirroring
 
 [`../terraform/labels.tf`](../terraform/labels.tf) applies the palette on merge
 to `main`, with the `model:*` routing labels opted in per repo through
-`repos.json`'s `model_labels`, so a palette change is a PR. Each label still
-carries an `ensure` flag. It held the semantics of the removed `--apply-labels`
-flag (create where missing, or align only where present), nothing reads it now,
-and dropping it is lentago/.github#300.
+`repos.json`'s `model_labels`, so a palette change is a PR. Each label is a
+`name`, a `color` and a `description`.
 
 **It never deletes.** Labels absent from `labels.json` — `zha`, `phase-1`,
 `gitops-sync` and the rest — are the repo's own business and are left untouched.
@@ -105,7 +103,7 @@ per-repo triage.
 Accent discipline carries over from the brand contract: anther gold `#E0A81C` is
 one element per region, so **`help wanted` is the only gold label** — the single
 call to action. `ci/validate.py` checks the shape (6-digit hex without `#`, no
-duplicate names, explicit `ensure`), because the GitHub API rejects a bad value
+duplicate names, a string description), because the GitHub API rejects a bad value
 partway through a terraform apply, which leaves the fleet half-recolored.
 
 The per-repo README banners and social-preview cards are the other half of this;
