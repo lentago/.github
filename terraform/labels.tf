@@ -1,7 +1,8 @@
 # The Tidewater issue-label palette, per repo.
 #
-# Colors and descriptions come from fleet-ops/labels.json — the same file
-# fleet-apply.sh --apply-labels reads, mirroring site-lentago-dev/BRAND.md.
+# Colors and descriptions come from fleet-ops/labels.json — the same file the
+# since-removed fleet-apply.sh --apply-labels read (lentago/.github#298),
+# mirroring site-lentago-dev/BRAND.md.
 #
 # labels.json's `ensure` flag does not survive the translation, and does not
 # need to: it encoded "align this label only where it already exists," which is

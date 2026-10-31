@@ -5,10 +5,10 @@ This repo carries no application code, so "does it build" is meaningless. What i
 *does* carry is operator tooling the rest of the fleet depends on, plus the public
 org landing page. Those have real failure modes, and this asserts against them:
 
-  configs   fleet-ops/*.json parse and hold the shape fleet-apply.sh and the
-            terraform module expect. A malformed required-checks.json breaks a
-            fleet-wide settings sweep partway through, leaving the fleet
-            half-applied; a malformed repos.json is a repository.
+  configs   fleet-ops/*.json parse and hold the shape the terraform module and
+            fleet-apply.sh's read-only check expect. A malformed
+            required-checks.json fails the terraform plan for every repo at
+            once; a malformed repos.json is a repository.
   fleet     the three fleet-ops manifests and brand/fleet.json agree on which
             repos exist. Each is edited separately, and a repo present in one
             but missing from another fails quietly somewhere else later.
@@ -59,7 +59,7 @@ def tracked(*patterns):
 
 # ------------------------------------------------------------------ configs
 def check_fleet_ops_configs():
-    """fleet-ops JSON must parse and match what fleet-apply.sh consumes."""
+    """fleet-ops JSON must parse and match what terraform/ and fleet-apply.sh consume."""
     for rel in tracked("fleet-ops/*.json"):
         path = os.path.join(ROOT, rel)
         try:
@@ -87,7 +87,7 @@ def check_fleet_ops_configs():
             fail("configs", f"{rel} has no top-level 'checks' object")
             continue
         if not checks:
-            fail("configs", f"{rel} maps no repos — fleet-apply --require-checks "
+            fail("configs", f"{rel} maps no repos — terraform/ "
                             "would silently enforce nothing")
         for repo, contexts in sorted(checks.items()):
             if not isinstance(contexts, list) or not contexts:

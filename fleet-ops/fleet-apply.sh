@@ -5,77 +5,55 @@
 #
 # Repo settings (merge-button options, the topic spine, rulesets, required
 # status checks, labels, repo existence) are owned by terraform/ and change
-# through a PR; the terraform apply on merge to main makes them live. The
-# settings flags below (--apply, --require-checks, --apply-labels) predate it,
-# still work, and race its state (fleet-ops/README.md).
+# through a PR; the terraform apply on merge to main makes them live. This
+# script never writes them. Its live-write flags (--apply, --require-checks,
+# --allow-check-removal, --apply-labels) were removed in lentago/.github#298 and
+# now exit with a pointer to that flow.
 #
-#   ./fleet-apply.sh                 # check ALL non-archived org repos (read-only)
-#   ./fleet-apply.sh --apply         # apply merge/topic fixes to ALL repos
-#   ./fleet-apply.sh --repo NAME     # scope to one repo
-#   ./fleet-apply.sh --apply --repo NAME
-#   ./fleet-apply.sh --prune-branches         # delete merged-residue branches fleet-wide
+#   ./fleet-apply.sh                          # check ALL non-archived org repos (read-only)
+#   ./fleet-apply.sh --repo NAME              # scope to one repo
+#   ./fleet-apply.sh --prune-branches         # also delete merged-residue branches fleet-wide
 #   ./fleet-apply.sh --prune-branches --repo NAME
-#   ./fleet-apply.sh --require-checks         # set required status checks per required-checks.json
-#   ./fleet-apply.sh --require-checks --repo NAME
-#   ./fleet-apply.sh --require-checks --allow-check-removal   # opt in to dropping live-not-in-file contexts
-#   ./fleet-apply.sh --apply-labels           # align the issue-label palette per labels.json
-#   ./fleet-apply.sh --apply-labels --repo NAME
 #
-# Read-only by default. Only --apply (settings), --prune-branches (branch
-# deletion), --require-checks (ruleset required-check rule) and --apply-labels
-# (label color/description) mutate; they are independent flags so each
-# destructive action is opt-in. delete_branch_on_merge
+# Read-only by default. The one mutation is --prune-branches (branch deletion),
+# opt-in so the destructive sweep never runs by accident. delete_branch_on_merge
 # auto-removes a head branch when its PR merges going forward, but it does NOT
 # retroactively clean branches whose PR merged before the setting was enabled,
-# nor abandoned no-PR branches — the branch scan closes that gap. The base
-# branch protection (PR-required, squash-only, no force-push/deletion) is the
-# per-repo `main` ruleset, declared with the required *status checks* layer on
-# top of it in terraform/rulesets.tf (the legacy --apply and --require-checks
-# write the same two layers live; see "Required status checks" below).
+# nor abandoned no-PR branches — the branch scan closes that gap.
 #
-# Required status checks (lentago/.github#27): the fleet rulesets used to define
-# no required checks, so `gh pr merge --auto --squash` could not arm ("clean
-# status") and a red plan/lint blocked nothing. required-checks.json maps each
-# repo to the EXACT check-run contexts to require, and terraform/ applies that
-# map on merge to main. The read-only check preflights every context the file
-# adds (✗ req-checks never-seen-on-a-PR) — requiring a context whose workflow
-# never triggers deadlocks the repo; the legacy --require-checks refuses one
-# outright (see README § Required status checks and the rollout order there).
+# What the read-only check reports per repo: merge-button and topic-spine drift,
+# a missing `main` branch ruleset, required-check drift against
+# required-checks.json in both directions, leftover branches, and the
+# boilerplate review-prompt sentinel. Settings drift means live has diverged
+# from terraform/; the next terraform apply on main corrects it.
 #
-# Issue labels: labels.json carries the fleet's Tidewater label palette. Every
-# repo ships GitHub's stock label colors, which clash with the brand everywhere
-# issues and PRs are listed. terraform/labels.tf declares color + description
-# for the labels named there on every repo, with the model:* routing labels
-# opted in per repo by repos.json's model_labels (the legacy --apply-labels
-# aligns them live, and creates the ones marked ensure=true). Labels absent from
-# labels.json are never touched or deleted — per-repo labels stay the repo's own.
+# Required status checks (lentago/.github#27): required-checks.json maps each
+# repo to the EXACT check-run contexts to require, and terraform/rulesets.tf
+# applies that map on merge to main. The read-only check preflights every
+# context the file adds but live lacks (✗ req-checks never-seen-on-a-PR) —
+# requiring a context whose workflow never triggers deadlocks the repo, and
+# Terraform cannot tell (see README § Required status checks and the rollout
+# order there).
 # ============================================================================
 set -euo pipefail
 
 ORG=lentago
-MODE=check
 PRUNE=0
-REQUIRE=0
-LABELS=0
-ALLOW_REMOVAL=0
 ONLY=""
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 SPINE_TOPICS=(lentago claude)
 CHECKS_MAP="$SCRIPT_DIR/required-checks.json"
-LABELS_MAP="$SCRIPT_DIR/labels.json"
-ACTIONS_APP_ID=15368   # GitHub Actions app — integration_id for required-check contexts
 # Sentinel: the copy-pasted review prompt that caused a fleet-wide regression.
 # Any repo other than workstation-bootstrap carrying this is mis-customized.
 BOILERPLATE='bash bootstrap scripts for Linux workstations'
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --apply) MODE=apply ;;
-    --check) MODE=check ;;
+    --check) ;;   # the default; still accepted
     --prune-branches) PRUNE=1 ;;
-    --require-checks) REQUIRE=1 ;;
-    --allow-check-removal) ALLOW_REMOVAL=1 ;;
-    --apply-labels) LABELS=1 ;;
+    --apply|--require-checks|--allow-check-removal|--apply-labels)
+      echo "fleet-apply: $1 was removed (lentago/.github#298) — repo settings change through terraform/ on a PR; see fleet-ops/README.md" >&2
+      exit 2 ;;
     --repo)  ONLY="${2:?--repo needs a name}"; shift ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
@@ -97,15 +75,16 @@ required_contexts() {
 }
 
 # Check-run names seen across the repo's most recent PR heads — the evidence that a
-# context's workflow actually runs. Guards --require-checks against typos and
-# premature flips. (Proves the workflow runs, NOT that it is merged to main —
-# that ordering is the operator's job per the README.)
+# context's workflow actually runs. The required-context preflight: guards a
+# required-checks.json change against typos and premature flips before terraform/
+# requires it. (Proves the workflow runs, NOT that it is merged to main — that
+# ordering is the operator's job per the README.)
 #
 # Samples several PRs, not just the newest. Sampling only the newest gives a false
 # negative whenever the latest PR predates the check being adopted — which is the
 # normal case right after a rollout, since the adoption PR is by then one or more
-# PRs back. That is exactly when --require-checks is run, so a 1-PR sample refuses
-# the very flip it is meant to authorise.
+# PRs back. That is exactly when the preflight is run, so a 1-PR sample flags the
+# very flip it is meant to authorise.
 SEEN_PR_SAMPLE=5
 seen_contexts() {
   local r="$1" n sha
@@ -118,98 +97,9 @@ seen_contexts() {
              --json number --jq '.[].number' 2>/dev/null) | sort -u
 }
 
-# Layer the mapped required-check contexts onto a repo's `main` ruleset.
-#
-# This PUTs a wholesale replacement of the required_status_checks rule — the
-# file is the source of truth, which is the right model for stopping drift
-# toward live. But a context required live and absent from required-checks.json
-# (added via the UI, or a repo the file lags behind) would silently be deleted
-# by that replacement, indistinguishable in the output from a normal apply
-# (lentago/.github#71 — #68 dropped `Compile and commit` this way). So diff
-# live against $want first: report any such removal, and refuse to apply it
-# unless the operator opts in with --allow-check-removal, matching how the
-# unseen-context refusal above already treats an unproven requirement as
-# something needing intent rather than something to do quietly.
-require_checks_apply() {
-  local r="$1"; shift
-  local -a want=("$@")
-  local id
-  id=$(gh api "repos/$ORG/$r/rulesets" \
-        --jq '.[] | select(.target=="branch" and .name=="main") | .id' 2>/dev/null | head -1)
-  if [ -z "$id" ]; then
-    echo "      ! $r: no main branch ruleset (terraform/ declares it — check the last apply on main) — skipping required checks"
-    return 1
-  fi
-  local -a seen=() unseen=()
-  mapfile -t seen < <(seen_contexts "$r")
-  local w
-  for w in "${want[@]}"; do
-    printf '%s\n' "${seen[@]}" | grep -qxF "$w" || unseen+=("$w")
-  done
-  if [ ${#unseen[@]} -gt 0 ]; then
-    echo "      ! $r: context(s) never seen on a recent PR: [${unseen[*]}]"
-    echo "        refusing to require them (would deadlock). Land + run the producing workflow on main first."
-    return 1
-  fi
-  local -a live=() removing=()
-  mapfile -t live < <(required_contexts "$r")
-  local l
-  for l in "${live[@]}"; do
-    [ -z "$l" ] && continue
-    printf '%s\n' "${want[@]}" | grep -qxF "$l" || removing+=("$l")
-  done
-  if [ ${#removing[@]} -gt 0 ] && [ "$ALLOW_REMOVAL" -ne 1 ]; then
-    echo "      ! $r: required-checks.json is missing currently-required context(s): [${removing[*]}]"
-    echo "        refusing — applying would silently REMOVE them, as will the next terraform apply on main."
-    echo "        Add them to required-checks.json, or, if the removal is intentional, let terraform/ make it"
-    echo "        (--allow-check-removal overrides this refusal for a live sweep)."
-    return 1
-  fi
-  local checks_json body
-  checks_json=$(printf '%s\n' "${want[@]}" \
-    | jq -R --argjson id "$ACTIONS_APP_ID" '{context: ., integration_id: $id}' | jq -s '.')
-  body=$(gh api "repos/$ORG/$r/rulesets/$id" | jq --argjson checks "$checks_json" '
-    { name, target, enforcement,
-      bypass_actors: (.bypass_actors // []),
-      conditions,
-      rules: ( [ .rules[] | select(.type != "required_status_checks") ]
-               + [ { type: "required_status_checks",
-                     parameters: { strict_required_status_checks_policy: false,
-                                   do_not_enforce_on_create: false,
-                                   required_status_checks: $checks } } ] ) }')
-  printf '%s' "$body" | gh api -X PUT "repos/$ORG/$r/rulesets/$id" --input - >/dev/null \
-    && if [ ${#removing[@]} -gt 0 ]; then
-         echo "      → required checks set on $r: [${want[*]}] (REMOVING: ${removing[*]})"
-       else
-         echo "      → required checks set on $r: [${want[*]}]"
-       fi
-}
-
-# --- issue-label palette helpers --------------------------------------------
-
-# Align one repo's labels to labels.json. Only labels named there are touched:
-# existing ones get color+description, ensure=true ones are created if absent,
-# and everything else the repo has is left alone. Never deletes.
-labels_apply() {
-  local r="$1" name color desc ensure
-  local -a have=()
-  mapfile -t have < <(gh label list -R "$ORG/$r" --limit 200 --json name --jq '.[].name' 2>/dev/null)
-  local changed=0
-  while IFS=$'\t' read -r name color desc ensure; do
-    if printf '%s\n' "${have[@]}" | grep -qxF "$name"; then
-      gh label edit "$name" -R "$ORG/$r" --color "$color" --description "$desc" >/dev/null \
-        && changed=$((changed + 1))
-    elif [ "$ensure" = "true" ]; then
-      gh label create "$name" -R "$ORG/$r" --color "$color" --description "$desc" >/dev/null \
-        && changed=$((changed + 1))
-    fi
-  done < <(jq -r '.labels[] | [.name, .color, .description, (.ensure|tostring)] | @tsv' "$LABELS_MAP")
-  echo "      → $r: $changed label(s) aligned"
-}
-
 # ----------------------------------------------------------------------------
 
-echo "fleet-apply: mode=$MODE$([ "$PRUNE" = 1 ] && echo ' prune-branches=on')$([ "$REQUIRE" = 1 ] && echo ' require-checks=on')$([ "$LABELS" = 1 ] && echo ' apply-labels=on') org=$ORG ${ONLY:+repo=$ONLY}"
+echo "fleet-apply: mode=check$([ "$PRUNE" = 1 ] && echo ' prune-branches=on') org=$ORG ${ONLY:+repo=$ONLY}"
 echo
 
 if [ -n "$ONLY" ]; then
@@ -269,7 +159,7 @@ for r in $repos; do
   # Diffed both directions: missing = want − live (file wants a check live
   # lacks) is the original check. extra = live − want (live requires a check
   # the file doesn't list) is the reverse — surfaced per lentago/.github#71,
-  # since that's the lag that a --require-checks sweep would silently delete.
+  # since that's the lag the next terraform apply on main would remove.
   declare -a want_checks=() have_checks=() missing_checks=() extra_checks=() seen_checks=() unseen_checks=()
   if [ -f "$CHECKS_MAP" ]; then
     mapfile -t want_checks < <(jq -r --arg r "$r" '.checks[$r][]? // empty' "$CHECKS_MAP" 2>/dev/null)
@@ -336,7 +226,7 @@ for r in $repos; do
     fi
   done < <(gh api --paginate "repos/$ORG/$r/branches?per_page=100" --jq '.[].name' 2>/dev/null || true)
 
-  # --- report / apply ---
+  # --- report (and, with --prune-branches, prune) ---
   if [ ${#fixes[@]} -eq 0 ] && [ ${#add_topics[@]} -eq 0 ] && [ -z "$warn" ] && [ "$ruleset_missing" -eq 0 ] \
      && [ ${#residue[@]} -eq 0 ] && [ ${#orphans[@]} -eq 0 ] && [ ${#missing_checks[@]} -eq 0 ] \
      && [ ${#extra_checks[@]} -eq 0 ]; then
@@ -355,15 +245,6 @@ for r in $repos; do
     [ -n "$auto_note" ]        && printf '%s' "$auto_note"
     [ -n "$checks_note" ]      && printf '%s' "$checks_note"
     printf '\n'
-    if [ "$MODE" = apply ]; then
-      [ ${#fixes[@]} -gt 0 ] && gh repo edit "$ORG/$r" "${fixes[@]}" >/dev/null
-      for t in "${add_topics[@]}"; do gh repo edit "$ORG/$r" --add-topic "$t" >/dev/null; done
-      if [ "$ruleset_missing" -eq 1 ]; then
-        gh api -X POST "repos/$ORG/$r/rulesets" --input "$SCRIPT_DIR/repo-ruleset.json" >/dev/null \
-          && echo "      → created main branch ruleset"
-      fi
-      echo "      → applied (note: review_prompt warnings and required checks are NOT touched by --apply)"
-    fi
     if [ "$PRUNE" = 1 ] && [ ${#residue[@]} -gt 0 ]; then
       for b in "${residue[@]}"; do
         gh api -X DELETE "repos/$ORG/$r/git/refs/heads/$b" >/dev/null \
@@ -371,21 +252,6 @@ for r in $repos; do
       done
     fi
     [ ${#orphans[@]} -gt 0 ] && echo "      → orphan branch(es) left for manual review (no PR — verify content landed on main before deleting)"
-  fi
-
-  # --require-checks mutates independently of MODE (like --prune-branches).
-  # `|| true` is load-bearing under `set -e`: require_checks_apply returns 1 when it
-  # refuses a repo (no ruleset, or a context with no evidence it runs). Without this,
-  # one refusal aborts the whole sweep and every repo after it — alphabetically — is
-  # silently skipped, leaving the fleet half-applied with a zero exit status. The
-  # refusal is already reported on stderr by the function itself.
-  if [ "$REQUIRE" = 1 ] && [ ${#want_checks[@]} -gt 0 ]; then
-    require_checks_apply "$r" "${want_checks[@]}" || true
-  fi
-
-  # --apply-labels likewise stands alone: purely cosmetic, no ruleset coupling.
-  if [ "$LABELS" = 1 ]; then
-    labels_apply "$r"
   fi
 
   unset fixes add_topics residue orphans want_checks have_checks missing_checks extra_checks
@@ -397,30 +263,19 @@ if [ "$PRUNE" = 1 ]; then
 elif [ "$pruned_total" -gt 0 ] || [ "$orphan_total" -gt 0 ]; then
   echo "branch scan — $pruned_total merged-residue branch(es) prunable (re-run with --prune-branches), $orphan_total orphan(s) need manual review."
 fi
-if [ "$LABELS" = 1 ]; then
-  echo "apply-labels complete — Tidewater palette per fleet-ops/labels.json."
+if [ "$checks_missing_total" -gt 0 ]; then
+  echo "required-checks — $checks_missing_total repo(s) missing mapped checks. terraform/ makes required-checks.json live:" \
+       "merge the change through a PR once this read-only preflight shows no '✗ req-checks never-seen-on-a-PR' for it," \
+       "and the terraform apply on merge to main requires it (the PR's plan shows the ruleset diff)."
 fi
-if [ "$REQUIRE" = 1 ]; then
-  echo "require-checks complete."
-else
-  if [ "$checks_missing_total" -gt 0 ]; then
-    echo "required-checks — $checks_missing_total repo(s) missing mapped checks. terraform/ makes required-checks.json live:" \
-         "merge the change through a PR once this read-only preflight shows no '✗ req-checks never-seen-on-a-PR' for it," \
-         "and the terraform apply on merge to main requires it (the PR's plan shows the ruleset diff)."
-  fi
-  if [ "$checks_extra_total" -gt 0 ]; then
-    echo "required-checks — $checks_extra_total repo(s) have live required check(s) not in required-checks.json." \
-         "The next terraform apply on main will REMOVE them from the ruleset (a terraform/ PR's plan shows it)." \
-         "Add the missing context(s) to required-checks.json, or confirm the removal is intentional."
-  fi
+if [ "$checks_extra_total" -gt 0 ]; then
+  echo "required-checks — $checks_extra_total repo(s) have live required check(s) not in required-checks.json." \
+       "The next terraform apply on main will REMOVE them from the ruleset (a terraform/ PR's plan shows it)." \
+       "Add the missing context(s) to required-checks.json, or confirm the removal is intentional."
 fi
-if [ "$MODE" = check ]; then
-  echo "check complete — $drift_total repo(s) with drift."
-  if [ "$drift_total" -gt 0 ]; then
-    echo "Settings drift (merge-fixes, add-topics, no-branch-ruleset, req-checks) means live has diverged from terraform/:" \
-         "the next terraform apply on main corrects it, and that runs only on a merge touching terraform/ or fleet-ops/*.json," \
-         "whose plan shows it. Branch residue is --prune-branches; orphan branches need manual review."
-  fi
-else
-  echo "apply complete."
+echo "check complete — $drift_total repo(s) with drift."
+if [ "$drift_total" -gt 0 ]; then
+  echo "Settings drift (merge-fixes, add-topics, no-branch-ruleset, req-checks) means live has diverged from terraform/:" \
+       "the next terraform apply on main corrects it, and that runs only on a merge touching terraform/ or fleet-ops/*.json," \
+       "whose plan shows it. Branch residue is --prune-branches; orphan branches need manual review."
 fi
