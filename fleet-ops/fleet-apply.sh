@@ -54,7 +54,9 @@ while [ $# -gt 0 ]; do
     --apply|--require-checks|--allow-check-removal|--apply-labels)
       echo "fleet-apply: $1 was removed (lentago/.github#298) — repo settings change through terraform/ on a PR; see fleet-ops/README.md" >&2
       exit 2 ;;
-    --repo)  ONLY="${2:?--repo needs a name}"; shift ;;
+    --repo)  ONLY="${2:?--repo needs a name}"
+             case "$ONLY" in -*) echo "fleet-apply: --repo needs a name, got flag '$ONLY'" >&2; exit 2 ;; esac
+             shift ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
