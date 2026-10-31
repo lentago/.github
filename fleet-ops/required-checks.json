@@ -50,7 +50,12 @@
     "",
     "claytonia also requires `queue-core` (.github#221): its bats tests run on every",
     "pull_request with no path filter (on ubuntu-latest), and bin/ deploys to all",
-    "five worker agents via gitops on merge, so runtime tests prevent regressions."
+    "five worker agents via gitops on merge, so runtime tests prevent regressions.",
+    "",
+    "epigaea also requires `Bats` (.github#291): the `bats` job in tests.yml runs on",
+    "every pull_request with no path filter, and since epigaea#563 it carries the",
+    "instruction-card print-size guard (tests/card_size.bats), which only protects",
+    "the 7 by 5 inch card contract if a red run blocks the merge."
   ],
   "checks": {
     "asclepias": [
@@ -109,7 +114,8 @@
     "epigaea": [
       "check-config",
       "docs-check / docs-check",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "Bats"
     ],
     "site-icecreamtofightwith-com": [
       "Lint content",
