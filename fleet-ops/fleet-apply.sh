@@ -394,11 +394,13 @@ if [ "$REQUIRE" = 1 ]; then
   echo "require-checks complete."
 else
   if [ "$checks_missing_total" -gt 0 ]; then
-    echo "required-checks — $checks_missing_total repo(s) missing mapped checks. After each producing workflow is merged to main & observed green on a PR, run: $0 --require-checks"
+    echo "required-checks — $checks_missing_total repo(s) missing mapped checks. terraform/ makes required-checks.json live:" \
+         "merge the change through a PR once this read-only preflight shows no '✗ req-checks never-seen-on-a-PR' for it," \
+         "and the terraform apply on merge to main requires it (the PR's plan shows the ruleset diff)."
   fi
   if [ "$checks_extra_total" -gt 0 ]; then
     echo "required-checks — $checks_extra_total repo(s) have live required check(s) not in required-checks.json." \
-         "A --require-checks sweep would REMOVE them and refuse unless run with --allow-check-removal." \
+         "The next terraform apply on main will REMOVE them from the ruleset (a terraform/ PR's plan shows it)." \
          "Add the missing context(s) to required-checks.json, or confirm the removal is intentional."
   fi
 fi
