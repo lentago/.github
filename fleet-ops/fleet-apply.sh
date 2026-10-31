@@ -417,9 +417,9 @@ fi
 if [ "$MODE" = check ]; then
   echo "check complete — $drift_total repo(s) with drift."
   if [ "$drift_total" -gt 0 ]; then
-    echo "Merge/topic/ruleset drift means live has diverged from terraform/: the next terraform apply on main" \
-         "(any merge touching terraform/ or fleet-ops/*.json) corrects it, and a terraform/ PR's plan shows it." \
-         "Branch residue is --prune-branches."
+    echo "Settings drift (merge-fixes, add-topics, no-branch-ruleset, req-checks) means live has diverged from terraform/:" \
+         "the next terraform apply on main corrects it, and that runs only on a merge touching terraform/ or fleet-ops/*.json," \
+         "whose plan shows it. Branch residue is --prune-branches; orphan branches need manual review."
   fi
 else
   echo "apply complete."

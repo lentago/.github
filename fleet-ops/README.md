@@ -79,7 +79,9 @@ so the destructive branch sweep is always opt-in. The read-only check reports
 merge-option, topic-spine, ruleset and required-check drift, and **warns** if
 any repo still carries the copy-pasted `bash bootstrap scripts…` review prompt
 (the regression fixed in June 2026). Settings drift is corrected through
-`terraform/`: the next apply on `main` puts live back to the declared state.
+`terraform/`, but not by itself. The apply runs only on a merge to `main` that
+touches `terraform/` or `fleet-ops/*.json`, and there is no scheduled plan, so
+drift stands until the next such merge puts live back to the declared state.
 The legacy `--apply` enforces squash-only + auto-merge + delete-branch-on-merge
 and the `lentago`+`claude` topic spine live, and **creates the per-repo `main`
 branch ruleset** (`repo-ruleset.json`) if one is missing, racing the Terraform
@@ -145,10 +147,14 @@ off PR merge state, not commit ancestry, so a squashed branch (which always look
 "ahead" of `main`) is still correctly seen as merged.
 
 A freshly created repo needs no bootstrap command. Adding it to `repos.json`
-(with its entries in `required-checks.json`, `labels.json` and
-`brand/fleet.json`) and merging is what creates it, together with its settings,
-ruleset, required checks and labels. Afterwards, the read-only check confirms
-live matches:
+(with its `labels.json` and `brand/fleet.json` entries) and merging is what
+creates it, together with its settings, ruleset and labels. A public repo also
+needs the `required-checks.json` entry `ci/validate.py` demands. At creation,
+list only contexts the repo's `main` already produces, such as
+`docs-check / docs-check` for a repo created from `repo-template`, which ships
+that workflow. Add anything else later by the
+[rollout order](#rollout-order-do-not-invert). Afterwards, the read-only check
+confirms live matches:
 
 ```bash
 ./fleet-apply.sh --repo <new-repo-name>
