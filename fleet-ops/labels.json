@@ -1,9 +1,13 @@
 {
   "_comment": [
     "Tidewater issue-label palette for the Lentago Labs fleet, applied by",
-    "fleet-apply.sh --apply-labels. Colors mirror site-lentago-dev/BRAND.md;",
+    "terraform/labels.tf on merge to main. Colors mirror site-lentago-dev/BRAND.md;",
     "that repo's design-system CSS is authoritative if they ever disagree.",
     "",
+    "`ensure` was the semantics of the removed fleet-apply.sh --apply-labels",
+    "(lentago/.github#298) and nothing reads it now. Terraform opts routing labels",
+    "in per repo via repos.json's model_labels instead. Its removal, and that of",
+    "the ci/validate.py rule that still requires it, is lentago/.github#300:",
     "  ensure=true   create the label if the repo lacks it, then align it.",
     "  ensure=false  align color/description ONLY where the label already",
     "                exists — used for labels that are functional on some",

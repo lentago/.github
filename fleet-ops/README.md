@@ -37,9 +37,11 @@ creates it. Read [`../terraform/README.md`](../terraform/README.md) first.
   The script verifies a context has actually appeared on a recent PR. Run it
   before adding anything to `required-checks.json`.
 
-Its settings-applying flags (`--apply`, `--require-checks`, `--apply-labels`)
-still work and are still described below, but running them is no longer the
-normal path — they now race the Terraform state rather than complementing it.
+Its settings-applying flags (`--apply`, `--require-checks`,
+`--allow-check-removal`, `--apply-labels`) were removed in lentago/.github#298.
+They wrote Terraform-owned surfaces live with no plan, raced its state, and the
+next apply reverted them. Passing one now exits 2 with a one-line pointer to
+this flow.
 
 ## `repos.json` — which repos the fleet contains
 
@@ -62,32 +64,25 @@ Two conventions worth knowing before editing it:
 `required-checks.json`, `labels.json` and `brand/fleet.json` — a repo present in
 one but missing from another is caught here rather than in a plan.
 
-## `fleet-apply.sh` — the drift check and its flags
+## `fleet-apply.sh` — the drift check and the branch prune
 
 ```bash
-./fleet-apply.sh                 # read-only check of all non-archived org repos
-./fleet-apply.sh --apply         # apply merge-button + spine-topic fixes fleet-wide
-./fleet-apply.sh --prune-branches # delete merged-residue branches fleet-wide
-./fleet-apply.sh --apply-labels  # align the Tidewater issue-label palette
-./fleet-apply.sh --repo NAME     # scope to one repo (e.g. a freshly created one)
+./fleet-apply.sh                  # read-only check of all non-archived org repos
+./fleet-apply.sh --repo NAME      # scope to one repo (e.g. a freshly created one)
+./fleet-apply.sh --prune-branches # also delete merged-residue branches fleet-wide
 ```
 
-Idempotent. Read-only by default; only `--apply` (settings),
-`--prune-branches` (branch deletion) and `--apply-labels` (label color and
-description) mutate, and they are **independent flags**
-so the destructive branch sweep is always opt-in. The read-only check reports
-merge-option, topic-spine, ruleset and required-check drift, and **warns** if
-any repo still carries the copy-pasted `bash bootstrap scripts…` review prompt
-(the regression fixed in June 2026). Settings drift is corrected through
-`terraform/`, but not by itself. The apply runs only on a merge to `main` that
-touches `terraform/` or `fleet-ops/*.json`, and there is no scheduled plan, so
-drift stands until the next such merge puts live back to the declared state.
-The legacy `--apply` enforces squash-only + auto-merge + delete-branch-on-merge
-and the `lentago`+`claude` topic spine live, and **creates the per-repo `main`
-branch ruleset** (`repo-ruleset.json`) if one is missing, racing the Terraform
-state as it does. It does not touch signature topics or existing rulesets.
+Idempotent. Read-only by default. The one mutation is `--prune-branches`
+(branch deletion), opt-in so the destructive sweep never runs by accident. The
+read-only check reports merge-option, topic-spine, ruleset and required-check
+drift, and **warns** if any repo still carries the copy-pasted
+`bash bootstrap scripts…` review prompt (the regression fixed in June 2026). It
+never writes a setting. Settings drift is corrected through `terraform/`, but
+not by itself. The apply runs only on a merge to `main` that touches
+`terraform/` or `fleet-ops/*.json`, and there is no scheduled plan, so drift
+stands until the next such merge puts live back to the declared state.
 
-## `labels.json` + `--apply-labels` — the Tidewater label palette
+## `labels.json` — the Tidewater label palette
 
 Every repo ships with GitHub's stock label colors (`#d73a4a` red, `#a2eeef`
 cyan, `#7057ff` violet), which clash with the brand everywhere issues and PRs
@@ -97,21 +92,10 @@ carries the Tidewater replacements, mirroring
 
 [`../terraform/labels.tf`](../terraform/labels.tf) applies the palette on merge
 to `main`, with the `model:*` routing labels opted in per repo through
-`repos.json`'s `model_labels`, so a palette change is a PR. The legacy
-`--apply-labels` flag aligns the same labels live, racing the Terraform state,
-and the `ensure` behaviors below are its semantics:
-
-```bash
-./fleet-apply.sh --apply-labels              # fleet-wide
-./fleet-apply.sh --apply-labels --repo NAME  # one repo
-```
-
-Two behaviors, set per label in the JSON:
-
-| `ensure` | Behavior |
-|---|---|
-| `true` | create the label if the repo lacks it, then align color + description |
-| `false` | align **only** where it already exists — for labels that are functional on some repos and meaningless on others (the `model:*` @claude routing labels) |
+`repos.json`'s `model_labels`, so a palette change is a PR. Each label still
+carries an `ensure` flag. It held the semantics of the removed `--apply-labels`
+flag (create where missing, or align only where present), nothing reads it now,
+and dropping it is lentago/.github#300.
 
 **It never deletes.** Labels absent from `labels.json` — `zha`, `phase-1`,
 `gitops-sync` and the rest — are the repo's own business and are left untouched.
@@ -121,8 +105,8 @@ per-repo triage.
 Accent discipline carries over from the brand contract: anther gold `#E0A81C` is
 one element per region, so **`help wanted` is the only gold label** — the single
 call to action. `ci/validate.py` checks the shape (6-digit hex without `#`, no
-duplicate names, explicit `ensure`), because a bad value fails partway through a
-sweep and leaves the fleet half-recolored.
+duplicate names, explicit `ensure`), because the GitHub API rejects a bad value
+partway through a terraform apply, which leaves the fleet half-recolored.
 
 The per-repo README banners and social-preview cards are the other half of this;
 they're assets rather than settings, so they live in [`../brand/`](../brand/).
@@ -160,16 +144,17 @@ confirms live matches:
 ./fleet-apply.sh --repo <new-repo-name>
 ```
 
-## `repo-ruleset.json` — the per-repo branch ruleset
+## The per-repo branch ruleset
 
 The minimal branch ruleset for each repo's default branch: PR-required
 (0 approvals), squash-only merge, no force-push, no branch deletion.
-[`../terraform/rulesets.tf`](../terraform/rulesets.tf) now declares this shape
+[`../terraform/rulesets.tf`](../terraform/rulesets.tf) declares this shape
 for every repo, with the required *status checks* from `required-checks.json`
 (next section) as a `required_status_checks` rule in the same `main` ruleset.
-This file is what the legacy `--apply` POSTs to a repo that has no ruleset.
+The `repo-ruleset.json` template the old `--apply` POSTed to a repo with no
+ruleset was removed with that flag in lentago/.github#298.
 
-## `required-checks.json` + `--require-checks` — required status checks
+## `required-checks.json` — required status checks
 
 The base ruleset gates on "a PR must exist," but with **no required status
 checks** GitHub treats a green PR as `clean` — and it refuses to *arm*
@@ -200,12 +185,10 @@ has not appeared on the repo's recent PRs. Requiring one of those would deadlock
 the repo. [`../terraform/rulesets.tf`](../terraform/rulesets.tf) applies the
 file on merge to `main`, as each repo's `main` ruleset's
 `required_status_checks` rule (`integration_id` 15368 = GitHub Actions), so
-changing a repo's required checks is a PR to this file. The legacy
-`--require-checks` flag edits the same rule live, racing the Terraform state:
+changing a repo's required checks is a PR to this file:
 
 ```bash
-./fleet-apply.sh --require-checks              # fleet-wide
-./fleet-apply.sh --require-checks --repo NAME  # one repo
+./fleet-apply.sh --repo NAME   # on the branch, before merging: the preflight
 ```
 
 Three rules make this safe rather than a fleet-wide foot-gun:
@@ -222,23 +205,19 @@ Three rules make this safe rather than a fleet-wide foot-gun:
    checks that report on *every* PR (or skip at the job level, which counts as
    passing). Before the change merges, the read-only check's preflight flags any
    context that has never reported on the repo's recent PRs as
-   `✗ req-checks never-seen-on-a-PR`. The legacy `--require-checks` **refuses**
-   to require one.
+   `✗ req-checks never-seen-on-a-PR`. Terraform cannot tell, and will apply it.
 3. **A context required live but absent from the file is never silently
    dropped.** Under Terraform the removal is visible before it happens: the
    read-only check reports it as `⚠ req-checks live-not-in-file`, a
    `terraform/` PR's plan shows it, and the next apply on `main` makes it. The
-   rule came from the legacy path: `--require-checks` PUTs a wholesale
-   replacement of the `required_status_checks` rule, so a context missing from
-   the file (added via the UI, or the file simply lagging live) would otherwise
-   vanish on the next sweep with no distinguishing output (lentago/.github#71:
-   #68 dropped `Compile and commit` from `site-icecreamtofightwith-com` exactly
-   this way, restored in #70). That flag now diffs live against the file first, reports
-   any such removal, and refuses to apply it unless run with
-   `--allow-check-removal`. When it *does* proceed with removals it says so
-   inline: `→ required checks set on X: […] (REMOVING: Compile and commit)`.
-   Either way, add the missing context(s) to `required-checks.json` unless the
-   removal is actually intentional.
+   rule came from the since-removed `--require-checks` (lentago/.github#298),
+   which PUT a wholesale replacement of the `required_status_checks` rule. A
+   context missing from the file (added via the UI, or the file simply lagging
+   live) vanished on the next sweep with no distinguishing output
+   (lentago/.github#71: #68 dropped `Compile and commit` from
+   `site-icecreamtofightwith-com` exactly this way, restored in #70). Add the
+   missing context(s) to `required-checks.json` unless the removal is actually
+   intentional.
 
 ### Rollout order (do not invert)
 
