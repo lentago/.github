@@ -175,7 +175,10 @@ require:
 The read-only check reports the gap in **both directions**: `⧗ req-checks
 missing=[…]` is want − live (the file wants a check live doesn't have yet);
 `⚠ req-checks live-not-in-file=[…]` is live − want (live requires a check the
-file doesn't list). `--require-checks` applies the file by editing each repo's
+file doesn't list). For each missing context it also runs the required-context
+preflight and adds `✗ req-checks never-seen-on-a-PR=[…]` for any context that
+has not appeared on the repo's recent PRs. Requiring one of those would deadlock
+the repo. `--require-checks` applies the file by editing each repo's
 `main` ruleset's `required_status_checks` rule (`integration_id` 15368 = GitHub
 Actions):
 

@@ -260,7 +260,7 @@ for r in $repos; do
   # lacks) is the original check. extra = live − want (live requires a check
   # the file doesn't list) is the reverse — surfaced per lentago/.github#71,
   # since that's the lag that a --require-checks sweep would silently delete.
-  declare -a want_checks=() have_checks=() missing_checks=() extra_checks=()
+  declare -a want_checks=() have_checks=() missing_checks=() extra_checks=() seen_checks=() unseen_checks=()
   if [ -f "$CHECKS_MAP" ]; then
     mapfile -t want_checks < <(jq -r --arg r "$r" '.checks[$r][]? // empty' "$CHECKS_MAP" 2>/dev/null)
   fi
@@ -277,6 +277,15 @@ for r in $repos; do
     if [ ${#missing_checks[@]} -gt 0 ]; then
       checks_note+=" ⧗ req-checks missing=[${missing_checks[*]}]"
       checks_missing_total=$((checks_missing_total+1))
+      # Required-context preflight (lentago/.github#293): a missing context that
+      # never reported on a recent PR deadlocks the repo once terraform/ requires it.
+      mapfile -t seen_checks < <(seen_contexts "$r")
+      for w in "${missing_checks[@]}"; do
+        printf '%s\n' "${seen_checks[@]}" | grep -qxF "$w" || unseen_checks+=("$w")
+      done
+      if [ ${#unseen_checks[@]} -gt 0 ]; then
+        checks_note+=" ✗ req-checks never-seen-on-a-PR=[${unseen_checks[*]}]"
+      fi
     fi
     if [ ${#extra_checks[@]} -gt 0 ]; then
       checks_note+=" ⚠ req-checks live-not-in-file=[${extra_checks[*]}]"
