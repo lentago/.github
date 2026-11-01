@@ -21,8 +21,9 @@ focused changes land easily. Big ones need a conversation first, and the
 conversation is free.
 
 The code is co-written with [Claude](https://claude.com/claude-code)
-(Anthropic). The operator directs the work and owns every merge; Claude writes
-most of the code. Each repo says so in its README.
+(Anthropic). The operator owns the merge policy and directs every change; Claude
+writes most of the code, and every pull request gets an AI review. Each repo says
+so in its README.
 
 ## The most useful thing you can send us
 
