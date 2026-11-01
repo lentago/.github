@@ -93,14 +93,18 @@ rather than prescribing one approval count for everyone.
      merge lands before treating the gate as proven.
 5. **The head-SHA rule, for every armed merge.** Whatever arms auto-merge, a
    session or `cr-automerge`, arms the head that was reviewed or evaluated and no
-   other. The arming call carries that commit
+   other. For a session that means the reviewed commit, or a later one that only
+   answers its findings. The arming call carries that commit
    (`gh pr merge --auto --squash --match-head-commit <sha>` for sessions), so a
-   push between review and arming makes the arm fail. A push after arming
-   re-opens the question. A session's PR takes a fresh review under ADR-0013's
-   rule. A routine PR is evaluated again by `cr-automerge` or disarmed. An agent
-   PR's approval stops counting, because `agent-pr-gate` counts only an approval
-   on the current head. The implementations belong to claytonia (`cr-automerge`)
-   and shared-workflows#84. This record states the rule they meet.
+   push between review and arming makes the arm fail. A substantive push after
+   arming re-opens the question:
+   - a session's PR is disarmed and takes a fresh review under ADR-0013's rule;
+   - a routine PR is evaluated again by `cr-automerge`, or disarmed;
+   - an agent PR's approval stops counting, because `agent-pr-gate` counts only
+     an approval on the current head.
+
+   The implementations belong to claytonia (`cr-automerge`) and
+   shared-workflows#84. This record states the rule they meet.
 6. **Two modes, named.**
    - **Solo operator.** This is the Lentago estate today, and the one-tech-person
      shop [ADR-0008](0008-pro-bono-practice-one-reader.md) writes for.
