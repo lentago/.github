@@ -1,4 +1,4 @@
-# ADR-0014: The merge promise: humans own the policy and direct every change; agent-authored PRs need a human approval
+# ADR-0014: The merge promise: humans own the policy and direct every change; runner-App PRs need a human approval
 
 **Status:** Accepted (2026-11-01). Records Decision 1 on
 [#304](https://github.com/lentago/.github/issues/304), made by the maintainer the
@@ -52,10 +52,11 @@ rather than prescribing one approval count for everyone.
    pull request gets an AI review. Opted-in scheduled routines may merge on a
    deterministic gate. The profile and `CONTRIBUTING.md` say this, and the
    sentence "humans own every merge" is retired.
-2. **Agent-authored PRs need a human approval.** A PR authored by the runner App
-   (`lentago-claude-runner[bot]`) merges only after a human with write access
-   submits an approving review on its current head commit. `agent-pr-gate`
-   enforces this once #289 makes it required. A session may arm such a PR, but a
+2. **Runner-App PRs need a human approval.** In Decision 1, "agent-authored PRs"
+   means a PR authored by the bullpen's runner App (`lentago-claude-runner[bot]`),
+   the author `agent-pr-gate` keys on. It merges only after a human with write
+   access submits an approving review on its current head commit.
+   `agent-pr-gate` enforces this once #289 makes it required. A session may arm such a PR, but a
    session never submits that approval, even though it runs under the operator's
    identity. This closes the limit claytonia#117 states up front: the check
    cannot tell a person's approval from a session's when both use one identity.
