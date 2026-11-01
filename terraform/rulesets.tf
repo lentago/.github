@@ -63,3 +63,44 @@ resource "github_repository_ruleset" "main" {
     }
   }
 }
+
+# Release tags are fixed points. shared-workflows ADR-0005 has every fleet
+# caller pin a reusable by its full semver tag (`@v1.5.0`), and calls those tags
+# immutable — but until this ruleset nothing enforced that: anyone with push
+# access could move or delete `v1.5.0` and every caller would run different code
+# on its next run (lentago/.github#305, from the 2026-11-01 external review).
+#
+# Creation stays open, so cutting a release is unchanged (RELEASING.md). Once a
+# `v*` tag exists it cannot be deleted, moved or force-moved by anyone: there
+# are deliberately no bypass actors, the org owner included. A tag cut from the
+# wrong commit is fixed by cutting the next patch version, never by retagging;
+# removing a tag would mean merging a PR that removes this ruleset first.
+#
+# Full-SHA pinning of our own reusables is not adopted fleet-wide: one org owns
+# both caller and callee, so a tag that cannot move gives the same guarantee
+# with less update churn, and Dependabot keeps tag bumps reviewable.
+#
+# GitHub's repository "immutable releases" setting is the complementary control
+# (it also locks release assets), but integrations/github has no argument for it
+# as of v6.13.0 (upstream integrations/terraform-provider-github#2746).
+resource "github_repository_ruleset" "release_tags" {
+  for_each = local.release_tag_repos
+
+  name        = "release-tags"
+  repository  = github_repository.fleet[each.key].name
+  target      = "tag"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["refs/tags/v*"]
+      exclude = []
+    }
+  }
+
+  rules {
+    deletion         = true
+    non_fast_forward = true
+    update           = true
+  }
+}

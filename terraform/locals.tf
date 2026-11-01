@@ -109,6 +109,17 @@ locals {
   # no entry in required-checks.json has no effect.
   strict_up_to_date_repos = toset([".github", "betula", "claytonia", "drosera", "kalmia"])
 
+  # Repos whose `v*` tags are consumed as pinned versions by other repos, and so
+  # get the release-tags ruleset (rulesets.tf): no deleting or moving a release
+  # tag once it exists. shared-workflows is the only one today; a repo that
+  # starts publishing versions other repos pin belongs here too.
+  #
+  # Deliberately NOT filtered to public repos the way ruleset_repos is. If a repo
+  # listed here went private, a filter would silently plan the ruleset's destroy
+  # and drop the tag protection; without one, the apply fails loudly (rulesets on
+  # a private repo need GitHub Pro) and someone has to decide.
+  release_tag_repos = toset(["shared-workflows"])
+
   # ---------------------------------------------------------------------------
   # Derived: the repo x label matrix.
   #
