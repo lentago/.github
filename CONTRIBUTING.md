@@ -21,8 +21,12 @@ focused changes land easily. Big ones need a conversation first, and the
 conversation is free.
 
 The code is co-written with [Claude](https://claude.com/claude-code)
-(Anthropic). The operator directs the work and owns every merge; Claude writes
-most of the code. Each repo says so in its README.
+(Anthropic), and each repo says so in its README. The operator owns the merge
+policy and directs every change; Claude writes most of the code. Every directed
+pull request (one the operator asked for) gets an AI review, and opted-in
+scheduled routines merge on their deterministic gate alone. The
+[merge promise](https://github.com/lentago/.github/blob/main/docs/adr/0014-merge-promise-humans-own-the-policy.md)
+spells out who approves what.
 
 ## The most useful thing you can send us
 
@@ -43,7 +47,7 @@ didn't work on my machine" issue is worth more than most code.
    months from now. Reference the issue (`Closes #N`).
 5. **Squash merges only.** The PR body becomes the merge commit message, so
    branch commits can stay light. Required status checks gate the merge, and
-   a human clicks it.
+   the operator decides whether it merges.
 
 ## Conventions
 

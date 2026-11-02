@@ -38,7 +38,7 @@ Most mission-driven teams rent their systems: donated software seats and free ve
 
 ### 🔁 &nbsp; How everything moves
 
-Everything is code. Every change is a pull request — a proposed change someone else reviews before it lands. Merges apply automatically. A self-hosted fleet of AI coding agents does directed work. **Humans own every merge.** That is the whole operating model: nothing here changes except through a reviewed PR, and the merged PR *is* the change record.
+Everything is code. Every change is a pull request — a proposed change that is checked before it lands. Merges apply automatically. A self-hosted fleet of AI coding agents does directed work. **Humans own the policy and direct every change. Every directed pull request gets an AI review. Opted-in scheduled routines merge on their deterministic gate alone.** That is the whole operating model: nothing here changes except through a pull request, and the merged PR *is* the change record. The [merge promise](https://github.com/lentago/.github/blob/main/docs/adr/0014-merge-promise-humans-own-the-policy.md) spells out who approves what.
 
 ### ⚡ &nbsp; Every merge changes something real
 
