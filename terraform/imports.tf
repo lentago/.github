@@ -97,3 +97,46 @@ import {
   to       = github_repository_ruleset.main[each.key]
   id       = "${each.key}:${each.value}"
 }
+
+# Deployment environments (environments.tf, lentago/.github#311) were created
+# live before this module managed them. Imports are intersected with what each
+# repo actually carries, the same lesson as the labels above: an environment new
+# to local.environments is created, an existing one is adopted. The map key
+# "<repo>:<env>" is also the provider's import id.
+data "github_repository_environments" "live" {
+  for_each   = toset([for e in values(local.environments) : e.repository])
+  repository = each.key
+}
+
+locals {
+  live_environment_keys = toset(flatten([
+    for repo, d in data.github_repository_environments.live : [for e in d.environments : "${repo}:${e.name}"]
+  ]))
+}
+
+import {
+  for_each = { for k, v in local.environments : k => v if contains(local.live_environment_keys, k) }
+  to       = github_repository_environment.fleet[each.key]
+  id       = each.key
+}
+
+# Deployment branch policy ids are server-assigned, like the ruleset ids above,
+# and the provider's data source does not return them. Captured from
+# GET /repos/lentago/<repo>/environments/<env>/deployment-branch-policies on
+# the day the policy was set live (2026-11-01). A policy recreated by hand gets
+# a new id, so refresh this map if an import fails with "not found".
+locals {
+  live_deployment_policy_ids = {
+    "solidago:terraform:main" = 65166776
+  }
+}
+
+import {
+  # Intersected with environment_branch_policies (environments.tf), as the
+  # ruleset import is with ruleset_repos: a branch removed from
+  # local.environments drops its import here instead of erroring the plan, and a
+  # stale id in this map is then inert.
+  for_each = { for k, id in local.live_deployment_policy_ids : k => id if contains(keys(local.environment_branch_policies), k) }
+  to       = github_repository_environment_deployment_policy.fleet[each.key]
+  id       = "${join(":", slice(split(":", each.key), 0, 2))}:${each.value}"
+}
