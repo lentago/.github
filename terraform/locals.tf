@@ -42,16 +42,6 @@ locals {
   # context in required-checks.json.
   actions_app_id = 15368
 
-  # The gate App (`lentago-pr-gate`, org-owned, Checks write only): it posts the
-  # agent-pr-gate verdict as a check run that the runner App cannot fake
-  # (lentago/shared-workflows#97, lentago/.github#319). An App ID is public, not
-  # a secret. It is the integration the verdict's required check will name once
-  # the verdict is seen reporting. The same ID is set by hand, beside the App's
-  # key, as AGENT_PR_GATE_APP_ID in each gated repo's `agent-pr-gate`
-  # environment: the fleet admin token has no Environments permission, so
-  # Terraform neither writes nor reads environment variables (#319).
-  gate_app_id = 5585513
-
   # ---------------------------------------------------------------------------
   # The merge gate (protection.tf): the push allowlist on `main`. Every merge
   # lands through an org owner/admin — contributors work from forks and open
