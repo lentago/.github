@@ -20,6 +20,7 @@ org itself.** This module manages GitHub, nothing else.
 | Topic spine + signature topics | `github_repository` | spine in `locals.tf`, signature in `repos.json` |
 | `main` branch ruleset — PR-required, squash-only, no force-push/deletion | `github_repository_ruleset` | `rulesets.tf` |
 | Required status checks | `github_repository_ruleset` | `../fleet-ops/required-checks.json` |
+| Release-tag ruleset — no deleting or moving a `v*` tag, no bypass actors, the org owner included (shared-workflows) | `github_repository_ruleset` | `release_tag_repos` in `locals.tf`, rules in `rulesets.tf` |
 | Merge gate — who can update `main` | `github_branch_protection` | allowlist in `locals.tf` |
 | Tidewater issue-label palette | `github_issue_label` | `../fleet-ops/labels.json` |
 
