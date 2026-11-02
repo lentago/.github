@@ -99,6 +99,21 @@ def check_fleet_ops_configs():
             if len(set(contexts)) != len(contexts):
                 fail("configs", f"{rel}: '{repo}' lists a duplicate context")
 
+        # `sources`: context -> the GitHub App integration ID it must come from
+        # (terraform/rulesets.tf, fleet-apply.sh). A source for a context no repo
+        # requires is a typo or a leftover, and would silently do nothing.
+        sources = doc.get("sources", {})
+        if not isinstance(sources, dict):
+            fail("configs", f"{rel}: 'sources' must be an object")
+            continue
+        required = {c for cs in checks.values() if isinstance(cs, list) for c in cs}
+        for ctx, app_id in sorted(sources.items()):
+            if not isinstance(app_id, int) or isinstance(app_id, bool) or app_id <= 0:
+                fail("configs", f"{rel}: source for '{ctx}' must be a positive integer "
+                                "integration ID")
+            if ctx not in required:
+                fail("configs", f"{rel}: 'sources' names '{ctx}', which no repo requires")
+
 
 HEX6 = re.compile(r"^[0-9a-fA-F]{6}$")
 

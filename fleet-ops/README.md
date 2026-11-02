@@ -182,8 +182,14 @@ preflight and adds `✗ req-checks never-seen-on-a-PR=[…]` for any context tha
 has not appeared on the repo's recent PRs. Requiring one of those would deadlock
 the repo. [`../terraform/rulesets.tf`](../terraform/rulesets.tf) applies the
 file on merge to `main`, as each repo's `main` ruleset's
-`required_status_checks` rule (`integration_id` 15368 = GitHub Actions), so
-changing a repo's required checks is a PR to this file:
+`required_status_checks` rule, so changing a repo's required checks is a PR
+to this file. Each required check names its **source**, the App it must come
+from: `integration_id` 15368 (GitHub Actions) unless the file's top-level
+`sources` map names another, as it does for the gate App's
+`agent-pr-verdict` (5585513, lentago/.github#319). The read-only check
+compares context and source together, so a check run with the right name from
+the wrong App counts as missing or never seen, and it shows a non-Actions
+check as `<context>@<id>`:
 
 ```bash
 ./fleet-apply.sh --repo NAME   # on the branch, before merging: the preflight

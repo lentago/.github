@@ -69,7 +69,19 @@
     "of the gate (lupinus#36, monarda#36; the base-ref checkout fixed in each kit's",
     "#38) that reports the same context. Both were mapped after the fixed copy",
     "reported on live PRs: red on each kit's runner-authored #38 for want of an",
-    "approval, and green on monarda#34 once its head was approved."
+    "approval, and green on monarda#34 once its head was approved.",
+    "",
+    "`sources` names the GitHub App a context must come from, by integration ID.",
+    "A context absent from it is required from GitHub Actions (15368), like every",
+    "Actions job. Both terraform/rulesets.tf (the ruleset's integration_id) and",
+    "fleet-apply.sh (the preflight and drift check, which match on the check",
+    "run's app id as well as its name) read it, so the source lives here once.",
+    "`agent-pr-verdict` is posted by the gate App, lentago-pr-gate (5585513), on",
+    "the head of every PR (lentago/shared-workflows#97, lentago/.github#319). The",
+    "runner App can add an Actions job reporting that name, but not one from the",
+    "gate App's integration, so requiring it by source closes the hole the",
+    "Actions-only agent-pr-gate leaves. Each gated repo is mapped only after the",
+    "verdict was seen from 5585513 on a live PR (shared-workflows: #100)."
   ],
   "checks": {
     "asclepias": [
@@ -161,7 +173,8 @@
     ],
     "shared-workflows": [
       "docs-check / docs-check",
-      "agent-pr-gate / agent-pr-gate"
+      "agent-pr-gate / agent-pr-gate",
+      "agent-pr-verdict"
     ],
     "osmunda": [
       "docs-check / docs-check",
@@ -215,5 +228,8 @@
     "uvularia-demo-ask-rules": [
       "evals"
     ]
+  },
+  "sources": {
+    "agent-pr-verdict": 5585513
   }
 }

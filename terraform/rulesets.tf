@@ -52,11 +52,15 @@ resource "github_repository_ruleset" "main" {
         strict_required_status_checks_policy = contains(local.strict_up_to_date_repos, each.key)
         do_not_enforce_on_create             = false
 
+        # A required check names the integration it must come from, so a check
+        # run with the same name from any other App does not satisfy it. Most
+        # contexts are Actions jobs; `sources` in required-checks.json names the
+        # rest (the gate App's agent-pr-verdict, lentago/.github#319).
         dynamic "required_check" {
           for_each = local.checks_cfg[each.key]
           content {
             context        = required_check.value
-            integration_id = local.actions_app_id
+            integration_id = lookup(local.check_sources, required_check.value, local.actions_app_id)
           }
         }
       }

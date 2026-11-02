@@ -8,7 +8,11 @@ locals {
   # ---------------------------------------------------------------------------
   repos      = jsondecode(file("${path.module}/../fleet-ops/repos.json")).repos
   labels_cfg = jsondecode(file("${path.module}/../fleet-ops/labels.json")).labels
-  checks_cfg = jsondecode(file("${path.module}/../fleet-ops/required-checks.json")).checks
+  checks_doc = jsondecode(file("${path.module}/../fleet-ops/required-checks.json"))
+  checks_cfg = local.checks_doc.checks
+  # Context -> the integration ID it must come from (rulesets.tf). A context
+  # absent from it comes from GitHub Actions (actions_app_id).
+  check_sources = lookup(local.checks_doc, "sources", {})
 
   # ---------------------------------------------------------------------------
   # Uniform fleet policy. These are deliberately NOT per-repo knobs in
@@ -39,7 +43,7 @@ locals {
   squash_commit_message = "COMMIT_MESSAGES"
 
   # GitHub Actions' app id — the integration that owns every required check
-  # context in required-checks.json.
+  # context in required-checks.json that its `sources` map does not name.
   actions_app_id = 15368
 
   # ---------------------------------------------------------------------------
