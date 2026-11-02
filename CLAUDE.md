@@ -93,7 +93,7 @@ repo now calls it like the rest of the fleet. Two implementations of one check w
 have drifted, with this repo gated by the staler copy. What remains in `validate.py`
 is the set genuinely specific to this repo.
 
-Four workflows gate PRs here, all **unconditional** (no `on:`-level path filter — a
+These workflows gate PRs here, all **unconditional** (no `on:`-level path filter — a
 path-filtered required check deadlocks every non-matching PR):
 
 | Workflow | Context | What it runs |
@@ -101,9 +101,10 @@ path-filtered required check deadlocks every non-matching PR):
 | `.github/workflows/ci.yml` | `validate` | `ci/validate.py` |
 | `.github/workflows/shellcheck.yml` | `shellcheck / shellcheck` | shared reusable over `fleet-ops/fleet-apply.sh` |
 | `.github/workflows/docs-check.yml` | `docs-check / docs-check` | shared reusable, relative markdown links |
+| `.github/workflows/agent-pr-gate.yml` | `agent-pr-gate / agent-pr-gate` | shared reusable; holds a runner-App PR until a human approves its head (ADR-0014, #289) |
 | `.github/workflows/terraform.yml` | `gate` | `terraform fmt` + `validate` over `terraform/` |
 
-The first three are required on `main` via `fleet-ops/required-checks.json`, so
+The first four are required on `main` via `fleet-ops/required-checks.json`, so
 `gh pr merge --auto` arms here rather than merging on the spot. `gate` is
 **required as well** (phase 2, live 2026-08-17): `plan` feeds it on every
 tf-touching PR, so a red plan blocks the merge, and `apply` runs on merge to
