@@ -2,7 +2,9 @@
 
 **Status:** Accepted (2026-11-01). Records Decision 1 on
 [#304](https://github.com/lentago/.github/issues/304), made by the maintainer the
-same day.
+same day, with its AI-review clause narrowed to directed pull requests on review
+of this record (decision recorded on
+[#306](https://github.com/lentago/.github/issues/306)).
 
 ## Context
 
@@ -36,6 +38,16 @@ same day:
   The bullpen also works repositories outside the org, and one of them, a private
   repository, has run two routines under the exception since 2026-10-28; the
   runner App has merged their PRs itself.
+- **Two paths merge with no AI review.** Found on review of this record:
+  - That private repository has no reviewer caller, so its routine PRs merge on
+    the rule and the required checks with no review at all.
+  - This repository's weekly refresh
+    ([`fleet-reports.yml`](../../.github/workflows/fleet-reports.yml)) is a
+    scheduled workflow that arms auto-merge on its own PR as it opens it. It
+    stages only the three generated report files, and the required checks are
+    its gate. The review can post after the merge or not at all:
+    [#275](https://github.com/lentago/.github/pull/275), the
+    refresh of 2026-10-26, merged with no review comment.
 - **A human approval on agent-authored PRs is decided, not yet enforced.** The
   enforcement is the `agent-pr-gate` required check (claytonia#117, option A,
   decided 2026-10-30;
@@ -49,9 +61,17 @@ rather than prescribing one approval count for everyone.
 ## Decision
 
 1. **The public promise.** Humans own the policy and direct every change. Every
-   pull request gets an AI review. Opted-in scheduled routines may merge on a
-   deterministic gate. The profile and `CONTRIBUTING.md` say this, and the
-   sentence "humans own every merge" is retired.
+   directed pull request gets an AI review. Opted-in scheduled routines merge on
+   their deterministic gate alone. The profile and `CONTRIBUTING.md` say this,
+   and the sentence "humans own every merge" is retired.
+   - A *directed* pull request is one a person asked for: a change the operator
+     directs a session to make, or a job dispatched to the bullpen. Its AI
+     review gates arming (ADR-0013).
+   - A scheduled routine's pull request is not directed. Its gate is its rule
+     and the required checks; the AI review is not part of it. Both paths in
+     the Context fall under this clause, and neither is a gap to close.
+   - The first wording, "every pull request gets an AI review," was narrowed
+     because those two paths made it untrue.
 2. **Runner-App PRs need a human approval.** In Decision 1, "agent-authored PRs"
    means a PR authored by the bullpen's runner App (`lentago-claude-runner[bot]`),
    the author `agent-pr-gate` keys on. It merges only after a human with write
@@ -79,8 +99,10 @@ rather than prescribing one approval count for everyone.
      - its title matches the rule in full;
      - it changes between one and `max_files` paths, every one of them (a
        rename's old path included) matching the rule's globs.
-   - The AI review still runs and the required checks still gate. A rule removes
-     the click, not the checks.
+   - The required status checks still gate. A rule removes the click, not the
+     checks. The AI review is not part of the gate (point 1): where the
+     repository has a reviewer caller it still posts, advisory, and where it has
+     none the PR merges without one.
    - A rule's paths cover data files whose consumers validate them. They never
      cover code, workflows or infrastructure. A path-and-title gate bounds where
      an automated change lands, not what it says.
