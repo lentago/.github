@@ -42,6 +42,14 @@ locals {
   # context in required-checks.json.
   actions_app_id = 15368
 
+  # The gate App (`lentago-pr-gate`, org-owned, Checks write only): it posts the
+  # agent-pr-gate verdict as a check run that the runner App cannot fake
+  # (lentago/shared-workflows#97, lentago/.github#319). An App ID is public, not
+  # a secret. It is set as AGENT_PR_GATE_APP_ID in each gated repo's
+  # `agent-pr-gate` environment (environments.tf), and it is the integration
+  # the verdict's required check will name once the verdict is seen reporting.
+  gate_app_id = 5585513
+
   # ---------------------------------------------------------------------------
   # The merge gate (protection.tf): the push allowlist on `main`. Every merge
   # lands through an org owner/admin — contributors work from forks and open
@@ -125,13 +133,24 @@ locals {
   # a cloud role that trusts one environment trusts every job that can enter it.
   # `branches` decides which jobs those are: empty means any ref may deploy (no
   # deployment branch policy); non-empty means only refs matching those branch
-  # patterns may (custom branch policies). Secrets and variables are not managed.
+  # patterns may (custom branch policies). Secrets are never managed here; the
+  # one variable managed is the gate App's ID (environments.tf).
   #
   # solidago (lentago/solidago#225, #156, option C, 2026-11-01): pull-request
   # plans run in `terraform-plan`, which the read-only plan role trusts; the
   # apply runs in `terraform`, which the full-write apply role trusts, and only
   # `main` may deploy to it.
-  environments = {
+  #
+  # agent-pr-gate (lentago/.github#319): every repo in agent_pr_gate_repos gets
+  # an `agent-pr-gate` environment that only `main` may enter, with no admin
+  # bypass. It holds the gate App's private key, which the maintainer stores by
+  # hand (ADR-0011 rule 4: Terraform never creates the slot). The verdict job
+  # runs on `pull_request_target`, `workflow_run` and `issue_comment`, whose ref
+  # is the base or default branch, so it gets the key; a `pull_request` run
+  # (ref `refs/pull/<n>/merge`) or a workflow pushed on another branch does not.
+  # A reusable workflow's job runs in its caller's repo, so each gated repo
+  # needs its own environment.
+  environments = merge({
     "solidago:terraform" = {
       repository        = "solidago"
       environment       = "terraform"
@@ -144,7 +163,19 @@ locals {
       can_admins_bypass = true
       branches          = []
     }
-  }
+    }, {
+    for repo in local.agent_pr_gate_repos : "${repo}:agent-pr-gate" => {
+      repository        = repo
+      environment       = "agent-pr-gate"
+      can_admins_bypass = false
+      branches          = ["main"]
+    }
+  })
+
+  # Repos that run the agent-pr-gate verdict. shared-workflows is the pilot
+  # (lentago/shared-workflows#97); a repo joins once the gate App is installed
+  # on it and its caller is about to reference the environment.
+  agent_pr_gate_repos = toset(["shared-workflows"])
 
   # ---------------------------------------------------------------------------
   # Derived: the repo x label matrix.
