@@ -65,7 +65,9 @@
     "other PR at once. Each repo's caller (shared-workflows agent-pr-gate.yml) was",
     "merged and seen reporting before the repo was mapped here; shared-workflows",
     "reports it through its own agent-pr-gate-self.yml. The kits (lupinus, monarda)",
-    "carry no cross-org workflows (ADR-0013 Decision 2) and are not mapped yet."
+    "carry no cross-org workflows (ADR-0013 Decision 2), so each runs a vendored copy",
+    "of the gate (lupinus#35, monarda#35) that reports the same context; they were",
+    "mapped once those copies reported on live PRs (monarda#34, approved and green)."
   ],
   "checks": {
     "asclepias": [
@@ -166,10 +168,12 @@
       "agent-pr-gate / agent-pr-gate"
     ],
     "monarda": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "lupinus": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "mitchella": [
       "docs-check / docs-check",
