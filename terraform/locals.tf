@@ -42,14 +42,6 @@ locals {
   # context in required-checks.json.
   actions_app_id = 15368
 
-  # The gate App (`lentago-pr-gate`, org-owned, Checks write only): it posts the
-  # agent-pr-gate verdict as a check run that the runner App cannot fake
-  # (lentago/shared-workflows#97, lentago/.github#319). An App ID is public, not
-  # a secret. It is set as AGENT_PR_GATE_APP_ID in each gated repo's
-  # `agent-pr-gate` environment (environments.tf), and it is the integration
-  # the verdict's required check will name once the verdict is seen reporting.
-  gate_app_id = 5585513
-
   # ---------------------------------------------------------------------------
   # The merge gate (protection.tf): the push allowlist on `main`. Every merge
   # lands through an org owner/admin — contributors work from forks and open
@@ -133,8 +125,7 @@ locals {
   # a cloud role that trusts one environment trusts every job that can enter it.
   # `branches` decides which jobs those are: empty means any ref may deploy (no
   # deployment branch policy); non-empty means only refs matching those branch
-  # patterns may (custom branch policies). Secrets are never managed here; the
-  # one variable managed is the gate App's ID (environments.tf).
+  # patterns may (custom branch policies). Secrets and variables are not managed.
   #
   # solidago (lentago/solidago#225, #156, option C, 2026-11-01): pull-request
   # plans run in `terraform-plan`, which the read-only plan role trusts; the
@@ -143,8 +134,8 @@ locals {
   #
   # agent-pr-gate (lentago/.github#319): every repo in agent_pr_gate_repos gets
   # an `agent-pr-gate` environment that only `main` may enter, with no admin
-  # bypass. It holds the gate App's private key, which the maintainer stores by
-  # hand (ADR-0011 rule 4: Terraform never creates the slot). The verdict job
+  # bypass. It holds the gate App's private key and ID, which are set by hand
+  # (ADR-0011 rule 4: Terraform never creates the slot). The verdict job
   # runs on `pull_request_target`, `workflow_run` and `issue_comment`, whose ref
   # is the base or default branch, so it gets the key; a `pull_request` run
   # (ref `refs/pull/<n>/merge`) or a workflow pushed on another branch does not.

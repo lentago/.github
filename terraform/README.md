@@ -22,7 +22,6 @@ org itself.** This module manages GitHub, nothing else.
 | Required status checks | `github_repository_ruleset` | `../fleet-ops/required-checks.json` |
 | Release-tag ruleset — no deleting or moving a `v*` tag, no bypass actors, the org owner included (shared-workflows) | `github_repository_ruleset` | `release_tag_repos` in `locals.tf`, rules in `rulesets.tf` |
 | Deployment environments and their branch policies — which refs may enter an environment a cloud role trusts (solidago `terraform`: `main` only) or that holds a key (`agent-pr-gate`: `main` only, no admin bypass, per gated repo) | `github_repository_environment`, `github_repository_environment_deployment_policy` | `environments` and `agent_pr_gate_repos` in `locals.tf`; import ids in `imports.tf` |
-| The gate App's ID in each `agent-pr-gate` environment (`AGENT_PR_GATE_APP_ID`). Its private key is stored by hand and is never a resource (ADR-0011 rule 4) | `github_actions_environment_variable` | `gate_app_id` in `locals.tf`, resource in `environments.tf` |
 | Merge gate — who can update `main` | `github_branch_protection` | allowlist in `locals.tf` |
 | Tidewater issue-label palette | `github_issue_label` | `../fleet-ops/labels.json` |
 

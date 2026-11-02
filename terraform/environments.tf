@@ -47,17 +47,3 @@ resource "github_repository_environment_deployment_policy" "fleet" {
   environment    = github_repository_environment.fleet[each.value.env].environment
   branch_pattern = each.value.branch
 }
-
-# The gate App's ID, beside the private key the maintainer stores by hand in the
-# same environment (AGENT_PR_GATE_APP_KEY, lentago/.github#319). It comes from
-# the same local the verdict's required check will name, so the two cannot
-# disagree. The key is never a resource here: no slot, no value, nothing in
-# state.
-resource "github_actions_environment_variable" "agent_pr_gate_app_id" {
-  for_each = local.agent_pr_gate_repos
-
-  repository    = github_repository_environment.fleet["${each.key}:agent-pr-gate"].repository
-  environment   = github_repository_environment.fleet["${each.key}:agent-pr-gate"].environment
-  variable_name = "AGENT_PR_GATE_APP_ID"
-  value         = tostring(local.gate_app_id)
-}

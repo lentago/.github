@@ -131,22 +131,6 @@ locals {
   }
 }
 
-# The gate App's ID variable (environments.tf), adopted when it already exists:
-# a fresh-state rebuild then imports it instead of failing a create. Read only
-# for environments that exist live, since the data source errors on a missing
-# environment.
-data "github_actions_environment_variables" "agent_pr_gate" {
-  for_each    = { for repo in local.agent_pr_gate_repos : repo => repo if contains(local.live_environment_keys, "${repo}:agent-pr-gate") }
-  name        = each.key
-  environment = "agent-pr-gate"
-}
-
-import {
-  for_each = { for repo, d in data.github_actions_environment_variables.agent_pr_gate : repo => repo if contains([for v in d.variables : v.name], "AGENT_PR_GATE_APP_ID") }
-  to       = github_actions_environment_variable.agent_pr_gate_app_id[each.key]
-  id       = "${each.key}:agent-pr-gate:AGENT_PR_GATE_APP_ID"
-}
-
 import {
   # Intersected with environment_branch_policies (environments.tf), as the
   # ruleset import is with ruleset_repos: a branch removed from
