@@ -132,7 +132,11 @@ locals {
 }
 
 import {
-  for_each = local.live_deployment_policy_ids
+  # Intersected with environment_branch_policies (environments.tf), as the
+  # ruleset import is with ruleset_repos: a branch removed from
+  # local.environments drops its import here instead of erroring the plan, and a
+  # stale id in this map is then inert.
+  for_each = { for k, id in local.live_deployment_policy_ids : k => id if contains(keys(local.environment_branch_policies), k) }
   to       = github_repository_environment_deployment_policy.fleet[each.key]
   id       = "${join(":", slice(split(":", each.key), 0, 2))}:${each.value}"
 }

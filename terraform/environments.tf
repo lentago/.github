@@ -29,12 +29,19 @@ resource "github_repository_environment" "fleet" {
   }
 }
 
-resource "github_repository_environment_deployment_policy" "fleet" {
-  for_each = merge([
+locals {
+  # One entry per (environment, branch pattern), keyed "<repo>:<env>:<branch>".
+  # imports.tf filters its policy imports against these keys, so this map is the
+  # one source of which policies exist.
+  environment_branch_policies = merge([
     for key, env in local.environments : {
       for branch in env.branches : "${key}:${branch}" => { env = key, branch = branch }
     }
   ]...)
+}
+
+resource "github_repository_environment_deployment_policy" "fleet" {
+  for_each = local.environment_branch_policies
 
   repository     = github_repository_environment.fleet[each.value.env].repository
   environment    = github_repository_environment.fleet[each.value.env].environment
