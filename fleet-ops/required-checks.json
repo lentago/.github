@@ -56,67 +56,86 @@
     "epigaea also requires `Bats` (.github#291): the `bats` job in tests.yml runs on",
     "every pull_request with no path filter, and since epigaea#563 it carries the",
     "instruction-card print-size guard (tests/card_size.bats), which only protects",
-    "the 7 by 5 inch card contract if a red run blocks the merge."
+    "the 7 by 5 inch card contract if a red run blocks the merge.",
+    "",
+    "`agent-pr-gate / agent-pr-gate` (.github#289; claytonia#117 option A; ADR-0014",
+    "point 2) is required on every repo the bullpen's runner App opens PRs in. It",
+    "holds a runner-App PR until a human with write access approves its current",
+    "head, or until cr-automerge arms it under a routine rule, and passes every",
+    "other PR at once. Each repo's caller (shared-workflows agent-pr-gate.yml) was",
+    "merged and seen reporting before the repo was mapped here; shared-workflows",
+    "reports it through its own agent-pr-gate-self.yml. The kits (lupinus, monarda)",
+    "carry no cross-org workflows (ADR-0013 Decision 2) and are not mapped yet."
   ],
   "checks": {
     "asclepias": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     ".github": [
       "gate",
       "validate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "kalmia": [
       "gate",
       "ansible-lint",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "drosera": [
       "gate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "solidago": [
       "gate",
       "docs-check / docs-check",
       "tf-lint / tf-lint",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "site-lentago-dev": [
       "Build",
       "docs-check / docs-check",
       "A11y",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "site-pondviewlane-com": [
       "Build",
       "docs-check / docs-check",
-      "pa11y WCAG2AA"
+      "pa11y WCAG2AA",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "claytonia": [
       "gate",
       "queue-core",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "betula": [
       "gate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "epigaea": [
       "check-config",
       "docs-check / docs-check",
       "shellcheck / shellcheck",
-      "Bats"
+      "Bats",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "site-icecreamtofightwith-com": [
       "Lint content",
@@ -124,22 +143,27 @@
       "docs-check / docs-check",
       "pa11y accessibility smoke test",
       "Validate book quality",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "brasenia": [
       "docs-check / docs-check",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "repo-template": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "shared-workflows": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "osmunda": [
       "docs-check / docs-check",
       "kubeconform",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "monarda": [
       "docs-check / docs-check"
@@ -149,7 +173,8 @@
     ],
     "mitchella": [
       "docs-check / docs-check",
-      "tests / pytest"
+      "tests / pytest",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "uvularia": [
       "docs-check / docs-check",
@@ -163,7 +188,8 @@
       "test-ask-function",
       "template-telemetry",
       "drift",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "uvularia-records-template": [
       "validate"
