@@ -47,7 +47,10 @@ same day:
     stages only the three generated report files, and the required checks are
     its gate. The review can post after the merge or not at all:
     [#275](https://github.com/lentago/.github/pull/275), the
-    refresh of 2026-10-26, merged with no review comment.
+    refresh of 2026-10-26, merged with no review comment. If arming fails, the
+    step falls back to an immediate squash merge without
+    `--match-head-commit`, outside point 5's rule;
+    [#312](https://github.com/lentago/.github/issues/312) aligns it.
 - **A human approval on agent-authored PRs is decided, not yet enforced.** The
   enforcement is the `agent-pr-gate` required check (claytonia#117, option A,
   decided 2026-10-30;
