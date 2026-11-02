@@ -21,6 +21,7 @@ org itself.** This module manages GitHub, nothing else.
 | `main` branch ruleset — PR-required, squash-only, no force-push/deletion | `github_repository_ruleset` | `rulesets.tf` |
 | Required status checks | `github_repository_ruleset` | `../fleet-ops/required-checks.json` |
 | Release-tag ruleset — no deleting or moving a `v*` tag, no bypass actors, the org owner included (shared-workflows) | `github_repository_ruleset` | `release_tag_repos` in `locals.tf`, rules in `rulesets.tf` |
+| Deployment environments and their branch policies — which refs may enter an environment a cloud role trusts (solidago `terraform`: `main` only) | `github_repository_environment`, `github_repository_environment_deployment_policy` | `environments` in `locals.tf`; import ids in `imports.tf` |
 | Merge gate — who can update `main` | `github_branch_protection` | allowlist in `locals.tf` |
 | Tidewater issue-label palette | `github_issue_label` | `../fleet-ops/labels.json` |
 

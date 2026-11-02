@@ -120,6 +120,32 @@ locals {
   # a private repo need GitHub Pro) and someone has to decide.
   release_tag_repos = toset(["shared-workflows"])
 
+  # GitHub deployment environments (environments.tf), keyed "<repo>:<env>".
+  # An environment's OIDC subject is `repo:<owner>/<repo>:environment:<env>`, so
+  # a cloud role that trusts one environment trusts every job that can enter it.
+  # `branches` decides which jobs those are: empty means any ref may deploy (no
+  # deployment branch policy); non-empty means only refs matching those branch
+  # patterns may (custom branch policies). Secrets and variables are not managed.
+  #
+  # solidago (lentago/solidago#225, #156, option C, 2026-11-01): pull-request
+  # plans run in `terraform-plan`, which the read-only plan role trusts; the
+  # apply runs in `terraform`, which the full-write apply role trusts, and only
+  # `main` may deploy to it.
+  environments = {
+    "solidago:terraform" = {
+      repository        = "solidago"
+      environment       = "terraform"
+      can_admins_bypass = false
+      branches          = ["main"]
+    }
+    "solidago:terraform-plan" = {
+      repository        = "solidago"
+      environment       = "terraform-plan"
+      can_admins_bypass = true
+      branches          = []
+    }
+  }
+
   # ---------------------------------------------------------------------------
   # Derived: the repo x label matrix.
   #
