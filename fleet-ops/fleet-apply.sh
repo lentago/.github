@@ -65,14 +65,27 @@ done
 
 # --- required-status-check helpers (issue #27) ------------------------------
 
-# Current required-check contexts on a repo's `main` branch ruleset (may be empty).
+# Every helper below speaks in pairs, "<context>\t<integration id>": a
+# required check names the App it must come from, and a check run with the
+# same name from another App does not satisfy it (lentago/.github#319). A
+# context absent from required-checks.json's `sources` map comes from GitHub
+# Actions.
+ACTIONS_APP_ID=15368
+
+# Shown as the bare context for an Actions check, "<context>@<id>" otherwise.
+show_pair() {
+  local ctx="${1%%$'\t'*}" id="${1##*$'\t'}"
+  if [ "$id" = "$ACTIONS_APP_ID" ]; then printf '%s' "$ctx"; else printf '%s@%s' "$ctx" "$id"; fi
+}
+
+# Current required checks on a repo's `main` branch ruleset (may be empty).
 required_contexts() {
   local r="$1" id
   id=$(gh api "repos/$ORG/$r/rulesets" \
         --jq '.[] | select(.target=="branch" and .name=="main") | .id' 2>/dev/null | head -1)
   [ -z "$id" ] && return
   gh api "repos/$ORG/$r/rulesets/$id" \
-    --jq '.rules[]? | select(.type=="required_status_checks") | .parameters.required_status_checks[].context' \
+    --jq '.rules[]? | select(.type=="required_status_checks") | .parameters.required_status_checks[] | "\(.context)\t\(.integration_id // "any")"' \
     2>/dev/null || true
 }
 
@@ -94,7 +107,7 @@ seen_contexts() {
     [ -z "$n" ] && continue
     sha=$(gh api "repos/$ORG/$r/pulls/$n" --jq '.head.sha' 2>/dev/null) || continue
     [ -z "$sha" ] && continue
-    gh api "repos/$ORG/$r/commits/$sha/check-runs" --jq '.check_runs[].name' 2>/dev/null
+    gh api "repos/$ORG/$r/commits/$sha/check-runs" --jq '.check_runs[] | "\(.name)\t\(.app.id)"' 2>/dev/null
   done < <(gh pr list --repo "$ORG/$r" --state all --limit "$SEEN_PR_SAMPLE" \
              --json number --jq '.[].number' 2>/dev/null) | sort -u
 }
@@ -164,7 +177,8 @@ for r in $repos; do
   # since that's the lag the next terraform apply on main would remove.
   declare -a want_checks=() have_checks=() missing_checks=() extra_checks=() seen_checks=() unseen_checks=()
   if [ -f "$CHECKS_MAP" ]; then
-    mapfile -t want_checks < <(jq -r --arg r "$r" '.checks[$r][]? // empty' "$CHECKS_MAP" 2>/dev/null)
+    mapfile -t want_checks < <(jq -r --arg r "$r" --argjson a "$ACTIONS_APP_ID" \
+      '(.sources // {}) as $s | .checks[$r][]? // empty | "\(.)\t\($s[.] // $a)"' "$CHECKS_MAP" 2>/dev/null)
   fi
   checks_note=""
   if [ -f "$CHECKS_MAP" ] && [ "$ruleset_missing" -eq 0 ] && [ "$rs_count" != "n/a (private/plan)" ]; then
@@ -177,7 +191,7 @@ for r in $repos; do
       printf '%s\n' "${want_checks[@]}" | grep -qxF "$h" || extra_checks+=("$h")
     done
     if [ ${#missing_checks[@]} -gt 0 ]; then
-      checks_note+=" ⧗ req-checks missing=[${missing_checks[*]}]"
+      checks_note+=" ⧗ req-checks missing=[$(for m in "${missing_checks[@]}"; do show_pair "$m"; printf ' '; done | sed 's/ $//')]"
       checks_missing_total=$((checks_missing_total+1))
       # Required-context preflight (lentago/.github#293): a missing context that
       # never reported on a recent PR deadlocks the repo once terraform/ requires it.
@@ -186,11 +200,11 @@ for r in $repos; do
         printf '%s\n' "${seen_checks[@]}" | grep -qxF "$w" || unseen_checks+=("$w")
       done
       if [ ${#unseen_checks[@]} -gt 0 ]; then
-        checks_note+=" ✗ req-checks never-seen-on-a-PR=[${unseen_checks[*]}]"
+        checks_note+=" ✗ req-checks never-seen-on-a-PR=[$(for m in "${unseen_checks[@]}"; do show_pair "$m"; printf ' '; done | sed 's/ $//')]"
       fi
     fi
     if [ ${#extra_checks[@]} -gt 0 ]; then
-      checks_note+=" ⚠ req-checks live-not-in-file=[${extra_checks[*]}]"
+      checks_note+=" ⚠ req-checks live-not-in-file=[$(for m in "${extra_checks[@]}"; do show_pair "$m"; printf ' '; done | sed 's/ $//')]"
       checks_extra_total=$((checks_extra_total+1))
     fi
   fi
