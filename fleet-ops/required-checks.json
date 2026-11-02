@@ -66,8 +66,10 @@
     "merged and seen reporting before the repo was mapped here; shared-workflows",
     "reports it through its own agent-pr-gate-self.yml. The kits (lupinus, monarda)",
     "carry no cross-org workflows (ADR-0013 Decision 2), so each runs a vendored copy",
-    "of the gate (lupinus#35, monarda#35) that reports the same context; they were",
-    "mapped once those copies reported on live PRs (monarda#34, approved and green)."
+    "of the gate (lupinus#36, monarda#36; the base-ref checkout fixed in each kit's",
+    "#38) that reports the same context. Both were mapped after the fixed copy",
+    "reported on live PRs: red on each kit's runner-authored #38 for want of an",
+    "approval, and green on monarda#34 once its head was approved."
   ],
   "checks": {
     "asclepias": [
