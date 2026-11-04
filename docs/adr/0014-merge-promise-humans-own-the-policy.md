@@ -4,7 +4,9 @@
 [#304](https://github.com/lentago/.github/issues/304), made by the maintainer the
 same day, with its AI-review clause narrowed to directed pull requests on review
 of this record (decision recorded on
-[#306](https://github.com/lentago/.github/issues/306)).
+[#306](https://github.com/lentago/.github/issues/306)). Amended 2026-11-04: the
+Director may submit the approval Decision 2 requires, see
+[Amendment (2026-11-04)](#amendment-2026-11-04).
 
 ## Context
 
@@ -83,6 +85,8 @@ rather than prescribing one approval count for everyone.
    session never submits that approval, even though it runs under the operator's
    identity. This closes the limit claytonia#117 states up front: the check
    cannot tell a person's approval from a session's when both use one identity.
+   *(Amended 2026-11-04: the Director may submit that approval, and no other
+   session may. See the Amendment.)*
 3. **Session-armed PRs merge on the policy.** For a PR the operator directs a
    session to open, merging requires:
    - the AI review posted and every finding triaged (ADR-0013's arming rule);
@@ -189,3 +193,45 @@ rather than prescribing one approval count for everyone.
   points 2 and 4 against the live check), when an org repository first opts a
   routine in, or when a second human gains write access to an operating repo.
   That last event is the switch to two-reviewer mode.
+
+## Amendment (2026-11-04)
+
+**The Director may submit the approval Decision 2 requires.** The maintainer
+decided this on 2026-11-04
+([#334](https://github.com/lentago/.github/issues/334)): "move the Director above
+that restriction. Director is my direct agent." Decision 2's "a session never
+submits that approval" now reads "no session but the Director submits it."
+
+- **Who.** The Director is the one local session the operator runs as his direct
+  agent, under the session name `lentago-director`. It plans and dispatches work
+  across the repositories, and the per-repository sessions report to it. Only the
+  Director may approve. Per-repository sessions, bullpen workers and the runner
+  App never do.
+- **When.** The Director approves a head only when all of these hold:
+  - the AI review has posted and every finding is triaged on the PR
+    (ADR-0013's arming rule);
+  - the head is the reviewed head, or a later one that only answers its
+    findings or only merges the base branch in (point 5);
+  - the required checks other than `agent-pr-gate` are green.
+- **How it shows.** The approving review's body names the Director and this
+  amendment. `agent-pr-gate` cannot tell the Director's approval from the
+  operator's, because both use one identity: the limit claytonia#117 states.
+  The review body is how the record tells them apart.
+- **Why.** The operator directs the Director as he would act himself. The
+  trigger was ten runner-App PRs from the claytonia Phase 1 gate
+  ([claytonia#166](https://github.com/lentago/claytonia/issues/166)) waiting in
+  one repository. `main` requires up-to-date branches and `agent-pr-gate`
+  counts only an approval on the current head, so each merge put the rest
+  behind and each needed a fresh approval in turn.
+- **What the promise keeps.** A runner-App PR still never merges on its
+  author's say-so, and the routine exception (point 4) is unchanged. Decision
+  1's public promise does not mention approvals, so it stands. The profile's
+  description of the bullpen ("a person always decides") is reviewed in
+  [#335](https://github.com/lentago/.github/issues/335).
+- **Mirrors.** The canonical PR-workflow text in `shared-workflows/CLAUDE.md`
+  and its `~/repos/CLAUDE.md` mirror carry the new rule. As with Decision 2,
+  `review_prompt` has no counterpart.
+- **Revisit** when a second human gains write access to an operating repo. In
+  two-reviewer mode the approval must come from a human other than the author,
+  and the Director's approval runs under the operator's identity. Revisit too if
+  a Director approval is ever found on a head that did not meet the bar above.
