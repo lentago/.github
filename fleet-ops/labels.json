@@ -4,8 +4,10 @@
     "terraform/labels.tf on merge to main. Colors mirror site-lentago-dev/BRAND.md;",
     "that repo's design-system CSS is authoritative if they ever disagree.",
     "",
-    "Every label here goes on every repo, except the model:* @claude routing",
-    "labels, which a repo opts into through repos.json's model_labels.",
+    "Every label here goes on every repo, except two kinds that only mean",
+    "something where their automation runs: the model:* @claude routing labels,",
+    "which a repo opts into through repos.json's model_labels, and a label that",
+    "carries a 'repos' list, which goes on exactly those repos and nowhere else.",
     "",
     "Labels not listed here are left completely alone: per-repo labels like",
     "'zha' or 'phase-1' are the repo's own business, not fleet branding.",
@@ -15,7 +17,14 @@
     "one that is a call to action.",
     "",
     "'epic' marks a tracking issue whose sub-issues are the work; the Epics",
-    "report (fleet-reports/epics.md) discovers epics by it and by sub-issues."
+    "report (fleet-reports/epics.md) discovers epics by it and by sub-issues.",
+    "",
+    "'token-rotation' is the deliberate override for betula's token rotation",
+    "guard (lentago/betula#119): its plan guard fails any plan that updates or",
+    "deletes an Axiom token unless the PR carries this label. Scoped to betula;",
+    "another repo whose guard honours it joins by adding itself to 'repos'.",
+    "Narrowing a scope deletes: a repo dropped from 'repos' (or from",
+    "model_labels) loses the label, and every issue and PR there loses it too."
   ],
 
   "labels": [
@@ -45,6 +54,10 @@
       "description": "Run the Haiku PR reviewer again (ADR-0013)" },
     { "name": "review:sonnet",    "color": "2f6b4a",
       "description": "Run the PR reviewer again with Sonnet (ADR-0013)" },
+
+    { "name": "token-rotation",   "color": "c98a2b",
+      "description": "Override: this PR deliberately rotates a token the plan guard would block",
+      "repos": ["betula"] },
 
     { "name": "model:haiku",      "color": "8fbfae",
       "description": "Route @claude to the fast tier — mechanical tasks" },

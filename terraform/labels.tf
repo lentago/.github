@@ -9,7 +9,8 @@
 # already exists," which is an imperative sweep's way of saying "some repos opt
 # out." Terraform states the opt-in directly instead — a repo's model_labels list
 # in repos.json — so the routing labels a repo carries are declared rather than
-# discovered.
+# discovered. A label that only one repo's automation reads states its scope the
+# same way, as a `repos` list on the label in labels.json (locals.tf).
 #
 # Colors are passed through verbatim rather than lower-cased: GitHub stores the
 # case it is given, and `help wanted` is live as `E0A81C`.

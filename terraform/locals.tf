@@ -181,6 +181,12 @@ locals {
   #
   # The model:* @claude routing labels are opt-in per repo via model_labels,
   # because they are functional on some repos and meaningless on others.
+  #
+  # A label with a `repos` list (betula's token-rotation override, betula#119)
+  # is scoped the same way from the other side: it does something only where a
+  # workflow reads it, so it goes on exactly the repos it names. Without the
+  # key it defaults to every repo. The default is spelled through try() rather
+  # than an `== null ||` test because Terraform does not short-circuit `||`.
   # ---------------------------------------------------------------------------
   repo_labels = merge([
     for repo_name, repo in local.repos : {
@@ -191,8 +197,10 @@ locals {
         color       = label.color
         description = label.description
       }
-      if !startswith(label.name, "model:") ||
-      contains(repo.model_labels, trimprefix(label.name, "model:"))
+      if(
+        !startswith(label.name, "model:") ||
+        contains(repo.model_labels, trimprefix(label.name, "model:"))
+      ) && contains(try(label.repos, keys(local.repos)), repo_name)
     }
   ]...)
 }

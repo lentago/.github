@@ -91,9 +91,21 @@ carries the Tidewater replacements, mirroring
 [`site-lentago-dev/BRAND.md`](https://github.com/lentago/site-lentago-dev/blob/main/BRAND.md).
 
 [`../terraform/labels.tf`](../terraform/labels.tf) applies the palette on merge
-to `main`, with the `model:*` routing labels opted in per repo through
-`repos.json`'s `model_labels`, so a palette change is a PR. Each label is a
-`name`, a `color` and a `description`.
+to `main`, so a palette change is a PR. Each label is a `name`, a `color` and a
+`description`, and goes on every repo, with two exceptions for labels that only
+mean something where their automation runs:
+
+- the `model:*` routing labels, which a repo opts into through `repos.json`'s
+  `model_labels`;
+- a label with a `repos` list, which goes on exactly those repos. Today that is
+  betula's `token-rotation`, the deliberate override for its token rotation
+  guard ([lentago/betula#119](https://github.com/lentago/betula/issues/119)).
+
+**Narrowing a scope deletes.** Dropping a repo from a label's `repos` list (or
+from `model_labels`), or adding `repos` to a label that was fleet-wide, removes
+those matrix rows. The next apply then **destroys** the label on the dropped
+repos, and GitHub strips it from every issue and PR there. Widening a scope only
+adds. The plan shows each destroy by name; read it before merging a narrowing.
 
 **It never deletes.** Labels absent from `labels.json` — `zha`, `phase-1`,
 `gitops-sync` and the rest — are the repo's own business and are left untouched.
@@ -103,8 +115,11 @@ per-repo triage.
 Accent discipline carries over from the brand contract: anther gold `#E0A81C` is
 one element per region, so **`help wanted` is the only gold label** — the single
 call to action. `ci/validate.py` checks the shape (6-digit hex without `#`, no
-duplicate names, a string description), because the GitHub API rejects a bad value
-partway through a terraform apply, which leaves the fleet half-recolored.
+duplicate names, a string description, no unknown keys, a non-empty `repos` list
+naming repos that exist), because the GitHub API rejects a bad value partway
+through a terraform apply, which leaves the fleet half-recolored. An unknown key
+is most likely a misspelt `repos`, and Terraform would read that label as
+fleet-wide.
 
 The per-repo README banners and social-preview cards are the other half of this;
 they're assets rather than settings, so they live in [`../brand/`](../brand/).
