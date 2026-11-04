@@ -163,7 +163,9 @@ def run_census(repos, clones):
     INSTR_LABEL = "Instructions (CLAUDE.md family + prompt-programs)"
     for r in repos:
         repo = r["name"]; d = clones[repo]
-        out = subprocess.run(["cloc","--by-file","--vcs=git","--json","--quiet"],
+        # --timeout 0: cloc's default per-file timeout zeroes a slow file's count and
+        # prints a plain-text notice after the JSON on stdout (#327).
+        out = subprocess.run(["cloc","--by-file","--vcs=git","--json","--quiet","--timeout","0"],
                              cwd=d, capture_output=True, text=True)
         if out.returncode!=0 or not out.stdout.strip(): continue
         data = json.loads(out.stdout)
