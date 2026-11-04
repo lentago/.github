@@ -17,6 +17,7 @@ org itself.** This module manages GitHub, nothing else.
 | Features (issues/projects/wiki/discussions), branch-update suggestion | `github_repository` | `../fleet-ops/repos.json` |
 | Merge-button options — squash-only, auto-merge, delete-branch | `github_repository` | policy in `locals.tf` |
 | Dependabot alerts, secret scanning, push protection — on for every repo | `github_repository` | `repos.tf` |
+| Dependabot security updates (fix PRs for alerts) — on for every repo | `github_repository_dependabot_security_updates` | `repos.tf` |
 | Topic spine + signature topics | `github_repository` | spine in `locals.tf`, signature in `repos.json` |
 | `main` branch ruleset — PR-required, squash-only, no force-push/deletion | `github_repository_ruleset` | `rulesets.tf` |
 | Required status checks, each from its source App (GitHub Actions unless `sources` names another) | `github_repository_ruleset` | `../fleet-ops/required-checks.json` |
