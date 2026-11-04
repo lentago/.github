@@ -116,6 +116,7 @@ def check_fleet_ops_configs():
 
 
 HEX6 = re.compile(r"^[0-9a-fA-F]{6}$")
+LABEL_KEYS = {"name", "color", "description", "repos"}
 
 
 def check_label_palette(rel, doc):
@@ -150,6 +151,22 @@ def check_label_palette(rel, doc):
 
         if not isinstance(label.get("description"), str):
             fail("configs", f"{where} ('{name}') has no string 'description'")
+
+        # An unknown key is most likely a misspelt 'repos', and terraform reads a
+        # label without 'repos' as fleet-wide: a typo would put a scoped override
+        # label on every repo in one apply.
+        for key in sorted(set(label) - LABEL_KEYS):
+            fail("configs", f"{where} ('{name}'): unknown key '{key}' — "
+                            f"allowed: {', '.join(sorted(LABEL_KEYS))}")
+
+        if "repos" in label:
+            scope = label["repos"]
+            if (not isinstance(scope, list) or not scope
+                    or not all(isinstance(r, str) and r for r in scope)):
+                fail("configs", f"{where} ('{name}'): 'repos' must be a non-empty array of "
+                                "repo names — omit it for a fleet-wide label")
+            elif len(set(scope)) != len(scope):
+                fail("configs", f"{where} ('{name}'): 'repos' lists a repo twice")
 
 
 SPINE_TOPICS = {"lentago", "claude"}
@@ -285,6 +302,16 @@ def check_fleet_coverage():
             if tier not in tiers:
                 fail("fleet", f"repos.json['{name}'] routes model tier '{tier}', but "
                               f"labels.json defines no 'model:{tier}' label")
+
+    # A scoped label's 'repos' must name repos that exist: terraform would
+    # otherwise drop the stray name without a word and the label would be
+    # missing exactly where its guard expects it.
+    for lb in labels:
+        if not isinstance(lb, dict) or not isinstance(lb.get("repos"), list):
+            continue
+        for name in sorted({r for r in lb["repos"] if isinstance(r, str)} - set(repos)):
+            fail("fleet", f"labels.json scopes '{lb.get('name')}' to '{name}', "
+                          "which is not in repos.json")
 
 
 # ------------------------------------------------------------------- brand
