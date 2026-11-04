@@ -22,7 +22,9 @@
     "'token-rotation' is the deliberate override for betula's token rotation",
     "guard (lentago/betula#119): its plan guard fails any plan that updates or",
     "deletes an Axiom token unless the PR carries this label. Scoped to betula;",
-    "another repo whose guard honours it joins by adding itself to 'repos'."
+    "another repo whose guard honours it joins by adding itself to 'repos'.",
+    "Narrowing a scope deletes: a repo dropped from 'repos' (or from",
+    "model_labels) loses the label, and every issue and PR there loses it too."
   ],
 
   "labels": [
