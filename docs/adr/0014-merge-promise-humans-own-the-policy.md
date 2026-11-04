@@ -1,12 +1,11 @@
 # ADR-0014: The merge promise: humans own the policy and direct every change; runner-App PRs need a human approval
 
-**Status:** Accepted (2026-11-01). Records Decision 1 on
+**Status:** Accepted (2026-11-01; amended 2026-11-04, see
+[Amendment (2026-11-04)](#amendment-2026-11-04)). Records Decision 1 on
 [#304](https://github.com/lentago/.github/issues/304), made by the maintainer the
 same day, with its AI-review clause narrowed to directed pull requests on review
 of this record (decision recorded on
-[#306](https://github.com/lentago/.github/issues/306)). Amended 2026-11-04: the
-Director may submit the approval Decision 2 requires, see
-[Amendment (2026-11-04)](#amendment-2026-11-04).
+[#306](https://github.com/lentago/.github/issues/306)).
 
 ## Context
 
@@ -202,7 +201,7 @@ decided this on 2026-11-04
 that restriction. Director is my direct agent." Decision 2's "a session never
 submits that approval" now reads "no session but the Director submits it."
 
-- **Who.** The Director is the one local session the operator runs as his direct
+- **Who.** The Director is the one local session the operator runs as a direct
   agent, under the session name `lentago-director`. It plans and dispatches work
   across the repositories, and the per-repository sessions report to it. Only the
   Director may approve. Per-repository sessions, bullpen workers and the runner
@@ -217,7 +216,13 @@ submits that approval" now reads "no session but the Director submits it."
   amendment. `agent-pr-gate` cannot tell the Director's approval from the
   operator's, because both use one identity: the limit claytonia#117 states.
   The review body is how the record tells them apart.
-- **Why.** The operator directs the Director as he would act himself. The
+- **Enforcement.** The bounds in **Who** and **When** hold by session
+  discipline and this audit trail, not by a check. Any session under the
+  operator's identity could submit an approval, `agent-pr-gate` verifies none of
+  the review bar, and the review body is text any session can write. An
+  approval from another session, or a Director approval outside the bar, breaks
+  this record and is treated as an incident.
+- **Why.** The Director acts for the operator, on the operator's direction. The
   trigger was ten runner-App PRs from the claytonia Phase 1 gate
   ([claytonia#166](https://github.com/lentago/claytonia/issues/166)) waiting in
   one repository. `main` requires up-to-date branches and `agent-pr-gate`
@@ -229,8 +234,10 @@ submits that approval" now reads "no session but the Director submits it."
   description of the bullpen ("a person always decides") is reviewed in
   [#335](https://github.com/lentago/.github/issues/335).
 - **Mirrors.** The canonical PR-workflow text in `shared-workflows/CLAUDE.md`
-  and its `~/repos/CLAUDE.md` mirror carry the new rule. As with Decision 2,
-  `review_prompt` has no counterpart.
+  takes the same rule in
+  [shared-workflows#107](https://github.com/lentago/shared-workflows/pull/107),
+  and its `~/repos/CLAUDE.md` mirror follows from that merged text. As with
+  Decision 2, `review_prompt` has no counterpart.
 - **Revisit** when a second human gains write access to an operating repo. In
   two-reviewer mode the approval must come from a human other than the author,
   and the Director's approval runs under the operator's identity. Revisit too if
