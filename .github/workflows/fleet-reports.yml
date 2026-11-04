@@ -27,6 +27,9 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # A normal run takes about a minute. The census runs cloc with --timeout 0 (#327),
+    # so this job limit is the one bound on a pathological file.
+    timeout-minutes: 15
     env:
       GH_TOKEN: ${{ secrets.FLEET_REPORTS_TOKEN }}
     steps:
