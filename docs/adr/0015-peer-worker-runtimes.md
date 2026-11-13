@@ -38,9 +38,8 @@ label question that judgment D handed to this repository, decided on 2026-11-13
   trailer to the account that owns its email address, so an address chosen by
   guess can credit a stranger. Checked on 2026-11-12 with GitHub commit search
   (`author-email:`) and the users and apps APIs:
-  - `gemini-cli@google.com` links to an individual's personal account.
-  - `noreply@google.com` links to an account named `a-googler` whose profile
-    returns 404.
+  - `gemini-cli@google.com` and `noreply@google.com` each link to a user
+    account that Google does not visibly own. Both profiles return 404.
   - The `gemini` login is an unrelated organization (a cryptocurrency exchange).
   - The `gemini-cli` user account shows no owner, organization or profile.
   - `218312386+gemini-cli[bot]@users.noreply.github.com` links to
@@ -76,8 +75,9 @@ label question that judgment D handed to this repository, decided on 2026-11-13
 3. **Codex auth.** An OpenAI API key. No ChatGPT seat login on workers.
 4. **Worker shape.** Every worker carries every runtime. The poller does no
    capability matching.
-5. **Disclosure is owned here.** This repository sets the PR footer, the commit
-   trailer and any runtime label for every runtime. claytonia implements them
+5. **Disclosure is owned here.** This repository sets the PR footer and the
+   commit trailer for every runtime, and decides whether a runtime label exists
+   (Decision 8: none does). claytonia implements them
    ([claytonia#174](https://github.com/lentago/claytonia/issues/174)).
 6. **The PR footer.** run-job's code, not the agent, writes one line at the end
    of every runner-App PR body after the run, whatever the runtime:
