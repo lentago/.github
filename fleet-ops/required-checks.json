@@ -109,7 +109,10 @@
       "shellcheck / shellcheck",
       "docs-check / docs-check",
       "tf-lint / tf-lint",
-      "agent-pr-gate / agent-pr-gate"
+      "agent-pr-gate / agent-pr-gate",
+      "transcript-test",
+      "logql-test",
+      "cost-export-test"
     ],
     "solidago": [
       "gate",
