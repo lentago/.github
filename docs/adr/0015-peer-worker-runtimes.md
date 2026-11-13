@@ -1,9 +1,9 @@
 # ADR-0015: Peer worker runtimes run behind the queue contract, and every runner PR names the runtime that wrote it
 
-**Status:** Proposed (2026-11-12). Records the decisions the maintainer made on
+**Status:** Accepted (2026-11-13). Records the decisions the maintainer made on
 2026-11-01 for [claytonia#166](https://github.com/lentago/claytonia/issues/166)
 (judgments A–D and the code-review decisions), and the disclosure strings and
-label question that judgment D handed to this repository
+label question that judgment D handed to this repository, decided on 2026-11-13
 ([#317](https://github.com/lentago/.github/issues/317)).
 
 ## Context
@@ -93,8 +93,13 @@ label question that judgment D handed to this repository
      | `gemini` | Gemini CLI | `https://github.com/google-gemini/gemini-cli` |
      | `codex` | Codex CLI | `https://github.com/openai/codex` |
 
-   - The model clause names the model the job asked for. It is dropped when the
-     job named none, because the adapters then report no model.
+   - The model clause names the job's main model: the key in the result's
+     `tokens_by_model` ([claytonia#173](https://github.com/lentago/claytonia/issues/173))
+     with the most `out + thinking` tokens, counting a null `thinking` as 0. It
+     does not name the model in the job spec, because most jobs name none and
+     Gemini switches main models mid-job.
+   - The clause is dropped when that key is `unknown` or `tokens_by_model` is
+     null.
    - A PR carries exactly one such line. On a Claude PR, run-job's line replaces
      the `🤖 Generated with [Claude Code](https://claude.com/claude-code)` line
      the agent wrote, rather than sitting beside it.
@@ -146,6 +151,16 @@ label question that judgment D handed to this repository
 - **Let each agent write its own footer, as Claude Code does.** Rejected. The
   Phase 1 PRs show that Gemini CLI and Codex write none, and a disclosure the
   agent may skip is not one the fleet can promise.
+- **Name the job spec's model in the footer.** Rejected in favor of the main
+  model from `tokens_by_model`. Most jobs name no model, and a Gemini job's main
+  model can change during the run.
+- **Write the footer on Gemini and Codex PRs only, and keep Claude Code's own
+  line on Claude PRs.** Rejected. Claude's disclosure would still depend on the
+  agent.
+- **Trailer addresses that link to no account**, such as
+  `gemini-cli@noreply.invalid` (`.invalid` is a reserved domain nobody can
+  verify). Not adopted. Each vendor has its own account to link to, the same
+  pattern as Claude's.
 - **Guess each vendor's address for the trailer.** Rejected. Two of the obvious
   Google addresses link to accounts Google does not visibly own.
 - **A fleet-wide `runtime:*` label set.** Not adopted, for the reasons in
@@ -164,7 +179,7 @@ label question that judgment D handed to this repository
   - the fleet's co-authorship-disclosure convention in
     `shared-workflows/CLAUDE.md` and its `~/repos/CLAUDE.md` mirror.
 
-  A follow-up issue owns them.
+  [#343](https://github.com/lentago/.github/issues/343) owns them.
 - Each vendor credential can be spent by any job on any worker (claytonia
   ADR-0010's consequence). Both keys carry a $25-a-month cap, decided on
   2026-11-04 on claytonia#166.
