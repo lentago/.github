@@ -37,8 +37,12 @@ from datetime import datetime, timezone, timedelta
 ACTIVITY_WINDOW_DAYS = 30
 
 # ---------------------------------------------------------------- helpers
+def child_env():
+    """Environment for git/gh/cloc children: the Grafana token is only for prom_get."""
+    return {k: v for k, v in os.environ.items() if k != "FLEET_REPORTS_GRAFANA_TOKEN"}
+
 def sh(cmd, cwd=None, check=True):
-    r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, env=child_env())
     if check and r.returncode != 0:
         raise RuntimeError(f"cmd failed ({r.returncode}): {' '.join(cmd)}\n{r.stderr[:500]}")
     return r.stdout
@@ -52,7 +56,7 @@ def ensure_cloc():
                  ["sudo","apt-get","install","-y","-q","cloc"]):
         try:
             sh(["bash","-c","apt-get update -q >/dev/null 2>&1 || sudo apt-get update -q >/dev/null 2>&1 || true"], check=False)
-            r = subprocess.run(inst, capture_output=True, text=True)
+            r = subprocess.run(inst, capture_output=True, text=True, env=child_env())
             if r.returncode == 0 and shutil.which("cloc"): return
         except Exception:
             pass
@@ -167,7 +171,7 @@ def run_census(repos, clones):
     for r in repos:
         repo = r["name"]; d = clones[repo]
         out = subprocess.run(["cloc","--by-file","--vcs=git","--json","--quiet"],
-                             cwd=d, capture_output=True, text=True)
+                             cwd=d, capture_output=True, text=True, env=child_env())
         if out.returncode!=0 or not out.stdout.strip(): continue
         data = json.loads(out.stdout)
         rr = {"code":defaultdict(lambda:{"files":0,"lines":0}),
@@ -469,6 +473,9 @@ def collect_error_budgets(now):
             rows.append(row)
     except SloUnavailable as exc:
         return None, str(exc)
+    except (KeyError, IndexError, TypeError, ValueError):
+        # status "success" but a shape we don't read: degrade like any other failure.
+        return None, "unexpected response shape from Grafana Cloud"
     return rows, None
 
 def _fmt_burns(burns):
@@ -495,7 +502,7 @@ def error_budget_section(rows, reason):
              "[ADR-0008](https://github.com/lentago/drosera/blob/main/docs/adr/0008-site-availability-slos-and-burn-rate-alerts.md): "
              f"{100 * SLO_TARGET:g}% of blackbox probes succeed over a rolling {SLO_WINDOW_DAYS} days, which allows "
              f"{SLO_BUDGET_MINUTES:g} minutes of downtime. The figures are the ones the SLO board shows, from the same "
-             "queries. The probes run from our own building, so a local internet outage counts against every site.")
+             "queries.")
     L.append("")
     L.append(f"| Site | SLO | Availability ({SLO_WINDOW_DAYS}d) | Budget used | Budget left | Burn alerts ({SLO_WINDOW_DAYS}d) |")
     L.append("|------|----:|------------------:|------------:|------------:|------------------|")
