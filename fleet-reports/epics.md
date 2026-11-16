@@ -3,38 +3,39 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state. An **epic** here is a tracking issue: one labelled `epic`, or an open issue with sub-issues and no parent of its own. Progress is GitHub's own sub-issue count plus the issue's checklist, so an epic that is not kept up to date shows as not moving — that is the point. The sibling [fleet report](fleet-report.md) lists every open issue; this one asks what the issues add up to, and how much of the merged work they describe.
 
-**Generated:** 2026-11-09 21:44 UTC · Scope: the **26 active** `lentago` repos · Merged-PR window: last 30 days (since 2026-10-10) · closed epics shown for 90 days.
+**Generated:** 2026-11-16 21:25 UTC · Scope: the **26 active** `lentago` repos · Merged-PR window: last 30 days (since 2026-10-17) · closed epics shown for 90 days.
 
 ## Snapshot
 
 | Open epics | Closed epics (90d) | Open issues under an epic | Merged PRs (30d) | …that trace to an epic | …loose, with an issue | …loose, no issue | …bots |
 |---:|---:|---:|---:|---:|---:|---:|---:|
-| **18** | 13 | **125 / 190** (66%) | 512 | **268** (62% of non-bot) | 151 | 12 | 81 |
+| **19** | 13 | **118 / 189** (62%) | 468 | **234** (60% of non-bot) | 143 | 13 | 78 |
 
 The *trace to an epic* share is the headline: how much of the month's merged work the epics describe. The two loose columns are work that happened outside any epic — tracked by a stand-alone issue, or by nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share. *Open issues under an epic* counts the issues other than the epics themselves; its complement is the list at the end.
 
 ---
 
-## Open epics — 18
+## Open epics — 19
 
 | Epic | Since | Sub-issues closed | Checklist | PRs (30d) | Last activity |
 |------|-------|-------------------|-----------|----------:|---------------|
-| [.github#318](https://github.com/lentago/.github/issues/318) Security review 2026-11-02: fleet follow-through | 2026-11-02 | `████████░░` 20/24 | 0/12 | 59 ⚠︎ 2 known from comments only | 2026-11-05 |
-| [.github#285](https://github.com/lentago/.github/issues/285) Rename debt: the tier 3–4 renames still open across the fleet | 2026-10-30 | `██░░░░░░░░` 2/13 | — | 41 | 2026-10-30 |
-| [.github#304](https://github.com/lentago/.github/issues/304) External review 2026-11-01: fleet follow-through | 2026-11-01 | `███████░░░` 19/27 | 20/30 | 30 | 2026-11-02 |
-| [claytonia#117](https://github.com/lentago/claytonia/issues/117) Make never-merge a boundary: required check that blocks runner-App PRs without a human approval | 2026-09-17 | `██████████` 2/2 | — | 29 ⚠︎ 1 known from comments only | 2026-11-02 |
+| [.github#318](https://github.com/lentago/.github/issues/318) Security review 2026-11-02: fleet follow-through | 2026-11-02 | `████████░░` 20/24 | 0/12 | 60 ⚠︎ 2 known from comments only | 2026-11-05 |
+| [.github#285](https://github.com/lentago/.github/issues/285) Rename debt: the tier 3–4 renames still open across the fleet | 2026-10-30 | `███░░░░░░░` 4/13 | — | 36 | 2026-10-30 |
+| [claytonia#117](https://github.com/lentago/claytonia/issues/117) Make never-merge a boundary: required check that blocks runner-App PRs without a human approval | 2026-09-17 | `██████████` 2/2 | — | 34 ⚠︎ 10 known from comments only | 2026-11-12 |
+| [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 2026-07-04 | `██████░░░░` 12/19 | 1/3 | 31 | 2026-11-04 |
+| [.github#304](https://github.com/lentago/.github/issues/304) External review 2026-11-01: fleet follow-through | 2026-11-01 | `███████░░░` 19/27 | 23/30 | 30 | 2026-11-12 |
 | [.github#276](https://github.com/lentago/.github/issues/276) Haiku replaces CodeRabbit as the fleet's PR reviewer | 2026-10-29 | — | 24/25 | 26 ⚠︎ 1 known from comments only | 2026-10-30 |
-| [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 2026-07-04 | `████░░░░░░` 7/18 | 1/3 | 26 | 2026-11-04 |
 | [epigaea#548](https://github.com/lentago/epigaea/issues/548) Signage: cards, labels and sheets posted at the point of use | 2026-10-31 | — | 14/15 | 17 | 2026-11-04 |
-| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 2026-08-16 | `████░░░░░░` 18/50 | 7/8 | 14 ⚠︎ 1 known from comments only | 2026-11-04 |
-| [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 2026-07-04 | `█░░░░░░░░░` 1/8 | 0/3 | 12 | 2026-10-30 |
 | [brasenia#130](https://github.com/lentago/brasenia/issues/130) Phase 3: the fleet on the display, and what stays open after ADR-0020 | 2026-10-30 | `██████░░░░` 5/9 | — | 12 | 2026-10-30 |
-| [uvularia#28](https://github.com/lentago/uvularia/issues/28) Template repositories: sync on merge (shipped 2026-10-06), drift, and their upkeep — epic | 2026-10-03 | `█████░░░░░` 2/4 | — | 10 | 2026-10-30 |
-| [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 2026-10-12 | `██████████` 5/5 | 3/4 | 7 | 2026-11-04 |
-| [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 2026-10-30 | `██░░░░░░░░` 2/12 | — | 5 | 2026-10-30 |
-| [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 2026-10-30 | `█░░░░░░░░░` 1/10 | — | 4 | 2026-10-30 |
-| [drosera#131](https://github.com/lentago/drosera/issues/131) Roadmap: multi-client telemetry pane — on-prem and solidago (AWS) as peer sources | 2026-07-04 | `░░░░░░░░░░` 0/7 | 0/3 | 2 | 2026-10-30 |
+| [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 2026-07-04 | `█░░░░░░░░░` 1/8 | 0/3 | 11 | 2026-10-30 |
+| [uvularia#28](https://github.com/lentago/uvularia/issues/28) Template repositories: sync on merge (shipped 2026-10-06), drift, and their upkeep — epic | 2026-10-03 | `█████░░░░░` 2/4 | — | 9 | 2026-10-30 |
+| [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 2026-10-30 | `██░░░░░░░░` 2/10 | — | 5 | 2026-10-30 |
+| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 2026-08-16 | `████░░░░░░` 18/50 | 8/8 | 4 | 2026-11-12 |
+| [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 2026-10-30 | `██░░░░░░░░` 2/12 | — | 3 | 2026-10-30 |
+| [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 2026-10-12 | `██████████` 5/5 | 3/4 | 3 | 2026-11-04 |
+| [drosera#330](https://github.com/lentago/drosera/issues/330) Get Grafana Cloud billable series back under the 90% cap alert | 2026-11-13 | `██████████` 1/1 | 3/4 | 2 | 2026-11-13 |
 | [.github#235](https://github.com/lentago/.github/issues/235) Genus marks for the eight unmarked species | 2026-10-07 | `░░░░░░░░░░` 0/2 | 11/13 | 1 | 2026-10-30 |
+| [drosera#131](https://github.com/lentago/drosera/issues/131) Roadmap: multi-client telemetry pane — on-prem and solidago (AWS) as peer sources | 2026-07-04 | `░░░░░░░░░░` 0/7 | 0/3 | 1 | 2026-10-30 |
 | [kalmia#20](https://github.com/lentago/kalmia/issues/20) Roadmap: provisioning clients beyond Ansible-on-workstations — VMs and containers as peer targets | 2026-07-04 | `░░░░░░░░░░` 0/7 | 0/3 | 1 | 2026-10-30 |
 | [lupinus#40](https://github.com/lentago/lupinus/issues/40) Epic: adoption guide — Phase 3 (receipts for the four near-Kits) | 2026-11-04 | `░░░░░░░░░░` 0/4 | — | 1 | 2026-11-04 |
 
@@ -42,11 +43,11 @@ The *trace to an epic* share is the headline: how much of the month's merged wor
 
 ### Offerings roadmap — tracking epic (refreshed 2026-10-06)
 
-[.github#134](https://github.com/lentago/.github/issues/134) · open since 2026-08-16 · last activity 2026-11-04
+[.github#134](https://github.com/lentago/.github/issues/134) · open since 2026-08-16 · last activity 2026-11-12
 
 > Tracking epic for the offerings roadmap: the kits we would build next for the reader ADR-0008 names — the one tech person at an organization that runs on volunteers and donations.
 
-Progress: **18/50** sub-issues closed · checklist **7/8** · **14** PRs merged in the window
+Progress: **18/50** sub-issues closed · checklist **8/8** · **4** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -109,16 +110,6 @@ Progress: **18/50** sub-issues closed · checklist **7/8** · **14** PRs merged 
 - 2026-11-01 · [site-lentago-dev#113](https://github.com/lentago/site-lentago-dev/pull/113) — Copy: response-time and migration promises match the support page; form labels lead with the task
 - 2026-10-31 · [epigaea#547](https://github.com/lentago/epigaea/pull/547) — feat(cards): adopt printable instruction cards; first card is the Kitchen Speaker Dial
 - 2026-10-30 · [.github#287](https://github.com/lentago/.github/pull/287) — Epics report: epics, sub-issue progress, and where the merged work went
-- 2026-10-12 · [lupinus#25](https://github.com/lentago/lupinus/pull/25) — Stories: one spine, three rungs, one map; one canonical product list
-- 2026-10-12 · [monarda#26](https://github.com/lentago/monarda/pull/26) — feat: rung 2, the plain organization site page set
-- 2026-10-12 · [site-lentago-dev#100](https://github.com/lentago/site-lentago-dev/pull/100) — Suite: redraw #systems as the six-promise map (ADR-0012)
-- 2026-10-12 · [.github#259](https://github.com/lentago/.github/pull/259) — Regroup the profile suite table by promise; taglines lead with role
-- 2026-10-12 · [uvularia#99](https://github.com/lentago/uvularia/pull/99) — Receipts: one-repository rung timed (6 min 09 s); Ask box's first live answer
-- 2026-10-12 · [lupinus#22](https://github.com/lentago/lupinus/pull/22) — Tiers: refresh brasenia, add mitchella; picker: phones, printers, Wi-Fi
-- 2026-10-12 · [mitchella#26](https://github.com/lentago/mitchella/pull/26) — Record the uvularia Ask function as the first front desk (ADR-0007)
-- 2026-10-12 · [monarda#21](https://github.com/lentago/monarda/pull/21) — Record the first timed dry-run: 3 min 01 s, two defects filed
-- 2026-10-12 · [.github#255](https://github.com/lentago/.github/pull/255) — Profile suite rows for epigaea, brasenia; betula tagline off-device
-- 2026-10-12 · [epigaea#530](https://github.com/lentago/epigaea/pull/530) — docs: facilities kit is tracked, not built — README and CLAUDE.md
 
 </details>
 
@@ -190,15 +181,15 @@ _No sub-issues linked — progress is visible only through the checklist and cit
 
 > Tracking issue for the fleet's remaining rename debt under the rename discipline (shared-workflows/CLAUDE.md, "Rename discipline"): a rename is done when no surface carries the old name, or every surface that does is owned by an open tracking issue.
 
-Progress: **2/13** sub-issues closed · **41** PRs merged in the window
+Progress: **4/13** sub-issues closed · **36** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
 - ⬜ [betula#89](https://github.com/lentago/betula/issues/89) Complete the firewalla-axiom-pipeline → betula rename on-device
-- ⬜ [drosera#169](https://github.com/lentago/drosera/issues/169) Complete the homelab-observability → drosera rename through CI and hosts — 0/3 sub-issues closed
-  - ⬜ [drosera#299](https://github.com/lentago/drosera/issues/299) On or after 2026-11-06: remove LXC 105's pre-move Alloy volume and unit copies (#169)
-  - ⬜ [solidago#221](https://github.com/lentago/solidago/issues/221) On or after 2026-11-06: retire the pre-rename drosera Terraform role and state key (drosera#169 Phase 3)
+- ⬜ [drosera#169](https://github.com/lentago/drosera/issues/169) Complete the homelab-observability → drosera rename through CI and hosts — 2/3 sub-issues closed
   - ⬜ [solidago#223](https://github.com/lentago/solidago/issues/223) docs: list the betula and drosera cross-repo roles in ADOPTION.md, and scope BOOTSTRAP's locking note to solidago's own backend
+  - ✅ [drosera#299](https://github.com/lentago/drosera/issues/299) On or after 2026-11-06: remove LXC 105's pre-move Alloy volume and unit copies (#169)
+  - ✅ [solidago#221](https://github.com/lentago/solidago/issues/221) On or after 2026-11-06: retire the pre-rename drosera Terraform role and state key (drosera#169 Phase 3)
 - ⬜ [drosera#282](https://github.com/lentago/drosera/issues/282) Migrate the cluster="lentago-lab" label value to "onprem" across emitters
 - ⬜ [epigaea#518](https://github.com/lentago/epigaea/issues/518) Complete the epigaea rename through runtime (tiers 3–4)
 - ⬜ [epigaea#533](https://github.com/lentago/epigaea/issues/533) Rename the lentago-lab-status dashboard and the pitzilabs_homelab_observability sensor
@@ -212,6 +203,9 @@ Progress: **2/13** sub-issues closed · **41** PRs merged in the window
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-15 · [claytonia#250](https://github.com/lentago/claytonia/pull/250) — terraform: restore prevent_destroy on the workers (#242 guard)
+- 2026-11-15 · [claytonia#245](https://github.com/lentago/claytonia/pull/245) — terraform: rebuild claude-runner-5 (117) from runner image v4 (#242 R1)
+- 2026-11-12 · [drosera#326](https://github.com/lentago/drosera/pull/326) — Ship Gemini and Codex runner transcripts through claytonia's labelled links
 - 2026-11-05 · [drosera#321](https://github.com/lentago/drosera/pull/321) — Tolerate a short single-task gap on the Spot-backed sites' SLO fast-burn page
 - 2026-11-04 · [claytonia#223](https://github.com/lentago/claytonia/pull/223) — docs: remove manual PVE pool step from provision/README.md (#212)
 - 2026-11-04 · [betula#157](https://github.com/lentago/betula/pull/157) — Describe terraform/'s Axiom tokens and the rotation guard in CLAUDE.md (#119 follow-up)
@@ -245,14 +239,6 @@ Progress: **2/13** sub-issues closed · **41** PRs merged in the window
 - 2026-10-30 · [claytonia#158](https://github.com/lentago/claytonia/pull/158) — Rename the on-host gitops loop to claytonia-gitops (part of #65)
 - 2026-10-30 · [shared-workflows#83](https://github.com/lentago/shared-workflows/pull/83) — Rename discipline: kalmia#63 (lunaria runtime) is paid
 - 2026-10-29 · [kalmia#211](https://github.com/lentago/kalmia/pull/211) — Rename lunaria to brasenia through runtime: rebuild LXC 118 as brasenia
-- 2026-10-14 · [.github#270](https://github.com/lentago/.github/pull/270) — voice: the on-prem half of the estate is "on-prem"; retire "homelab" and "lab"
-- 2026-10-14 · [epigaea#534](https://github.com/lentago/epigaea/pull/534) — epigaea: retire "homelab"/"lab" wording for on-prem
-- 2026-10-14 · [solidago#216](https://github.com/lentago/solidago/pull/216) — solidago: retire "homelab"/"lab" wording for on-prem
-- 2026-10-14 · [betula#140](https://github.com/lentago/betula/pull/140) — Retire "homelab"/"lab" wording for on-prem
-- 2026-10-14 · [drosera#283](https://github.com/lentago/drosera/pull/283) — Retire "homelab"/"lab" wording for on-prem
-- 2026-10-14 · [osmunda#17](https://github.com/lentago/osmunda/pull/17) — osmunda: retire "homelab"/"lab" wording for on-prem
-- 2026-10-14 · [claytonia#148](https://github.com/lentago/claytonia/pull/148) — Retire "homelab"/"lab" wording for on-prem
-- 2026-10-14 · [kalmia#159](https://github.com/lentago/kalmia/pull/159) — Retire "homelab"/"lab" and "household" wording for on-prem
 
 </details>
 
@@ -262,25 +248,26 @@ Progress: **2/13** sub-issues closed · **41** PRs merged in the window
 
 > Tracking issue for the work ADR-0011 (how the fleet handles secrets, accepted 2026-10-07) left open: identity before secrets, values only in approved stores, Terraform holds slots not values, out-of-band values verified, scanning and push protection on every repo, leaks rotated not scrubbed.
 
-Progress: **1/10** sub-issues closed · **4** PRs merged in the window
+Progress: **2/10** sub-issues closed · **5** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
 - ⬜ [.github#225](https://github.com/lentago/.github/issues/225) FLEET_ADMIN_TOKEN cannot resolve GitHub App node ids: merge-gate App allowances are unmanageable by Terraform
 - ⬜ [.github#242](https://github.com/lentago/.github/issues/242) Re-mint two over-broad GitHub tokens: FLEET_REPORTS_TOKEN and the workstation PAT
 - ⬜ [.github#243](https://github.com/lentago/.github/issues/243) Credential register: every fleet credential's store, scope, issuer and expiry (names only)
-- ⬜ [.github#271](https://github.com/lentago/.github/issues/271) [renewal] FLEET_REPORTS_TOKEN — fine-grained PAT expiry — due 2026-10-30
 - ⬜ [osmunda#12](https://github.com/lentago/osmunda/issues/12) Decide how Flux-managed workloads receive secrets, before the n8n cutover
 - ⬜ [solidago#149](https://github.com/lentago/solidago/issues/149) Rotating a Lambda's Axiom token requires an unrelated apply to take effect
 - ⬜ [solidago#213](https://github.com/lentago/solidago/issues/213) Fail the apply when an out-of-band secret still holds its placeholder
 - ⬜ [solidago#220](https://github.com/lentago/solidago/issues/220) iam: give the cross-repo Terraform pipeline roles a read-only plan path
 - ⬜ [solidago#222](https://github.com/lentago/solidago/issues/222) monitoring: pass the alert recipient as a sensitive variable, out of committed config and public plan output
+- ✅ [.github#271](https://github.com/lentago/.github/issues/271) [renewal] FLEET_REPORTS_TOKEN — fine-grained PAT expiry — due 2026-10-30
 - ✅ [solidago#156](https://github.com/lentago/solidago/issues/156) Split plan/apply OIDC environments so the terraform environment can carry a branch policy
 
 </details>
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-12 · [.github#340](https://github.com/lentago/.github/pull/340) — renewals: move FLEET_REPORTS_TOKEN's due date to its listed expiry, 2027-07-14
 - 2026-11-02 · [solidago#227](https://github.com/lentago/solidago/pull/227) — ci(terraform): plan in the terraform-plan environment on the read-only role (#225 step 2 of 2)
 - 2026-11-02 · [solidago#226](https://github.com/lentago/solidago/pull/226) — feat(iam): read-only Terraform plan role on the terraform-plan environment (#225 step 1 of 2)
 - 2026-11-02 · [solidago#236](https://github.com/lentago/solidago/pull/236) — ask-lambda: read the Anthropic key from SSM at runtime instead of a Terraform variable
@@ -290,11 +277,11 @@ Progress: **1/10** sub-issues closed · **4** PRs merged in the window
 
 ### External review 2026-11-01: fleet follow-through
 
-[.github#304](https://github.com/lentago/.github/issues/304) · open since 2026-11-01 · last activity 2026-11-02
+[.github#304](https://github.com/lentago/.github/issues/304) · open since 2026-11-01 · last activity 2026-11-12
 
 > On 2026-11-01 an outside-style review of the public organization, the website, selected implementation paths and commit history reached the maintainer: 12 findings and 6 product and marketing critiques.
 
-Progress: **19/27** sub-issues closed · checklist **20/30** · **30** PRs merged in the window
+Progress: **19/27** sub-issues closed · checklist **23/30** · **30** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -369,7 +356,7 @@ Progress: **19/27** sub-issues closed · checklist **20/30** · **30** PRs merge
 
 > Follow-on to lentago/.github#304.
 
-Progress: **20/24** sub-issues closed · checklist **0/12** · **59** PRs merged in the window
+Progress: **20/24** sub-issues closed · checklist **0/12** · **60** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -402,6 +389,8 @@ Progress: **20/24** sub-issues closed · checklist **0/12** · **59** PRs merged
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-15 · [claytonia#244](https://github.com/lentago/claytonia/pull/244) — terraform: new workers are cut from runner image v4 (#242)
+- 2026-11-15 · [kalmia#322](https://github.com/lentago/kalmia/pull/322) — forge: the runner substrate installs make and python3-venv (claytonia#242)
 - 2026-11-05 · [solidago#279](https://github.com/lentago/solidago/pull/279) — cost: WAF to two rules — Common Rule Set and the rate limit (#277)
 - 2026-11-04 · [claytonia#231](https://github.com/lentago/claytonia/pull/231) — docs: correct ADR-0004 token permission scope
 - 2026-11-04 · [claytonia#230](https://github.com/lentago/claytonia/pull/230) — docs: correct historical sudo access in ADR-0010
@@ -460,7 +449,6 @@ Progress: **20/24** sub-issues closed · checklist **0/12** · **59** PRs merged
 - 2026-11-02 · [.github#314](https://github.com/lentago/.github/pull/314) — Codify solidago's GitHub environments: terraform with a main-only branch policy, terraform-plan with no rules
 - 2026-11-02 · [solidago#227](https://github.com/lentago/solidago/pull/227) — ci(terraform): plan in the terraform-plan environment on the read-only role (#225 step 2 of 2)
 - 2026-11-02 · [solidago#226](https://github.com/lentago/solidago/pull/226) — feat(iam): read-only Terraform plan role on the terraform-plan environment (#225 step 1 of 2)
-- 2026-10-13 · [.github#262](https://github.com/lentago/.github/pull/262) — Stop using tier words in the banner eyebrow kind
 
 </details>
 
@@ -470,7 +458,7 @@ Progress: **20/24** sub-issues closed · checklist **0/12** · **59** PRs merged
 
 > Roadmap for betula's shape: a source-agnostic core and self-contained collector clients, so a new log source lands without touching an existing one.
 
-Progress: **1/8** sub-issues closed · checklist **0/3** · **12** PRs merged in the window
+Progress: **1/8** sub-issues closed · checklist **0/3** · **11** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -498,7 +486,6 @@ Progress: **1/8** sub-issues closed · checklist **0/3** · **12** PRs merged in
 - 2026-11-04 · [betula#154](https://github.com/lentago/betula/pull/154) — Export the Axiom token values for consumers to read from betula's state (#119 step 2)
 - 2026-11-04 · [betula#153](https://github.com/lentago/betula/pull/153) — Terraform the Axiom tokens: exact import of the three consumer tokens (#119 step 1)
 - 2026-10-30 · [betula#146](https://github.com/lentago/betula/pull/146) — feat(github): sample queued jobs in queue_watch repos (drosera#292)
-- 2026-10-12 · [lupinus#25](https://github.com/lentago/lupinus/pull/25) — Stories: one spine, three rungs, one map; one canonical product list
 
 </details>
 
@@ -547,33 +534,41 @@ Progress: **5/9** sub-issues closed · **12** PRs merged in the window
 
 > Roadmap for claytonia's thesis: the queue contract (plain-file inbox, atomic claim, branch-and-PR-never-merge, per-project context, at-least-once delivery) is the product; Claude Code headless is today's only worker runtime, and another agent CLI should slot in as a peer runtime without changing the dispatch spec, the…
 
-Progress: **7/18** sub-issues closed · checklist **1/3** · **26** PRs merged in the window
+Progress: **12/19** sub-issues closed · checklist **1/3** · **31** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
 - ⬜ [claytonia#99](https://github.com/lentago/claytonia/issues/99) Second job type: batch document/report jobs through the queue contract
 - ⬜ [claytonia#115](https://github.com/lentago/claytonia/issues/115) An eval set for the fleet: replayable tasks, deterministic graders, and outcome measures
 - ⬜ [claytonia#116](https://github.com/lentago/claytonia/issues/116) Close the loop after the PR opens: a capped follow-up job for failing checks and review comments
-- ⬜ [claytonia#166](https://github.com/lentago/claytonia/issues/166) Peer worker runtimes: Gemini CLI and Codex CLI behind the queue contract — 7/14 sub-issues closed
-  - ⬜ [.github#317](https://github.com/lentago/.github/issues/317) Peer worker runtimes, fleet half: an ADR, disclosure wording for non-Claude agents, and the runtime-label question (claytonia#166)
-  - ⬜ [claytonia#172](https://github.com/lentago/claytonia/issues/172) cr-update: a per-runtime CLI update path
-  - ⬜ [claytonia#173](https://github.com/lentago/claytonia/issues/173) Runtime and token fields in .meta and cr-emit; unknown cost as null
+- ⬜ [claytonia#166](https://github.com/lentago/claytonia/issues/166) Peer worker runtimes: Gemini CLI and Codex CLI behind the queue contract — 12/15 sub-issues closed
   - ⬜ [claytonia#174](https://github.com/lentago/claytonia/issues/174) Runtime disclosure on agent PRs: footer and preamble attribution written by run-job
-  - ⬜ [drosera#304](https://github.com/lentago/drosera/issues/304) pricing.json: Gemini and Codex price rows, so non-Claude runner jobs get a cost
   - ⬜ [drosera#305](https://github.com/lentago/drosera/issues/305) Live transcript for Gemini and Codex runner jobs (runner-transcript.alloy)
   - ⬜ [kalmia#256](https://github.com/lentago/kalmia/issues/256) standing: `standing up <repo> --runtime gemini\|codex` — an Engineering Manager on another CLI
+  - ✅ [.github#317](https://github.com/lentago/.github/issues/317) Peer worker runtimes, fleet half: an ADR, disclosure wording for non-Claude agents, and the runtime-label question (claytonia#166)
   - ✅ [claytonia#167](https://github.com/lentago/claytonia/issues/167) Extract the Claude invocation into bin/rt-claude with no behavior change
   - ✅ [claytonia#168](https://github.com/lentago/claytonia/issues/168) Runtime key in the job spec, registry, runner.env and cr-submit, with runtime-scoped model precedence
   - ✅ [claytonia#169](https://github.com/lentago/claytonia/issues/169) Test stubs and bats for the runtime seam
   - ✅ [claytonia#170](https://github.com/lentago/claytonia/issues/170) rt-gemini: Gemini CLI adapter
   - ✅ [claytonia#171](https://github.com/lentago/claytonia/issues/171) rt-codex: Codex CLI adapter
+  - ✅ [claytonia#172](https://github.com/lentago/claytonia/issues/172) cr-update: a per-runtime CLI update path
+  - ✅ [claytonia#173](https://github.com/lentago/claytonia/issues/173) Runtime and token fields in .meta and cr-emit; unknown cost as null
+  - ✅ [claytonia#239](https://github.com/lentago/claytonia/issues/239) Live-transcript links for Gemini and Codex jobs (claytonia half of drosera#305)
   - ✅ [drosera#303](https://github.com/lentago/drosera/issues/303) Claytonia — Runner Fleet: split jobs, failures, duration and cost by runtime, with an unknown cost state
+  - ✅ [drosera#304](https://github.com/lentago/drosera/issues/304) pricing.json: Gemini and Codex price rows, so non-Claude runner jobs get a cost
   - ✅ [kalmia#255](https://github.com/lentago/kalmia/issues/255) forge: the claytonia runner image carries the Gemini and Codex CLIs (claytonia-runner-v3)
 
 </details>
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-13 · [claytonia#240](https://github.com/lentago/claytonia/pull/240) — Live-transcript links for Gemini and Codex jobs (claytonia half of drosera#305)
+- 2026-11-13 · [claytonia#238](https://github.com/lentago/claytonia/pull/238) — cr-update: a per-runtime CLI update path
+- 2026-11-13 · [.github#344](https://github.com/lentago/.github/pull/344) — ADR-0015: peer worker runtimes behind the queue contract; runner-PR disclosure wording
+- 2026-11-13 · [claytonia#235](https://github.com/lentago/claytonia/pull/235) — Runtime and token fields in .meta and cr-emit; unknown cost as null
+- 2026-11-13 · [drosera#327](https://github.com/lentago/drosera/pull/327) — Redact the value in the transcript secret scrub: capture only the value
+- 2026-11-12 · [drosera#326](https://github.com/lentago/drosera/pull/326) — Ship Gemini and Codex runner transcripts through claytonia's labelled links
+- 2026-11-12 · [drosera#324](https://github.com/lentago/drosera/pull/324) — Price Gemini and Codex runner jobs from pricing.json on the runner-fleet dashboard
 - 2026-11-04 · [claytonia#220](https://github.com/lentago/claytonia/pull/220) — rt-codex: hand the key to Codex as CODEX_API_KEY, the name exec reads
 - 2026-11-04 · [claytonia#214](https://github.com/lentago/claytonia/pull/214) — rt-gemini: keep the GitHub credential helper through Gemini's git overrides
 - 2026-11-04 · [claytonia#219](https://github.com/lentago/claytonia/pull/219) — rt-codex: create Codex's home when a worker has none
@@ -598,18 +593,16 @@ Progress: **7/18** sub-issues closed · checklist **1/3** · **26** PRs merged i
 - 2026-11-02 · [kalmia#261](https://github.com/lentago/kalmia/pull/261) — forge: the runner substrate installs uuid-runtime, so workers have uuidgen (claytonia#179)
 - 2026-11-02 · [kalmia#257](https://github.com/lentago/kalmia/pull/257) — forge: the claytonia runner image carries the Gemini and Codex CLIs (claytonia-runner-v3)
 - 2026-10-28 · [claytonia#151](https://github.com/lentago/claytonia/pull/151) — Run scheduled routines on the fleet: schedules as data, a policy-gated merge step, per-repo App tokens, read-only Google access
-- 2026-10-13 · [claytonia#144](https://github.com/lentago/claytonia/pull/144) — Fleet PR lane separation: rebase-before-merge + overlap check
-- 2026-10-13 · [claytonia#142](https://github.com/lentago/claytonia/pull/142) — Queue admission control: ownership, occupancy, capacity at submit
 
 </details>
 
 ### Make never-merge a boundary: required check that blocks runner-App PRs without a human approval
 
-[claytonia#117](https://github.com/lentago/claytonia/issues/117) · open since 2026-09-17 · last activity 2026-11-02
+[claytonia#117](https://github.com/lentago/claytonia/issues/117) · open since 2026-09-17 · last activity 2026-11-12
 
 > From the 2026-09-17 agentic-patterns review (Claude-assisted), which compared claytonia with the published design of commercial and in-house background coding agents.
 
-Progress: **2/2** sub-issues closed · **29** PRs merged in the window
+Progress: **2/2** sub-issues closed · **34** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -620,9 +613,15 @@ Progress: **2/2** sub-issues closed · **29** PRs merged in the window
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-04 · [claytonia#223](https://github.com/lentago/claytonia/pull/223) — docs: remove manual PVE pool step from provision/README.md (#212)
+- 2026-11-04 · [claytonia#221](https://github.com/lentago/claytonia/pull/221) — docs: retitle fleet dashboard in README § Metrics
+- 2026-11-04 · [claytonia#232](https://github.com/lentago/claytonia/pull/232) — docs: restore ADR-0008 acceptance and reconstruction dates
+- 2026-11-04 · [claytonia#228](https://github.com/lentago/claytonia/pull/228) — docs: refresh runtime capture notes
+- 2026-11-04 · [claytonia#226](https://github.com/lentago/claytonia/pull/226) — docs(test): update queue-tests workflow location
 - 2026-11-04 · [shared-workflows#91](https://github.com/lentago/shared-workflows/pull/91) — PR-workflow text: arm the checked head; a runner-App PR needs a human approval (.github ADR-0014)
 - 2026-11-02 · [.github#325](https://github.com/lentago/.github/pull/325) — Require agent-pr-gate on the kits, lupinus and monarda (#289)
 - 2026-11-02 · [shared-workflows#98](https://github.com/lentago/shared-workflows/pull/98) — agent-pr-gate, part 2: a verdict check posted by a dedicated GitHub App and required by its integration ID
+- 2026-11-02 · [.github#323](https://github.com/lentago/.github/pull/323) — agent-pr-gate environment on shared-workflows: main only, no admin bypass, with the gate App ID (#319)
 - 2026-11-02 · [monarda#36](https://github.com/lentago/monarda/pull/36) — ci: vendor the agent-pr-gate (shared-workflows v1.6.0)
 - 2026-11-02 · [lupinus#36](https://github.com/lentago/lupinus/pull/36) — ci: vendor the agent-pr-gate from shared-workflows v1.6.0
 - 2026-11-02 · [.github#322](https://github.com/lentago/.github/pull/322) — Require agent-pr-gate on the 17 repos whose callers report it (#289)
@@ -648,7 +647,6 @@ Progress: **2/2** sub-issues closed · **29** PRs merged in the window
 - 2026-11-02 · [claytonia#184](https://github.com/lentago/claytonia/pull/184) — gh-token: scope installation tokens to the job's repository and minimum permissions
 - 2026-11-02 · [.github#309](https://github.com/lentago/.github/pull/309) — ADR-0014: the merge promise — humans approve agent PRs, policy-owned merges for routines and session-armed PRs
 - 2026-10-28 · [claytonia#151](https://github.com/lentago/claytonia/pull/151) — Run scheduled routines on the fleet: schedules as data, a policy-gated merge step, per-repo App tokens, read-only Google access
-- 2026-10-12 · [lupinus#25](https://github.com/lentago/lupinus/pull/25) — Stories: one spine, three rungs, one map; one canonical product list
 
 </details>
 
@@ -658,7 +656,7 @@ Progress: **2/2** sub-issues closed · **29** PRs merged in the window
 
 > Roadmap for drosera's shape: one live pane with every telemetry source as a peer client, the on-prem estate first and solidago (AWS) second, structured so that adding a source touches no other source's dashboards or Alloy config.
 
-Progress: **0/7** sub-issues closed · checklist **0/3** · **2** PRs merged in the window
+Progress: **0/7** sub-issues closed · checklist **0/3** · **1** PR merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -675,7 +673,27 @@ Progress: **0/7** sub-issues closed · checklist **0/3** · **2** PRs merged in 
 <details><summary>Merged PRs attributed (30d)</summary>
 
 - 2026-10-30 · [drosera#294](https://github.com/lentago/drosera/pull/294) — Alert when a self-hosted Actions job sits queued
-- 2026-10-13 · [drosera#277](https://github.com/lentago/drosera/pull/277) — feat(dashboards): GitHub — Actions dashboard over the Actions feed
+
+</details>
+
+### Get Grafana Cloud billable series back under the 90% cap alert
+
+[drosera#330](https://github.com/lentago/drosera/issues/330) · open since 2026-11-13 · last activity 2026-11-13
+
+> As the Lentago operator, I want Grafana Cloud billable series back under the 90% line of the included free-tier series, so that the "Grafana Cloud billable series near cap" alert resolves and I keep real headroom for new series before ingestion is at risk.
+
+Progress: **1/1** sub-issues closed · checklist **3/4** · **2** PRs merged in the window
+
+<details><summary>Sub-issues</summary>
+
+- ✅ [drosera#332](https://github.com/lentago/drosera/issues/332) ha_trim: drop the UGREEN NAS sensors, keeping the three the Neptune NAS dashboard reads
+
+</details>
+
+<details><summary>Merged PRs attributed (30d)</summary>
+
+- 2026-11-13 · [drosera#331](https://github.com/lentago/drosera/pull/331) — ha_trim: drop the UGREEN NAS sensors no panel reads
+- 2026-11-12 · [drosera#323](https://github.com/lentago/drosera/pull/323) — Drop per-guest virtual interface series in the host Alloy node trim
 
 </details>
 
@@ -766,7 +784,7 @@ Progress: **0/4** sub-issues closed · **1** PR merged in the window
 
 > Tracking issue for ROADMAP.md, so the three milestones show their progress as sub-issues.
 
-Progress: **2/12** sub-issues closed · **5** PRs merged in the window
+Progress: **2/12** sub-issues closed · **3** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -790,8 +808,6 @@ Progress: **2/12** sub-issues closed · **5** PRs merged in the window
 - 2026-11-04 · [mitchella#34](https://github.com/lentago/mitchella/pull/34) — Exercise the real API path end to end
 - 2026-11-02 · [uvularia#122](https://github.com/lentago/uvularia/pull/122) — Ask: require a valid source for an answered reply; call it source-linked; disclose question logging
 - 2026-10-30 · [.github#287](https://github.com/lentago/.github/pull/287) — Epics report: epics, sub-issue progress, and where the merged work went
-- 2026-10-12 · [lupinus#25](https://github.com/lentago/lupinus/pull/25) — Stories: one spine, three rungs, one map; one canonical product list
-- 2026-10-12 · [lupinus#22](https://github.com/lentago/lupinus/pull/22) — Tiers: refresh brasenia, add mitchella; picker: phones, printers, Wi-Fi
 
 </details>
 
@@ -801,7 +817,7 @@ Progress: **2/12** sub-issues closed · **5** PRs merged in the window
 
 > Three of the five lupinus stories lean on monarda and two of them need the organization's whole site; the import story only pays off if that page set exists.
 
-Progress: **5/5** sub-issues closed · checklist **3/4** · **7** PRs merged in the window
+Progress: **5/5** sub-issues closed · checklist **3/4** · **3** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -818,10 +834,6 @@ Progress: **5/5** sub-issues closed · checklist **3/4** · **7** PRs merged in 
 - 2026-11-04 · [monarda#44](https://github.com/lentago/monarda/pull/44) — Document how a copy takes template updates: adopt uvularia's update door
 - 2026-11-04 · [lupinus#41](https://github.com/lentago/lupinus/pull/41) — Cite monarda's rung-2 receipt in the tiers.md monarda row
 - 2026-11-04 · [monarda#43](https://github.com/lentago/monarda/pull/43) — Rung-2 drill: switch the rung-1 drill site to rung 2, time it, and record its receipt
-- 2026-10-12 · [monarda#28](https://github.com/lentago/monarda/pull/28) — feat: rescue import for WordPress and Squarespace exports
-- 2026-10-12 · [monarda#27](https://github.com/lentago/monarda/pull/27) — docs: editing without git (Sveltia CMS, off by default)
-- 2026-10-12 · [monarda#26](https://github.com/lentago/monarda/pull/26) — feat: rung 2, the plain organization site page set
-- 2026-10-12 · [monarda#25](https://github.com/lentago/monarda/pull/25) — ADR-0004: a second rung, the plain organization site
 
 </details>
 
@@ -831,7 +843,7 @@ Progress: **5/5** sub-issues closed · checklist **3/4** · **7** PRs merged in 
 
 > The App's push-allowlist entry on the three template repositories is still live-only; that is lentago/.github#225, under the secrets epic lentago/.github#286.
 
-Progress: **2/4** sub-issues closed · **10** PRs merged in the window
+Progress: **2/4** sub-issues closed · **9** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -853,7 +865,6 @@ Progress: **2/4** sub-issues closed · **10** PRs merged in the window
 - 2026-11-02 · [uvularia#124](https://github.com/lentago/uvularia/pull/124) — Massachusetts pack: proxy labels, 2027 holidays, no-data on a missing holiday year, and a fixed-date rule kind
 - 2026-11-02 · [uvularia#119](https://github.com/lentago/uvularia/pull/119) — templates: add an MIT LICENSE to the three template subtrees
 - 2026-11-02 · [uvularia#121](https://github.com/lentago/uvularia/pull/121) — Board standing: re-evaluate on a schedule and show when it was evaluated
-- 2026-10-12 · [uvularia#99](https://github.com/lentago/uvularia/pull/99) — Receipts: one-repository rung timed (6 min 09 s); Ask box's first live answer
 
 </details>
 
@@ -865,15 +876,15 @@ Progress: **2/4** sub-issues closed · **10** PRs merged in the window
 |--------|------|-----------:|----------------------:|----------:|
 | 2026-11-04 | [.github#234](https://github.com/lentago/.github/issues/234) Enable Dependabot security updates fleet-wide (codified in terraform) | 4 | **4** | 1 |
 | 2026-11-04 | [.github#237](https://github.com/lentago/.github/issues/237) Retire DeepWiki across the fleet | 0 | 0 | 2 |
-| 2026-11-04 | [lupinus#33](https://github.com/lentago/lupinus/issues/33) Epic: adoption guide — Phase 2 (receipts for the near-Kits, and the template reconciled) | 2 | 0 | 6 |
+| 2026-11-04 | [lupinus#33](https://github.com/lentago/lupinus/issues/33) Epic: adoption guide — Phase 2 (receipts for the near-Kits, and the template reconciled) | 2 | 0 | 3 |
 | 2026-11-02 | [solidago#180](https://github.com/lentago/solidago/issues/180) Hardening backlog from tf-lint's first trivy run (ECR immutability, CI-role least-privilege, SNS encryption) | 3 | **2** | 5 |
-| 2026-10-30 | [kalmia#63](https://github.com/lentago/kalmia/issues/63) Complete the lunaria → brasenia rename through runtime | 0 | 0 | 15 |
-| 2026-10-28 | [brasenia#12](https://github.com/lentago/brasenia/issues/12) Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain | 0 | 0 | 6 |
-| 2026-10-14 | [.github#269](https://github.com/lentago/.github/issues/269) Scrub "homelab" and kin: the on-prem half of the estate is "on-prem" | 0 | 0 | 14 |
-| 2026-10-13 | [.github#257](https://github.com/lentago/.github/issues/257) Adopt the six-promise map (ADR-0012) — rollout epic | 0 | 0 | 26 |
+| 2026-10-30 | [kalmia#63](https://github.com/lentago/kalmia/issues/63) Complete the lunaria → brasenia rename through runtime | 0 | 0 | 13 |
+| 2026-10-28 | [brasenia#12](https://github.com/lentago/brasenia/issues/12) Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain | 0 | 0 | 4 |
+| 2026-10-14 | [.github#269](https://github.com/lentago/.github/issues/269) Scrub "homelab" and kin: the on-prem half of the estate is "on-prem" | 0 | 0 | 1 |
+| 2026-10-13 | [.github#257](https://github.com/lentago/.github/issues/257) Adopt the six-promise map (ADR-0012) — rollout epic | 0 | 0 | 2 |
 | 2026-10-13 | [brasenia#26](https://github.com/lentago/brasenia/issues/26) Phase 2: pane bus, compositor, and the first live panes (Cast-first) | 0 | 0 | 0 |
 | 2026-10-13 | [drosera#251](https://github.com/lentago/drosera/issues/251) Change pipeline: see every merge travel from push to live, keyed by commit SHA | 1 | **1** | 1 |
-| 2026-10-13 | [lupinus#4](https://github.com/lentago/lupinus/issues/4) Epic: adoption guide — Phase 1 (launch set: solidago + monarda) | 5 | 0 | 2 |
+| 2026-10-13 | [lupinus#4](https://github.com/lentago/lupinus/issues/4) Epic: adoption guide — Phase 1 (launch set: solidago + monarda) | 5 | 0 | 0 |
 | 2026-10-04 | [.github#192](https://github.com/lentago/.github/issues/192) Epic: reposition every reader-facing surface to the pro-bono practice, one reader, one voice (ADR-0008) | 0 | 0 | 1 |
 | 2026-08-19 | [.github#162](https://github.com/lentago/.github/issues/162) Epic: adoption guide (lupinus) — Phase 0 enablers | 4 | 0 | 0 |
 
@@ -883,44 +894,44 @@ A closed epic with open sub-issues is a hand-off: the work was spun out and stil
 
 ## Where the last 30 days went
 
-**512 PRs merged** across the fleet. Each is attributed once (an epic, or one loose bucket); a PR that serves two epics counts for both.
+**468 PRs merged** across the fleet. Each is attributed once (an epic, or one loose bucket); a PR that serves two epics counts for both.
 
 | Destination | PRs | Share |
 |-------------|----:|------:|
-| [.github#318](https://github.com/lentago/.github/issues/318) Security review 2026-11-02: fleet follow-through | 59 | 12% |
-| [.github#285](https://github.com/lentago/.github/issues/285) Rename debt: the tier 3–4 renames still open across the fleet | 41 | 8% |
+| [.github#318](https://github.com/lentago/.github/issues/318) Security review 2026-11-02: fleet follow-through | 60 | 13% |
+| [.github#285](https://github.com/lentago/.github/issues/285) Rename debt: the tier 3–4 renames still open across the fleet | 36 | 8% |
+| [claytonia#117](https://github.com/lentago/claytonia/issues/117) Make never-merge a boundary: required check that blocks runner-App PRs without a human approval | 34 | 7% |
+| [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 31 | 7% |
 | [.github#304](https://github.com/lentago/.github/issues/304) External review 2026-11-01: fleet follow-through | 30 | 6% |
-| [claytonia#117](https://github.com/lentago/claytonia/issues/117) Make never-merge a boundary: required check that blocks runner-App PRs without a human approval | 29 | 6% |
-| [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 26 | 5% |
-| [.github#257](https://github.com/lentago/.github/issues/257) Adopt the six-promise map (ADR-0012) — rollout epic _(closed)_ | 26 | 5% |
-| [.github#276](https://github.com/lentago/.github/issues/276) Haiku replaces CodeRabbit as the fleet's PR reviewer | 26 | 5% |
-| [epigaea#548](https://github.com/lentago/epigaea/issues/548) Signage: cards, labels and sheets posted at the point of use | 17 | 3% |
-| [kalmia#63](https://github.com/lentago/kalmia/issues/63) Complete the lunaria → brasenia rename through runtime _(closed)_ | 15 | 3% |
-| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 14 | 3% |
-| [.github#269](https://github.com/lentago/.github/issues/269) Scrub "homelab" and kin: the on-prem half of the estate is "on-prem" _(closed)_ | 14 | 3% |
-| [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 12 | 2% |
-| [brasenia#130](https://github.com/lentago/brasenia/issues/130) Phase 3: the fleet on the display, and what stays open after ADR-0020 | 12 | 2% |
-| [uvularia#28](https://github.com/lentago/uvularia/issues/28) Template repositories: sync on merge (shipped 2026-10-06), drift, and their upkeep — epic | 10 | 2% |
-| [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 7 | 1% |
-| [lupinus#33](https://github.com/lentago/lupinus/issues/33) Epic: adoption guide — Phase 2 (receipts for the near-Kits, and the template reconciled) _(closed)_ | 6 | 1% |
-| [brasenia#12](https://github.com/lentago/brasenia/issues/12) Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain _(closed)_ | 6 | 1% |
-| [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 5 | 1% |
+| [.github#276](https://github.com/lentago/.github/issues/276) Haiku replaces CodeRabbit as the fleet's PR reviewer | 26 | 6% |
+| [epigaea#548](https://github.com/lentago/epigaea/issues/548) Signage: cards, labels and sheets posted at the point of use | 17 | 4% |
+| [kalmia#63](https://github.com/lentago/kalmia/issues/63) Complete the lunaria → brasenia rename through runtime _(closed)_ | 13 | 3% |
+| [brasenia#130](https://github.com/lentago/brasenia/issues/130) Phase 3: the fleet on the display, and what stays open after ADR-0020 | 12 | 3% |
+| [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 11 | 2% |
+| [uvularia#28](https://github.com/lentago/uvularia/issues/28) Template repositories: sync on merge (shipped 2026-10-06), drift, and their upkeep — epic | 9 | 2% |
+| [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 5 | 1% |
 | [solidago#180](https://github.com/lentago/solidago/issues/180) Hardening backlog from tf-lint's first trivy run (ECR immutability, CI-role least-privilege, SNS encryption) _(closed)_ | 5 | 1% |
-| [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 4 | 1% |
+| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 4 | 1% |
+| [brasenia#12](https://github.com/lentago/brasenia/issues/12) Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain _(closed)_ | 4 | 1% |
+| [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 3 | 1% |
+| [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 3 | 1% |
+| [lupinus#33](https://github.com/lentago/lupinus/issues/33) Epic: adoption guide — Phase 2 (receipts for the near-Kits, and the template reconciled) _(closed)_ | 3 | 1% |
+| [drosera#330](https://github.com/lentago/drosera/issues/330) Get Grafana Cloud billable series back under the 90% cap alert | 2 | 0% |
+| [.github#257](https://github.com/lentago/.github/issues/257) Adopt the six-promise map (ADR-0012) — rollout epic _(closed)_ | 2 | 0% |
 | [.github#237](https://github.com/lentago/.github/issues/237) Retire DeepWiki across the fleet _(closed)_ | 2 | 0% |
-| [drosera#131](https://github.com/lentago/drosera/issues/131) Roadmap: multi-client telemetry pane — on-prem and solidago (AWS) as peer sources | 2 | 0% |
-| [lupinus#4](https://github.com/lentago/lupinus/issues/4) Epic: adoption guide — Phase 1 (launch set: solidago + monarda) _(closed)_ | 2 | 0% |
 | [lupinus#40](https://github.com/lentago/lupinus/issues/40) Epic: adoption guide — Phase 3 (receipts for the four near-Kits) | 1 | 0% |
 | [.github#234](https://github.com/lentago/.github/issues/234) Enable Dependabot security updates fleet-wide (codified in terraform) _(closed)_ | 1 | 0% |
+| [.github#269](https://github.com/lentago/.github/issues/269) Scrub "homelab" and kin: the on-prem half of the estate is "on-prem" _(closed)_ | 1 | 0% |
 | [.github#192](https://github.com/lentago/.github/issues/192) Epic: reposition every reader-facing surface to the pro-bono practice, one reader, one voice (ADR-0008) _(closed)_ | 1 | 0% |
 | [drosera#251](https://github.com/lentago/drosera/issues/251) Change pipeline: see every merge travel from push to live, keyed by commit SHA _(closed)_ | 1 | 0% |
+| [drosera#131](https://github.com/lentago/drosera/issues/131) Roadmap: multi-client telemetry pane — on-prem and solidago (AWS) as peer sources | 1 | 0% |
 | [.github#235](https://github.com/lentago/.github/issues/235) Genus marks for the eight unmarked species | 1 | 0% |
 | [kalmia#20](https://github.com/lentago/kalmia/issues/20) Roadmap: provisioning clients beyond Ansible-on-workstations — VMs and containers as peer targets | 1 | 0% |
-| **All epics** | **268** | **52%** |
-| Loose — closes or cites an issue outside any epic | 151 | 29% |
-| Loose — no issue reference at all | 12 | 2% |
-| Dependabot | 52 | 10% |
-| Fleet automation (report refreshes, template sync) | 29 | 6% |
+| **All epics** | **234** | **50%** |
+| Loose — closes or cites an issue outside any epic | 143 | 31% |
+| Loose — no issue reference at all | 13 | 3% |
+| Dependabot | 51 | 11% |
+| Fleet automation (report refreshes, template sync) | 27 | 6% |
 
 ### De-facto epics
 
@@ -929,9 +940,10 @@ Issues outside any epic that at least 4 merged PRs reference. Each is a campaign
 | Issue | PRs | Repos touched | State |
 |-------|----:|--------------:|-------|
 | [solidago#271](https://github.com/lentago/solidago/issues/271) cost: one NAT gateway, Container Insights off, Single-AZ RDS, and a budget that matches the bill | 6 | 1 | closed |
+| [claytonia#242](https://github.com/lentago/claytonia/issues/242) Runner image: make and python3-venv are missing, so a project's setup hook and make targets can't run | 5 | 1 | closed |
+| [epigaea#546](https://github.com/lentago/epigaea/issues/546) HA-side GitHub PAT returns 403 since the org transfer: version sync and context snapshot pipelines silent since 2026-06-24 | 4 | 1 | open |
 | [solidago#277](https://github.com/lentago/solidago/issues/277) cost: app service to one task on ARM64, Fargate Spot for the site tasks, WAF to two rule groups | 4 | 1 | closed |
 | [brasenia#121](https://github.com/lentago/brasenia/issues/121) Compositor: a strict total order, no rotation (ADR-0020: "There should not be ties") | 4 | 1 | closed |
-| [.github#264](https://github.com/lentago/.github/issues/264) music-curator leaves the org for cpitzi/music-curator | 4 | 4 | closed |
 
 ### Loose work by repo
 
@@ -939,32 +951,32 @@ Where the merged work that no epic describes landed. A tall row is either a prog
 
 | Repo | With an issue | No issue | Total |
 |------|--------------:|---------:|------:|
-| kalmia | 51 | 1 | **52** |
+| kalmia | 54 | 1 | **55** |
 | brasenia | 36 | 3 | **39** |
-| claytonia | 14 | 0 | **14** |
-| .github | 11 | 0 | **11** |
+| epigaea | 9 | 5 | **14** |
+| claytonia | 12 | 0 | **12** |
+| .github | 9 | 0 | **9** |
 | solidago | 9 | 0 | **9** |
-| epigaea | 5 | 4 | **9** |
-| drosera | 6 | 2 | **8** |
-| shared-workflows | 4 | 1 | **5** |
-| uvularia | 3 | 1 | **4** |
+| drosera | 4 | 1 | **5** |
 | monarda | 3 | 0 | **3** |
-| betula | 2 | 0 | **2** |
-| asclepias | 2 | 0 | **2** |
+| shared-workflows | 2 | 1 | **3** |
 | uvularia-demo-site | 1 | 0 | **1** |
 | uvularia-demo-ask-rules | 1 | 0 | **1** |
 | uvularia-demo-records | 1 | 0 | **1** |
 | lupinus | 1 | 0 | **1** |
-| site-lentago-dev | 1 | 0 | **1** |
+| betula | 1 | 0 | **1** |
+| uvularia | 0 | 1 | **1** |
+| site-icecreamtofightwith-com | 0 | 1 | **1** |
 
 ---
 
-## Open issues outside any epic — 65
+## Open issues outside any epic — 71
 
 The backlog the epics do not describe. Some of it is deliberately small and stand-alone; the rest is either a program without a parent or an issue that should be linked under one.
 
-**kalmia** — 10
+**kalmia** — 11
 
+- [kalmia#309](https://github.com/lentago/kalmia/issues/309) minecraft-lan (LXC 125): three Bedrock instances, one per world slot _(since 2026-11-12)_
 - [kalmia#304](https://github.com/lentago/kalmia/issues/304) minecraft-lan: update the container description to the Servers join path _(since 2026-11-08)_
 - [kalmia#290](https://github.com/lentago/kalmia/issues/290) standing: repeatable test for the model-selection helpers (effective_model / claude_argv) _(since 2026-11-05)_
 - [kalmia#286](https://github.com/lentago/kalmia/issues/286) Host the Director and standing EMs on xubuntu-ws: resize VM 102 and provision it as the session host _(since 2026-11-04)_
@@ -998,14 +1010,40 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 - [uvularia#125](https://github.com/lentago/uvularia/issues/125) template-sync: drift on push compares origin/main, so back-to-back merges fail the earlier run _(since 2026-11-02)_
 - [uvularia#123](https://github.com/lentago/uvularia/issues/123) Ask: make the unsourced-answer fallback reply a rules-side setting _(since 2026-11-02)_
 
-**epigaea** — 6
+**epigaea** — 7
 
+- [epigaea#581](https://github.com/lentago/epigaea/issues/581) gitops-sync: a change to dashboards/entity-allowlist.txt forces a full Core restart _(since 2026-11-15)_
 - [epigaea#552](https://github.com/lentago/epigaea/issues/552) Retired RDM001 office remote still registered in ZHA _(since 2026-10-31)_
 - [epigaea#551](https://github.com/lentago/epigaea/issues/551) Meeting button ESPHome config is not in git _(since 2026-10-31)_
 - [epigaea#546](https://github.com/lentago/epigaea/issues/546) HA-side GitHub PAT returns 403 since the org transfer: version sync and context snapshot pipelines silent since 2026-06-24 _(since 2026-10-31)_
 - [epigaea#544](https://github.com/lentago/epigaea/issues/544) Sonos entity ids inverted: media_player.office is the Basement Arc, media_player.office_office is the Office Playbar _(since 2026-10-31)_
 - [epigaea#542](https://github.com/lentago/epigaea/issues/542) Proxmox VE integration no longer creates button entities (113 restored orphans; #376 regressed) _(since 2026-10-31)_
 - [epigaea#541](https://github.com/lentago/epigaea/issues/541) UPS monitoring blind since ~2026-08-31: NUT connection refused at the NAS _(since 2026-10-31)_
+
+**claytonia** — 6
+
+- [claytonia#237](https://github.com/lentago/claytonia/issues/237) Scheduled jobs: a per-job background-task ceiling; a run with no PR and no file is not a success _(since 2026-11-13)_
+- [claytonia#236](https://github.com/lentago/claytonia/issues/236) google-read: a daily check with a shipped log line; ADR-0010 operational note (published client, mint date) _(since 2026-11-13)_
+- [claytonia#233](https://github.com/lentago/claytonia/issues/233) README § Auth still says installation tokens inherit the full App grant _(since 2026-11-04)_
+- [claytonia#222](https://github.com/lentago/claytonia/issues/222) n8n submit form and transcript-shipper comment still carry pre-rename and stale fleet facts _(since 2026-11-04)_
+- [claytonia#181](https://github.com/lentago/claytonia/issues/181) Pre-run failures (failed checkout, refused runtime) post nothing on the job's issue _(since 2026-11-02)_
+- [claytonia#164](https://github.com/lentago/claytonia/issues/164) A failed cr-update is visible only in the worker's journal _(since 2026-10-31)_
+
+**.github** — 5
+
+- [.github#343](https://github.com/lentago/.github/issues/343) Disclosure surfaces that name only Claude, after ADR-0015 (peer worker runtimes) _(since 2026-11-13)_
+- [.github#335](https://github.com/lentago/.github/issues/335) Profile: review "a person always decides" after the ADR-0014 amendment _(since 2026-11-04)_
+- [.github#329](https://github.com/lentago/.github/issues/329) Census: surface a failed cloc run instead of skipping the repo; add --timeout 0 to the hand-run language-census recipe _(since 2026-11-04)_
+- [.github#201](https://github.com/lentago/.github/issues/201) terraform: creating a repo from repos.json fails on GitHub's default labels (422 already_exists) _(since 2026-10-03)_
+- [.github#175](https://github.com/lentago/.github/issues/175) A public repo entry with a null template_source cannot receive its first commit _(since 2026-08-28)_
+
+**drosera** — 5
+
+- [drosera#329](https://github.com/lentago/drosera/issues/329) Alert when a worker's google-read check line is missing or non-zero for 24 hours _(since 2026-11-13)_
+- [drosera#319](https://github.com/lentago/drosera/issues/319) Pick up a betula token rotation without depending on a Terraform-touching merge _(since 2026-11-04)_
+- [drosera#295](https://github.com/lentago/drosera/issues/295) Map-keyed dynamic rule blocks rewrite every later rule when a new key sorts mid-list _(since 2026-10-30)_
+- [drosera#264](https://github.com/lentago/drosera/issues/264) terraform: cloud_usage rule group shows a perpetual repeat_interval diff (1d vs 24h) _(since 2026-10-07)_
+- [drosera#199](https://github.com/lentago/drosera/issues/199) Error-budget monthly section in the fleet report _(since 2026-08-16)_
 
 **shared-workflows** — 5
 
@@ -1015,33 +1053,12 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 - [shared-workflows#87](https://github.com/lentago/shared-workflows/issues/87) Add `timeout-minutes` to every reusable workflow job (8 of 9 have none) _(since 2026-11-01)_
 - [shared-workflows#57](https://github.com/lentago/shared-workflows/issues/57) Rapid successive merges cancel site deploys, and `:latest`-pinned task defs make the survivor non-deterministic _(since 2026-08-30)_
 
-**.github** — 4
-
-- [.github#335](https://github.com/lentago/.github/issues/335) Profile: review "a person always decides" after the ADR-0014 amendment _(since 2026-11-04)_
-- [.github#329](https://github.com/lentago/.github/issues/329) Census: surface a failed cloc run instead of skipping the repo; add --timeout 0 to the hand-run language-census recipe _(since 2026-11-04)_
-- [.github#201](https://github.com/lentago/.github/issues/201) terraform: creating a repo from repos.json fails on GitHub's default labels (422 already_exists) _(since 2026-10-03)_
-- [.github#175](https://github.com/lentago/.github/issues/175) A public repo entry with a null template_source cannot receive its first commit _(since 2026-08-28)_
-
 **brasenia** — 4
 
 - [brasenia#145](https://github.com/lentago/brasenia/issues/145) Producers: hold the eight copies of the bus helpers to one hash in a test _(since 2026-11-04)_
 - [brasenia#144](https://github.com/lentago/brasenia/issues/144) Pane bus: nothing clears leftovers from viewport/staging/ _(since 2026-11-04)_
 - [brasenia#142](https://github.com/lentago/brasenia/issues/142) README: the Roadmap and the "How it works today (Phase 1)" heading still describe Phase 2 as in progress _(since 2026-11-04)_
 - [brasenia#139](https://github.com/lentago/brasenia/issues/139) Compositor: a burst of new focus panes flips the wall 8–10 times in under a minute _(since 2026-11-04)_
-
-**claytonia** — 4
-
-- [claytonia#233](https://github.com/lentago/claytonia/issues/233) README § Auth still says installation tokens inherit the full App grant _(since 2026-11-04)_
-- [claytonia#222](https://github.com/lentago/claytonia/issues/222) n8n submit form and transcript-shipper comment still carry pre-rename and stale fleet facts _(since 2026-11-04)_
-- [claytonia#181](https://github.com/lentago/claytonia/issues/181) Pre-run failures (failed checkout, refused runtime) post nothing on the job's issue _(since 2026-11-02)_
-- [claytonia#164](https://github.com/lentago/claytonia/issues/164) A failed cr-update is visible only in the worker's journal _(since 2026-10-31)_
-
-**drosera** — 4
-
-- [drosera#319](https://github.com/lentago/drosera/issues/319) Pick up a betula token rotation without depending on a Terraform-touching merge _(since 2026-11-04)_
-- [drosera#295](https://github.com/lentago/drosera/issues/295) Map-keyed dynamic rule blocks rewrite every later rule when a new key sorts mid-list _(since 2026-10-30)_
-- [drosera#264](https://github.com/lentago/drosera/issues/264) terraform: cloud_usage rule group shows a perpetual repeat_interval diff (1d vs 24h) _(since 2026-10-07)_
-- [drosera#199](https://github.com/lentago/drosera/issues/199) Error-budget monthly section in the fleet report _(since 2026-08-16)_
 
 **site-icecreamtofightwith-com** — 2
 
