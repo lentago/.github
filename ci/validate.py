@@ -17,6 +17,12 @@ org landing page. Those have real failure modes, and this asserts against them:
   census    metrics/generate-fleet-reports.py imports, and its data/code classifier
             still routes known paths correctly (regression cover for #59, where a
             JSON-only carve-out counted 15,595 lines of CSV exports as source).
+  budget    the site error-budget section counts burn stretches correctly, sends
+            the PromQL pinned below (a copy of drosera's SLO board and burn rules:
+            CI does not read drosera, so this catches a change to the generator,
+            not a change upstream), and degrades to one "Unavailable" line, never
+            an exception, on a missing token, a failed query or a response in any
+            shape it doesn't read.
   register  fleet-reports/incidents.md is reproducible from fleet-reports/incidents/.
             It is generated, not hand-authored; a hand-edit here is a change that the
             next weekly refresh silently reverts.
@@ -40,6 +46,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FAILURES = []
@@ -467,6 +474,168 @@ def check_census_classifier():
             fail("census", f"classify_md({repo!r}, {path!r}) returned {got!r}, expected {want!r}")
 
 
+# ------------------------------------------------------------------ budget
+# A copy of lentago/drosera dashboards/sites-slo-error-budget.json (stat panels) and
+# terraform/alerts.tf (burn rules), for lentago.dev. CI does not read drosera, so this
+# pins the generator to the copy and cannot see drosera drift. If drosera changes them,
+# update the generator and these together — the report must show the board's numbers.
+BUDGET_EXPRS = {
+    "attainment": 'avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d])',
+    "remaining": '1 - (1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d])) / 0.001',
+    "minutes": '(0.001 - (1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d]))) * 43200',
+}
+BURN_1H = '(1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[1h])) / 0.001'
+
+# (long points, short points, threshold, step, expected (episodes, last ts)).
+# The second case is the one that matters: the long window alone is hot for a
+# stretch, but only steps where the short window agrees count, and a gap splits
+# them into two episodes.
+BURN_CASES = [
+    ([(0, 0.0), (300, 0.0)], [(0, 0.0), (300, 0.0)], 14.4, 300, (0, None)),
+    ([(0, 20), (300, 20), (600, 20), (900, 20), (1200, 20)],
+     [(0, 20), (300, 1), (600, 20), (900, 20), (1200, 1)], 14.4, 300, (2, 900)),
+    ([(0, 14.4)], [(0, 99)], 14.4, 300, (0, None)),       # gt, not ge — as the rules
+]
+
+
+def check_error_budget_section():
+    try:
+        gen = load_generator()
+    except Exception as exc:                                  # noqa: BLE001
+        fail("budget", f"metrics/generate-fleet-reports.py failed to import — {exc}")
+        return
+
+    if gen.slo_exprs("lentago.dev") != BUDGET_EXPRS:
+        fail("budget", "slo_exprs() no longer matches the pinned copy of drosera's SLO-board PromQL")
+    if gen.burn_expr("lentago.dev", "1h") != BURN_1H:
+        fail("budget", "burn_expr() no longer matches the pinned copy of drosera's burn-rule PromQL")
+
+    for long_pts, short_pts, thr, step, want in BURN_CASES:
+        got = gen.burn_episodes(long_pts, short_pts, thr, step)
+        if got != want:
+            fail("budget", f"burn_episodes(…, {thr}, {step}) returned {got}, expected {want}")
+
+    check_error_budget_degrades(gen)
+
+
+# Fake Grafana responses for the degrade cases. Each entry is (label, token, responder);
+# the responder takes (endpoint, call number) and returns a JSON-able body, raw bytes,
+# or an exception instance to raise from urlopen. Every case must come back as
+# (None, reason) and render one "Unavailable" line: a missing secret, a failed query or
+# an unexpected shape must never fail the weekly run.
+def _ok_instant(endpoint, n):
+    if endpoint == "query":
+        return {"status": "success", "data": {"result": [{"metric": {}, "value": [0, "0.9995"]}]}}
+    return {"status": "success", "data": {"result": [{"metric": {}, "values": [[0, "0"], [300, "0"]]}]}}
+
+
+def _http_error(code):
+    import urllib.error
+    return urllib.error.HTTPError("https://example.invalid", code, "error", {}, None)
+
+
+def _url_error():
+    import urllib.error
+    return urllib.error.URLError("unreachable")
+
+
+def _instant(result):
+    return lambda endpoint, n: ({"status": "success", "data": {"result": result}}
+                                if endpoint == "query" else _ok_instant(endpoint, n))
+
+
+def _range(values):
+    return lambda endpoint, n: (_ok_instant(endpoint, n) if endpoint == "query" else
+                                {"status": "success", "data": {"result": [{"metric": {}, "values": values}]}})
+
+
+def _incomplete(endpoint, n):
+    # attainment answers, remaining and minutes come back empty for the first site
+    if endpoint == "query" and n in (1, 2):
+        return {"status": "success", "data": {"result": []}}
+    return _ok_instant(endpoint, n)
+
+
+DEGRADE_CASES = [
+    ("token unset", None, None),
+    ("token empty (secret unset in Actions)", "", None),
+    ("token whitespace", "  \n", None),
+    ("HTTP 401", "t", lambda e, n: _http_error(401)),
+    ("host unreachable", "t", lambda e, n: _url_error()),
+    ("body not JSON", "t", lambda e, n: b"<html>gateway</html>"),
+    ("status error", "t", lambda e, n: {"status": "error", "errorType": "bad_data"}),
+    ("body a JSON list", "t", lambda e, n: []),
+    ("no data field", "t", lambda e, n: {"status": "success"}),
+    ("result not a list", "t", lambda e, n: {"status": "success", "data": {"result": "x"}}),
+    ("result null", "t", lambda e, n: {"status": "success", "data": {"result": None}}),
+    ("sample without value", "t", _instant([{"metric": {}}])),
+    ("sample value not numeric", "t", _instant([{"metric": {}, "value": [0, "abc"]}])),
+    ("sample value NaN", "t", _instant([{"metric": {}, "value": [0, "NaN"]}])),
+    ("sample value +Inf", "t", _instant([{"metric": {}, "value": [0, "+Inf"]}])),
+    ("stat results incomplete", "t", _incomplete),
+    ("range series without values", "t", lambda e, n: (_ok_instant(e, n) if e == "query" else
+                                                       {"status": "success", "data": {"result": [{"metric": {}}]}})),
+    ("range point malformed", "t", _range([[0]])),
+    ("range timestamp out of range", "t", _range([["1e20", "99"]])),
+]
+
+
+def _run_budgets(gen, token, responder):
+    import io
+    import urllib.request
+    calls = {"n": 0}
+
+    def fake_urlopen(req, timeout=None):
+        endpoint = req.full_url.split("/api/v1/", 1)[1].split("?", 1)[0]
+        out = responder(endpoint, calls["n"])
+        calls["n"] += 1
+        if isinstance(out, BaseException):
+            raise out
+        return io.BytesIO(out if isinstance(out, bytes) else json.dumps(out).encode())
+
+    saved_env = os.environ.pop(gen.GRAFANA_TOKEN_ENV, None)
+    saved_urlopen = urllib.request.urlopen
+    if token is not None:
+        os.environ[gen.GRAFANA_TOKEN_ENV] = token
+    urllib.request.urlopen = fake_urlopen if responder else saved_urlopen
+    try:
+        return gen.collect_error_budgets(datetime.now(timezone.utc))
+    finally:
+        urllib.request.urlopen = saved_urlopen
+        os.environ.pop(gen.GRAFANA_TOKEN_ENV, None)
+        if saved_env is not None:
+            os.environ[gen.GRAFANA_TOKEN_ENV] = saved_env
+
+
+def check_error_budget_degrades(gen):
+    # The fake must be able to produce a table, or every degrade below proves nothing.
+    try:
+        rows, reason = _run_budgets(gen, "t", _ok_instant)
+    except Exception as exc:                                  # noqa: BLE001
+        fail("budget", f"well-formed fake responses raised {type(exc).__name__}: {exc}")
+        return
+    if rows is None or len(rows) != len(gen.SLO_SITES):
+        fail("budget", f"well-formed fake responses did not produce a table: {(rows, reason)!r}")
+        return
+    if not any(ln.startswith("| lentago.dev |") for ln in gen.error_budget_section(rows, reason)):
+        fail("budget", "well-formed fake responses rendered no lentago.dev row")
+
+    for label, token, responder in DEGRADE_CASES:
+        try:
+            rows, reason = _run_budgets(gen, token, responder)
+            body = [ln for ln in gen.error_budget_section(rows, reason)
+                    if ln and not ln.startswith("## ")]
+        except Exception as exc:                              # noqa: BLE001
+            fail("budget", f"{label}: raised {type(exc).__name__} instead of degrading")
+            continue
+        if rows is not None or not reason:
+            fail("budget", f"{label}: expected (None, reason), got {(rows, reason)!r}")
+        elif len(body) != 1 or not body[0].startswith("_Unavailable this run:"):
+            fail("budget", f"{label}: expected one 'Unavailable this run' line, got {body!r}")
+        elif token is not None and token.strip() and "not configured" in reason:
+            fail("budget", f"{label}: a set token was reported as not configured")
+
+
 # ------------------------------------------------------------------ register
 GENERATED_LINE = re.compile(r"^\*\*Generated:\*\*")
 
@@ -521,6 +690,7 @@ CHECKS = [
     ("fleet", check_fleet_coverage),
     ("brand", check_brand_assets),
     ("census", check_census_classifier),
+    ("budget", check_error_budget_section),
     ("register", check_incident_register_reproducible),
 ]
 
