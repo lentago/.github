@@ -159,8 +159,10 @@ locals {
       branches          = []
     }
     # Holds the Dependabot sweeper's token (ADR-0016, #346): a fine-grained PAT
-    # authenticating as cpitzi, set out of band. Main-only, so only the
-    # reviewed sweeper on main can read it, and no pull request run can.
+    # authenticating as cpitzi, set out of band. Main-only: a job reads it only
+    # when it runs from main and declares this environment, so no pull request
+    # or other branch can. What keeps any other main workflow from declaring it
+    # is main's own gate (PR, review, required checks), not the environment.
     ".github:dependabot-merge" = {
       repository        = ".github"
       environment       = "dependabot-merge"
