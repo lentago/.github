@@ -50,6 +50,13 @@ jobs:
         with:
           persist-credentials: false
 
+      # Measure the secret before blaming its permissions (ADR-0011 rule 2): a
+      # truncated or whitespace-wrapped paste reads as "Bad credentials" on every
+      # repo. Only the length and shape are printed, never the value. Then two
+      # probes: `gh api user` proves the token authenticates, and a read of this
+      # repo's pull requests proves it reaches the org (a fine-grained token
+      # still pending org approval, or scoped elsewhere, fails there). Neither
+      # proves write access; a missing write permission shows at the first merge.
       - name: Verify DEPENDABOT_MERGE_TOKEN
         env:
           GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
@@ -58,6 +65,24 @@ jobs:
             echo "::error::DEPENDABOT_MERGE_TOKEN is empty. Store it in the dependabot-merge environment (ADR-0016 Decision 3)."
             exit 1
           fi
+          shape="length ${#GH_TOKEN}"
+          case "$GH_TOKEN" in github_pat_*) shape="$shape, github_pat_ prefix" ;; *) shape="$shape, no github_pat_ prefix" ;; esac
+          case "$GH_TOKEN" in *[[:space:]]*) shape="$shape, contains whitespace" ;; esac
+          echo "DEPENDABOT_MERGE_TOKEN: $shape"
+          if ! login=$(gh api user --jq .login 2>/tmp/probe.err); then
+            err=$(tail -n 1 /tmp/probe.err)
+            case "$err" in
+              *"HTTP 401"*) echo "::error::DEPENDABOT_MERGE_TOKEN is not accepted by GitHub ($shape): $err. Re-store the full value: gh secret set DEPENDABOT_MERGE_TOKEN --repo lentago/.github --env dependabot-merge" ;;
+              *) echo "::error::Could not check DEPENDABOT_MERGE_TOKEN ($shape): $err. Not a 401, so the stored value may be fine; re-run before re-storing." ;;
+            esac
+            exit 1
+          fi
+          echo "authenticates as $login"
+          if ! gh api "repos/lentago/.github/pulls?per_page=1" --silent 2>/tmp/probe.err; then
+            echo "::error::DEPENDABOT_MERGE_TOKEN authenticates as $login but cannot read lentago/.github: $(tail -n 1 /tmp/probe.err). Check the token's resource owner (lentago), its repository list, and whether the org has approved it."
+            exit 1
+          fi
+          echo "reads lentago/.github"
 
       - name: Sweep
         env:
