@@ -144,38 +144,43 @@ change to those repos' allowlist would have dropped it silently (#225).
 
 The maintainer chose #225's option B on 2026-11-17: `FLEET_ADMIN_TOKEN` is
 re-minted as a classic PAT with `repo` and `admin:org`, still without
-`delete_repo`. It is minted by `lentago-admin`, a dedicated machine account that
-is an org owner with 2FA, not by the operator's own account. The three
-allowances return to config, and the post-apply convergence check (Amendment
-2026-08-22) now covers them.
+`delete_repo`. It is minted from `cjpitzi`, the org's existing second owner,
+not from the operator's main account; the secret was replaced on 2026-11-18. The
+three allowances return to config, and the post-apply convergence check
+(Amendment 2026-08-22) now covers them.
 
-**ADR-0011 rule 2 exception.** The classic token is broader than the
-fine-grained one it replaces. ADR-0011 asks for exceptions to be recorded in the
-repo's own ADR, so it is recorded here. Because the machine account belongs only
-to `lentago`, the token reaches the org's repositories and nothing outside them,
-which is narrower than a classic token from the operator's account would be.
-Within the org:
+**ADR-0011 rules 1 and 2 exception.** ADR-0011 asks for exceptions to be
+recorded in the repo's own ADR, so this is where it goes.
 
-- `repo` is full control of every repository, not just the settings
-  permissions the fine-grained token held.
-- `admin:org` admits organisation-settings writes. This tree still never
-  exercises them (#176).
-- It is a repository secret, so a workflow on any branch of this repository can
-  read it. #352 closes the plan-on-PR path.
+- *Rule 1:* a long-lived token where an App's short-lived installation tokens
+  would serve. The reason is a provider limitation: under the fine-grained token
+  the App node could not be resolved. #225's option A, running the fleet
+  Terraform as a GitHub App installation, stays the preferred route.
+- *Rule 2:* the classic token is broader than the fine-grained one it replaces.
+  It reaches everything `cjpitzi` can reach:
+  - every `lentago` repository, where `repo` is full control rather than the
+    settings permissions the fine-grained token held;
+  - the organisation's settings, through `admin:org`, which this tree still
+    never writes (#176);
+  - `cjpitzi`'s own repositories (publicly, three archived ones).
 
-**A second org owner.** `lentago-admin` is the org's second owner. This
-gate's classic protection leaves `enforce_admins` off, so an owner can pass the
-push allowlist without being named on it, and the `main` ruleset still requires
-a pull request and green checks of everyone. The account adds no path that its
-token didn't already have: the token manages this gate. What keeps "every merge
-lands through `cpitzi`" true is that the account is used only through this token,
-by the `terraform` workflow. Its org membership and role are live org settings
-that this tree doesn't manage (#176).
+  A token from the operator's main account would have reached his personal
+  private repositories as well. It is a repository secret, so a workflow on any
+  branch of this repository can read it; #352 closes the plan-on-PR path.
+
+**Owners and the gate.** `cjpitzi` was already an org owner, so this change adds
+no owner. This gate's classic protection leaves `enforce_admins` off, so any
+owner can pass the push allowlist without being named on it. The `main` ruleset
+still requires a pull request and green checks of everyone. The token adds no
+path to `main` that it lacked before, because it manages this gate. That every
+merge lands through `cpitzi` therefore rests on a convention, not on anything
+this tree enforces: no other owner merges, and this token is used only by the
+`terraform` workflow. `cjpitzi`'s membership and role are live org settings that
+this tree doesn't manage (#176).
 
 The token carries an expiry recorded in `fleet-reports/lock-in/renewals.yml`.
 `terraform/README.md` § Auth gives its form.
 
-**Revisit** if the token or the `lentago-admin` account is ever found used
-outside the `terraform` workflow, or when running the fleet Terraform as a
+**Revisit** if the token is ever found used outside the `terraform` workflow, or when running the fleet Terraform as a
 GitHub App installation (#225's option A, short-lived tokens scoped to the org)
 is worth the setup.

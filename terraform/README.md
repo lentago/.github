@@ -51,9 +51,9 @@ Two identities, neither of them stored in this tree.
 **GitHub** — the provider reads `$GITHUB_TOKEN`. It needs repo administration on
 every fleet repo (settings, topics, rulesets, labels), permission to create
 repositories in the org, and the ability to resolve a GitHub App's node id for
-the merge gate's App allowances. It is a **classic** PAT minted by
-`lentago-admin`, a dedicated machine account that is an org owner with 2FA and
-does nothing else. Mint it with exactly these scopes:
+the merge gate's App allowances. It is a **classic** PAT minted by `cjpitzi`,
+the org's existing second owner, not by the operator's main account. Mint it
+with exactly these scopes:
 
 | Scope | Why |
 |---|---|
@@ -66,27 +66,29 @@ Set an expiry and record it in
 Deliberately **not** `delete_repo`. Without it the token physically cannot
 delete a repository, which is the outermost rail below.
 
-**Why classic, against ADR-0011 rule 2.** A fine-grained PAT cannot resolve a
-GitHub App's node id. #224's App allowance failed on apply for that reason, and
-the provider could not read the allowance back either (#225). On 2026-11-17 the
-maintainer chose a classic PAT (#225, option B), minted by a machine account
-rather than by his own. The machine account belongs only to `lentago`, so the
-token reaches only the org's repositories, never a personal one. It is still
-broader than the fine-grained token it replaced:
+**Why classic, against ADR-0011 rules 1 and 2.** A fine-grained PAT cannot
+resolve a GitHub App's node id. #224's App allowance failed on apply for that
+reason, and the provider could not read the allowance back either (#225). On
+2026-11-17 the maintainer chose a classic PAT (#225, option B), minted from
+`cjpitzi`. A classic token reaches everything its account can reach:
 
-- `repo` is full control of every org repository, not the four permissions
-  listed before.
-- The token is a repository secret, so a workflow on any branch of this
-  repository can read it. #352 closes the plan-on-PR path to it.
+- every `lentago` repository, with `repo` as full control rather than the four
+  permissions listed before;
+- `cjpitzi`'s own repositories (publicly, three archived ones), which a token
+  from the operator's main account would have reached as well, along with his
+  personal private repositories.
 
-The account's org membership and owner role are live org settings, like
+The token is a repository secret, so a workflow on any branch of this repository
+can read it. #352 closes the plan-on-PR path to it.
+
+`cjpitzi`'s org membership and owner role are live org settings, like
 `default_repository_permission`. This tree doesn't manage them (#176).
 
 The exception is recorded in
 [ADR-0003's amendment of 2026-11-17](../docs/adr/0003-merge-gate-push-allowlist.md#amendment-2026-11-17).
 
 ```bash
-export GITHUB_TOKEN='github_pat_…'
+export GITHUB_TOKEN='ghp_…'
 ```
 
 **AWS** — state lives in solidago's S3 backend. Local runs authenticate as the
