@@ -85,6 +85,7 @@ CI does: `python3 ci/validate.py`):
 | `fleet` | `repos.json`, `required-checks.json`, `labels.json` and `brand/fleet.json` agree on which repos exist (a public repo with no required checks can't arm auto-merge; one with no brand entry ships bannerless) |
 | `brand` | `brand/generated/` is reproducible from `brand/fleet.json` — the banners are copied verbatim into 15 repos, so a hand-edit forks the identity |
 | `census` | `metrics/generate-fleet-reports.py` imports; its data/code and markdown classifiers route known paths correctly |
+| `budget` | the fleet report's site error-budget section sends its pinned copy of drosera's SLO PromQL (CI does not read drosera, so upstream drift is not caught here), counts burn stretches right, and degrades to one "Unavailable" line, never an exception, on a missing token, a failed query or an unexpected response |
 | `register` | `fleet-reports/incidents.md` is reproducible from `fleet-reports/incidents/` — it is generated, never hand-edited |
 
 **Relative markdown links are not checked here.** That check lived in `validate.py`
@@ -189,7 +190,7 @@ section. When refreshing, update **all three** together: the table, the
 
 `metrics/generate-fleet-reports.py` regenerates a single GitHub-rendered report,
 **`fleet-reports/fleet-report.md`**, linked from the org profile under **Fleet in
-numbers**. It has two parts from the fleet's public state:
+numbers**. It has three parts:
 
 - **Issues** — open issues by repo + a 30-day merge/close activity snapshot, from
   public GitHub metadata only. The public, auto-generated sibling of the LAN-only
@@ -199,6 +200,16 @@ numbers**. It has two parts from the fleet's public state:
   instruction markdown (+ reference-checker prompt-programs) as natural-language
   code, and reports documentation / content / data separately. Distinct from the
   canonical `metrics/language-census.md`; the two intentionally differ.
+- **Site error budgets** — per public site, the 30-day SLO attainment, budget used and
+  left, and burn-rule stretches, from drosera's blackbox probes (drosera ADR-0008;
+  lentago/drosera#199). The PromQL is a copy of drosera's SLO board and burn rules, sent
+  through Grafana's data-source proxy with the optional repo secret
+  **`FLEET_REPORTS_GRAFANA_TOKEN`** (a `glsa_` token under a Viewer service account that
+  drosera's `terraform/service_accounts.tf` is to declare; that account is not on
+  drosera's `main` yet, see the workflow header for the steps). Unset, failing or
+  answering in a shape the generator doesn't read, the section is one "Unavailable"
+  line and the run stays green, with a warning in the run summary when a set token
+  fails.
 
 Scope is the **active** `lentago` repos (archived repos are frozen and excluded;
 GitHub's listing endpoints don't surface archived repos anyway). Regenerate with
