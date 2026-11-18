@@ -27,7 +27,9 @@ org landing page. Those have real failure modes, and this asserts against them:
             cases right: it reads Dependabot's updated-dependencies block, refuses
             majors, 0.x minors, missing or unreadable metadata, foreign authors,
             unverified commits, other-repo heads and the sweeper's own files, and
-            passes a green patch/minor group. A wrong "pass" here is a merge.
+            passes a green patch/minor group. A wrong "pass" here is a merge. Its
+            audit matches the trailer only where the sweeper writes it, never a
+            quoted copy, and flags a marked merge that Dependabot didn't author.
   register  fleet-reports/incidents.md is reproducible from fleet-reports/incidents/.
             It is generated, not hand-authored; a hand-edit here is a change that the
             next weekly refresh silently reverts.
@@ -717,6 +719,7 @@ def check_sweeper_gate():
     entries = mod.parse_updated_dependencies(_GREEN)
     if not entries or [e["dependency-name"] for e in entries] != ["actions/checkout", "lentago/sw/x.yml"]:
         fail("sweeper", f"parse_updated_dependencies() misread a two-entry block: {entries!r}")
+    check_sweeper_audit(mod)
     for label, pr, commits, files, repo, passes in SWEEPER_CASES:
         try:
             problem = mod.pr_problem(pr, commits, files, repo)
@@ -727,6 +730,47 @@ def check_sweeper_gate():
             fail("sweeper", f"{label}: expected to pass, refused with {problem!r}")
         elif not passes and problem is None:
             fail("sweeper", f"{label}: expected a refusal, but it passed (that would be a merge)")
+
+
+def check_sweeper_audit(mod):
+    """The audit (ADR-0016 Decision 5) must recognise exactly what the sweeper
+    writes, and nothing a person merely quotes. A miss here either hides a
+    misuse or turns every run red for 30 days."""
+    run = "https://github.com/lentago/.github/actions/runs/1"
+    for label, msg in [("Dependabot message with Signed-off-by", _GREEN),
+                       ("message with no trailer block", "build(deps): bump a\n\nBumps a.\n...")]:
+        body = mod.merge_body(msg, run)
+        if not mod.has_trailer("bump a (#1)\n\n" + body):
+            fail("sweeper", f"merge_body() output is not seen by has_trailer() ({label}): {body[-120:]!r}")
+    quoted = ("Adds the sweeper.\n\nEach merge ends with the `Merged-by-routine: dependabot-sweeper` "
+              "trailer.\n\nCo-authored-by: Claude <noreply@anthropic.com>")
+    middle = "Subject\n\nMerged-by-routine: dependabot-sweeper\n\nCo-authored-by: x <x@example.com>"
+    for label, msg in [("trailer quoted in prose", quoted), ("trailer line outside the last paragraph", middle)]:
+        if mod.has_trailer(msg):
+            fail("sweeper", f"has_trailer() matched a {label}; the audit would flag a non-sweeper merge")
+
+    dep = {"number": 1, "user": {"login": "dependabot[bot]"}}
+    person = {"number": 2, "user": {"login": "cpitzi"}}
+    commit = {"sha": "c" * 40}
+    for label, marked, want in [("Dependabot's PR", [(commit, [dep])], 0),
+                                ("someone else's PR", [(commit, [person])], 1),
+                                ("no PR at all", [(commit, [])], 1),
+                                ("mixed", [(commit, [dep, person])], 1)]:
+        got = len(mod.audit_findings("x", marked))
+        if got != want:
+            fail("sweeper", f"audit_findings() on {label}: {got} findings, expected {want}")
+
+    me, since = "cpitzi", "2026-11-18T00:00:00Z"
+    rebase = lambda b: b.strip() == "@dependabot rebase"                    # noqa: E731
+    for label, comments, want in [
+            ("own comment after the head", [{"user": {"login": me}, "created_at": "2026-11-18T01:00:00Z",
+                                             "body": "@dependabot rebase"}], True),
+            ("own comment before the head", [{"user": {"login": me}, "created_at": "2026-11-17T23:00:00Z",
+                                              "body": "@dependabot rebase"}], False),
+            ("someone else's comment", [{"user": {"login": "other"}, "created_at": "2026-11-18T01:00:00Z",
+                                         "body": "@dependabot rebase"}], False)]:
+        if mod.commented_since(comments, me, since, rebase) != want:
+            fail("sweeper", f"commented_since() on {label}: expected {want}")
 
 
 # ------------------------------------------------------------------ register

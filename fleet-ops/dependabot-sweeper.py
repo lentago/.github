@@ -140,6 +140,46 @@ def pr_problem(pr, commits, files, repo):
     return update_problem(parse_updated_dependencies(commits[-1]["commit"]["message"]))
 
 
+def has_trailer(message):
+    """True when TRAILER is a line of the message's last paragraph, which is
+    where git trailers live. A PR body that merely quotes the string in prose
+    does not count."""
+    paras = [p for p in re.split(r"\n[ \t]*\n", message.strip()) if p.strip()]
+    return bool(paras) and TRAILER in (line.strip() for line in paras[-1].splitlines())
+
+
+def audit_findings(repo, marked):
+    """`marked` is [(commit, pulls)] for commits that carry the trailer. Returns
+    one line per commit whose PR Dependabot did not author (or that has none)."""
+    bad = []
+    for c, pulls in marked:
+        if not pulls or any(p["user"]["login"] != DEPENDABOT for p in pulls):
+            who = ", ".join(f"#{p['number']} by {p['user']['login']}" for p in pulls) or "no PR"
+            bad.append(f"{repo}@{c['sha'][:7]} ({who})")
+    return bad
+
+
+def commented_since(comments, login, since, match):
+    """Has `login` posted a comment matching `match` at or after `since`?"""
+    return any(c["user"]["login"] == login and c["created_at"] >= since and match(c["body"])
+               for c in comments)
+
+
+def merge_body(message, run_url):
+    """The squash commit body: Dependabot's own message (minus its subject) with
+    the routine's trailers added to its trailer block, or as a new one."""
+    body = message.split("\n", 1)[1].strip() if "\n" in message else ""
+    last = body.splitlines()[-1] if body else ""
+    sep = "\n" if re.match(r"[A-Za-z][A-Za-z-]*: ", last) else "\n\n"
+    return f"{body}{sep}{TRAILER}\nMerged-by-run: {run_url}\n".lstrip("\n")
+
+
+def merge_comment(head, run_url):
+    return (f"Merging under [ADR-0016](https://github.com/{OWNER}/.github/blob/main/docs/adr/"
+            f"0016-dependabot-patch-minor-routine.md), the Dependabot patch and minor routine. "
+            f"Evaluated head `{head}`. Run: {run_url}")
+
+
 # ------------------------------------------------------------------ GitHub I/O
 
 class ApiError(Exception):
@@ -162,7 +202,7 @@ def api(path, paginate=False):
     return json.loads(gh(*args))
 
 
-def merge_state(repo, number, tries=4, wait=5):
+def merge_state(repo, number, tries=3, wait=5):
     """GitHub computes mergeStateStatus lazily: the first read of a PR nobody
     has looked at lately is often UNKNOWN. Ask again a few times before giving up
     on this run (the next run asks again)."""
@@ -179,28 +219,16 @@ def token_login():
     return api("user")["login"]
 
 
-def rebase_requested(repo, number, head_date):
-    """Has the token's user already asked Dependabot to rebase this head?"""
-    me = token_login()
-    for c in api(f"repos/{OWNER}/{repo}/issues/{number}/comments", paginate=True):
-        if (c["user"]["login"] == me and c["body"].strip() == "@dependabot rebase"
-                and c["created_at"] >= head_date):
-            return True
-    return False
+def pr_comments(repo, number):
+    return api(f"repos/{OWNER}/{repo}/issues/{number}/comments?per_page=100", paginate=True)
 
 
 def audit(repo, since):
     """Trailer-marked merges on main whose PR Dependabot did not author."""
-    bad = []
     commits = api(f"repos/{OWNER}/{repo}/commits?sha=main&since={since}&per_page=100", paginate=True)
-    for c in commits:
-        if TRAILER not in c["commit"]["message"]:
-            continue
-        pulls = api(f"repos/{OWNER}/{repo}/commits/{c['sha']}/pulls")
-        if not pulls or any(p["user"]["login"] != DEPENDABOT for p in pulls):
-            who = ", ".join(f"#{p['number']} by {p['user']['login']}" for p in pulls) or "no PR"
-            bad.append(f"{repo}@{c['sha'][:7]} ({who})")
-    return bad
+    marked = [(c, api(f"repos/{OWNER}/{repo}/commits/{c['sha']}/pulls"))
+              for c in commits if has_trailer(c["commit"]["message"])]
+    return audit_findings(repo, marked)
 
 
 # ------------------------------------------------------------------ the sweep
@@ -222,9 +250,10 @@ def sweep_repo(repo, mode, run_url, log):
         if live_head != head:
             log(repo, n, "skip", "head moved while evaluating")
             continue
+        head_date = commits[-1]["commit"]["committer"]["date"]
         if state == "BEHIND":
-            head_date = commits[-1]["commit"]["committer"]["date"]
-            if rebase_requested(repo, n, head_date):
+            if commented_since(pr_comments(repo, n), token_login(), head_date,
+                               lambda b: b.strip() == "@dependabot rebase"):
                 log(repo, n, "wait", "behind main; rebase already requested")
             elif mode == "merge":
                 gh("pr", "comment", str(n), "-R", f"{OWNER}/{repo}", "--body", "@dependabot rebase")
@@ -242,12 +271,12 @@ def sweep_repo(repo, mode, run_url, log):
             log(repo, n, "merge", f"eligible at {head[:7]}; dry run, not merged")
             merged = True
             continue
-        gh("pr", "comment", str(n), "-R", f"{OWNER}/{repo}", "--body",
-           f"Merging under [ADR-0016](https://github.com/{OWNER}/.github/blob/main/docs/adr/"
-           f"0016-dependabot-patch-minor-routine.md), the Dependabot patch and minor routine. "
-           f"Evaluated head `{head}`. Run: {run_url}")
-        body = commits[-1]["commit"]["message"].split("\n", 1)[-1].rstrip()
-        body += f"\n{TRAILER}\nMerged-by-run: {run_url}\n"
+        # Once per head: a merge GitHub refuses is retried next run without
+        # posting the comment again.
+        if not commented_since(pr_comments(repo, n), token_login(), head_date,
+                               lambda b: f"Evaluated head `{head}`" in b):
+            gh("pr", "comment", str(n), "-R", f"{OWNER}/{repo}", "--body", merge_comment(head, run_url))
+        body = merge_body(commits[-1]["commit"]["message"], run_url)
         try:
             gh("pr", "merge", str(n), "-R", f"{OWNER}/{repo}", "--squash",
                "--match-head-commit", head, "--body", body)
@@ -281,6 +310,10 @@ def main():
                 errors.append(f"audit: trailer-marked merge not authored by Dependabot: {bad}")
         except ApiError as exc:
             errors.append(f"{repo}: {exc}")
+        except Exception as exc:                              # noqa: BLE001
+            # An API shape this script doesn't expect is a failure for this repo,
+            # not a reason to skip the other repos, the audit and the summary.
+            errors.append(f"{repo}: unexpected {type(exc).__name__}: {exc}")
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
