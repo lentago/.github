@@ -8,7 +8,11 @@ locals {
   # ---------------------------------------------------------------------------
   repos      = jsondecode(file("${path.module}/../fleet-ops/repos.json")).repos
   labels_cfg = jsondecode(file("${path.module}/../fleet-ops/labels.json")).labels
-  checks_cfg = jsondecode(file("${path.module}/../fleet-ops/required-checks.json")).checks
+  checks_doc = jsondecode(file("${path.module}/../fleet-ops/required-checks.json"))
+  checks_cfg = local.checks_doc.checks
+  # Context -> the integration ID it must come from (rulesets.tf). A context
+  # absent from it comes from GitHub Actions (actions_app_id).
+  check_sources = lookup(local.checks_doc, "sources", {})
 
   # ---------------------------------------------------------------------------
   # Uniform fleet policy. These are deliberately NOT per-repo knobs in
@@ -39,7 +43,7 @@ locals {
   squash_commit_message = "COMMIT_MESSAGES"
 
   # GitHub Actions' app id — the integration that owns every required check
-  # context in required-checks.json.
+  # context in required-checks.json that its `sources` map does not name.
   actions_app_id = 15368
 
   # ---------------------------------------------------------------------------
@@ -109,6 +113,65 @@ locals {
   # no entry in required-checks.json has no effect.
   strict_up_to_date_repos = toset([".github", "betula", "claytonia", "drosera", "kalmia"])
 
+  # Repos whose `v*` tags are consumed as pinned versions by other repos, and so
+  # get the release-tags ruleset (rulesets.tf): no deleting or moving a release
+  # tag once it exists. shared-workflows is the only one today; a repo that
+  # starts publishing versions other repos pin belongs here too.
+  #
+  # Deliberately NOT filtered to public repos the way ruleset_repos is. If a repo
+  # listed here went private, a filter would silently plan the ruleset's destroy
+  # and drop the tag protection; without one, the apply fails loudly (rulesets on
+  # a private repo need GitHub Pro) and someone has to decide.
+  release_tag_repos = toset(["shared-workflows"])
+
+  # GitHub deployment environments (environments.tf), keyed "<repo>:<env>".
+  # An environment's OIDC subject is `repo:<owner>/<repo>:environment:<env>`, so
+  # a cloud role that trusts one environment trusts every job that can enter it.
+  # `branches` decides which jobs those are: empty means any ref may deploy (no
+  # deployment branch policy); non-empty means only refs matching those branch
+  # patterns may (custom branch policies). Secrets and variables are not managed.
+  #
+  # solidago (lentago/solidago#225, #156, option C, 2026-11-01): pull-request
+  # plans run in `terraform-plan`, which the read-only plan role trusts; the
+  # apply runs in `terraform`, which the full-write apply role trusts, and only
+  # `main` may deploy to it.
+  #
+  # agent-pr-gate (lentago/.github#319): every repo in agent_pr_gate_repos gets
+  # an `agent-pr-gate` environment that only `main` may enter, with no admin
+  # bypass. It holds the gate App's private key and ID, which are set by hand
+  # (ADR-0011 rule 4: Terraform never creates the slot). The verdict job
+  # runs on `pull_request_target`, `workflow_run` and `issue_comment`, whose ref
+  # is the base or default branch, so it gets the key; a `pull_request` run
+  # (ref `refs/pull/<n>/merge`) or a workflow pushed on another branch does not.
+  # A reusable workflow's job runs in its caller's repo, so each gated repo
+  # needs its own environment.
+  environments = merge({
+    "solidago:terraform" = {
+      repository        = "solidago"
+      environment       = "terraform"
+      can_admins_bypass = false
+      branches          = ["main"]
+    }
+    "solidago:terraform-plan" = {
+      repository        = "solidago"
+      environment       = "terraform-plan"
+      can_admins_bypass = true
+      branches          = []
+    }
+    }, {
+    for repo in local.agent_pr_gate_repos : "${repo}:agent-pr-gate" => {
+      repository        = repo
+      environment       = "agent-pr-gate"
+      can_admins_bypass = false
+      branches          = ["main"]
+    }
+  })
+
+  # Repos that run the agent-pr-gate verdict. shared-workflows is the pilot
+  # (lentago/shared-workflows#97); a repo joins once the gate App is installed
+  # on it and its caller is about to reference the environment.
+  agent_pr_gate_repos = toset(["shared-workflows"])
+
   # ---------------------------------------------------------------------------
   # Derived: the repo x label matrix.
   #
@@ -118,6 +181,12 @@ locals {
   #
   # The model:* @claude routing labels are opt-in per repo via model_labels,
   # because they are functional on some repos and meaningless on others.
+  #
+  # A label with a `repos` list (betula's token-rotation override, betula#119)
+  # is scoped the same way from the other side: it does something only where a
+  # workflow reads it, so it goes on exactly the repos it names. Without the
+  # key it defaults to every repo. The default is spelled through try() rather
+  # than an `== null ||` test because Terraform does not short-circuit `||`.
   # ---------------------------------------------------------------------------
   repo_labels = merge([
     for repo_name, repo in local.repos : {
@@ -128,8 +197,10 @@ locals {
         color       = label.color
         description = label.description
       }
-      if !startswith(label.name, "model:") ||
-      contains(repo.model_labels, trimprefix(label.name, "model:"))
+      if(
+        !startswith(label.name, "model:") ||
+        contains(repo.model_labels, trimprefix(label.name, "model:"))
+      ) && contains(try(label.repos, keys(local.repos)), repo_name)
     }
   ]...)
 }

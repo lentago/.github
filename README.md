@@ -76,10 +76,8 @@ declarative equivalent.
 - **`fleet-apply.sh`** — the pre-Terraform drift checker, still the tool for the
   two jobs Terraform can't express: `--prune-branches` (merged-branch residue)
   and the preflight that a required check-run context actually reports before
-  anything requires it. Its settings-applying flags are superseded by
-  `terraform/`.
-- **`repo-ruleset.json`** — the branch-ruleset template `fleet-apply.sh` used;
-  the same shape now lives in `terraform/rulesets.tf`.
+  anything requires it. Its settings-applying flags were removed in
+  lentago/.github#298; `terraform/` is the only writer of repo settings.
 - **`org-ruleset.json`** — org-level ruleset definition, parked (needs a paid
   plan).
 

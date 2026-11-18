@@ -87,3 +87,15 @@ resource "github_repository" "fleet" {
     prevent_destroy = true
   }
 }
+
+# Dependabot security updates, fleet-wide (#234). `vulnerability_alerts` above
+# only raises alerts; this is what opens the fix PRs. Every repo in repos.json
+# gets it, the kits included (Chris, 2026-11-04): it is a repo setting, so it
+# does not copy into client repos generated from a kit. Referencing the
+# repository resource orders this after alerts are on, which GitHub requires.
+resource "github_repository_dependabot_security_updates" "fleet" {
+  for_each = local.repos
+
+  repository = github_repository.fleet[each.key].name
+  enabled    = true
+}

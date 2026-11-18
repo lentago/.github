@@ -78,7 +78,7 @@ renewals:
   - id: credential-fleet-reports-pat
     name: "FLEET_REPORTS_TOKEN — fine-grained PAT expiry"
     category: credential
-    next_due: 2026-10-30
+    next_due: 2027-07-14
     cadence: one-off
     owner: chris@lentago.dev
     lead_days: 14

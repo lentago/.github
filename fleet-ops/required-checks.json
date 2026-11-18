@@ -1,7 +1,8 @@
 {
   "_comment": [
     "Per-repo required status-check contexts, layered onto each repo's `main`",
-    "branch ruleset by `fleet-apply.sh --require-checks`. Origin: lentago/.github#27",
+    "branch ruleset by terraform/rulesets.tf on merge to main (originally by the",
+    "since-removed `fleet-apply.sh --require-checks`). Origin: lentago/.github#27",
     "(rulesets had no required checks, so `gh pr merge --auto` could not arm and a",
     "red plan/lint blocked nothing).",
     "",
@@ -32,10 +33,10 @@
     "link check was removed in #67 and replaced by the shared docs-check, so the",
     "fleet has one link resolver rather than two drifting copies.",
     "",
-    "NOTE (2026-07-25): --require-checks REPLACES the required_status_checks rule",
-    "wholesale with what is listed here — it does not merge with what is already",
-    "live. Any context required live but absent from this file is therefore dropped",
-    "on the next sweep. That happened to site-icecreamtofightwith-com: its ruleset",
+    "NOTE (2026-07-25): --require-checks REPLACED the required_status_checks rule",
+    "wholesale with what is listed here — it did not merge with what was already",
+    "live, and the terraform apply does the same. Any context required live but",
+    "absent from this file is therefore dropped on the next apply. That happened to site-icecreamtofightwith-com: its ruleset",
     "required 'Lint content' + 'Compile and commit' while this file listed only the",
     "former, so the docs-check sweep silently removed 'Compile and commit'. Restored",
     "here. Before adding a repo, diff this file against the live ruleset — this file",
@@ -50,66 +51,110 @@
     "",
     "claytonia also requires `queue-core` (.github#221): its bats tests run on every",
     "pull_request with no path filter (on ubuntu-latest), and bin/ deploys to all",
-    "five worker agents via gitops on merge, so runtime tests prevent regressions."
+    "five worker agents via gitops on merge, so runtime tests prevent regressions.",
+    "",
+    "epigaea also requires `Bats` (.github#291): the `bats` job in tests.yml runs on",
+    "every pull_request with no path filter, and since epigaea#563 it carries the",
+    "instruction-card print-size guard (tests/card_size.bats), which only protects",
+    "the 7 by 5 inch card contract if a red run blocks the merge.",
+    "",
+    "`agent-pr-gate / agent-pr-gate` (.github#289; claytonia#117 option A; ADR-0014",
+    "point 2) is required on every repo the bullpen's runner App opens PRs in. It",
+    "holds a runner-App PR until a human with write access approves its current",
+    "head, or until cr-automerge arms it under a routine rule, and passes every",
+    "other PR at once. Each repo's caller (shared-workflows agent-pr-gate.yml) was",
+    "merged and seen reporting before the repo was mapped here; shared-workflows",
+    "reports it through its own agent-pr-gate-self.yml. The kits (lupinus, monarda)",
+    "carry no cross-org workflows (ADR-0013 Decision 2), so each runs a vendored copy",
+    "of the gate (lupinus#36, monarda#36; the base-ref checkout fixed in each kit's",
+    "#38) that reports the same context. Both were mapped after the fixed copy",
+    "reported on live PRs: red on each kit's runner-authored #38 for want of an",
+    "approval, and green on monarda#34 once its head was approved.",
+    "",
+    "`sources` names the GitHub App a context must come from, by integration ID.",
+    "A context absent from it is required from GitHub Actions (15368), like every",
+    "Actions job. Both terraform/rulesets.tf (the ruleset's integration_id) and",
+    "fleet-apply.sh (the preflight and drift check, which match on the check",
+    "run's app id as well as its name) read it, so the source lives here once.",
+    "`agent-pr-verdict` is posted by the gate App, lentago-pr-gate (5585513), on",
+    "the head of every PR (lentago/shared-workflows#97, lentago/.github#319). The",
+    "runner App can add an Actions job reporting that name, but not one from the",
+    "gate App's integration, so requiring it by source closes the hole the",
+    "Actions-only agent-pr-gate leaves. Each gated repo is mapped only after the",
+    "verdict was seen from 5585513 on a live PR (shared-workflows: #100)."
   ],
   "checks": {
     "asclepias": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     ".github": [
       "gate",
       "validate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "kalmia": [
       "gate",
       "ansible-lint",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "drosera": [
       "gate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate",
+      "transcript-test",
+      "logql-test",
+      "cost-export-test"
     ],
     "solidago": [
       "gate",
       "docs-check / docs-check",
       "tf-lint / tf-lint",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "site-lentago-dev": [
       "Build",
       "docs-check / docs-check",
       "A11y",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "site-pondviewlane-com": [
       "Build",
       "docs-check / docs-check",
-      "pa11y WCAG2AA"
+      "pa11y WCAG2AA",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "claytonia": [
       "gate",
       "queue-core",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "betula": [
       "gate",
       "shellcheck / shellcheck",
       "docs-check / docs-check",
-      "tf-lint / tf-lint"
+      "tf-lint / tf-lint",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "epigaea": [
       "check-config",
       "docs-check / docs-check",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "Bats",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "site-icecreamtofightwith-com": [
       "Lint content",
@@ -117,32 +162,41 @@
       "docs-check / docs-check",
       "pa11y accessibility smoke test",
       "Validate book quality",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "brasenia": [
       "docs-check / docs-check",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "repo-template": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "shared-workflows": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate",
+      "agent-pr-verdict"
     ],
     "osmunda": [
       "docs-check / docs-check",
       "kubeconform",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "monarda": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "lupinus": [
-      "docs-check / docs-check"
+      "docs-check / docs-check",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "mitchella": [
       "docs-check / docs-check",
-      "tests / pytest"
+      "tests / pytest",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "uvularia": [
       "docs-check / docs-check",
@@ -156,7 +210,8 @@
       "test-ask-function",
       "template-telemetry",
       "drift",
-      "shellcheck / shellcheck"
+      "shellcheck / shellcheck",
+      "agent-pr-gate / agent-pr-gate"
     ],
     "uvularia-records-template": [
       "validate"
@@ -176,5 +231,8 @@
     "uvularia-demo-ask-rules": [
       "evals"
     ]
+  },
+  "sources": {
+    "agent-pr-verdict": 5585513
   }
 }

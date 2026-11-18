@@ -5,10 +5,10 @@ This repo carries no application code, so "does it build" is meaningless. What i
 *does* carry is operator tooling the rest of the fleet depends on, plus the public
 org landing page. Those have real failure modes, and this asserts against them:
 
-  configs   fleet-ops/*.json parse and hold the shape fleet-apply.sh and the
-            terraform module expect. A malformed required-checks.json breaks a
-            fleet-wide settings sweep partway through, leaving the fleet
-            half-applied; a malformed repos.json is a repository.
+  configs   fleet-ops/*.json parse and hold the shape the terraform module and
+            fleet-apply.sh's read-only check expect. A malformed
+            required-checks.json fails the terraform plan for every repo at
+            once; a malformed repos.json is a repository.
   fleet     the three fleet-ops manifests and brand/fleet.json agree on which
             repos exist. Each is edited separately, and a repo present in one
             but missing from another fails quietly somewhere else later.
@@ -63,7 +63,7 @@ def tracked(*patterns):
 
 # ------------------------------------------------------------------ configs
 def check_fleet_ops_configs():
-    """fleet-ops JSON must parse and match what fleet-apply.sh consumes."""
+    """fleet-ops JSON must parse and match what terraform/ and fleet-apply.sh consume."""
     for rel in tracked("fleet-ops/*.json"):
         path = os.path.join(ROOT, rel)
         try:
@@ -91,7 +91,7 @@ def check_fleet_ops_configs():
             fail("configs", f"{rel} has no top-level 'checks' object")
             continue
         if not checks:
-            fail("configs", f"{rel} maps no repos — fleet-apply --require-checks "
+            fail("configs", f"{rel} maps no repos — terraform/ "
                             "would silently enforce nothing")
         for repo, contexts in sorted(checks.items()):
             if not isinstance(contexts, list) or not contexts:
@@ -103,14 +103,30 @@ def check_fleet_ops_configs():
             if len(set(contexts)) != len(contexts):
                 fail("configs", f"{rel}: '{repo}' lists a duplicate context")
 
+        # `sources`: context -> the GitHub App integration ID it must come from
+        # (terraform/rulesets.tf, fleet-apply.sh). A source for a context no repo
+        # requires is a typo or a leftover, and would silently do nothing.
+        sources = doc.get("sources", {})
+        if not isinstance(sources, dict):
+            fail("configs", f"{rel}: 'sources' must be an object")
+            continue
+        required = {c for cs in checks.values() if isinstance(cs, list) for c in cs}
+        for ctx, app_id in sorted(sources.items()):
+            if not isinstance(app_id, int) or isinstance(app_id, bool) or app_id <= 0:
+                fail("configs", f"{rel}: source for '{ctx}' must be a positive integer "
+                                "integration ID")
+            if ctx not in required:
+                fail("configs", f"{rel}: 'sources' names '{ctx}', which no repo requires")
+
 
 HEX6 = re.compile(r"^[0-9a-fA-F]{6}$")
+LABEL_KEYS = {"name", "color", "description", "repos"}
 
 
 def check_label_palette(rel, doc):
-    """labels.json drives `gh label edit` across every repo in one sweep.
+    """labels.json drives terraform/labels.tf across every repo in one apply.
 
-    A bad hex or a missing key fails partway through, leaving the fleet
+    The GitHub API rejects a bad hex partway through the apply, leaving the fleet
     half-recolored — cheaper to catch here than to unpick afterwards.
     """
     labels = doc.get("labels")
@@ -140,8 +156,21 @@ def check_label_palette(rel, doc):
         if not isinstance(label.get("description"), str):
             fail("configs", f"{where} ('{name}') has no string 'description'")
 
-        if not isinstance(label.get("ensure"), bool):
-            fail("configs", f"{where} ('{name}') needs an explicit boolean 'ensure'")
+        # An unknown key is most likely a misspelt 'repos', and terraform reads a
+        # label without 'repos' as fleet-wide: a typo would put a scoped override
+        # label on every repo in one apply.
+        for key in sorted(set(label) - LABEL_KEYS):
+            fail("configs", f"{where} ('{name}'): unknown key '{key}' — "
+                            f"allowed: {', '.join(sorted(LABEL_KEYS))}")
+
+        if "repos" in label:
+            scope = label["repos"]
+            if (not isinstance(scope, list) or not scope
+                    or not all(isinstance(r, str) and r for r in scope)):
+                fail("configs", f"{where} ('{name}'): 'repos' must be a non-empty array of "
+                                "repo names — omit it for a fleet-wide label")
+            elif len(set(scope)) != len(scope):
+                fail("configs", f"{where} ('{name}'): 'repos' lists a repo twice")
 
 
 SPINE_TOPICS = {"lentago", "claude"}
@@ -277,6 +306,16 @@ def check_fleet_coverage():
             if tier not in tiers:
                 fail("fleet", f"repos.json['{name}'] routes model tier '{tier}', but "
                               f"labels.json defines no 'model:{tier}' label")
+
+    # A scoped label's 'repos' must name repos that exist: terraform would
+    # otherwise drop the stray name without a word and the label would be
+    # missing exactly where its guard expects it.
+    for lb in labels:
+        if not isinstance(lb, dict) or not isinstance(lb.get("repos"), list):
+            continue
+        for name in sorted({r for r in lb["repos"] if isinstance(r, str)} - set(repos)):
+            fail("fleet", f"labels.json scopes '{lb.get('name')}' to '{name}', "
+                          "which is not in repos.json")
 
 
 # ------------------------------------------------------------------- brand

@@ -488,7 +488,7 @@
       "model_labels": []
     },
     "uvularia": {
-      "description": "Uvularia \u2014 the Lentago Labs records vault: a client-owned Obsidian-compatible vault of public records with obligations-as-code, a grounded Ask box that answers only from the records, and a live \"Is it posted?\" compliance board. Three repos, three pipelines. Bellwort: the bell is the announcement.",
+      "description": "Uvularia \u2014 the Lentago Labs records vault: a client-owned Obsidian-compatible vault of public records with obligations-as-code, a source-linked Ask box whose answers cite the records, and a live \"Is it posted?\" compliance board. Three repos, three pipelines. Bellwort: the bell is the announcement.",
       "homepage": null,
       "visibility": "public",
       "template": false,

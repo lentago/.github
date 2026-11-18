@@ -83,5 +83,5 @@ CI noticing.
 
 The fleet's Tidewater **issue-label palette** is not here — it's settings, not
 assets, so it lives with the rest of the settings-as-code in
-[`fleet-ops/labels.json`](../fleet-ops/labels.json) and is applied with
-`fleet-ops/fleet-apply.sh --apply-labels`.
+[`fleet-ops/labels.json`](../fleet-ops/labels.json) and is applied by
+[`terraform/labels.tf`](../terraform/labels.tf) on merge to `main`.
