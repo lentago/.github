@@ -158,6 +158,15 @@ locals {
       can_admins_bypass = true
       branches          = []
     }
+    # Holds the Dependabot sweeper's token (ADR-0016, #346): a fine-grained PAT
+    # authenticating as cpitzi, set out of band. Main-only, so only the
+    # reviewed sweeper on main can read it, and no pull request run can.
+    ".github:dependabot-merge" = {
+      repository        = ".github"
+      environment       = "dependabot-merge"
+      can_admins_bypass = false
+      branches          = ["main"]
+    }
     }, {
     for repo in local.agent_pr_gate_repos : "${repo}:agent-pr-gate" => {
       repository        = repo
