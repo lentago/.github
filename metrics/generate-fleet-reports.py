@@ -28,7 +28,7 @@ Requires: git, gh (authenticated), cloc. Optional: FLEET_REPORTS_GRAFANA_TOKEN (
 Viewer service-account token) for the error-budget section; without it the section is a
 one-line "not configured" note.
 """
-import argparse, json, os, re, subprocess, sys, tempfile, shutil
+import argparse, json, math, os, re, subprocess, sys, tempfile, shutil
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 
@@ -444,12 +444,25 @@ def _range_points(result, worst):
     merged = {}
     for series in result:
         for t, v in series["values"]:
-            t, v = int(float(t)), float(v)
+            t, v = int(float(t)), _finite(v)
             merged[t] = worst(merged[t], v) if t in merged else v
     return sorted(merged.items())
 
+def _finite(v):
+    """A sample value as a float. NaN or ±Inf is an answer the report can't show."""
+    f = float(v)
+    if not math.isfinite(f):
+        raise ValueError(f"non-finite sample {v!r}")
+    return f
+
 def collect_error_budgets(now):
-    """One row per SLO site, or a reason string when the data cannot be had."""
+    """One row per SLO site, or a reason string when the data cannot be had.
+
+    Never raises: the section is optional, so a missing token, a failed query or a
+    response in any shape we don't read returns (None, reason) and the rest of the
+    weekly report still publishes. Everything that could fail on Grafana's data
+    (parsing, validation, date formatting) happens inside the try below, so the
+    renderer only formats values already checked here."""
     token = os.environ.get(GRAFANA_TOKEN_ENV, "").strip()
     if not token:
         return None, "not configured"
@@ -462,8 +475,13 @@ def collect_error_budgets(now):
             for key, expr in slo_exprs(site).items():
                 res = prom_get(token, "query", {"query": expr, "time": end})
                 # More than one probe series for a job: report the worst one.
-                vals = [float(s["value"][1]) for s in res]
+                vals = [_finite(s["value"][1]) for s in res]
                 row[key] = min(vals) if vals else None
+            # A site with no probe data has none of the three; one with only some
+            # of them is a response we can't render.
+            present = [row[k] is not None for k in ("attainment", "remaining", "minutes")]
+            if any(present) and not all(present):
+                raise ValueError(f"incomplete SLO result for {site}")
             row["burns"] = []
             for label, long_w, short_w, threshold, step in BURN_TIERS:
                 pts = [_range_points(prom_get(token, "query_range",
@@ -471,20 +489,25 @@ def collect_error_budgets(now):
                                                "end": end, "step": step}), max)
                        for w in (long_w, short_w)]
                 n, last = burn_episodes(pts[0], pts[1], threshold, step)
-                row["burns"].append((label, n, last))
+                day = (datetime.fromtimestamp(last, timezone.utc).strftime("%Y-%m-%d")
+                       if last is not None else None)
+                row["burns"].append((label, n, day))
             rows.append(row)
     except SloUnavailable as exc:
         return None, str(exc)
-    except (KeyError, IndexError, TypeError, ValueError):
+    except (KeyError, IndexError, TypeError, ValueError, OverflowError, OSError):
         # status "success" but a shape we don't read: degrade like any other failure.
         return None, "unexpected response shape from Grafana Cloud"
+    except Exception as exc:                                  # noqa: BLE001
+        # Anything else is a bug here, not a reason to lose the weekly report. The
+        # reason reaches the run summary as a warning (main()).
+        return None, f"unexpected error ({type(exc).__name__})"
     return rows, None
 
 def _fmt_burns(burns):
     hits = []
-    for label, n, last in burns:
+    for label, n, day in burns:
         if n:
-            day = datetime.fromtimestamp(last, timezone.utc).strftime("%Y-%m-%d")
             hits.append(f"{label} ×{n} (last {day})")
     return " · ".join(hits) if hits else "none"
 
@@ -494,8 +517,10 @@ def error_budget_section(rows, reason):
     L.append("")
     if rows is None:
         if reason == "not configured":
-            L.append(f"_Not configured: the `{GRAFANA_TOKEN_ENV}` secret is unset, so this run did not query "
-                     "Grafana Cloud (setup: [`fleet-reports.yml`](../.github/workflows/fleet-reports.yml))._")
+            L.append(f"_Unavailable this run: not configured. The `{GRAFANA_TOKEN_ENV}` secret is unset, so "
+                     "this run did not query Grafana Cloud (setup: "
+                     "[`fleet-reports.yml`](../.github/workflows/fleet-reports.yml)). "
+                     "The rest of the report is unaffected._")
         else:
             L.append(f"_Unavailable this run: {_esc(reason)}. The rest of the report is unaffected._")
         L.append("")
