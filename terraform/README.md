@@ -49,18 +49,35 @@ this, and the constraint it guards is the one that deadlocks repos — see
 Two identities, neither of them stored in this tree.
 
 **GitHub** — the provider reads `$GITHUB_TOKEN`. It needs repo administration on
-every fleet repo (settings, topics, rulesets, labels) plus permission to create
-repositories in the org. Mint a fine-grained PAT scoped to `lentago`, all repos:
+every fleet repo (settings, topics, rulesets, labels), permission to create
+repositories in the org, and the ability to resolve a GitHub App's node id for
+the merge gate's App allowances. Mint a **classic** PAT as `cpitzi` with exactly
+these scopes:
 
-| Permission | Level |
+| Scope | Why |
 |---|---|
-| Repository → Administration | Read and write |
-| Repository → Metadata | Read |
-| Repository → Issues | Read and write |
-| Organization → Administration | Read and write. Used only to create repositories. The level also admits org-settings writes; this tree deliberately never exercises them, so org settings stay human-applied (decided in lentago/.github#176) |
+| `repo` | Repository settings, rulesets, branch protection, labels. |
+| `admin:org` | Creating repositories in the org, and resolving App nodes for `gate_extra_allowances`. The scope also admits org-settings writes. This tree deliberately never exercises them, so org settings stay human-applied (decided in lentago/.github#176). |
+
+Set an expiry and record it in
+[`fleet-reports/lock-in/renewals.yml`](../fleet-reports/lock-in/renewals.yml).
 
 Deliberately **not** `delete_repo`. Without it the token physically cannot
 delete a repository, which is the outermost rail below.
+
+**Why classic, against ADR-0011 rule 2.** A fine-grained PAT cannot resolve a
+GitHub App's node id. #224's App allowance failed on apply for that reason, and
+the provider could not read the allowance back either (#225). The maintainer
+chose the classic PAT on 2026-11-17 (#225, option B). It is broader than the
+fine-grained token it replaced, in two ways:
+
+- `repo` reaches every repository the operator can reach, including personal
+  private ones outside the org.
+- The token is a repository secret, so a workflow on any branch of this
+  repository can read it.
+
+The exception is recorded in
+[ADR-0003's amendment of 2026-11-17](../docs/adr/0003-merge-gate-push-allowlist.md#amendment-2026-11-17).
 
 ```bash
 export GITHUB_TOKEN='github_pat_…'
@@ -80,8 +97,8 @@ handing it a trigger.
 runs on merge, and `gate` (required via `required-checks.json`) blocks the merge
 on a red plan. Credentials: the `dotgithub-github-actions-terraform` OIDC role
 in solidago (S3 r/w on this repo's state key + the lock table, nothing else) and
-the fleet admin PAT as the repo secret `FLEET_ADMIN_TOKEN` (Administration +
-Issues RW, org Administration RW, deliberately no `delete_repo`). Dependabot
+the fleet admin PAT as the repo secret `FLEET_ADMIN_TOKEN` (a classic PAT with
+`repo` and `admin:org`, deliberately no `delete_repo`; see § Auth). Dependabot
 PRs skip `plan` (separate secrets store — the skip counts as pass for `gate`).
 
 Operator applies remain possible for surgery (targeted applies, state moves) —
@@ -211,8 +228,9 @@ The state removal is the deliberate step that says "this is intentional."
 in every public repo: only `cpitzi` (org owner) can update the ref — direct
 push or PR merge. Contributors work from forks and open PRs; an owner reviews
 and arms auto-merge. No permission level reaches `main` — the allowlist, not
-the permission level, decides who updates the ref. No repo
-carries an extra allowance today; `gate_extra_allowances` in `locals.tf` is the
+the permission level, decides who updates the ref. The three uvularia
+template repos also admit the `lentago-template-sync` App, so its sync PRs can
+arm auto-merge (#224, #225). `gate_extra_allowances` in `locals.tf` is the
 extension point, and its comment records what GitHub will and will not accept
 there.
 

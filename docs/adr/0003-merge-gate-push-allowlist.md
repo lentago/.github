@@ -1,6 +1,6 @@
 # ADR-0003: The merge gate is a classic branch-protection push allowlist, not ruleset bypass
 
-**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22 and 2026-08-27 — see [Amendment (2026-08-22)](#amendment-2026-08-22) and [Amendment (2026-08-27)](#amendment-2026-08-27))
+**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22, 2026-08-27 and 2026-11-17 — see [Amendment (2026-08-22)](#amendment-2026-08-22), [Amendment (2026-08-27)](#amendment-2026-08-27) and [Amendment (2026-11-17)](#amendment-2026-11-17))
 
 ## Context
 
@@ -131,3 +131,36 @@ be able to change org-wide membership defaults on the back of an unrelated merge
 org settings stay human-applied and outside `terraform/`, and the token annotation in
 `terraform/README.md` § Auth says so. That is a decision about the rails, not a gap in
 the gate.
+
+## Amendment (2026-11-17)
+
+**The fleet Terraform's token becomes a classic PAT, so App allowances can be
+declared.** The first App allowance under `gate_extra_allowances`, for
+`lentago-template-sync` on the three uvularia template repos (#224), failed on
+apply: the fine-grained `FLEET_ADMIN_TOKEN` could not resolve the App's node id,
+and the provider could not read the allowance back. An org owner added the
+allowance live through the REST endpoint, and it stayed out of config. Any later
+change to those repos' allowlist would have dropped it silently (#225).
+
+The maintainer chose #225's option B on 2026-11-17: `FLEET_ADMIN_TOKEN` is
+re-minted as a classic PAT with `repo` and `admin:org`, still without
+`delete_repo`. The three allowances return to config, and the post-apply
+convergence check (Amendment 2026-08-22) now covers them.
+
+**ADR-0011 rule 2 exception.** The classic token is broader than the
+fine-grained one it replaces. ADR-0011 asks for exceptions to be recorded in the
+repo's own ADR, so it is recorded here:
+
+- `repo` reaches every repository the operator can reach, including personal
+  private repositories outside the org.
+- `admin:org` admits organisation-settings writes. This tree still never
+  exercises them (#176).
+- It is a repository secret, so a workflow on any branch of this repository can
+  read it.
+
+The token carries an expiry recorded in `fleet-reports/lock-in/renewals.yml`.
+`terraform/README.md` § Auth gives its form.
+
+**Revisit** if the token is ever found used outside the `terraform` workflow, or
+when running the fleet Terraform as a GitHub App installation (#225's option A,
+short-lived tokens scoped to the org) is worth the setup.
