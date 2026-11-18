@@ -75,6 +75,20 @@ renewals:
       Mail for @lentago.dev. Lapse means mail delivery stops; because the domain
       is ours, migrating providers is possible but not instant — hence the lead.
 
+  - id: credential-dependabot-merge-pat
+    name: "DEPENDABOT_MERGE_TOKEN — fine-grained PAT expiry"
+    category: credential
+    next_due: 2027-11-19
+    cadence: one-off
+    owner: chris@lentago.dev
+    lead_days: 14
+    notes: >
+      The Dependabot sweeper (ADR-0016) merges with this fine-grained PAT, an
+      environment secret in .github's main-only dependabot-merge environment (the
+      value is NOT here). When it expires the sweeper fails fast at its token
+      check. Rotate by minting the same form (ADR-0016 Decision 3) and resetting
+      the secret before the date, then dispatch a dry run to verify.
+
   - id: credential-fleet-reports-pat
     name: "FLEET_REPORTS_TOKEN — fine-grained PAT expiry"
     category: credential
