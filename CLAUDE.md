@@ -86,6 +86,7 @@ CI does: `python3 ci/validate.py`):
 | `brand` | `brand/generated/` is reproducible from `brand/fleet.json` — the banners are copied verbatim into 15 repos, so a hand-edit forks the identity |
 | `census` | `metrics/generate-fleet-reports.py` imports; its data/code and markdown classifiers route known paths correctly |
 | `budget` | the fleet report's site error-budget section sends its pinned copy of drosera's SLO PromQL (CI does not read drosera, so upstream drift is not caught here), counts burn stretches right, and degrades to one "Unavailable" line, never an exception, on a missing token, a failed query or an unexpected response |
+| `sweeper` | `fleet-ops/dependabot-sweeper.py`'s gate (ADR-0016) still decides known cases right: majors, 0.x minors, missing metadata, foreign or unverified commits and the sweeper's own files are refused, and a green patch/minor group passes. A wrong pass here is a merge |
 | `register` | `fleet-reports/incidents.md` is reproducible from `fleet-reports/incidents/` — it is generated, never hand-edited |
 
 **Relative markdown links are not checked here.** That check lived in `validate.py`

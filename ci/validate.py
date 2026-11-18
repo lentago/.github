@@ -23,6 +23,11 @@ org landing page. Those have real failure modes, and this asserts against them:
             not a change upstream), and degrades to one "Unavailable" line, never
             an exception, on a missing token, a failed query or a response in any
             shape it doesn't read.
+  sweeper   fleet-ops/dependabot-sweeper.py's gate (ADR-0016) still decides known
+            cases right: it reads Dependabot's updated-dependencies block, refuses
+            majors, 0.x minors, missing or unreadable metadata, foreign authors,
+            unverified commits, other-repo heads and the sweeper's own files, and
+            passes a green patch/minor group. A wrong "pass" here is a merge.
   register  fleet-reports/incidents.md is reproducible from fleet-reports/incidents/.
             It is generated, not hand-authored; a hand-edit here is a change that the
             next weekly refresh silently reverts.
@@ -636,6 +641,94 @@ def check_error_budget_degrades(gen):
             fail("budget", f"{label}: a set token was reported as not configured")
 
 
+# ------------------------------------------------------------------ sweeper
+def _dep_msg(*entries, terminator="..."):
+    body = ["build(deps): bump things", "", "Bumps things.", "", "---", "updated-dependencies:"]
+    for e in entries:
+        first = True
+        for k, v in e.items():
+            body.append(("- " if first else "  ") + f"{k}: {v}")
+            first = False
+    if terminator:
+        body.append(terminator)
+    body += ["", "Signed-off-by: dependabot[bot] <support@github.com>"]
+    return "\n".join(body)
+
+
+def _dep(name, kind, version="1.2.3"):
+    e = {"dependency-name": name}
+    if version is not None:
+        e["dependency-version"] = version
+    e["dependency-type"] = "direct:production"
+    if kind is not None:
+        e["update-type"] = f"version-update:semver-{kind}"
+    return e
+
+
+def _pr(author="dependabot[bot]", head_repo="lentago/x", base="main", draft=False, sha="a" * 40):
+    return {"user": {"login": author}, "draft": draft, "number": 1,
+            "head": {"repo": {"full_name": head_repo}, "sha": sha},
+            "base": {"ref": base, "repo": {"full_name": "lentago/x", "default_branch": "main"}}}
+
+
+def _commit(msg, author="dependabot[bot]", verified=True, sha="a" * 40):
+    return {"sha": sha, "author": {"login": author},
+            "commit": {"message": msg, "verification": {"verified": verified}}}
+
+
+_GREEN = _dep_msg(_dep("actions/checkout", "patch", "7.0.2"), _dep("lentago/sw/x.yml", "minor", "1.6.0"))
+
+# (label, pr, commits, files, repo, passes?)
+SWEEPER_CASES = [
+    ("green patch+minor group", _pr(), [_commit(_GREEN)], [{"filename": ".github/workflows/ci.yml"}], "x", True),
+    ("a major in the group", _pr(), [_commit(_dep_msg(_dep("a", "patch"), _dep("b", "major", "2.0.0")))], [], "x", False),
+    ("0.x minor", _pr(), [_commit(_dep_msg(_dep("a", "minor", "0.4.0")))], [], "x", False),
+    ("0.x patch", _pr(), [_commit(_dep_msg(_dep("a", "patch", "0.4.1")))], [], "x", True),
+    ("v-prefixed 1.x minor", _pr(), [_commit(_dep_msg(_dep("a", "minor", "v1.4.0")))], [], "x", True),
+    ("minor without version", _pr(), [_commit(_dep_msg(_dep("a", "minor", None)))], [], "x", False),
+    ("missing update-type", _pr(), [_commit(_dep_msg(_dep("a", None)))], [], "x", False),
+    ("no metadata block", _pr(), [_commit("build(deps): bump a\n\nno block here")], [], "x", False),
+    ("unterminated block", _pr(), [_commit(_dep_msg(_dep("a", "patch"), terminator=None))], [], "x", False),
+    ("not Dependabot's PR", _pr(author="cpitzi"), [_commit(_GREEN)], [], "x", False),
+    ("foreign commit on the PR", _pr(), [_commit(_GREEN), _commit(_GREEN, author="lentago-claude-runner[bot]")], [], "x", False),
+    ("unverified commit", _pr(), [_commit(_GREEN, verified=False)], [], "x", False),
+    ("head in another repo", _pr(head_repo="someone/x"), [_commit(_GREEN)], [], "x", False),
+    ("base not default branch", _pr(base="release"), [_commit(_GREEN)], [], "x", False),
+    ("draft", _pr(draft=True), [_commit(_GREEN)], [], "x", False),
+    ("touches the sweeper workflow", _pr(), [_commit(_GREEN)],
+     [{"filename": ".github/workflows/dependabot-sweeper.yml"}], ".github", False),
+    ("touches the sweeper script", _pr(), [_commit(_GREEN)],
+     [{"filename": "fleet-ops/dependabot-sweeper.py"}], ".github", False),
+    ("same path in another repo is fine", _pr(), [_commit(_GREEN)],
+     [{"filename": "fleet-ops/dependabot-sweeper.py"}], "x", True),
+    ("head moved while reading", _pr(sha="b" * 40), [_commit(_GREEN)], [], "x", False),
+]
+
+
+def check_sweeper_gate():
+    path = os.path.join(ROOT, "fleet-ops", "dependabot-sweeper.py")
+    try:
+        spec = importlib.util.spec_from_file_location("dependabot_sweeper", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception as exc:                                  # noqa: BLE001
+        fail("sweeper", f"fleet-ops/dependabot-sweeper.py failed to import — {exc}")
+        return
+    entries = mod.parse_updated_dependencies(_GREEN)
+    if not entries or [e["dependency-name"] for e in entries] != ["actions/checkout", "lentago/sw/x.yml"]:
+        fail("sweeper", f"parse_updated_dependencies() misread a two-entry block: {entries!r}")
+    for label, pr, commits, files, repo, passes in SWEEPER_CASES:
+        try:
+            problem = mod.pr_problem(pr, commits, files, repo)
+        except Exception as exc:                              # noqa: BLE001
+            fail("sweeper", f"{label}: pr_problem raised {type(exc).__name__}: {exc}")
+            continue
+        if passes and problem is not None:
+            fail("sweeper", f"{label}: expected to pass, refused with {problem!r}")
+        elif not passes and problem is None:
+            fail("sweeper", f"{label}: expected a refusal, but it passed (that would be a merge)")
+
+
 # ------------------------------------------------------------------ register
 GENERATED_LINE = re.compile(r"^\*\*Generated:\*\*")
 
@@ -691,6 +784,7 @@ CHECKS = [
     ("brand", check_brand_assets),
     ("census", check_census_classifier),
     ("budget", check_error_budget_section),
+    ("sweeper", check_sweeper_gate),
     ("register", check_incident_register_reproducible),
 ]
 
