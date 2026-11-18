@@ -1,6 +1,6 @@
 # ADR-0003: The merge gate is a classic branch-protection push allowlist, not ruleset bypass
 
-**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22 and 2026-08-27 — see [Amendment (2026-08-22)](#amendment-2026-08-22) and [Amendment (2026-08-27)](#amendment-2026-08-27))
+**Status:** Accepted (2026-08-12; reconstructed 2026-08-13; amended 2026-08-22, 2026-08-27 and 2026-11-17 — see [Amendment (2026-08-22)](#amendment-2026-08-22), [Amendment (2026-08-27)](#amendment-2026-08-27) and [Amendment (2026-11-17)](#amendment-2026-11-17))
 
 ## Context
 
@@ -131,3 +131,56 @@ be able to change org-wide membership defaults on the back of an unrelated merge
 org settings stay human-applied and outside `terraform/`, and the token annotation in
 `terraform/README.md` § Auth says so. That is a decision about the rails, not a gap in
 the gate.
+
+## Amendment (2026-11-17)
+
+**The fleet Terraform's token becomes a classic PAT, so App allowances can be
+declared.** The first App allowance under `gate_extra_allowances`, for
+`lentago-template-sync` on the three uvularia template repos (#224), failed on
+apply: the fine-grained `FLEET_ADMIN_TOKEN` could not resolve the App's node id,
+and the provider could not read the allowance back. An org owner added the
+allowance live through the REST endpoint, and it stayed out of config. Any later
+change to those repos' allowlist would have dropped it silently (#225).
+
+The maintainer chose #225's option B on 2026-11-17: `FLEET_ADMIN_TOKEN` is
+re-minted as a classic PAT with `repo` and `admin:org`, still without
+`delete_repo`. It is minted from `cjpitzi`, the org's existing second owner,
+not from the operator's main account; the secret was replaced on 2026-11-18. The
+three allowances return to config, and the post-apply convergence check
+(Amendment 2026-08-22) now covers them.
+
+**ADR-0011 rules 1 and 2 exception.** ADR-0011 asks for exceptions to be
+recorded in the repo's own ADR, so this is where it goes.
+
+- *Rule 1:* a long-lived token where an App's short-lived installation tokens
+  would serve. The reason is a provider limitation: under the fine-grained token
+  the App node could not be resolved. #225's option A, running the fleet
+  Terraform as a GitHub App installation, stays the preferred route.
+- *Rule 2:* the classic token is broader than the fine-grained one it replaces.
+  It reaches everything `cjpitzi` can reach:
+  - every `lentago` repository, where `repo` is full control rather than the
+    settings permissions the fine-grained token held;
+  - the organisation's settings, through `admin:org`, which this tree still
+    never writes (#176);
+  - `cjpitzi`'s own repositories (publicly, three archived ones).
+
+  A token from the operator's main account would have reached his personal
+  private repositories as well. It is a repository secret, so a workflow on any
+  branch of this repository can read it; #352 closes the plan-on-PR path.
+
+**Owners and the gate.** `cjpitzi` was already an org owner, so this change adds
+no owner. This gate's classic protection leaves `enforce_admins` off, so any
+owner can pass the push allowlist without being named on it. The `main` ruleset
+still requires a pull request and green checks of everyone. The token adds no
+path to `main` that it lacked before, because it manages this gate. That every
+merge lands through `cpitzi` therefore rests on a convention, not on anything
+this tree enforces: no other owner merges, and this token is used only by the
+`terraform` workflow. `cjpitzi`'s membership and role are live org settings that
+this tree doesn't manage (#176).
+
+The token carries an expiry recorded in `fleet-reports/lock-in/renewals.yml`.
+`terraform/README.md` § Auth gives its form.
+
+**Revisit** if the token is ever found used outside the `terraform` workflow, or when running the fleet Terraform as a
+GitHub App installation (#225's option A, short-lived tokens scoped to the org)
+is worth the setup.

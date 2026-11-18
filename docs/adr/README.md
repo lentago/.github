@@ -18,7 +18,7 @@ the time"*), so the historical record is not confused with hindsight.
 | :-- | :-- | :-- |
 | [0001](0001-fleet-ops-in-org-meta-repo.md) | Fleet governance tooling lives in the org `.github` meta-repo | 2026-06-20 |
 | [0002](0002-declarative-terraform-settings-as-code.md) | Settings-as-code migrated from imperative sweep to declarative Terraform, incrementally | 2026-08-11 |
-| [0003](0003-merge-gate-push-allowlist.md) | The merge gate is a classic branch-protection push allowlist, not ruleset bypass | 2026-08-12 |
+| [0003](0003-merge-gate-push-allowlist.md) | The merge gate is a classic branch-protection push allowlist, not ruleset bypass (amended 2026-11-17: the fleet Terraform's token becomes a classic PAT so App allowances can be declared, an ADR-0011 rule 2 exception) | 2026-08-12 |
 | [0004](0004-per-repo-rulesets-free-tier.md) | Per-repo rulesets under the Free plan; org ruleset parked, free tier as policy | 2026-06-15 |
 | [0005](0005-incident-register-publishes-verbatim.md) | The incident register publishes verbatim | 2026-07-13 |
 | [0006](0006-required-link-checker-shared-resolver.md) | A link checker is required on every repo, from one shared resolver | 2026-07-25 |
