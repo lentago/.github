@@ -1,11 +1,10 @@
-# ADR-0016: Dependabot patch and minor updates are a routine that merges on a deterministic gate, through a dedicated merge App
+# ADR-0016: Dependabot patch and minor updates are a routine that merges on a deterministic gate, under the operator's identity
 
-**Status:** Proposed (2026-11-17). Records the maintainer's decision of
-2026-11-17 on [#346](https://github.com/lentago/.github/issues/346) (option C: a
-standing rule, codified in this repository) and the design posted there. It
-becomes Accepted once the maintainer has decided on the merge identity
-(Decision 3) and on the token fix in
-[#225](https://github.com/lentago/.github/issues/225).
+**Status:** Accepted (2026-11-17). Records the maintainer's decisions of
+2026-11-17 on [#346](https://github.com/lentago/.github/issues/346). The rule is
+option C, a standing rule codified in this repository. The merge identity is a
+fine-grained personal access token that authenticates as the operator, chosen
+over a dedicated GitHub App (see Alternatives).
 
 ## Context
 
@@ -42,12 +41,6 @@ becomes Accepted once the maintainer has decided on the merge identity
   opted-in scheduled routines merge on their deterministic gate alone. Its
   point 4 defines that gate for one kind of routine only: runner-App PRs armed
   by `cr-automerge`.
-- **App allowances cannot be applied today.** The fine-grained
-  `FLEET_ADMIN_TOKEN` that runs this repository's Terraform cannot resolve a
-  GitHub App's node id. The first App allowance
-  ([#224](https://github.com/lentago/.github/pull/224)) failed on apply for
-  that reason, and [#225](https://github.com/lentago/.github/issues/225) holds
-  the fix.
 
 ## Decision
 
@@ -74,37 +67,38 @@ becomes Accepted once the maintainer has decided on the merge identity
    - It changes no file the sweeper itself runs: its workflow and any script
      that workflow calls. An update to an action the sweeper uses therefore stays
      manual. Otherwise the sweeper could merge a change to its own code, unread,
-     and run it with the key on the next run.
+     and run it with the token on the next run.
    - Its `mergeStateStatus` is `CLEAN` at that head: the required status checks
      are green and, where the ruleset is strict, the branch is up to date.
    - The merge call carries the head that was evaluated:
-     `gh pr merge --squash --match-head-commit <sha>`.
+     `gh pr merge --squash --match-head-commit <sha>`, and never `--admin`.
 
    The required status checks remain the merge gate. The ruleset enforces them
-   at merge time, and the merge App is not a bypass actor. The sweeper merges
+   at merge time, and the sweeper never asks to bypass them. The sweeper merges
    only when the PR is already `CLEAN` and leaves nothing armed between runs.
    ADR-0014 point 5 therefore holds without a disarm step: if anything is pushed
    after the evaluation, the merge call fails.
 
-3. **The merge identity.** The sweeper merges as a dedicated GitHub App,
-   `lentago-dependabot-merge`, and as nothing else.
-   - The App is private, with no webhook. It has Contents and Pull requests
-     write, and Metadata read. GitHub may refuse to let an App merge a PR that
-     edits `.github/workflows/`, which every `actions-routine` PR does, unless
-     the App also has Workflows write. Workflows write is added only if the
-     first such merge is refused without it.
-   - Each run mints installation tokens per repository, narrowed to the
-     permissions the call needs. Listing and reading use read-only tokens.
-   - It is installed on every fleet repository.
-   - Its private key lives in one place: a secret in this repository's
-     `dependabot-merge` environment, which deploys from `main` only. Terraform
-     creates the environment, and the key is set out of band
+3. **The merge identity.** The sweeper authenticates with a fine-grained personal
+   access token that the operator mints, so its merges carry the operator's
+   identity, `cpitzi`, which is already the merge gate's one actor.
+   - **Scope.** The resource owner is `lentago`, with access to only the
+     repositories in [`fleet-ops/repos.json`](../../fleet-ops/repos.json).
+     Repository permissions: Contents and Pull requests read and write, plus
+     Metadata read. GitHub may refuse a merge that edits `.github/workflows/`,
+     which every `actions-routine` PR does, unless the token also has Workflows
+     write. Workflows write is added only if the first such merge is refused
+     without it.
+   - **Expiry.** At most one year. The expiry date goes into
+     [`fleet-reports/lock-in/renewals.yml`](../../fleet-reports/lock-in/renewals.yml)
+     when the token is minted, so the renewal calendar opens an issue before it
+     lapses.
+   - **Store.** The token is a secret in this repository's `dependabot-merge`
+     environment, which deploys from `main` only. Terraform creates the
+     environment, and the value is set out of band
      ([ADR-0011](0011-fleet-secrets-handling.md) rule 4).
-   - It is on the push allowlist of `main` on every repository in scope, through
-     `gate_extra_allowances`, declared by its next-format node id. Each allowance
-     is verified with the read-back command in
-     [`terraform/locals.tf`](../../terraform/locals.tf) and with the apply job's
-     post-apply convergence check.
+   - **No gate change.** `gate_extra_allowances` stays empty, so this rule does
+     not depend on [#225](https://github.com/lentago/.github/issues/225).
 
 4. **The mechanism.** One workflow in this repository runs hourly, plus on
    `workflow_dispatch` with a dry-run input, and only from `main`. It walks the
@@ -113,43 +107,57 @@ becomes Accepted once the maintainer has decided on the merge identity
    kits gain no files.
    - It uses as few third-party actions as it can, each pinned by commit SHA.
      It never checks out or runs a pull request's content.
-   - **Audit.** Every run lists the PRs merged by the App in the last 30 days.
-     If any of them was not authored by `dependabot[bot]`, the run fails. A
-     merge like that is an incident.
    - **Strict repositories.** In a repository whose ruleset requires branches
      to be up to date ([#266](https://github.com/lentago/.github/issues/266)),
      one merge leaves the rest of the batch behind `main`. For a PR that is
      behind, the sweeper comments `@dependabot rebase` and merges at the new
      head on a later run. It never updates the branch itself, because a push by
-     anyone else makes Dependabot stop managing the PR. The sweeper also merges
-     at most one PR per strict repository per run.
-   - **Scope** is every repository in
-     [`fleet-ops/repos.json`](../../fleet-ops/repos.json). Terraform derives the
-     allowances from that file and the sweeper reads the same file, so the two
-     cannot drift apart. No repository is excluded today.
+     anyone else makes Dependabot stop managing the PR. It merges at most one PR
+     per strict repository per run.
+   - **Scope** is every repository in `fleet-ops/repos.json`. The token's
+     repository list is cut from the same file, and a repository the token
+     cannot reach turns the run red, so the two cannot drift apart silently. No
+     repository is excluded today.
+
+5. **The audit trail.** A merge under the operator's identity looks like the
+   operator's own merge, so every sweeper merge is marked as the sweeper's:
+   - Before merging, the sweeper comments on the PR, naming this ADR, the run
+     that merged it and the head it evaluated.
+   - The squash commit's message ends with the trailer
+     `Merged-by-routine: dependabot-sweeper` and the run's URL.
+   - Every run lists the merges of the last 30 days that carry the trailer. If
+     any of them was not authored by `dependabot[bot]`, the run fails. A merge
+     like that is an incident.
 
 ## Alternatives
 
+- **A dedicated GitHub App, `lentago-dependabot-merge`, added to every
+  repository's merge-gate allowlist.** Weighed and not chosen; the maintainer
+  picked the token on 2026-11-17. An App would have given the sweeper's merges a
+  distinct identity (`mergedBy` would name it) and short-lived installation
+  tokens (ADR-0011 rule 1). It would also have needed:
+  - an App to mint, install and keep;
+  - a second actor on the merge gate of every repository, the first fleet-wide
+    use of `gate_extra_allowances`;
+  - [#225](https://github.com/lentago/.github/issues/225) fixed first, because
+    the fleet Terraform's token could not then declare an App allowance.
 - **Per-repository callers of a reusable workflow, triggered on
   `pull_request`.** This was #346's first sketch. Rejected:
-  - A Dependabot-triggered run can reach the key only as a Dependabot secret.
+  - A Dependabot-triggered run can reach a credential only as a Dependabot
+    secret.
   - It runs the workflow file from the PR's own merge ref. A Dependabot PR that
     bumps an action used in that run would execute the new version, which nobody
-    has reviewed, with the merge key in reach.
+    has reviewed, with the merge credential in reach.
 - **The same callers, triggered on `pull_request_target`.** Rejected. The
-  workflow code would be reviewed, but the key would become an Actions secret in
-  25 repositories, readable by any workflow in them. The kits would also need
-  vendored copies, because they carry no cross-org workflows.
+  workflow code would be reviewed, but the credential would become an Actions
+  secret in 25 repositories, readable by any workflow in them. The kits would
+  also need vendored copies, because they carry no cross-org workflows.
 - **Auto-merge armed with `GITHUB_TOKEN`, with `github-actions` allowlisted.**
   Not possible: that identity is not an eligible push actor (ADR-0003, amendment
   of 2026-08-22). Not wanted either: every workflow would gain a path to `main`.
 - **Reuse an existing App.** Rejected. The runner App and `claude` write code.
   `lentago-template-sync` and `lentago-pr-gate` each serve one job, and widening
   either would make its key a fleet-wide merge credential with a second purpose.
-- **A personal access token authenticating as `cpitzi`.** Rejected. It merges as
-  the gate's own actor, so the record could not tell a routine merge from the
-  operator's. It is also a long-lived credential where an App identity serves
-  (ADR-0011 rules 1 and 2).
 - **Arm and wait (`gh pr merge --auto --match-head-commit`).** Rejected.
   Auto-merge stays enabled when someone with write access pushes. A Dependabot
   rebase, a group refresh or any other write-holder's push between two sweeps
@@ -159,38 +167,42 @@ becomes Accepted once the maintainer has decided on the merge identity
 
 ## Consequences
 
-- **A second actor on every gate.** `main` on every fleet repository admits
-  `cpitzi` and `lentago-dependabot-merge`. This is the first fleet-wide use of
-  `gate_extra_allowances`, the extension point ADR-0003 kept for this purpose.
-  ADR-0003's decision stands.
-- **What a leaked key could do.** This is the first key outside a person's hands
-  that can both write to a branch and pass the merge gate. Whoever held it could
-  open a pull request, or push to an existing one, and merge it once its
-  required checks were green, in any repository in scope, with no review. It
-  still could not push to `main` directly or bypass the required checks. That
-  is the same concern that rules out widening an existing App (Alternatives),
-  and this design answers it in four ways:
-  - the key exists in one place, a main-only environment that no pull
-    request's content ever reaches;
-  - tokens are short-lived and narrowed for each call;
-  - every run audits the App's merges, so one that Dependabot did not author
-    turns the run red;
-  - revoking the key or uninstalling the App ends it at once.
+- **The merge gate is unchanged.** `cpitzi` stays its one actor, and
+  `gate_extra_allowances` stays empty. ADR-0003 is untouched.
+- **Merges carry the operator's identity.** On GitHub, `mergedBy` on a sweeper
+  merge is `cpitzi`, the same as on a merge the operator armed. Point 5's
+  comment and trailer are what tell them apart, and the audit holds the sweeper
+  to them. A merge made with the token outside the sweeper carries neither mark,
+  so the record cannot tell it from the operator's own.
+- **ADR-0011 rule 1 exception.** Rule 1 prefers an App's short-lived tokens for
+  automation that acts on GitHub, and asks a new long-lived credential for a
+  reason. This token is that exception, recorded here as ADR-0011 requires.
+  Rule 2 still holds: the token reaches only the fleet repositories, with two
+  permissions (three if Workflows proves needed), and expires within a year.
+- **What a leaked token could do.** Whoever held it could act as the operator in
+  any repository in scope, with no review:
+  - open a pull request, or push to an existing one, and merge it once its
+    required checks were green;
+  - comment as the operator.
 
-  The runner App's key already allows the first half (writing branches and
-  opening pull requests). Merging is what this key adds.
+  It could not push to `main` directly or bypass the required checks, and it
+  reaches nothing outside the fleet repositories. Four things limit it:
+  - the token exists in one place, a main-only environment that no pull
+    request's content ever reaches;
+  - it expires within a year;
+  - revoking it ends it at once;
+  - the audit catches misuse only through the sweeper. A leaked token used
+    elsewhere would leave no mark, which is the cost of the operator's identity
+    named above.
 - **Order of work.**
-  1. #225 is fixed first. Until then the allowance cannot be applied.
-  2. The maintainer mints and installs the App and sets its key.
-  3. The allowances and the environment land in one PR here, and #225's three
-     template-sync allowances come back into config in the same pass.
+  1. This record.
+  2. A PR here creates the `dependabot-merge` environment (main-only).
+  3. The operator mints the token to the form in Decision 3, stores it in that
+     environment, and records its expiry in `renewals.yml`.
   4. The sweeper lands in dry-run, its list is checked against the open backlog,
      and then it starts merging.
-  5. The first live merges are verified: `mergedBy` is the App, and the backlog
-     drains.
-- **Rebase requests from an App.** Whether Dependabot honours `@dependabot
-  rebase` from an App is verified on the first dry-run. If it does not, the
-  sweeper reports the PRs that are behind and a person posts the comment.
+  5. The first live merges are verified: each carries the comment and the
+     trailer, and the backlog drains.
 - **The promise.** The profile and `CONTRIBUTING.md` already say that opted-in
   scheduled routines merge on their deterministic gate alone, so their wording
   does not change. This record names Dependabot as the second such routine.
@@ -201,13 +213,15 @@ becomes Accepted once the maintainer has decided on the merge identity
   semantic versioning, and the required checks are the only test. The
   maintainer accepted that trade on 2026-11-17. A major still gets read.
 - **Kit adopters.** A client estate built from a kit does not get this rule. An
-  adopter who wants it mints their own App in their own org
+  adopter who wants it sets up their own sweeper and credential in their own org
   ([ADR-0007](0007-client-owned-delivery-no-multi-tenant-saas.md)). That would
   be a kit feature, with its own issue.
 - **Revisit** in any of these cases:
   - a patch or minor that this rule merged causes an incident (a register entry
     with `Deployment-caused: yes`);
-  - an estate switches to two-reviewer mode, where a review-count rule would
-    hold these PRs and the exemption has to be a check (ADR-0014 point 6);
+  - a second human gains write access, because merges under the operator's
+    identity then blur two people's records, and in two-reviewer mode a
+    review-count rule would hold these PRs (ADR-0014 point 6);
+  - the token is ever found used outside the sweeper;
   - the sweeper ever lists a major as eligible. That would be a defect in the
     gate, and the sweeper stops until it is fixed.
