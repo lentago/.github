@@ -1,0 +1,67 @@
+# ============================================================================
+# dependabot-sweeper — merges Dependabot patch and minor PRs fleet-wide
+# ============================================================================
+# The routine ADR-0016 records (docs/adr/0016-dependabot-patch-minor-routine.md,
+# #346). The gate and the audit live in fleet-ops/dependabot-sweeper.py; this
+# file only runs it.
+#
+# - Runs from `main` only, in the `dependabot-merge` environment, which deploys
+#   from `main` only and holds DEPENDABOT_MERGE_TOKEN: a fine-grained PAT that
+#   authenticates as cpitzi (ADR-0016 Decision 3; terraform/locals.tf).
+# - Checks out this repository's own `main` for the script and
+#   fleet-ops/repos.json. It never checks out or runs a pull request's content.
+# - Its only third-party action is actions/checkout, pinned by SHA. A Dependabot
+#   PR that bumps it, or that touches this file or the script, is never merged
+#   by the sweeper; those stay manual (ADR-0016 Decision 2).
+#
+# Rollout (ADR-0016, order of work): this first version is dispatch-only and
+# defaults to a dry run, which lists what it would merge or rebase and changes
+# nothing. A later PR adds the hourly schedule in merge mode, once a dry run has
+# been checked against the open backlog. The first dispatched dry run is also
+# ADR-0011 rule 5's check that the token works.
+# ============================================================================
+
+name: dependabot-sweeper
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run lists decisions and changes nothing; merge comments, rebases and merges"
+        type: choice
+        options: [dry-run, merge]
+        default: dry-run
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependabot-sweeper
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: dependabot-merge
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Verify DEPENDABOT_MERGE_TOKEN
+        env:
+          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::DEPENDABOT_MERGE_TOKEN is empty. Store it in the dependabot-merge environment (ADR-0016 Decision 3)."
+            exit 1
+          fi
+
+      - name: Sweep
+        env:
+          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
+          MODE: ${{ inputs.mode || 'dry-run' }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 fleet-ops/dependabot-sweeper.py --mode "$MODE" --run-url "$RUN_URL"

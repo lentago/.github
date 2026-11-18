@@ -17,6 +17,19 @@ org landing page. Those have real failure modes, and this asserts against them:
   census    metrics/generate-fleet-reports.py imports, and its data/code classifier
             still routes known paths correctly (regression cover for #59, where a
             JSON-only carve-out counted 15,595 lines of CSV exports as source).
+  budget    the site error-budget section counts burn stretches correctly, sends
+            the PromQL pinned below (a copy of drosera's SLO board and burn rules:
+            CI does not read drosera, so this catches a change to the generator,
+            not a change upstream), and degrades to one "Unavailable" line, never
+            an exception, on a missing token, a failed query or a response in any
+            shape it doesn't read.
+  sweeper   fleet-ops/dependabot-sweeper.py's gate (ADR-0016) still decides known
+            cases right: it reads Dependabot's updated-dependencies block, refuses
+            majors, 0.x minors, missing or unreadable metadata, foreign authors,
+            unverified commits, other-repo heads and the sweeper's own files, and
+            passes a green patch/minor group. A wrong "pass" here is a merge. Its
+            audit matches the trailer only where the sweeper writes it, never a
+            quoted copy, and flags a marked merge that Dependabot didn't author.
   register  fleet-reports/incidents.md is reproducible from fleet-reports/incidents/.
             It is generated, not hand-authored; a hand-edit here is a change that the
             next weekly refresh silently reverts.
@@ -40,6 +53,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FAILURES = []
@@ -467,6 +481,298 @@ def check_census_classifier():
             fail("census", f"classify_md({repo!r}, {path!r}) returned {got!r}, expected {want!r}")
 
 
+# ------------------------------------------------------------------ budget
+# A copy of lentago/drosera dashboards/sites-slo-error-budget.json (stat panels) and
+# terraform/alerts.tf (burn rules), for lentago.dev. CI does not read drosera, so this
+# pins the generator to the copy and cannot see drosera drift. If drosera changes them,
+# update the generator and these together — the report must show the board's numbers.
+BUDGET_EXPRS = {
+    "attainment": 'avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d])',
+    "remaining": '1 - (1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d])) / 0.001',
+    "minutes": '(0.001 - (1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[30d]))) * 43200',
+}
+BURN_1H = '(1 - avg_over_time(probe_success{job="integrations/blackbox/lentago.dev"}[1h])) / 0.001'
+
+# (long points, short points, threshold, step, expected (episodes, last ts)).
+# The second case is the one that matters: the long window alone is hot for a
+# stretch, but only steps where the short window agrees count, and a gap splits
+# them into two episodes.
+BURN_CASES = [
+    ([(0, 0.0), (300, 0.0)], [(0, 0.0), (300, 0.0)], 14.4, 300, (0, None)),
+    ([(0, 20), (300, 20), (600, 20), (900, 20), (1200, 20)],
+     [(0, 20), (300, 1), (600, 20), (900, 20), (1200, 1)], 14.4, 300, (2, 900)),
+    ([(0, 14.4)], [(0, 99)], 14.4, 300, (0, None)),       # gt, not ge — as the rules
+]
+
+
+def check_error_budget_section():
+    try:
+        gen = load_generator()
+    except Exception as exc:                                  # noqa: BLE001
+        fail("budget", f"metrics/generate-fleet-reports.py failed to import — {exc}")
+        return
+
+    if gen.slo_exprs("lentago.dev") != BUDGET_EXPRS:
+        fail("budget", "slo_exprs() no longer matches the pinned copy of drosera's SLO-board PromQL")
+    if gen.burn_expr("lentago.dev", "1h") != BURN_1H:
+        fail("budget", "burn_expr() no longer matches the pinned copy of drosera's burn-rule PromQL")
+
+    for long_pts, short_pts, thr, step, want in BURN_CASES:
+        got = gen.burn_episodes(long_pts, short_pts, thr, step)
+        if got != want:
+            fail("budget", f"burn_episodes(…, {thr}, {step}) returned {got}, expected {want}")
+
+    check_error_budget_degrades(gen)
+
+
+# Fake Grafana responses for the degrade cases. Each entry is (label, token, responder);
+# the responder takes (endpoint, call number) and returns a JSON-able body, raw bytes,
+# or an exception instance to raise from urlopen. Every case must come back as
+# (None, reason) and render one "Unavailable" line: a missing secret, a failed query or
+# an unexpected shape must never fail the weekly run.
+def _ok_instant(endpoint, n):
+    if endpoint == "query":
+        return {"status": "success", "data": {"result": [{"metric": {}, "value": [0, "0.9995"]}]}}
+    return {"status": "success", "data": {"result": [{"metric": {}, "values": [[0, "0"], [300, "0"]]}]}}
+
+
+def _http_error(code):
+    import urllib.error
+    return urllib.error.HTTPError("https://example.invalid", code, "error", {}, None)
+
+
+def _url_error():
+    import urllib.error
+    return urllib.error.URLError("unreachable")
+
+
+def _instant(result):
+    return lambda endpoint, n: ({"status": "success", "data": {"result": result}}
+                                if endpoint == "query" else _ok_instant(endpoint, n))
+
+
+def _range(values):
+    return lambda endpoint, n: (_ok_instant(endpoint, n) if endpoint == "query" else
+                                {"status": "success", "data": {"result": [{"metric": {}, "values": values}]}})
+
+
+def _incomplete(endpoint, n):
+    # attainment answers, remaining and minutes come back empty for the first site
+    if endpoint == "query" and n in (1, 2):
+        return {"status": "success", "data": {"result": []}}
+    return _ok_instant(endpoint, n)
+
+
+DEGRADE_CASES = [
+    ("token unset", None, None),
+    ("token empty (secret unset in Actions)", "", None),
+    ("token whitespace", "  \n", None),
+    ("HTTP 401", "t", lambda e, n: _http_error(401)),
+    ("host unreachable", "t", lambda e, n: _url_error()),
+    ("body not JSON", "t", lambda e, n: b"<html>gateway</html>"),
+    ("status error", "t", lambda e, n: {"status": "error", "errorType": "bad_data"}),
+    ("body a JSON list", "t", lambda e, n: []),
+    ("no data field", "t", lambda e, n: {"status": "success"}),
+    ("result not a list", "t", lambda e, n: {"status": "success", "data": {"result": "x"}}),
+    ("result null", "t", lambda e, n: {"status": "success", "data": {"result": None}}),
+    ("sample without value", "t", _instant([{"metric": {}}])),
+    ("sample value not numeric", "t", _instant([{"metric": {}, "value": [0, "abc"]}])),
+    ("sample value NaN", "t", _instant([{"metric": {}, "value": [0, "NaN"]}])),
+    ("sample value +Inf", "t", _instant([{"metric": {}, "value": [0, "+Inf"]}])),
+    ("stat results incomplete", "t", _incomplete),
+    ("range series without values", "t", lambda e, n: (_ok_instant(e, n) if e == "query" else
+                                                       {"status": "success", "data": {"result": [{"metric": {}}]}})),
+    ("range point malformed", "t", _range([[0]])),
+    ("range timestamp out of range", "t", _range([["1e20", "99"]])),
+]
+
+
+def _run_budgets(gen, token, responder):
+    import io
+    import urllib.request
+    calls = {"n": 0}
+
+    def fake_urlopen(req, timeout=None):
+        endpoint = req.full_url.split("/api/v1/", 1)[1].split("?", 1)[0]
+        out = responder(endpoint, calls["n"])
+        calls["n"] += 1
+        if isinstance(out, BaseException):
+            raise out
+        return io.BytesIO(out if isinstance(out, bytes) else json.dumps(out).encode())
+
+    saved_env = os.environ.pop(gen.GRAFANA_TOKEN_ENV, None)
+    saved_urlopen = urllib.request.urlopen
+    if token is not None:
+        os.environ[gen.GRAFANA_TOKEN_ENV] = token
+    urllib.request.urlopen = fake_urlopen if responder else saved_urlopen
+    try:
+        return gen.collect_error_budgets(datetime.now(timezone.utc))
+    finally:
+        urllib.request.urlopen = saved_urlopen
+        os.environ.pop(gen.GRAFANA_TOKEN_ENV, None)
+        if saved_env is not None:
+            os.environ[gen.GRAFANA_TOKEN_ENV] = saved_env
+
+
+def check_error_budget_degrades(gen):
+    # The fake must be able to produce a table, or every degrade below proves nothing.
+    try:
+        rows, reason = _run_budgets(gen, "t", _ok_instant)
+    except Exception as exc:                                  # noqa: BLE001
+        fail("budget", f"well-formed fake responses raised {type(exc).__name__}: {exc}")
+        return
+    if rows is None or len(rows) != len(gen.SLO_SITES):
+        fail("budget", f"well-formed fake responses did not produce a table: {(rows, reason)!r}")
+        return
+    if not any(ln.startswith("| lentago.dev |") for ln in gen.error_budget_section(rows, reason)):
+        fail("budget", "well-formed fake responses rendered no lentago.dev row")
+
+    for label, token, responder in DEGRADE_CASES:
+        try:
+            rows, reason = _run_budgets(gen, token, responder)
+            body = [ln for ln in gen.error_budget_section(rows, reason)
+                    if ln and not ln.startswith("## ")]
+        except Exception as exc:                              # noqa: BLE001
+            fail("budget", f"{label}: raised {type(exc).__name__} instead of degrading")
+            continue
+        if rows is not None or not reason:
+            fail("budget", f"{label}: expected (None, reason), got {(rows, reason)!r}")
+        elif len(body) != 1 or not body[0].startswith("_Unavailable this run:"):
+            fail("budget", f"{label}: expected one 'Unavailable this run' line, got {body!r}")
+        elif token is not None and token.strip() and "not configured" in reason:
+            fail("budget", f"{label}: a set token was reported as not configured")
+
+
+# ------------------------------------------------------------------ sweeper
+def _dep_msg(*entries, terminator="..."):
+    body = ["build(deps): bump things", "", "Bumps things.", "", "---", "updated-dependencies:"]
+    for e in entries:
+        first = True
+        for k, v in e.items():
+            body.append(("- " if first else "  ") + f"{k}: {v}")
+            first = False
+    if terminator:
+        body.append(terminator)
+    body += ["", "Signed-off-by: dependabot[bot] <support@github.com>"]
+    return "\n".join(body)
+
+
+def _dep(name, kind, version="1.2.3"):
+    e = {"dependency-name": name}
+    if version is not None:
+        e["dependency-version"] = version
+    e["dependency-type"] = "direct:production"
+    if kind is not None:
+        e["update-type"] = f"version-update:semver-{kind}"
+    return e
+
+
+def _pr(author="dependabot[bot]", head_repo="lentago/x", base="main", draft=False, sha="a" * 40):
+    return {"user": {"login": author}, "draft": draft, "number": 1,
+            "head": {"repo": {"full_name": head_repo}, "sha": sha},
+            "base": {"ref": base, "repo": {"full_name": "lentago/x", "default_branch": "main"}}}
+
+
+def _commit(msg, author="dependabot[bot]", verified=True, sha="a" * 40):
+    return {"sha": sha, "author": {"login": author},
+            "commit": {"message": msg, "verification": {"verified": verified}}}
+
+
+_GREEN = _dep_msg(_dep("actions/checkout", "patch", "7.0.2"), _dep("lentago/sw/x.yml", "minor", "1.6.0"))
+
+# (label, pr, commits, files, repo, passes?)
+SWEEPER_CASES = [
+    ("green patch+minor group", _pr(), [_commit(_GREEN)], [{"filename": ".github/workflows/ci.yml"}], "x", True),
+    ("a major in the group", _pr(), [_commit(_dep_msg(_dep("a", "patch"), _dep("b", "major", "2.0.0")))], [], "x", False),
+    ("0.x minor", _pr(), [_commit(_dep_msg(_dep("a", "minor", "0.4.0")))], [], "x", False),
+    ("0.x patch", _pr(), [_commit(_dep_msg(_dep("a", "patch", "0.4.1")))], [], "x", True),
+    ("v-prefixed 1.x minor", _pr(), [_commit(_dep_msg(_dep("a", "minor", "v1.4.0")))], [], "x", True),
+    ("minor without version", _pr(), [_commit(_dep_msg(_dep("a", "minor", None)))], [], "x", False),
+    ("missing update-type", _pr(), [_commit(_dep_msg(_dep("a", None)))], [], "x", False),
+    ("no metadata block", _pr(), [_commit("build(deps): bump a\n\nno block here")], [], "x", False),
+    ("unterminated block", _pr(), [_commit(_dep_msg(_dep("a", "patch"), terminator=None))], [], "x", False),
+    ("not Dependabot's PR", _pr(author="cpitzi"), [_commit(_GREEN)], [], "x", False),
+    ("foreign commit on the PR", _pr(), [_commit(_GREEN), _commit(_GREEN, author="lentago-claude-runner[bot]")], [], "x", False),
+    ("unverified commit", _pr(), [_commit(_GREEN, verified=False)], [], "x", False),
+    ("head in another repo", _pr(head_repo="someone/x"), [_commit(_GREEN)], [], "x", False),
+    ("base not default branch", _pr(base="release"), [_commit(_GREEN)], [], "x", False),
+    ("draft", _pr(draft=True), [_commit(_GREEN)], [], "x", False),
+    ("touches the sweeper workflow", _pr(), [_commit(_GREEN)],
+     [{"filename": ".github/workflows/dependabot-sweeper.yml"}], ".github", False),
+    ("touches the sweeper script", _pr(), [_commit(_GREEN)],
+     [{"filename": "fleet-ops/dependabot-sweeper.py"}], ".github", False),
+    ("same path in another repo is fine", _pr(), [_commit(_GREEN)],
+     [{"filename": "fleet-ops/dependabot-sweeper.py"}], "x", True),
+    ("head moved while reading", _pr(sha="b" * 40), [_commit(_GREEN)], [], "x", False),
+]
+
+
+def check_sweeper_gate():
+    path = os.path.join(ROOT, "fleet-ops", "dependabot-sweeper.py")
+    try:
+        spec = importlib.util.spec_from_file_location("dependabot_sweeper", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception as exc:                                  # noqa: BLE001
+        fail("sweeper", f"fleet-ops/dependabot-sweeper.py failed to import — {exc}")
+        return
+    entries = mod.parse_updated_dependencies(_GREEN)
+    if not entries or [e["dependency-name"] for e in entries] != ["actions/checkout", "lentago/sw/x.yml"]:
+        fail("sweeper", f"parse_updated_dependencies() misread a two-entry block: {entries!r}")
+    check_sweeper_audit(mod)
+    for label, pr, commits, files, repo, passes in SWEEPER_CASES:
+        try:
+            problem = mod.pr_problem(pr, commits, files, repo)
+        except Exception as exc:                              # noqa: BLE001
+            fail("sweeper", f"{label}: pr_problem raised {type(exc).__name__}: {exc}")
+            continue
+        if passes and problem is not None:
+            fail("sweeper", f"{label}: expected to pass, refused with {problem!r}")
+        elif not passes and problem is None:
+            fail("sweeper", f"{label}: expected a refusal, but it passed (that would be a merge)")
+
+
+def check_sweeper_audit(mod):
+    """The audit (ADR-0016 Decision 5) must recognise exactly what the sweeper
+    writes, and nothing a person merely quotes. A miss here either hides a
+    misuse or turns every run red for 30 days."""
+    run = "https://github.com/lentago/.github/actions/runs/1"
+    for label, msg in [("Dependabot message with Signed-off-by", _GREEN),
+                       ("message with no trailer block", "build(deps): bump a\n\nBumps a.\n...")]:
+        body = mod.merge_body(msg, run)
+        if not mod.has_trailer("bump a (#1)\n\n" + body):
+            fail("sweeper", f"merge_body() output is not seen by has_trailer() ({label}): {body[-120:]!r}")
+    quoted = ("Adds the sweeper.\n\nEach merge ends with the `Merged-by-routine: dependabot-sweeper` "
+              "trailer.\n\nCo-authored-by: Claude <noreply@anthropic.com>")
+    middle = "Subject\n\nMerged-by-routine: dependabot-sweeper\n\nCo-authored-by: x <x@example.com>"
+    for label, msg in [("trailer quoted in prose", quoted), ("trailer line outside the last paragraph", middle)]:
+        if mod.has_trailer(msg):
+            fail("sweeper", f"has_trailer() matched a {label}; the audit would flag a non-sweeper merge")
+
+    dep = {"number": 1, "user": {"login": "dependabot[bot]"}}
+    person = {"number": 2, "user": {"login": "cpitzi"}}
+    commit = {"sha": "c" * 40}
+    for label, marked, want in [("Dependabot's PR", [(commit, [dep])], 0),
+                                ("someone else's PR", [(commit, [person])], 1),
+                                ("no PR at all", [(commit, [])], 1),
+                                ("mixed", [(commit, [dep, person])], 1)]:
+        got = len(mod.audit_findings("x", marked))
+        if got != want:
+            fail("sweeper", f"audit_findings() on {label}: {got} findings, expected {want}")
+
+    me, since = "cpitzi", "2026-11-18T00:00:00Z"
+    rebase = lambda b: b.strip() == "@dependabot rebase"                    # noqa: E731
+    for label, comments, want in [
+            ("own comment after the head", [{"user": {"login": me}, "created_at": "2026-11-18T01:00:00Z",
+                                             "body": "@dependabot rebase"}], True),
+            ("own comment before the head", [{"user": {"login": me}, "created_at": "2026-11-17T23:00:00Z",
+                                              "body": "@dependabot rebase"}], False),
+            ("someone else's comment", [{"user": {"login": "other"}, "created_at": "2026-11-18T01:00:00Z",
+                                         "body": "@dependabot rebase"}], False)]:
+        if mod.commented_since(comments, me, since, rebase) != want:
+            fail("sweeper", f"commented_since() on {label}: expected {want}")
+
+
 # ------------------------------------------------------------------ register
 GENERATED_LINE = re.compile(r"^\*\*Generated:\*\*")
 
@@ -521,6 +827,8 @@ CHECKS = [
     ("fleet", check_fleet_coverage),
     ("brand", check_brand_assets),
     ("census", check_census_classifier),
+    ("budget", check_error_budget_section),
+    ("sweeper", check_sweeper_gate),
     ("register", check_incident_register_reproducible),
 ]
 
