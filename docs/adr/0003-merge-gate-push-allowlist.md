@@ -144,23 +144,38 @@ change to those repos' allowlist would have dropped it silently (#225).
 
 The maintainer chose #225's option B on 2026-11-17: `FLEET_ADMIN_TOKEN` is
 re-minted as a classic PAT with `repo` and `admin:org`, still without
-`delete_repo`. The three allowances return to config, and the post-apply
-convergence check (Amendment 2026-08-22) now covers them.
+`delete_repo`. It is minted by `lentago-admin`, a dedicated machine account that
+is an org owner with 2FA, not by the operator's own account. The three
+allowances return to config, and the post-apply convergence check (Amendment
+2026-08-22) now covers them.
 
 **ADR-0011 rule 2 exception.** The classic token is broader than the
 fine-grained one it replaces. ADR-0011 asks for exceptions to be recorded in the
-repo's own ADR, so it is recorded here:
+repo's own ADR, so it is recorded here. Because the machine account belongs only
+to `lentago`, the token reaches the org's repositories and nothing outside them,
+which is narrower than a classic token from the operator's account would be.
+Within the org:
 
-- `repo` reaches every repository the operator can reach, including personal
-  private repositories outside the org.
+- `repo` is full control of every repository, not just the settings
+  permissions the fine-grained token held.
 - `admin:org` admits organisation-settings writes. This tree still never
   exercises them (#176).
 - It is a repository secret, so a workflow on any branch of this repository can
-  read it.
+  read it. #352 closes the plan-on-PR path.
+
+**A second org owner.** `lentago-admin` is the org's second owner. This
+gate's classic protection leaves `enforce_admins` off, so an owner can pass the
+push allowlist without being named on it, and the `main` ruleset still requires
+a pull request and green checks of everyone. The account adds no path that its
+token didn't already have: the token manages this gate. What keeps "every merge
+lands through `cpitzi`" true is that the account is used only through this token,
+by the `terraform` workflow. Its org membership and role are live org settings
+that this tree doesn't manage (#176).
 
 The token carries an expiry recorded in `fleet-reports/lock-in/renewals.yml`.
 `terraform/README.md` § Auth gives its form.
 
-**Revisit** if the token is ever found used outside the `terraform` workflow, or
-when running the fleet Terraform as a GitHub App installation (#225's option A,
-short-lived tokens scoped to the org) is worth the setup.
+**Revisit** if the token or the `lentago-admin` account is ever found used
+outside the `terraform` workflow, or when running the fleet Terraform as a
+GitHub App installation (#225's option A, short-lived tokens scoped to the org)
+is worth the setup.
