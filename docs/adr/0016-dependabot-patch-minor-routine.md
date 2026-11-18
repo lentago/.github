@@ -9,17 +9,23 @@ becomes Accepted once the maintainer has decided on the merge identity
 
 ## Context
 
-- **What Dependabot opens.** Every fleet repository runs Dependabot weekly with
-  two groups per ecosystem. The `-routine` group holds minor and patch updates
-  and the `-major` group holds majors, so a breaking change never hides inside a
-  pile of patches ([#114](https://github.com/lentago/.github/issues/114); see
-  [`.github/dependabot.yml`](../../.github/dependabot.yml)). Dependabot security
-  updates are on fleet-wide as well
-  ([#234](https://github.com/lentago/.github/issues/234)).
+- **What Dependabot opens.** Every fleet repository runs Dependabot weekly.
+  Every repository splits its `github-actions` updates into two groups:
+  `actions-routine` for minor and patch, and `actions-major` for majors
+  ([#114](https://github.com/lentago/.github/issues/114); this repository's
+  copy is [`.github/dependabot.yml`](../../.github/dependabot.yml)). That way a
+  breaking change never hides inside a pile of patches. The npm, pip and docker
+  configurations in a few repositories group differently, and some of their
+  groups have no update-type split. Dependabot security updates are also on
+  fleet-wide ([#234](https://github.com/lentago/.github/issues/234)).
 - **They cannot meet the arming rule.** The AI review
-  ([ADR-0013](0013-haiku-reviews-every-pr-coderabbit-retires.md)) does not
-  review Dependabot PRs, so they never meet the rule that a review has posted
-  and every finding is triaged. Merging them was recorded as the maintainer's
+  ([ADR-0013](0013-haiku-reviews-every-pr-coderabbit-retires.md)) skips
+  Dependabot PRs. A Dependabot-triggered run receives no Actions secrets, so the
+  reviewer's token would be missing, and each caller excludes
+  `dependabot[bot]` at the job level (see this repository's
+  [`claude-review.yml`](../../.github/workflows/claude-review.yml) header).
+  These PRs therefore never meet the arming rule that a review has posted and
+  every finding is triaged. Merging them was recorded as the maintainer's
   call on 2026-10-13. Nobody makes that call on a schedule, so a backlog builds:
   on 2026-11-17 it stood at 18 open PRs. 16 were green and current, one was a
   failing major ([monarda#54](https://github.com/lentago/monarda/pull/54),
@@ -59,7 +65,16 @@ becomes Accepted once the maintainer has decided on the merge identity
      `dependabot/fetch-metadata` reads) has `update-type` set to
      `version-update:semver-patch` or `version-update:semver-minor`. A major, a
      missing type or a block that does not parse means the PR is skipped. A
-     grouped PR is judged by its largest update.
+     grouped PR is judged by its largest update. The gate reads the type of
+     each update, so it does not depend on how a repository groups them.
+   - No update is a minor of a version below 1.0.0, judged by its
+     `dependency-version`. Below 1.0.0 a minor release may break things, so such
+     an update counts as a major and stays manual. A minor entry with no
+     `dependency-version` is skipped.
+   - It changes no file the sweeper itself runs: its workflow and any script
+     that workflow calls. An update to an action the sweeper uses therefore stays
+     manual. Otherwise the sweeper could merge a change to its own code, unread,
+     and run it with the key on the next run.
    - Its `mergeStateStatus` is `CLEAN` at that head: the required status checks
      are green and, where the ruleset is strict, the branch is up to date.
    - The merge call carries the head that was evaluated:
@@ -73,9 +88,13 @@ becomes Accepted once the maintainer has decided on the merge identity
 
 3. **The merge identity.** The sweeper merges as a dedicated GitHub App,
    `lentago-dependabot-merge`, and as nothing else.
-   - The App is private, with no webhook. It has Contents, Pull requests and
-     Workflows write, and Metadata read. Workflows write is there because the
-     `actions-routine` PRs edit `.github/workflows/`.
+   - The App is private, with no webhook. It has Contents and Pull requests
+     write, and Metadata read. GitHub may refuse to let an App merge a PR that
+     edits `.github/workflows/`, which every `actions-routine` PR does, unless
+     the App also has Workflows write. Workflows write is added only if the
+     first such merge is refused without it.
+   - Each run mints installation tokens per repository, narrowed to the
+     permissions the call needs. Listing and reading use read-only tokens.
    - It is installed on every fleet repository.
    - Its private key lives in one place: a secret in this repository's
      `dependabot-merge` environment, which deploys from `main` only. Terraform
@@ -92,6 +111,11 @@ becomes Accepted once the maintainer has decided on the merge identity
    open Dependabot PRs in scope and applies the gate. No other repository
    carries a caller, there is no reusable workflow in shared-workflows, and the
    kits gain no files.
+   - It uses as few third-party actions as it can, each pinned by commit SHA.
+     It never checks out or runs a pull request's content.
+   - **Audit.** Every run lists the PRs merged by the App in the last 30 days.
+     If any of them was not authored by `dependabot[bot]`, the run fails. A
+     merge like that is an incident.
    - **Strict repositories.** In a repository whose ruleset requires branches
      to be up to date ([#266](https://github.com/lentago/.github/issues/266)),
      one merge leaves the rest of the batch behind `main`. For a PR that is
@@ -139,6 +163,22 @@ becomes Accepted once the maintainer has decided on the merge identity
   `cpitzi` and `lentago-dependabot-merge`. This is the first fleet-wide use of
   `gate_extra_allowances`, the extension point ADR-0003 kept for this purpose.
   ADR-0003's decision stands.
+- **What a leaked key could do.** This is the first key outside a person's hands
+  that can both write to a branch and pass the merge gate. Whoever held it could
+  open a pull request, or push to an existing one, and merge it once its
+  required checks were green, in any repository in scope, with no review. It
+  still could not push to `main` directly or bypass the required checks. That
+  is the same concern that rules out widening an existing App (Alternatives),
+  and this design answers it in four ways:
+  - the key exists in one place, a main-only environment that no pull
+    request's content ever reaches;
+  - tokens are short-lived and narrowed for each call;
+  - every run audits the App's merges, so one that Dependabot did not author
+    turns the run red;
+  - revoking the key or uninstalling the App ends it at once.
+
+  The runner App's key already allows the first half (writing branches and
+  opening pull requests). Merging is what this key adds.
 - **Order of work.**
   1. #225 is fixed first. Until then the allowance cannot be applied.
   2. The maintainer mints and installs the App and sets its key.
