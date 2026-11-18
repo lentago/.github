@@ -17,15 +17,17 @@ over a dedicated GitHub App (see Alternatives).
   configurations in a few repositories group differently, and some of their
   groups have no update-type split. Dependabot security updates are also on
   fleet-wide ([#234](https://github.com/lentago/.github/issues/234)).
-- **They cannot meet the arming rule.** The AI review
-  ([ADR-0013](0013-haiku-reviews-every-pr-coderabbit-retires.md)) skips
-  Dependabot PRs. A Dependabot-triggered run receives no Actions secrets, so the
-  reviewer's token would be missing, and each caller excludes
-  `dependabot[bot]` at the job level (see this repository's
-  [`claude-review.yml`](../../.github/workflows/claude-review.yml) header).
-  These PRs therefore never meet the arming rule that a review has posted and
-  every finding is triaged. Merging them was recorded as the maintainer's
-  call on 2026-10-13. Nobody makes that call on a schedule, so a backlog builds:
+- **They cannot meet the arming rule.** The AI review skips Dependabot PRs. A
+  Dependabot-triggered run receives no Actions secrets, so the reviewer's token
+  would be missing, and each caller excludes `dependabot[bot]` at the job level
+  (see this repository's
+  [`claude-review.yml`](../../.github/workflows/claude-review.yml), header and
+  job condition). These PRs therefore never meet
+  [ADR-0013](0013-haiku-reviews-every-pr-coderabbit-retires.md)'s arming rule,
+  that a review has posted and every finding is triaged. Merging them has been
+  left to the maintainer
+  ([#346](https://github.com/lentago/.github/issues/346)). Nobody makes that
+  call on a schedule, so a backlog builds:
   on 2026-11-17 it stood at 18 open PRs. 16 were green and current, one was a
   failing major ([monarda#54](https://github.com/lentago/monarda/pull/54),
   Astro 5 → 7) and one was superseded.
@@ -58,8 +60,9 @@ over a dedicated GitHub App (see Alternatives).
      `dependabot/fetch-metadata` reads) has `update-type` set to
      `version-update:semver-patch` or `version-update:semver-minor`. A major, a
      missing type or a block that does not parse means the PR is skipped. A
-     grouped PR is judged by its largest update. The gate reads the type of
-     each update, so it does not depend on how a repository groups them.
+     grouped PR passes only if every one of its entries does, so a single major
+     anywhere in the group skips the whole PR. The gate reads the type of each
+     update, so it does not depend on how a repository groups them.
    - No update is a minor of a version below 1.0.0, judged by its
      `dependency-version`. Below 1.0.0 a minor release may break things, so such
      an update counts as a major and stays manual. A minor entry with no
