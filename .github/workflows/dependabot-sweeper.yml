@@ -50,6 +50,9 @@ jobs:
         with:
           persist-credentials: false
 
+      # Measure the secret before blaming its permissions (ADR-0011 rule 2): a
+      # truncated or whitespace-wrapped paste reads as "Bad credentials" on every
+      # repo. Only the length and shape are printed, never the value.
       - name: Verify DEPENDABOT_MERGE_TOKEN
         env:
           GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN }}
@@ -58,6 +61,15 @@ jobs:
             echo "::error::DEPENDABOT_MERGE_TOKEN is empty. Store it in the dependabot-merge environment (ADR-0016 Decision 3)."
             exit 1
           fi
+          shape="length ${#GH_TOKEN}"
+          case "$GH_TOKEN" in github_pat_*) shape="$shape, github_pat_ prefix" ;; *) shape="$shape, no github_pat_ prefix" ;; esac
+          case "$GH_TOKEN" in *[[:space:]]*) shape="$shape, contains whitespace" ;; esac
+          echo "DEPENDABOT_MERGE_TOKEN: $shape"
+          if ! login=$(gh api user --jq .login 2>/dev/null); then
+            echo "::error::DEPENDABOT_MERGE_TOKEN is not accepted by GitHub ($shape). Re-store the full value: gh secret set DEPENDABOT_MERGE_TOKEN --repo lentago/.github --env dependabot-merge"
+            exit 1
+          fi
+          echo "authenticates as $login"
 
       - name: Sweep
         env:
