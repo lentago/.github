@@ -195,7 +195,7 @@ store data *in* it, we depend on a *capability*.
   all — every change the agent fleet makes lands as a reviewed PR in a repo we
   own, and the session transcripts sit on local disk. That includes the review
   itself: since ADR-0013 (2026-10-29) a Haiku reviewer in `shared-workflows`
-  comments on every PR in the operating repos, and its output is a PR comment in
+  is the review step for PRs in the operating repos, and its output is a PR comment in
   our repo. There is nothing to
   "export back" because the output was ours the whole time.
 - **Format openness — Strong.** What the assistant produces is plain
@@ -251,4 +251,4 @@ published, versioned, honest.
 | Date | Change |
 |---|---|
 | 2026-08-17 | First publication. Seven dependencies scored; follow-ups filed against the two Limited-exit rows and the two missing runbooks. |
-| 2026-11-19 | Reviewed against the current estate (.github#361); scores unchanged, three rows corrected where the facts had moved. **GitHub:** settings, rulesets and labels are Terraform in git. **Axiom:** betula's Firewalla logs went to Grafana Cloud Loki on 2026-07-09; Axiom now holds the AWS client's archive plus pre-July Firewalla history, with datasets and tokens in Terraform; the **Grafana Cloud** row notes the Loki logs. **Anthropic:** the Haiku PR reviewer (ADR-0013) joins the dependency, and claytonia workers are no longer Claude-only (ADR-0015). DeepWiki and its Devin app (retired, ADR-0010) and CodeRabbit (retired, ADR-0013) were never rows in this ledger, so nothing to remove. The GitHub and Fastmail runbooks (follow-ups 1 and 2) are still unwritten. |
+| 2026-11-19 | Reviewed against the current estate (.github#361); scores unchanged, three rows corrected where the facts had moved. **GitHub:** settings, rulesets and labels are Terraform in git. **Axiom:** betula's Firewalla logs went to Grafana Cloud Loki on 2026-07-09; Axiom now holds the AWS client's archive plus pre-July Firewalla history, with datasets and tokens in Terraform; the **Grafana Cloud** row notes the Loki logs. **Anthropic:** the Haiku PR reviewer (ADR-0013) joins the dependency, and claytonia workers are no longer Claude-only (ADR-0015). DeepWiki and its Devin app (retired by [ADR-0010](../docs/adr/0010-retire-deepwiki.md)) and CodeRabbit (retired by [ADR-0013](../docs/adr/0013-haiku-reviews-every-pr-coderabbit-retires.md)) were never rows in this ledger, so nothing to remove. The GitHub and Fastmail runbooks (follow-ups 1 and 2) are still unwritten. |
