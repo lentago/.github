@@ -1,6 +1,7 @@
 # Lock-in Ledger — Lentago Labs' own vendor dependencies
 
-**Compiled:** 2026-08-17 · **Scope:** every external vendor the fleet actually
+**Compiled:** 2026-08-17 · **Last reviewed:** 2026-11-19 (see the
+[update log](#update-log)) · **Scope:** every external vendor the fleet actually
 depends on to operate. · **Method:** self-assessment against a fixed four-axis
 rubric; comparative, not audited.
 
@@ -108,8 +109,12 @@ real failure mode (a lapsed renewal) gets its own calendar-as-code, below.
 - **Export fidelity — Moderate.** The code is Strong on its own: a git clone is
   the full history, distributed by design, and every mirror is a complete copy.
   The score drops to Moderate because the *platform layer around* the code —
-  issues, PR reviews, Actions run logs, rulesets, build attestations — only
-  comes out through the API, and reconstructing it on another forge is lossy.
+  issues, PR reviews, Actions run logs, build attestations — only comes out
+  through the API, and reconstructing it on another forge is lossy. The
+  *settings* layer has moved the other way since August: repo existence, merge
+  options, rulesets, required checks and labels are Terraform in this repo's
+  [`terraform/`](../terraform/) and applied from git, so that part is a
+  definition we own rather than state to scrape.
 - **Format openness — Moderate.** git is fully portable. Actions workflows are
   GitHub-flavoured YAML — the *idea* ports, the files don't run verbatim
   elsewhere. Issue/PR exports are JSON with no cross-forge standard.
@@ -147,6 +152,8 @@ real failure mode (a lapsed renewal) gets its own calendar-as-code, below.
   alert rules are Terraform-provisioned, so the definitions live in the drosera
   repo, not in the vendor. The stored *metric and log history* behind them is the
   Moderate part — bulk export of long-range TSDB data is bounded and lossy.
+  Since 2026-07-09 that history includes the Firewalla logs, which betula ships
+  to Grafana Cloud Loki as that client's sole destination (betula ADR-0004).
 - **Format openness — Strong.** Dashboard JSON is the same schema that
   self-hosted Grafana OSS reads, so the panels drop straight into an
   open-source Grafana with no translation.
@@ -156,12 +163,19 @@ real failure mode (a lapsed renewal) gets its own calendar-as-code, below.
   self-hosted Grafana and re-applying is a real, partly-documented path (drosera
   is built config-first for exactly this reason). Historical data does not follow.
 
-### Axiom — the betula log sink
+### Axiom — the betula archive plane for the AWS client
 
-- **Export fidelity — Moderate.** The ingestion pipeline is ours (the shipper
-  and its config live in betula), so *new* logs can be re-pointed at another sink
-  the day we decide to. Getting the *already-stored* logs back out is
-  query-and-export, bounded by retention — a backfill, not a clean dump.
+Axiom no longer receives the Firewalla's logs: betula stopped shipping them
+there on 2026-07-09 and sends them to Grafana Cloud Loki (see that row). What
+Axiom holds now is the **AWS client's** archive (solidago's ECS, ALB and
+CloudWatch logs), plus the Firewalla history from before that date. Its datasets,
+retention and consumer API tokens are Terraform in betula.
+
+- **Export fidelity — Moderate.** The ingestion pipeline is ours (the shippers
+  and their config live in betula), so *new* logs can be re-pointed at another
+  sink the day we decide to, and the dataset definitions are in git. Getting the
+  *already-stored* logs back out is query-and-export, bounded by retention — a
+  backfill, not a clean dump.
 - **Format openness — Strong.** Logs are JSON/NDJSON — about as portable as data
   gets. Whatever comes out is immediately usable elsewhere.
 - **Identity / custody — Weak.** The dataset and org identity are Axiom-held, and
@@ -179,21 +193,29 @@ store data *in* it, we depend on a *capability*.
 
 - **Export fidelity — Strong.** The work product is not held by the vendor at
   all — every change the agent fleet makes lands as a reviewed PR in a repo we
-  own, and the session transcripts sit on local disk. There is nothing to
+  own, and the session transcripts sit on local disk. That includes the review
+  itself: since ADR-0013 (2026-10-29) a Haiku reviewer in `shared-workflows`
+  comments on every PR in the operating repos, and its output is a PR comment in
+  our repo. There is nothing to
   "export back" because the output was ours the whole time.
 - **Format openness — Strong.** What the assistant produces is plain
   code and markdown, and the instruction layer (the `CLAUDE.md` family, the
   prompt-programs) is portable natural language. None of it is a proprietary
   artifact.
 - **Identity / custody — Limited.** The *harness* — the claytonia agent fleet —
-  is ours and self-hosted, but it is coupled to Claude Code specifically, and the
-  capability behind it is Anthropic-held. We own the orchestration; we rent the
-  intelligence.
-- **Documented exit — Limited.** The theoretical exit is "swap the model behind
-  the harness," but the harness is provider-coupled, so a real substitution means
-  reworking claytonia, not flipping a config key. That rework isn't written down
-  as a runbook — which makes this, alongside Axiom, one of the two rows where the
-  score reflects a genuine gap rather than an inherent vendor trap.
+  is ours and self-hosted, and the capability behind it is Anthropic-held. We own
+  the orchestration; we rent the intelligence. The instruction layer, the PR
+  reviewer and the interactive sessions are all Claude today.
+- **Documented exit — Limited.** The August version of this row said the harness
+  was coupled to Claude Code, so substitution meant reworking claytonia. That is
+  no longer true of the workers: claytonia runs Gemini CLI and Codex CLI behind
+  the same queue contract (ADR-0015, Phase 1 live gate passed 2026-11-04), so
+  swapping the model behind a worker is a per-job `runtime` key, written down in
+  that ADR. What stays Claude-only, and so keeps this row Limited, is the
+  reviewer, the interactive Director and EM sessions, and the `CLAUDE.md`
+  instruction family that the peer runtimes read around rather than natively.
+  The rating is unchanged; the reason for it has narrowed, and a future review
+  can move it if the reviewer and the sessions gain a documented substitute.
 
 ---
 
@@ -211,7 +233,9 @@ concrete follow-ups this self-audit surfaces, in rough priority:
    Strong exit to match.
 3. **Close the two Limited-exit rows honestly** (Axiom history, Anthropic
    substitution) — either by documenting the partial exit as *partial*, or by
-   deciding the retained data isn't worth an exit path and saying so.
+   deciding the retained data isn't worth an exit path and saying so. The
+   Anthropic row is partly done: worker substitution is documented in ADR-0015;
+   the reviewer and the sessions are not.
 4. **Keep the root healthy.** Every custody position downstream of the domain is
    only as safe as the domain's renewal. That is now tracked as code —
    [`lock-in/renewals.yml`](lock-in/renewals.yml) — with a scheduled workflow
@@ -226,3 +250,4 @@ published, versioned, honest.
 | Date | Change |
 |---|---|
 | 2026-08-17 | First publication. Seven dependencies scored; follow-ups filed against the two Limited-exit rows and the two missing runbooks. |
+| 2026-11-19 | Reviewed against the current estate (.github#361); scores unchanged, three rows corrected where the facts had moved. **GitHub:** settings, rulesets and labels are Terraform in git. **Axiom:** betula's Firewalla logs went to Grafana Cloud Loki on 2026-07-09; Axiom now holds the AWS client's archive plus pre-July Firewalla history, with datasets and tokens in Terraform; the **Grafana Cloud** row notes the Loki logs. **Anthropic:** the Haiku PR reviewer (ADR-0013) joins the dependency, and claytonia workers are no longer Claude-only (ADR-0015). DeepWiki and its Devin app (retired, ADR-0010) and CodeRabbit (retired, ADR-0013) were never rows in this ledger, so nothing to remove. The GitHub and Fastmail runbooks (follow-ups 1 and 2) are still unwritten. |
