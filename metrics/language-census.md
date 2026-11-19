@@ -100,7 +100,7 @@ markup (HTML/CSS), the code that actually executes ranks:
   credits and inventory exports (104,513 lines at the last census) left with
   the repo. What remains is `drosera`'s Grafana dashboard JSON (20,059),
   `epigaea`'s HA registry snapshots (17,594) and `uvularia` (3,877), about 81%
-  of the total. CSV is gone entirely: it was only the two Spotify exports.
+  of the JSON. CSV is gone entirely: it was only the two Spotify exports.
 - **Python is the new executing spine** — 9,784 lines at the last census,
   48,331 now. `brasenia` holds 10,820 and `uvularia` 9,701; the
   `uvularia-records-template` and `uvularia-demo-records` repos each carry
@@ -123,8 +123,6 @@ markup (HTML/CSS), the code that actually executes ranks:
   code (~40%), with Python at ~22% (10,560 against 48,331). Both are consistent
   with ops code written to be audited; the Python ratio dilutes as repos like
   `uvularia` and `brasenia` bring much code with little commentary.
-
----
 
 ---
 
@@ -154,13 +152,14 @@ uncommitted work. Use `cloc` 2.06. Exclusions, and why:
 - **Binary / asset extensions:** `docx, png, pdf, woff2, psd, jpeg, jpg, gz, svg, map`.
 
 `cloc`'s default skipping of byte-identical duplicate files is kept on purpose —
-that's what dedups the mirrored `CLAUDE.md` / PR-workflow text.
+that's what dedups the mirrored `CLAUDE.md` / PR-workflow text *within* a repo
+(each repo is measured on its own, so a copy in another repo counts again).
 
 ### Regenerating
 
 ```bash
 # Fresh clones of every active org repo's default branch, in a scratch dir.
-mkdir -p "$SCRATCH/clones" && cd "$SCRATCH/clones"
+mkdir -p "$SCRATCH/clones" "$SCRATCH/out" && cd "$SCRATCH/clones"
 for r in $(gh repo list lentago --no-archived --limit 100 --json name -q '.[].name'); do
   gh repo clone "lentago/$r" "$r" -- --depth 1 -q
 done
