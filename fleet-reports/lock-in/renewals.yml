@@ -89,6 +89,24 @@ renewals:
       check. Rotate by minting the same form (ADR-0016 Decision 3) and resetting
       the secret before the date, then dispatch a dry run to verify.
 
+  - id: credential-epigaea-sync-pat
+    name: "epigaea sync token (github_pat / HA_SYNC_PAT) — fine-grained PAT expiry"
+    category: credential
+    next_due: 2027-11-20
+    cadence: one-off
+    owner: chris@lentago.dev
+    lead_days: 14
+    notes: >
+      One fine-grained PAT, stored in two places: `github_pat` in the Home
+      Assistant host's secrets file (the context-dump push and version-sync
+      dispatch) and the Actions secret HA_SYNC_PAT on lentago/epigaea (the
+      context-sync and version-sync PR workflows). Neither value is here. It
+      needs Contents, Pull requests and Issues read/write on lentago/epigaea.
+      When it lapses, snapshots and version sync stop without any failure
+      anyone sees (epigaea#546: the previous token lapsed unnoticed for five
+      months). Mint a replacement, reset BOTH stores, then confirm a context
+      snapshot lands before the date.
+
   - id: credential-fleet-reports-pat
     name: "FLEET_REPORTS_TOKEN — fine-grained PAT expiry"
     category: credential
