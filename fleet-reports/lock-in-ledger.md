@@ -213,7 +213,8 @@ store data *in* it, we depend on a *capability*.
   swapping the model behind a worker is a per-job `runtime` key, written down in
   that ADR. What stays Claude-only, and so keeps this row Limited, is the
   reviewer, the interactive Director and EM sessions, and the `CLAUDE.md`
-  instruction family that the peer runtimes read around rather than natively.
+  instruction family, which names Claude (ADR-0015 notes the Gemini and Codex
+  workers must not credit their commits to it).
   The rating is unchanged; the reason for it has narrowed, and a future review
   can move it if the reviewer and the sessions gain a documented substitute.
 
