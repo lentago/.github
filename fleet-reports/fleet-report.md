@@ -1,26 +1,29 @@
 # Lentago Labs Fleet Report
 
 > [!NOTE]
-> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) — no personal, security, or on-prem-internal detail is included (on-prem: the machines in our own building). A prettier, editorialised copy renders on the on-prem LAN.
+> **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state (GitHub issues/PRs + `cloc` over public repo contents) and the public sites' availability probes — no personal, security, or on-prem-internal detail is included (on-prem: the machines in our own building). A prettier, editorialised copy renders on the on-prem LAN.
 
-**Generated:** 2026-11-16 21:25 UTC · Scope: the **26 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-10-17).
+**Generated:** 2026-11-19 18:23 UTC · Scope: the **26 active** `lentago` repos (archived repos frozen &amp; excluded) · Activity window: last 30 days (since 2026-10-20).
 
 ## Snapshot
 
 | Open issues | PRs merged (30d) | Issues closed (30d) | Code (incl. instructions) | Instruction-markdown |
 |---:|---:|---:|---:|---:|
-| **200** | 468 | 248 | **166,648** | 2,616 (20 files) |
+| **200** | 488 | 258 | **168,290** | 2,628 (20 files) |
 
-The fleet's hand-maintained natural-language instruction surface (**2,616 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
+The fleet's hand-maintained natural-language instruction surface (**2,628 lines** across 20 files) is among the largest "languages" in the code base — `reference-checker` alone is almost entirely prompt-program source.
 
 ---
 
 ## Open issues — 200 across 19 repos
 
-### .github — 43 open
+### .github — 46 open
 
 | # | Title |
 |---|-------|
+| [359](https://github.com/lentago/.github/issues/359) | Merge gate: enforce_admins so org owners can't pass the push allowlist unnamed |
+| [352](https://github.com/lentago/.github/issues/352) | terraform plan-on-PR exposes FLEET_ADMIN_TOKEN to any same-repo branch |
+| [346](https://github.com/lentago/.github/issues/346) | Auto-merge green Dependabot patch and minor updates fleet-wide |
 | [343](https://github.com/lentago/.github/issues/343) | Disclosure surfaces that name only Claude, after ADR-0015 (peer worker runtimes) |
 | [335](https://github.com/lentago/.github/issues/335) | Profile: review "a person always decides" after the ADR-0014 amendment |
 | [331](https://github.com/lentago/.github/issues/331) | Adoption receipt: one recorded run of the lock-in ledger from a clean clone |
@@ -65,10 +68,13 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 | [123](https://github.com/lentago/.github/issues/123) | Offering: Liberation Pipeline — SaaS-export collectors + restore drills |
 | [122](https://github.com/lentago/.github/issues/122) | Offering: Good-Standing Kit — registry reconciliation on the uvularia vault (MA pack first) |
 
-### kalmia — 21 open
+### kalmia — 23 open
 
 | # | Title |
 |---|-------|
+| [329](https://github.com/lentago/kalmia/issues/329) | terraform plan: run only when the triggering actor is the maintainer (.github#352 guard) |
+| [328](https://github.com/lentago/kalmia/issues/328) | CI: run tests/bedrock-lan-sync-decide.py |
+| [325](https://github.com/lentago/kalmia/issues/325) | pve3: the NVMe stops answering writes for seconds during a Home Assistant write burst, and the whole host stalls |
 | [309](https://github.com/lentago/kalmia/issues/309) | minecraft-lan (LXC 125): three Bedrock instances, one per world slot |
 | [304](https://github.com/lentago/kalmia/issues/304) | minecraft-lan: update the container description to the Servers join path |
 | [290](https://github.com/lentago/kalmia/issues/290) | standing: repeatable test for the model-selection helpers (effective_model / claude_argv) |
@@ -89,35 +95,12 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 | [124](https://github.com/lentago/kalmia/issues/124) | Retire CT 113 (n8n LXC) after the osmunda burn-in window |
 | [108](https://github.com/lentago/kalmia/issues/108) | Forge: golden images with receipts (checksums, SBOM, provenance) |
 | [107](https://github.com/lentago/kalmia/issues/107) | Donated-hardware refresh profiles (new client class) |
-| [51](https://github.com/lentago/kalmia/issues/51) | Guarantee vzdump coverage for every Terraform-enforced guest (CT 113 had none) |
 
-### drosera — 18 open
-
-| # | Title |
-|---|-------|
-| [330](https://github.com/lentago/drosera/issues/330) | Get Grafana Cloud billable series back under the 90% cap alert |
-| [329](https://github.com/lentago/drosera/issues/329) | Alert when a worker's google-read check line is missing or non-zero for 24 hours |
-| [319](https://github.com/lentago/drosera/issues/319) | Pick up a betula token rotation without depending on a Terraform-touching merge |
-| [309](https://github.com/lentago/drosera/issues/309) | Adoption receipt: one timed drill of the status page to a Pages target |
-| [305](https://github.com/lentago/drosera/issues/305) | Live transcript for Gemini and Codex runner jobs (runner-transcript.alloy) |
-| [295](https://github.com/lentago/drosera/issues/295) | Map-keyed dynamic rule blocks rewrite every later rule when a new key sorts mid-list |
-| [282](https://github.com/lentago/drosera/issues/282) | Migrate the cluster="lentago-lab" label value to "onprem" across emitters |
-| [276](https://github.com/lentago/drosera/issues/276) | Change pipeline producer on LXC 105: logs:read token and deploy |
-| [272](https://github.com/lentago/drosera/issues/272) | Notification-sink contract: one event shape, four sinks, "who gets the call" as a file |
-| [264](https://github.com/lentago/drosera/issues/264) | terraform: cloud_usage rule group shows a perpetual repeat_interval diff (1d vs 24h) |
-| [204](https://github.com/lentago/drosera/issues/204) | Main-branch workflow failures notify nobody — alert on red deploys/applies |
-| [200](https://github.com/lentago/drosera/issues/200) | Queue SLO for the agent fleet (pickup latency) + burn alert |
-| [199](https://github.com/lentago/drosera/issues/199) | Error-budget monthly section in the fleet report |
-| [198](https://github.com/lentago/drosera/issues/198) | Threat Weather: anonymized daily network weather report |
-| [197](https://github.com/lentago/drosera/issues/197) | "Are we open" single source of truth |
-| [194](https://github.com/lentago/drosera/issues/194) | Adopt grafana-stack (LXC 105) guest capacity from kalmia |
-| [169](https://github.com/lentago/drosera/issues/169) | Complete the homelab-observability → drosera rename through CI and hosts |
-| [165](https://github.com/lentago/drosera/issues/165) | New-domain radar: alert when an IoT/smart-home device queries a never-before-seen domain (migrated from betula#11) |
-
-### solidago — 18 open
+### solidago — 17 open
 
 | # | Title |
 |---|-------|
+| [285](https://github.com/lentago/solidago/issues/285) | terraform plan: run only when the triggering actor is the maintainer (.github#352 guard) |
 | [278](https://github.com/lentago/solidago/issues/278) | docs/reference-notes.md: the resource-ID table predates the rebuild |
 | [276](https://github.com/lentago/solidago/issues/276) | teardown: targets still use pre-#82 resource addresses and miss site_pondview |
 | [269](https://github.com/lentago/solidago/issues/269) | Source the two Axiom ingest secrets from betula's state at their next planned rotation (betula#119) |
@@ -134,8 +117,27 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 | [213](https://github.com/lentago/solidago/issues/213) | Fail the apply when an out-of-band secret still holds its placeholder |
 | [184](https://github.com/lentago/solidago/issues/184) | CI plans are never clean: standing task-definition replacements and a recreating SNS email subscription |
 | [167](https://github.com/lentago/solidago/issues/167) | DMARC posture on our own domains first (precondition for the Email Trust kit) |
-| [149](https://github.com/lentago/solidago/issues/149) | Rotating a Lambda's Axiom token requires an unrelated apply to take effect |
-| [144](https://github.com/lentago/solidago/issues/144) | Ask Lambda logs land in CloudWatch with no path to Axiom |
+
+### drosera — 16 open
+
+| # | Title |
+|---|-------|
+| [334](https://github.com/lentago/drosera/issues/334) | terraform plan: run only when the triggering actor is the maintainer (.github#352 guard) |
+| [330](https://github.com/lentago/drosera/issues/330) | Get Grafana Cloud billable series back under the 90% cap alert |
+| [329](https://github.com/lentago/drosera/issues/329) | Alert when a worker's google-read check line is missing or non-zero for 24 hours |
+| [319](https://github.com/lentago/drosera/issues/319) | Pick up a betula token rotation without depending on a Terraform-touching merge |
+| [309](https://github.com/lentago/drosera/issues/309) | Adoption receipt: one timed drill of the status page to a Pages target |
+| [305](https://github.com/lentago/drosera/issues/305) | Live transcript for Gemini and Codex runner jobs (runner-transcript.alloy) |
+| [295](https://github.com/lentago/drosera/issues/295) | Map-keyed dynamic rule blocks rewrite every later rule when a new key sorts mid-list |
+| [282](https://github.com/lentago/drosera/issues/282) | Migrate the cluster="lentago-lab" label value to "onprem" across emitters |
+| [276](https://github.com/lentago/drosera/issues/276) | Change pipeline producer on LXC 105: logs:read token and deploy |
+| [272](https://github.com/lentago/drosera/issues/272) | Notification-sink contract: one event shape, four sinks, "who gets the call" as a file |
+| [264](https://github.com/lentago/drosera/issues/264) | terraform: cloud_usage rule group shows a perpetual repeat_interval diff (1d vs 24h) |
+| [204](https://github.com/lentago/drosera/issues/204) | Main-branch workflow failures notify nobody — alert on red deploys/applies |
+| [200](https://github.com/lentago/drosera/issues/200) | Queue SLO for the agent fleet (pickup latency) + burn alert |
+| [199](https://github.com/lentago/drosera/issues/199) | Error-budget monthly section in the fleet report |
+| [198](https://github.com/lentago/drosera/issues/198) | Threat Weather: anonymized daily network weather report |
+| [197](https://github.com/lentago/drosera/issues/197) | "Are we open" single source of truth |
 
 ### uvularia — 16 open
 
@@ -162,12 +164,12 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 
 | # | Title |
 |---|-------|
+| [251](https://github.com/lentago/claytonia/issues/251) | terraform plan: run only when the triggering actor is the maintainer (.github#352 guard) |
 | [237](https://github.com/lentago/claytonia/issues/237) | Scheduled jobs: a per-job background-task ceiling; a run with no PR and no file is not a success |
 | [236](https://github.com/lentago/claytonia/issues/236) | google-read: a daily check with a shipped log line; ADR-0010 operational note (published client, mint date) |
 | [233](https://github.com/lentago/claytonia/issues/233) | README § Auth still says installation tokens inherit the full App grant |
 | [222](https://github.com/lentago/claytonia/issues/222) | n8n submit form and transcript-shipper comment still carry pre-rename and stale fleet facts |
 | [181](https://github.com/lentago/claytonia/issues/181) | Pre-run failures (failed checkout, refused runtime) post nothing on the job's issue |
-| [174](https://github.com/lentago/claytonia/issues/174) | Runtime disclosure on agent PRs: footer and preamble attribution written by run-job |
 | [166](https://github.com/lentago/claytonia/issues/166) | Peer worker runtimes: Gemini CLI and Codex CLI behind the queue contract |
 | [164](https://github.com/lentago/claytonia/issues/164) | A failed cr-update is visible only in the worker's journal |
 | [157](https://github.com/lentago/claytonia/issues/157) | gitops: the loop never notices its own installed copy drifting from the checkout |
@@ -194,7 +196,7 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 | [4](https://github.com/lentago/mitchella/issues/4) | ADR: supersede ADR-0005 to authorise one scoped write path |
 | [2](https://github.com/lentago/mitchella/issues/2) | Hold a conversation: thread context across turns |
 
-### epigaea — 10 open
+### epigaea — 9 open
 
 | # | Title |
 |---|-------|
@@ -202,14 +204,26 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 | [552](https://github.com/lentago/epigaea/issues/552) | Retired RDM001 office remote still registered in ZHA |
 | [551](https://github.com/lentago/epigaea/issues/551) | Meeting button ESPHome config is not in git |
 | [548](https://github.com/lentago/epigaea/issues/548) | Signage: cards, labels and sheets posted at the point of use |
-| [546](https://github.com/lentago/epigaea/issues/546) | HA-side GitHub PAT returns 403 since the org transfer: version sync and context snapshot pipelines silent since 2026-06-24 |
 | [544](https://github.com/lentago/epigaea/issues/544) | Sonos entity ids inverted: media_player.office is the Basement Arc, media_player.office_office is the Office Playbar |
 | [542](https://github.com/lentago/epigaea/issues/542) | Proxmox VE integration no longer creates button entities (113 restored orphans; #376 regressed) |
 | [541](https://github.com/lentago/epigaea/issues/541) | UPS monitoring blind since ~2026-08-31: NUT connection refused at the NAS |
 | [533](https://github.com/lentago/epigaea/issues/533) | Rename the lentago-lab-status dashboard and the pitzilabs_homelab_observability sensor |
 | [518](https://github.com/lentago/epigaea/issues/518) | Complete the epigaea rename through runtime (tiers 3–4) |
 
-### brasenia — 9 open
+### betula — 8 open
+
+| # | Title |
+|---|-------|
+| [159](https://github.com/lentago/betula/issues/159) | terraform plan: run only when the triggering actor is the maintainer (.github#352 guard) |
+| [148](https://github.com/lentago/betula/issues/148) | GitHub collector README: dry-run example puts secrets in argv |
+| [147](https://github.com/lentago/betula/issues/147) | Cover the pe-publish runner (LXC 123) in the queued-jobs feed |
+| [133](https://github.com/lentago/betula/issues/133) | GitHub Actions feed: carry the PR number so PR head SHAs join to merge commits (drosera ADR-0010) |
+| [130](https://github.com/lentago/betula/issues/130) | GitHub collector: first-tick backfill ran 7.5 min against a 10 min TimeoutStartSec; checkpoint per repo and reuse connections |
+| [126](https://github.com/lentago/betula/issues/126) | Liberation Pipeline: SaaS-export collectors + restore drills, as betula clients (lentago/.github#123) |
+| [107](https://github.com/lentago/betula/issues/107) | Device drift self-report: deployed conf hash vs main |
+| [106](https://github.com/lentago/betula/issues/106) | Third AWS emitter: CloudTrail → archive + weekly access digest |
+
+### brasenia — 8 open
 
 | # | Title |
 |---|-------|
@@ -221,20 +235,6 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 | [123](https://github.com/lentago/brasenia/issues/123) | Close out the 1280×720 pane contract once the external search panes move (ADR-0019) |
 | [41](https://github.com/lentago/brasenia/issues/41) | Lobby-pane variant: a visitor-facing screen in a client's own front room |
 | [31](https://github.com/lentago/brasenia/issues/31) | Focus producer: unauthenticated 304s spend the GitHub budget, so focus panes refresh every few minutes, not every minute |
-| [15](https://github.com/lentago/brasenia/issues/15) | Adopt the display guest (LXC 118) capacity from kalmia |
-
-### betula — 8 open
-
-| # | Title |
-|---|-------|
-| [148](https://github.com/lentago/betula/issues/148) | GitHub collector README: dry-run example puts secrets in argv |
-| [147](https://github.com/lentago/betula/issues/147) | Cover the pe-publish runner (LXC 123) in the queued-jobs feed |
-| [133](https://github.com/lentago/betula/issues/133) | GitHub Actions feed: carry the PR number so PR head SHAs join to merge commits (drosera ADR-0010) |
-| [130](https://github.com/lentago/betula/issues/130) | GitHub collector: first-tick backfill ran 7.5 min against a 10 min TimeoutStartSec; checkpoint per repo and reuse connections |
-| [126](https://github.com/lentago/betula/issues/126) | Liberation Pipeline: SaaS-export collectors + restore drills, as betula clients (lentago/.github#123) |
-| [107](https://github.com/lentago/betula/issues/107) | Device drift self-report: deployed conf hash vs main |
-| [106](https://github.com/lentago/betula/issues/106) | Third AWS emitter: CloudTrail → archive + weekly access digest |
-| [89](https://github.com/lentago/betula/issues/89) | Complete the firewalla-axiom-pipeline → betula rename on-device |
 
 ### osmunda — 6 open
 
@@ -314,8 +314,39 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 
 ## Activity — last 30 days
 
-**716 events**, one stream, newest first — 🟣 468 PRs merged · 🟢 248 issues closed
+**746 events**, one stream, newest first — 🟣 488 PRs merged · 🟢 258 issues closed
 
+- 🟣 2026-11-19 · [epigaea#594](https://github.com/lentago/epigaea/pull/594) — Bump .ha-version to 2026.11.1
+- 🟢 2026-11-19 · [epigaea#546](https://github.com/lentago/epigaea/issues/546) — HA-side GitHub PAT returns 403 since the org transfer: version sync and context snapshot pipelines silent since 2026-06-24
+- 🟣 2026-11-19 · [epigaea#593](https://github.com/lentago/epigaea/pull/593) — context-snapshot: 20261119-181317
+- 🟣 2026-11-19 · [epigaea#592](https://github.com/lentago/epigaea/pull/592) — Docs: record the tested MacroDroid reply recipe and its results
+- 🟣 2026-11-19 · [epigaea#591](https://github.com/lentago/epigaea/pull/591) — Fix the flags sync: an empty normalized name never matches a reply
+- 🟣 2026-11-19 · [epigaea#590](https://github.com/lentago/epigaea/pull/590) — Fix the flags sync's run lock on BusyBox: no flock -w
+- 🟢 2026-11-19 · [claytonia#253](https://github.com/lentago/claytonia/issues/253) — Schedule the Claude pass for unanswered-text flagging (sms-flags)
+- 🟣 2026-11-19 · [epigaea#589](https://github.com/lentago/epigaea/pull/589) — Fix the SMS scripts' Core API read: use a long-lived token, not SUPERVISOR_TOKEN
+- 🟣 2026-11-19 · [epigaea#588](https://github.com/lentago/epigaea/pull/588) — Flag unanswered texts, clear them on reply, nudge three times a day
+- 🟣 2026-11-19 · [epigaea#587](https://github.com/lentago/epigaea/pull/587) — Mirror the SMS inbox to the NAS job share for the agent fleet
+- 🟣 2026-11-18 · [epigaea#586](https://github.com/lentago/epigaea/pull/586) — Filter Messages' own notices out of the SMS inbox
+- 🟢 2026-11-18 · [claytonia#174](https://github.com/lentago/claytonia/issues/174) — Runtime disclosure on agent PRs: footer and preamble attribution written by run-job
+- 🟣 2026-11-18 · [claytonia#241](https://github.com/lentago/claytonia/pull/241) — Runtime disclosure on agent PRs: footer and preamble attribution written by run-job
+- 🟢 2026-11-18 · [.github#355](https://github.com/lentago/.github/issues/355) — Record DEPENDABOT_MERGE_TOKEN's expiry in the renewal calendar
+- 🟣 2026-11-18 · [.github#356](https://github.com/lentago/.github/pull/356) — Record DEPENDABOT_MERGE_TOKEN's expiry in the renewal calendar
+- 🟢 2026-11-18 · [.github#357](https://github.com/lentago/.github/issues/357) — Dependabot sweeper: measure the token and probe auth before sweeping
+- 🟣 2026-11-18 · [.github#358](https://github.com/lentago/.github/pull/358) — Dependabot sweeper: measure the token and probe auth before sweeping
+- 🟢 2026-11-18 · [.github#353](https://github.com/lentago/.github/issues/353) — Dependabot sweeper: workflow and gate, dispatch-only dry run first (ADR-0016)
+- 🟣 2026-11-18 · [.github#354](https://github.com/lentago/.github/pull/354) — Dependabot sweeper: workflow and gate, dispatch-only dry run first (ADR-0016)
+- 🟢 2026-11-18 · [.github#349](https://github.com/lentago/.github/issues/349) — Create the main-only dependabot-merge environment for the Dependabot sweeper's token
+- 🟣 2026-11-18 · [.github#350](https://github.com/lentago/.github/pull/350) — Create the main-only dependabot-merge environment for the Dependabot sweeper's token
+- 🟢 2026-11-18 · [.github#348](https://github.com/lentago/.github/issues/348) — ADR-0016: record Dependabot patch and minor updates as a routine with a deterministic gate
+- 🟣 2026-11-18 · [.github#347](https://github.com/lentago/.github/pull/347) — ADR-0016: Dependabot patch and minor updates merge on a deterministic gate
+- 🟣 2026-11-18 · [.github#290](https://github.com/lentago/.github/pull/290) — feat(fleet-report): per-site error budgets from drosera's SLO queries
+- 🟢 2026-11-18 · [kalmia#323](https://github.com/lentago/kalmia/issues/323) — minecraft-lan: a new release of the world being played waits until nobody is on
+- 🟣 2026-11-18 · [kalmia#324](https://github.com/lentago/kalmia/pull/324) — minecraft_lan: a new copy of the world being played waits until nobody is on
+- 🟣 2026-11-18 · [epigaea#585](https://github.com/lentago/epigaea/pull/585) — Add an SMS inbox package that keeps message text out of history and Grafana
+- 🟣 2026-11-18 · [drosera#333](https://github.com/lentago/drosera/pull/333) — ha_trim: drop the notification and SMS inbox entities
+- 🟢 2026-11-17 · [kalmia#326](https://github.com/lentago/kalmia/issues/326) — standing status: show tmux pane and working directory for sessions outside its tmux
+- 🟣 2026-11-17 · [kalmia#327](https://github.com/lentago/kalmia/pull/327) — standing: show each outside session's tmux pane and working directory
+- 🟣 2026-11-16 · [.github#345](https://github.com/lentago/.github/pull/345) — Weekly fleet reports refresh — 2026-11-16
 - 🟣 2026-11-16 · [epigaea#584](https://github.com/lentago/epigaea/pull/584) — fix(context-dump): read the v3 device registry and refuse an unjoined snapshot
 - 🟣 2026-11-16 · [epigaea#583](https://github.com/lentago/epigaea/pull/583) — fix(ha-sync): fail fast with a named error when HA_SYNC_PAT is empty
 - 🟢 2026-11-15 · [claytonia#242](https://github.com/lentago/claytonia/issues/242) — Runner image: make and python3-venv are missing, so a project's setup hook and make targets can't run
@@ -1031,7 +1062,12 @@ The fleet's hand-maintained natural-language instruction surface (**2,616 lines*
 - 🟣 2026-10-26 · [brasenia#48](https://github.com/lentago/brasenia/pull/48) — Family brief producer: today and tomorrow on the wall
 - 🟣 2026-10-25 · [drosera#285](https://github.com/lentago/drosera/pull/285) — Pve storage alerts
 - 🟣 2026-10-25 · [kalmia#161](https://github.com/lentago/kalmia/pull/161) — PVE storage hardening; xubuntu-ws as always-on primary
-- 🟣 2026-10-19 · [.github#273](https://github.com/lentago/.github/pull/273) — Weekly fleet reports refresh — 2026-10-19
+
+---
+
+## Site error budgets — last 30 days
+
+_Unavailable this run: not configured. The `FLEET_REPORTS_GRAFANA_TOKEN` secret is unset, so this run did not query Grafana Cloud (setup: [`fleet-reports.yml`](../.github/workflows/fleet-reports.yml)). The rest of the report is unaffected._
 
 ---
 
@@ -1045,30 +1081,30 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 | # | Language | Code | Files | Share |
 |---|----------|-----:|------:|------:|
-| 1 | JSON | 51,295 | 492 | 30.8% |
-| 2 | Python | 47,595 | 321 | 28.6% |
-| 3 | YAML | 21,976 | 380 | 13.2% |
-| 4 | HCL | 10,597 | 153 | 6.4% |
-| 5 | Shell (Bourne + Bash) | 9,189 | 117 | 5.5% |
+| 1 | JSON | 51,436 | 492 | 30.6% |
+| 2 | Python | 48,360 | 323 | 28.7% |
+| 3 | YAML | 22,293 | 383 | 13.2% |
+| 4 | HCL | 10,603 | 153 | 6.3% |
+| 5 | Shell (Bourne + Bash) | 9,588 | 119 | 5.7% |
 | 6 | JavaScript | 5,988 | 60 | 3.6% |
 | 7 | Text | 4,672 | 230 | 2.8% |
 | 8 | Astro | 4,338 | 56 | 2.6% |
-| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,616 | 20 | 1.6% |
+| 9 | **Instructions (CLAUDE.md family + prompt-programs)** | 2,628 | 20 | 1.6% |
 | 10 | HTML | 2,442 | 10 | 1.5% |
 | 11 | CSS | 1,611 | 11 | 1.0% |
 | 12 | JSX | 1,232 | 12 | 0.7% |
-| 13 | Jinja Template | 1,209 | 35 | 0.7% |
+| 13 | Jinja Template | 1,211 | 35 | 0.7% |
 | 14 | TypeScript | 964 | 42 | 0.6% |
 | 15 | XML | 635 | 8 | 0.4% |
 | 16 | TOML | 259 | 22 | 0.2% |
 | 17 | Other (TOML / Dockerfile / …) | 30 | 4 | 0.0% |
-| | **CODE TOTAL** | **166,648** | **1973** | 100% |
+| | **CODE TOTAL** | **168,290** | **1980** | 100% |
 | — | _Data / exports — excluded_ | 0 | 0 | — |
 | — | _Generated (lockfiles, SVG, brand artefacts) — excluded_ | 47,549 | 131 | — |
 
 ### Instruction-markdown as code
 
-- **Hygiene family** (20 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,616 lines**
+- **Hygiene family** (20 files · `CLAUDE.md`, `AGENTS.md`, `SKILL.md`): **2,628 lines**
 - **Prompt-programs** (0 files · reference-checker auditors): **0 lines**
 
 #### Hygiene surface — each file is a maintenance obligation
@@ -1077,7 +1113,7 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 |------|------|------:|
 | epigaea | `CLAUDE.md` | 414 |
 | shared-workflows | `CLAUDE.md` | 299 |
-| .github | `CLAUDE.md` | 253 |
+| .github | `CLAUDE.md` | 265 |
 | site-pondviewlane-com | `CLAUDE.md` | 224 |
 | betula | `CLAUDE.md` | 203 |
 | kalmia | `CLAUDE.md` | 168 |
@@ -1095,23 +1131,23 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 | monarda | `CLAUDE.md` | 54 |
 | osmunda | `CLAUDE.md` | 53 |
 | repo-template | `CLAUDE.md` | 22 |
-| **20 files** | | **2,616** |
+| **20 files** | | **2,628** |
 
 ### Per-repo
 
 | Repo | Code | Instr | Doc-md | Content-md | Data |
 |------|-----:|------:|-------:|-----------:|-----:|
-| epigaea | 27,477 | 414 | 1,956 | 0 | 0 |
-| drosera | 26,524 | 176 | 2,924 | 0 | 0 |
+| epigaea | 28,150 | 414 | 2,129 | 0 | 0 |
+| drosera | 26,524 | 176 | 2,932 | 0 | 0 |
 | uvularia | 19,056 | 79 | 6,859 | 0 | 0 |
 | brasenia | 12,442 | 91 | 4,190 | 0 | 0 |
 | uvularia-demo-records | 9,011 | 0 | 3,850 | 0 | 0 |
 | solidago | 8,308 | 99 | 2,842 | 0 | 0 |
-| kalmia | 7,769 | 168 | 2,483 | 0 | 0 |
+| kalmia | 7,931 | 168 | 2,491 | 0 | 0 |
 | site-pondviewlane-com | 7,542 | 224 | 2,898 | 0 | 0 |
 | uvularia-records-template | 6,313 | 0 | 1,042 | 0 | 0 |
-| .github | 4,582 | 253 | 3,091 | 4,949 | 0 |
-| claytonia | 4,273 | 69 | 2,271 | 0 | 0 |
+| .github | 5,276 | 265 | 3,307 | 4,899 | 0 |
+| claytonia | 4,386 | 69 | 2,337 | 0 | 0 |
 | betula | 4,055 | 203 | 2,036 | 0 | 0 |
 | mitchella | 3,752 | 62 | 731 | 0 | 0 |
 | uvularia-demo-ask-rules | 3,589 | 0 | 517 | 0 | 0 |
@@ -1130,21 +1166,22 @@ cloc *code* lines (blank + comment excluded). Shell folds Bourne + Bash. Instruc
 
 ### Markdown taxonomy
 
-The fleet carries **59,976 lines of Markdown across 815 files**; only 4.4% is instruction-code.
+The fleet carries **60,409 lines of Markdown across 818 files**; only 4.4% is instruction-code.
 
 | Class | Lines | Files | Disposition |
 |-------|------:|------:|-------------|
-| **Instructions** | 2,616 | 20 | **counted as code** |
-| Content / data | 10,953 | 95 | payload (vault notes, recipes, test-sets) — excluded |
-| Documentation | 45,931 | 684 | READMEs, docs, ADRs, runbooks — excluded |
+| **Instructions** | 2,628 | 20 | **counted as code** |
+| Content / data | 10,903 | 95 | payload (vault notes, recipes, test-sets) — excluded |
+| Documentation | 46,402 | 687 | READMEs, docs, ADRs, runbooks — excluded |
 | Community-health | 476 | 16 | CONTRIBUTING/SECURITY/templates — excluded |
-| **All Markdown** | **59,976** | **815** | |
+| **All Markdown** | **60,409** | **818** | |
 
 ---
 
 ## Method
 
 - **Issues:** open issues via `gh search issues --owner lentago --state open`; activity from `gh search prs --owner lentago --merged` and closed issues filtered to the 30-day window. Public metadata only — no transcript harvest, ops items, or on-prem detail (those live in the LAN copy).
+- **Error budgets:** drosera's SLO-board and burn-rule PromQL over `probe_success`, sent to the Grafana Cloud stack's Prometheus data source through Grafana's data-source proxy with a read-only Viewer token (`FLEET_REPORTS_GRAFANA_TOKEN`). Without the token the section says so and the rest of the report is unchanged.
 - **Census tool:** `cloc`, run per-repo as `cloc --by-file --vcs=git` so only git-tracked files count (build output, `node_modules`, `.terraform`, venvs never enter). Lines are cloc *code* lines.
 - **Scope:** the active repos owned by the `lentago` org, derived at runtime — personal repos and third-party clones are out of scope; archived repos are frozen and excluded.
 - **Markdown classifier:** instruction-code = `CLAUDE.md`/`AGENTS.md`/`SKILL.md` or a versioned `prompts/*-auditor.md`; community-health = governance filenames + issue/PR templates; content = repo-scoped payload paths (ice-cream `recipes/`·manuscript, reference-checker `test-sets/`·`reports/`, dotgithub `fleet-reports/`); everything else = documentation.
