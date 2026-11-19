@@ -152,25 +152,25 @@ consistent with it:
 ## Regenerating the language census
 
 `metrics/language-census.md` measures languages across Lentago Labs org repos. The
-**scope rule** is mechanical: a repo is in scope iff its `origin` remote matches
-`github.com/lentago/` — third-party clones and personal repos are excluded.
-
-Critically, the regeneration command runs from the **fleet root `~/repos`**, not
-from inside this repo, because it scans every sibling clone:
+**scope rule** is mechanical: a repo is in scope iff `gh repo list lentago
+--no-archived` returns it, measured from a fresh default-branch clone (not the
+`~/repos` working clones, which sit on feature branches). Personal and archived
+repos are excluded.
 
 ```bash
-cd ~/repos
-ORG_REPOS=$(for d in */; do d="${d%/}"; \
-  git -C "$d" remote get-url origin 2>/dev/null \
-    | grep -q 'github.com[:/]lentago/' && printf '%s ' "$d"; done)
+mkdir -p "$SCRATCH/clones" "$SCRATCH/out" && cd "$SCRATCH/clones"
+for r in $(gh repo list lentago --no-archived --limit 100 --json name -q '.[].name'); do
+  gh repo clone "lentago/$r" "$r" -- --depth 1 -q
+done
 
 # --vcs=git resolves the file list per repo, so cloc runs inside each one and the
-# per-language totals are summed (skip the `header` and `SUM` keys).
-for d in $ORG_REPOS; do
-  ( cd "$d" && cloc . --vcs=git --quiet --json \
+# per-language totals are summed (skip the `header` and `SUM` keys). --timeout 0:
+# the default per-file limit aborts a repo's JSON and silently drops it from the sum.
+for d in .github */; do d="${d%/}"
+  ( cd "$d" && cloc . --vcs=git --quiet --json --timeout 0 \
       --exclude-dir=.git,node_modules,.venv,venv,__pycache__,dist,build,.next,vendor,target,.terraform,.astro,.playwright-mcp,site,archive \
       --fullpath --not-match-f='package-lock\.json' \
-      --exclude-ext=docx,png,pdf,woff2,psd,jpeg,jpg,gz,svg,map )
+      --exclude-ext=docx,png,pdf,woff2,psd,jpeg,jpg,gz,svg,map > "$SCRATCH/out/${d#.}.json" )
 done
 ```
 
@@ -182,8 +182,8 @@ previous census — and would have been published as fleet source. Counting only
 git tracks is the durable fix; the per-directory excludes that predate it are kept
 for belt and braces.
 
-The full methodology (exclusions and why, `cloc`'s byte-identical dedup that
-collapses the mirrored `CLAUDE.md` text) lives in the report's Methodology
+The full methodology (exclusions and why, `cloc`'s byte-identical dedup, which
+works within one repo only) lives in the report's Methodology
 section. When refreshing, update **all three** together: the table, the
 "Last updated" date, and a new row in the Update log.
 
