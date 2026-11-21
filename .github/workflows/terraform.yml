@@ -10,6 +10,8 @@
 #   - AWS via OIDC (role dotgithub-github-actions-terraform) for the S3 state backend
 #   - the GitHub provider token from the FLEET_ADMIN_TOKEN repo secret
 # Until FLEET_ADMIN_TOKEN is minted, plan/apply fail at their secret preflight.
+# plan runs only behind `plan-trust` (#352): a PR run triggered by anyone but a
+# trusted login is held, red, until a trusted re-run after reading the diff.
 # That is deliberately safe: `gate` is NOT yet in fleet-ops/required-checks.json,
 # so a red plan cannot block a merge. Requiring `gate` is the final step, taken
 # only after a green plan is observed on a real PR. See terraform/README.md
@@ -35,11 +37,11 @@ on:
       - "fleet-ops/*.json"
       - ".github/workflows/terraform.yml"
 
+# Read-only by default. Only `plan` (behind `plan-trust`) and `apply` (on main)
+# widen this, per job: no job that runs an untrusted PR's content can comment,
+# or mint an OIDC token for the state role (#352).
 permissions:
   contents: read
-  pull-requests: write # plan job posts its output as a PR comment
-  issues: write # createComment goes through the issues API
-  id-token: write # OIDC → AWS for the S3 state backend (plan + apply jobs)
 
 env:
   TERRAFORM_VERSION: "1.14.9"
@@ -88,6 +90,10 @@ jobs:
     needs: changes
     if: needs.changes.outputs.tf == 'true'
     runs-on: ubuntu-latest
+    # `init` here installs whatever providers the PR's config names, so this job
+    # gets no credential at all: no secrets, no OIDC (#352).
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: terraform
@@ -108,13 +114,67 @@ jobs:
       - name: validate
         run: terraform validate -no-color
 
+  # plan-trust (#352; reusable shape, the same job is adopted fleet-wide). `plan`
+  # runs the PR head's terraform config with the fleet admin token, and that
+  # config can leak the token without running anything: a provider `base_url`
+  # sends it to any host, and `init` installs whatever provider the lock file
+  # names. So plan runs only when the run was triggered by a trusted login:
+  # the maintainer's own push, or a deliberate re-run after reading the diff.
+  # Any other trigger (the agent fleet's runner App, @claude, another push to
+  # a maintainer's branch) fails here and `plan` is skipped. `gate` counts that
+  # failure, so nothing merges unplanned. To release a held PR: read its diff,
+  # then "Re-run failed jobs" as a trusted login; `github.triggering_actor` is
+  # then the re-runner. Decided 2026-11-17 on #352 (option A).
+  plan-trust:
+    needs: changes
+    if: >-
+      needs.changes.outputs.tf == 'true' &&
+      github.event_name == 'pull_request' &&
+      github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions: {}
+    env:
+      # Space-separated logins whose runs may plan with the admin token.
+      TRUSTED_ACTORS: cpitzi
+      TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+    steps:
+      - name: Plan trust (triggering actor)
+        run: |
+          for a in $TRUSTED_ACTORS; do
+            if [ "$TRIGGERING_ACTOR" = "$a" ]; then
+              echo "plan trusted: this run was triggered by $a"
+              exit 0
+            fi
+          done
+          {
+            echo "### terraform plan held"
+            echo
+            echo "This run was triggered by \`$TRIGGERING_ACTOR\`, which is not a trusted login, so \`plan\` did not run with the fleet admin token."
+            echo
+            echo "Before releasing it, read the PR's changes to \`terraform/\`, \`fleet-ops/*.json\` and this workflow. Look hardest at:"
+            echo
+            echo "- any \`provider\` block and its arguments, above all \`base_url\`, \`token\` and \`owner\`;"
+            echo "- \`required_providers\`, \`.terraform.lock.hcl\` and any \`module\` source;"
+            echo "- the \`backend\` block;"
+            echo "- any \`data\` source, provisioner or \`external\` program."
+            echo
+            echo "Then use **Re-run failed jobs** while signed in as a trusted login ($TRUSTED_ACTORS)."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::error title=terraform plan held::Triggered by $TRIGGERING_ACTOR, not a trusted login ($TRUSTED_ACTORS). Read the diff (provider and backend blocks first), then re-run failed jobs as a trusted login. See the run summary."
+          exit 1
+
   # plan-on-PR. GitHub-hosted runner (the GitHub + AWS APIs are both internet-
   # reachable), OIDC → AWS for the S3 backend, GitHub provider token from the
   # FLEET_ADMIN_TOKEN repo secret. Posts the plan to the PR; a failed plan fails
   # the job, which turns `gate` red.
   plan:
-    needs: [changes, tf-validate]
+    needs: [changes, tf-validate, plan-trust]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # posts the plan as a PR comment
+      issues: write # createComment goes through the issues API
+      id-token: write # OIDC → AWS for the S3 state backend
     # Dependabot PRs are excluded: a `pull_request` run triggered by Dependabot
     # draws from a separate Dependabot secrets store, not this repo's normal
     # Actions secrets, so FLEET_ADMIN_TOKEN resolves empty and the preflight
@@ -206,6 +266,9 @@ jobs:
   apply:
     needs: [changes, tf-validate]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC → AWS for the S3 state backend
     if: >-
       needs.changes.outputs.tf == 'true' &&
       github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -265,20 +328,23 @@ jobs:
   # it reports on every PR (green when the terraform jobs skipped), so requiring
   # it cannot deadlock a docs-only PR.
   gate:
-    needs: [changes, tf-validate, plan]
+    needs: [changes, tf-validate, plan-trust, plan]
     if: always()
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Report
         run: |
           # needs['tf-validate'], not needs.tf-validate — a hyphen in a context
           # key parses as subtraction in an expression.
-          echo "changes=${{ needs.changes.result }} tf-validate=${{ needs['tf-validate'].result }} plan=${{ needs.plan.result }}"
+          echo "changes=${{ needs.changes.result }} tf-validate=${{ needs['tf-validate'].result }} plan-trust=${{ needs['plan-trust'].result }} plan=${{ needs.plan.result }}"
           # A skipped dependency is a pass (docs-only PR, or plan skipped on push /
           # for dependabot); only a real failure or cancellation fails the gate.
           # A failed plan lands here as `failure`, which is what will block the
           # merge once `gate` is added to required-checks.json (issue #81 step 4).
-          for r in "${{ needs.changes.result }}" "${{ needs['tf-validate'].result }}" "${{ needs.plan.result }}"; do
+          # A held plan lands here as plan-trust=failure (plan itself skips), so a
+          # PR from an untrusted trigger stays red until a trusted re-run (#352).
+          for r in "${{ needs.changes.result }}" "${{ needs['tf-validate'].result }}" "${{ needs['plan-trust'].result }}" "${{ needs.plan.result }}"; do
             case "$r" in
               success|skipped) ;;
               *) echo "::error::terraform checks did not pass ($r)"; exit 1 ;;

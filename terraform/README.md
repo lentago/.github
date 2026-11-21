@@ -84,6 +84,16 @@ the fleet admin PAT as the repo secret `FLEET_ADMIN_TOKEN` (Administration +
 Issues RW, org Administration RW, deliberately no `delete_repo`). Dependabot
 PRs skip `plan` (separate secrets store — the skip counts as pass for `gate`).
 
+`plan` runs the PR head's config with that admin token, so it runs only behind
+the `plan-trust` job (#352). A PR run triggered by anyone but a trusted login
+(`TRUSTED_ACTORS`, today `cpitzi`) is **held**: `plan-trust` fails, `plan`
+skips, and `gate` stays red. To release it, read the diff (provider blocks and
+`base_url`, `required_providers`, the lock file, module sources, the backend,
+any data source), then **Re-run failed jobs** signed in as a trusted login. No
+job that runs an untrusted PR's content holds a secret or can mint the state
+role's OIDC token: permissions are read-only by default and widened per job,
+only for `plan` and `apply`.
+
 Operator applies remain possible for surgery (targeted applies, state moves) —
 but this repo is now an **enforced surface**: whatever is on `main` is the live
 fleet settings, and an unrelated merge will reapply it. Phase 1
