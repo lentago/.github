@@ -1,6 +1,6 @@
 <a href="https://lentago.dev"><img src="./assets/banner.svg" alt="Lentago Labs: production that shows up when the need does." width="100%"></a>
 
-Lentago Labs helps nonprofits and volunteer-run organizations run their technology on systems they own. The help is free for mission-driven organizations, and everything we build is free to take.
+Lentago Labs helps nonprofits and volunteer-run organizations run their technology on systems they own. The help is free for nonprofits and volunteer-run organizations, and everything we build is free to take.
 
 Most small organizations rent their systems: donated software seats and free vendor plans they don't control and can't easily leave. When the volunteer who set things up moves on, the logins often leave with them. We help you move to the same free tools, set up in your own accounts and written down so anyone you trust can run them. Then we show your people how.
 
@@ -13,7 +13,7 @@ Most small organizations rent their systems: donated software seats and free ven
 - **Your help desk and runbooks.** Requests land in a list, answers come from runbooks you wrote once, and the front desk answers at 9 pm.
 - **Your data and your exit.** Every export you'd need to leave a vendor, on a schedule, into a repo you own, with a restore you've drilled.
 
-When you need them, we also help with your building, cloud you own, and AI with receipts. Every one of these already runs in our own shop, in public. [The picker](https://github.com/lentago/lupinus/blob/main/guide/picker.md) starts from what you need and tells you what each costs per month and how ready it is. If you're handing this to your tech person, [your first kit](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) puts a campaign site live in about an hour.
+When you need them, we also help with your building, cloud you own, and AI with receipts. Most of this already runs in our own shop, in public. Two pieces are still being built, and we say so: the scheduled exports and restore drill behind your data and your exit ([#123](https://github.com/lentago/.github/issues/123)), and a kit for your building ([#129](https://github.com/lentago/.github/issues/129)). [The picker](https://github.com/lentago/lupinus/blob/main/guide/picker.md) starts from what you need and tells you what each costs per month and how ready it is. If you're handing this to your tech person, [your first kit](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) puts a campaign site live in about an hour.
 
 ### The pledge
 
