@@ -3,19 +3,19 @@
 > [!NOTE]
 > **Co-authored with [Claude](https://claude.ai)** (Repo Claude, the Lentago Labs fleet steward). Auto-generated weekly from the fleet's public state. An **epic** here is a tracking issue: one labelled `epic`, or an open issue with sub-issues and no parent of its own. Progress is GitHub's own sub-issue count plus the issue's checklist, so an epic that is not kept up to date shows as not moving — that is the point. The sibling [fleet report](fleet-report.md) lists every open issue; this one asks what the issues add up to, and how much of the merged work they describe.
 
-**Generated:** 2026-11-19 18:23 UTC · Scope: the **26 active** `lentago` repos · Merged-PR window: last 30 days (since 2026-10-20) · closed epics shown for 90 days.
+**Generated:** 2026-11-23 23:03 UTC · Scope: the **26 active** `lentago` repos · Merged-PR window: last 30 days (since 2026-10-24) · closed epics shown for 90 days.
 
 ## Snapshot
 
 | Open epics | Closed epics (90d) | Open issues under an epic | Merged PRs (30d) | …that trace to an epic | …loose, with an issue | …loose, no issue | …bots |
 |---:|---:|---:|---:|---:|---:|---:|---:|
-| **20** | 12 | **117 / 196** (60%) | 488 | **241** (59% of non-bot) | 145 | 24 | 78 |
+| **19** | 13 | **117 / 201** (58%) | 514 | **246** (57% of non-bot) | 162 | 27 | 79 |
 
 The *trace to an epic* share is the headline: how much of the month's merged work the epics describe. The two loose columns are work that happened outside any epic — tracked by a stand-alone issue, or by nothing but the PR. Bots are Dependabot and the fleet's own automation, excluded from the share. *Open issues under an epic* counts the issues other than the epics themselves; its complement is the list at the end.
 
 ---
 
-## Open epics — 20
+## Open epics — 19
 
 | Epic | Since | Sub-issues closed | Checklist | PRs (30d) | Last activity |
 |------|-------|-------------------|-----------|----------:|---------------|
@@ -30,11 +30,10 @@ The *trace to an epic* share is the headline: how much of the month's merged wor
 | [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 2026-07-04 | `█░░░░░░░░░` 1/8 | 0/3 | 11 | 2026-10-30 |
 | [uvularia#28](https://github.com/lentago/uvularia/issues/28) Template repositories: sync on merge (shipped 2026-10-06), drift, and their upkeep — epic | 2026-10-03 | `█████░░░░░` 2/4 | — | 9 | 2026-10-30 |
 | [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 2026-10-30 | `██░░░░░░░░` 2/10 | — | 7 | 2026-10-30 |
-| [.github#346](https://github.com/lentago/.github/issues/346) Auto-merge green Dependabot patch and minor updates fleet-wide | 2026-11-18 | `██████████` 5/5 | 0/5 | 6 ⚠︎ 1 known from comments only | 2026-11-18 |
-| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 2026-08-16 | `████░░░░░░` 18/50 | 8/8 | 4 | 2026-11-12 |
+| [.github#346](https://github.com/lentago/.github/issues/346) Auto-merge green Dependabot patch and minor updates fleet-wide | 2026-11-18 | `██████████` 5/5 | 0/5 | 7 ⚠︎ 1 known from comments only | 2026-11-18 |
+| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 2026-08-16 | `████░░░░░░` 18/50 | 8/8 | 5 | 2026-11-12 |
 | [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 2026-10-30 | `██░░░░░░░░` 2/12 | — | 3 | 2026-10-30 |
 | [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 2026-10-12 | `██████████` 5/5 | 3/4 | 3 | 2026-11-04 |
-| [drosera#330](https://github.com/lentago/drosera/issues/330) Get Grafana Cloud billable series back under the 90% cap alert | 2026-11-13 | `██████████` 1/1 | 3/4 | 2 | 2026-11-13 |
 | [.github#235](https://github.com/lentago/.github/issues/235) Genus marks for the eight unmarked species | 2026-10-07 | `░░░░░░░░░░` 0/2 | 11/13 | 1 | 2026-10-30 |
 | [drosera#131](https://github.com/lentago/drosera/issues/131) Roadmap: multi-client telemetry pane — on-prem and solidago (AWS) as peer sources | 2026-07-04 | `░░░░░░░░░░` 0/7 | 0/3 | 1 | 2026-10-30 |
 | [kalmia#20](https://github.com/lentago/kalmia/issues/20) Roadmap: provisioning clients beyond Ansible-on-workstations — VMs and containers as peer targets | 2026-07-04 | `░░░░░░░░░░` 0/7 | 0/3 | 1 | 2026-10-30 |
@@ -48,7 +47,7 @@ The *trace to an epic* share is the headline: how much of the month's merged wor
 
 > Tracking epic for the offerings roadmap: the kits we would build next for the reader ADR-0008 names — the one tech person at an organization that runs on volunteers and donations.
 
-Progress: **18/50** sub-issues closed · checklist **8/8** · **4** PRs merged in the window
+Progress: **18/50** sub-issues closed · checklist **8/8** · **5** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -107,6 +106,7 @@ Progress: **18/50** sub-issues closed · checklist **8/8** · **4** PRs merged i
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-23 · [.github#367](https://github.com/lentago/.github/pull/367) — Simplify the org profile for a nonprofit director
 - 2026-11-04 · [epigaea#577](https://github.com/lentago/epigaea/pull/577) — feat(signage): one shared stylesheet, copied into every piece and checked in CI
 - 2026-11-01 · [site-lentago-dev#113](https://github.com/lentago/site-lentago-dev/pull/113) — Copy: response-time and migration promises match the support page; form labels lead with the task
 - 2026-10-31 · [epigaea#547](https://github.com/lentago/epigaea/pull/547) — feat(cards): adopt printable instruction cards; first card is the Kitchen Speaker Dial
@@ -459,7 +459,7 @@ Progress: **20/24** sub-issues closed · checklist **0/12** · **60** PRs merged
 
 [.github#346](https://github.com/lentago/.github/issues/346) · open since 2026-11-18 · last activity 2026-11-18
 
-Progress: **5/5** sub-issues closed · checklist **0/5** · **6** PRs merged in the window
+Progress: **5/5** sub-issues closed · checklist **0/5** · **7** PRs merged in the window
 
 <details><summary>Sub-issues</summary>
 
@@ -473,6 +473,7 @@ Progress: **5/5** sub-issues closed · checklist **0/5** · **6** PRs merged in 
 
 <details><summary>Merged PRs attributed (30d)</summary>
 
+- 2026-11-19 · [.github#363](https://github.com/lentago/.github/pull/363) — renewals: epigaea sync PAT expires 2027-11-20
 - 2026-11-18 · [.github#356](https://github.com/lentago/.github/pull/356) — Record DEPENDABOT_MERGE_TOKEN's expiry in the renewal calendar
 - 2026-11-18 · [.github#358](https://github.com/lentago/.github/pull/358) — Dependabot sweeper: measure the token and probe auth before sweeping
 - 2026-11-18 · [.github#354](https://github.com/lentago/.github/pull/354) — Dependabot sweeper: workflow and gate, dispatch-only dry run first (ADR-0016)
@@ -707,27 +708,6 @@ Progress: **0/7** sub-issues closed · checklist **0/3** · **1** PR merged in t
 
 </details>
 
-### Get Grafana Cloud billable series back under the 90% cap alert
-
-[drosera#330](https://github.com/lentago/drosera/issues/330) · open since 2026-11-13 · last activity 2026-11-13
-
-> As the Lentago operator, I want Grafana Cloud billable series back under the 90% line of the included free-tier series, so that the "Grafana Cloud billable series near cap" alert resolves and I keep real headroom for new series before ingestion is at risk.
-
-Progress: **1/1** sub-issues closed · checklist **3/4** · **2** PRs merged in the window
-
-<details><summary>Sub-issues</summary>
-
-- ✅ [drosera#332](https://github.com/lentago/drosera/issues/332) ha_trim: drop the UGREEN NAS sensors, keeping the three the Neptune NAS dashboard reads
-
-</details>
-
-<details><summary>Merged PRs attributed (30d)</summary>
-
-- 2026-11-13 · [drosera#331](https://github.com/lentago/drosera/pull/331) — ha_trim: drop the UGREEN NAS sensors no panel reads
-- 2026-11-12 · [drosera#323](https://github.com/lentago/drosera/pull/323) — Drop per-guest virtual interface series in the host Alloy node trim
-
-</details>
-
 ### Signage: cards, labels and sheets posted at the point of use
 
 [epigaea#548](https://github.com/lentago/epigaea/issues/548) · open since 2026-10-31 · last activity 2026-11-04
@@ -901,10 +881,11 @@ Progress: **2/4** sub-issues closed · **9** PRs merged in the window
 
 ---
 
-## Closed in the last 90 days — 12
+## Closed in the last 90 days — 13
 
 | Closed | Epic | Sub-issues | Still open underneath | PRs (30d) |
 |--------|------|-----------:|----------------------:|----------:|
+| 2026-11-19 | [drosera#330](https://github.com/lentago/drosera/issues/330) Get Grafana Cloud billable series back under the 90% cap alert | 1 | 0 | 5 |
 | 2026-11-04 | [.github#234](https://github.com/lentago/.github/issues/234) Enable Dependabot security updates fleet-wide (codified in terraform) | 4 | **4** | 1 |
 | 2026-11-04 | [.github#237](https://github.com/lentago/.github/issues/237) Retire DeepWiki across the fleet | 0 | 0 | 2 |
 | 2026-11-04 | [lupinus#33](https://github.com/lentago/lupinus/issues/33) Epic: adoption guide — Phase 2 (receipts for the near-Kits, and the template reconciled) | 2 | 0 | 3 |
@@ -924,14 +905,14 @@ A closed epic with open sub-issues is a hand-off: the work was spun out and stil
 
 ## Where the last 30 days went
 
-**488 PRs merged** across the fleet. Each is attributed once (an epic, or one loose bucket); a PR that serves two epics counts for both.
+**514 PRs merged** across the fleet. Each is attributed once (an epic, or one loose bucket); a PR that serves two epics counts for both.
 
 | Destination | PRs | Share |
 |-------------|----:|------:|
 | [.github#318](https://github.com/lentago/.github/issues/318) Security review 2026-11-02: fleet follow-through | 60 | 12% |
 | [.github#285](https://github.com/lentago/.github/issues/285) Rename debt: the tier 3–4 renames still open across the fleet | 36 | 7% |
 | [claytonia#117](https://github.com/lentago/claytonia/issues/117) Make never-merge a boundary: required check that blocks runner-App PRs without a human approval | 34 | 7% |
-| [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 32 | 7% |
+| [claytonia#47](https://github.com/lentago/claytonia/issues/47) Roadmap: platform-agnostic workers — Claude Code as one runtime behind the queue contract | 32 | 6% |
 | [.github#304](https://github.com/lentago/.github/issues/304) External review 2026-11-01: fleet follow-through | 30 | 6% |
 | [.github#276](https://github.com/lentago/.github/issues/276) Haiku replaces CodeRabbit as the fleet's PR reviewer | 26 | 5% |
 | [epigaea#548](https://github.com/lentago/epigaea/issues/548) Signage: cards, labels and sheets posted at the point of use | 17 | 3% |
@@ -939,30 +920,30 @@ A closed epic with open sub-issues is a hand-off: the work was spun out and stil
 | [brasenia#130](https://github.com/lentago/brasenia/issues/130) Phase 3: the fleet on the display, and what stays open after ADR-0020 | 12 | 2% |
 | [betula#74](https://github.com/lentago/betula/issues/74) Roadmap: core/client split — Firewalla and solidago (AWS) as peer collector clients | 11 | 2% |
 | [uvularia#28](https://github.com/lentago/uvularia/issues/28) Template repositories: sync on merge (shipped 2026-10-06), drift, and their upkeep — epic | 9 | 2% |
+| [.github#346](https://github.com/lentago/.github/issues/346) Auto-merge green Dependabot patch and minor updates fleet-wide | 7 | 1% |
 | [.github#286](https://github.com/lentago/.github/issues/286) Fleet secrets handling (ADR-0011): the follow-through | 7 | 1% |
-| [.github#346](https://github.com/lentago/.github/issues/346) Auto-merge green Dependabot patch and minor updates fleet-wide | 6 | 1% |
+| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 5 | 1% |
+| [drosera#330](https://github.com/lentago/drosera/issues/330) Get Grafana Cloud billable series back under the 90% cap alert _(closed)_ | 5 | 1% |
 | [solidago#180](https://github.com/lentago/solidago/issues/180) Hardening backlog from tf-lint's first trivy run (ECR immutability, CI-role least-privilege, SNS encryption) _(closed)_ | 5 | 1% |
-| [.github#134](https://github.com/lentago/.github/issues/134) Offerings roadmap — tracking epic (refreshed 2026-10-06) | 4 | 1% |
 | [brasenia#12](https://github.com/lentago/brasenia/issues/12) Second functional path: Cast-native rendering, then deprecate and turn down the Roku/HLS chain _(closed)_ | 4 | 1% |
 | [mitchella#31](https://github.com/lentago/mitchella/issues/31) Roadmap to MVP: prove the desk, file on the user's behalf, run it unattended | 3 | 1% |
 | [monarda#18](https://github.com/lentago/monarda/issues/18) Rung 2: the plain organization site, with a rescue import and editing without git — epic | 3 | 1% |
 | [lupinus#33](https://github.com/lentago/lupinus/issues/33) Epic: adoption guide — Phase 2 (receipts for the near-Kits, and the template reconciled) _(closed)_ | 3 | 1% |
-| [drosera#330](https://github.com/lentago/drosera/issues/330) Get Grafana Cloud billable series back under the 90% cap alert | 2 | 0% |
 | [.github#237](https://github.com/lentago/.github/issues/237) Retire DeepWiki across the fleet _(closed)_ | 2 | 0% |
 | [.github#257](https://github.com/lentago/.github/issues/257) Adopt the six-promise map (ADR-0012) — rollout epic _(closed)_ | 2 | 0% |
 | [lupinus#40](https://github.com/lentago/lupinus/issues/40) Epic: adoption guide — Phase 3 (receipts for the four near-Kits) | 1 | 0% |
 | [.github#234](https://github.com/lentago/.github/issues/234) Enable Dependabot security updates fleet-wide (codified in terraform) _(closed)_ | 1 | 0% |
 | [drosera#251](https://github.com/lentago/drosera/issues/251) Change pipeline: see every merge travel from push to live, keyed by commit SHA _(closed)_ | 1 | 0% |
-| [.github#269](https://github.com/lentago/.github/issues/269) Scrub "homelab" and kin: the on-prem half of the estate is "on-prem" _(closed)_ | 1 | 0% |
 | [.github#192](https://github.com/lentago/.github/issues/192) Epic: reposition every reader-facing surface to the pro-bono practice, one reader, one voice (ADR-0008) _(closed)_ | 1 | 0% |
+| [.github#269](https://github.com/lentago/.github/issues/269) Scrub "homelab" and kin: the on-prem half of the estate is "on-prem" _(closed)_ | 1 | 0% |
 | [drosera#131](https://github.com/lentago/drosera/issues/131) Roadmap: multi-client telemetry pane — on-prem and solidago (AWS) as peer sources | 1 | 0% |
 | [.github#235](https://github.com/lentago/.github/issues/235) Genus marks for the eight unmarked species | 1 | 0% |
 | [kalmia#20](https://github.com/lentago/kalmia/issues/20) Roadmap: provisioning clients beyond Ansible-on-workstations — VMs and containers as peer targets | 1 | 0% |
-| **All epics** | **241** | **49%** |
-| Loose — closes or cites an issue outside any epic | 145 | 30% |
-| Loose — no issue reference at all | 24 | 5% |
+| **All epics** | **246** | **48%** |
+| Loose — closes or cites an issue outside any epic | 162 | 32% |
+| Loose — no issue reference at all | 27 | 5% |
 | Dependabot | 51 | 10% |
-| Fleet automation (report refreshes, template sync) | 27 | 6% |
+| Fleet automation (report refreshes, template sync) | 28 | 5% |
 
 ### De-facto epics
 
@@ -971,6 +952,7 @@ Issues outside any epic that at least 4 merged PRs reference. Each is a campaign
 | Issue | PRs | Repos touched | State |
 |-------|----:|--------------:|-------|
 | [solidago#271](https://github.com/lentago/solidago/issues/271) cost: one NAT gateway, Container Insights off, Single-AZ RDS, and a budget that matches the bill | 6 | 1 | closed |
+| [kalmia#286](https://github.com/lentago/kalmia/issues/286) Host the Director and standing EMs on xubuntu-ws: resize VM 102 and provision it as the session host | 5 | 1 | open |
 | [claytonia#242](https://github.com/lentago/claytonia/issues/242) Runner image: make and python3-venv are missing, so a project's setup hook and make targets can't run | 5 | 1 | closed |
 | [epigaea#546](https://github.com/lentago/epigaea/issues/546) HA-side GitHub PAT returns 403 since the org transfer: version sync and context snapshot pipelines silent since 2026-06-24 | 4 | 1 | closed |
 | [solidago#277](https://github.com/lentago/solidago/issues/277) cost: app service to one task on ARM64, Fargate Spot for the site tasks, WAF to two rule groups | 4 | 1 | closed |
@@ -982,31 +964,34 @@ Where the merged work that no epic describes landed. A tall row is either a prog
 
 | Repo | With an issue | No issue | Total |
 |------|--------------:|---------:|------:|
-| kalmia | 56 | 1 | **57** |
+| kalmia | 69 | 2 | **71** |
 | brasenia | 36 | 3 | **39** |
-| epigaea | 9 | 15 | **24** |
+| epigaea | 9 | 17 | **26** |
 | claytonia | 12 | 0 | **12** |
-| .github | 9 | 0 | **9** |
+| .github | 11 | 0 | **11** |
 | solidago | 9 | 0 | **9** |
 | drosera | 4 | 2 | **6** |
+| betula | 3 | 0 | **3** |
 | monarda | 3 | 0 | **3** |
 | shared-workflows | 2 | 1 | **3** |
 | uvularia-demo-site | 1 | 0 | **1** |
 | uvularia-demo-ask-rules | 1 | 0 | **1** |
 | uvularia-demo-records | 1 | 0 | **1** |
 | lupinus | 1 | 0 | **1** |
-| betula | 1 | 0 | **1** |
 | uvularia | 0 | 1 | **1** |
 | site-icecreamtofightwith-com | 0 | 1 | **1** |
 
 ---
 
-## Open issues outside any epic — 79
+## Open issues outside any epic — 84
 
 The backlog the epics do not describe. Some of it is deliberately small and stand-alone; the rest is either a program without a parent or an issue that should be linked under one.
 
-**kalmia** — 14
+**kalmia** — 16
 
+- [kalmia#350](https://github.com/lentago/kalmia/issues/350) In-pool static guest IPs have no Firewalla reservation (brasenia .19) _(since 2026-11-22)_
+- [kalmia#348](https://github.com/lentago/kalmia/issues/348) minecraft-lan: a restart can leave the Bedrock server with no join port (TCP 19132), and nothing notices _(since 2026-11-21)_
+- [kalmia#332](https://github.com/lentago/kalmia/issues/332) Host-qualify names of ad-hoc claude sessions _(since 2026-11-19)_
 - [kalmia#329](https://github.com/lentago/kalmia/issues/329) terraform plan: run only when the triggering actor is the maintainer (.github#352 guard) _(since 2026-11-18)_
 - [kalmia#328](https://github.com/lentago/kalmia/issues/328) CI: run tests/bedrock-lan-sync-decide.py _(since 2026-11-18)_
 - [kalmia#325](https://github.com/lentago/kalmia/issues/325) pve3: the NVMe stops answering writes for seconds during a Home Assistant write burst, and the whole host stalls _(since 2026-11-17)_
@@ -1017,7 +1002,6 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 - [kalmia#277](https://github.com/lentago/kalmia/issues/277) docs: record that standing and director start sessions with Remote Control by default, and the opt-out _(since 2026-11-02)_
 - [kalmia#274](https://github.com/lentago/kalmia/issues/274) docs: README's CI table and CLAUDE.md's CI section lag the workflows (pinned shared-workflows tags, five required checks, agent-pr-gate) _(since 2026-11-02)_
 - [kalmia#258](https://github.com/lentago/kalmia/issues/258) standing: a running EM can't find a replacement Director; add a fallback order and `standing redirect` _(since 2026-11-02)_
-- [kalmia#251](https://github.com/lentago/kalmia/issues/251) site.yml: tagged runs skip the profile/family pre_tasks, so --tags shell renders .bashrc with role defaults _(since 2026-10-31)_
 - [kalmia#247](https://github.com/lentago/kalmia/issues/247) standing: concurrent first launches race on new-session; one EM silently not started _(since 2026-10-31)_
 - [kalmia#198](https://github.com/lentago/kalmia/issues/198) pe-publish: close the job guard's cancellation window with a publish the runner can't trigger alone _(since 2026-10-29)_
 - [kalmia#14](https://github.com/lentago/kalmia/issues/14) Live-test the ubuntu_laptop profile on real ThinkPad hardware _(since 2026-07-01)_
@@ -1034,6 +1018,28 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 - [solidago#239](https://github.com/lentago/solidago/issues/239) uvularia-demo SSM slots use the aws/ssm key, which any ReadOnlyAccess principal can decrypt _(since 2026-11-01)_
 - [solidago#184](https://github.com/lentago/solidago/issues/184) CI plans are never clean: standing task-definition replacements and a recreating SNS email subscription _(since 2026-08-19)_
 
+**.github** — 8
+
+- [.github#368](https://github.com/lentago/.github/issues/368) voice.md: name the org profile's reader, and drop em-dashes from canonical blocks _(since 2026-11-23)_
+- [.github#359](https://github.com/lentago/.github/issues/359) Merge gate: enforce_admins so org owners can't pass the push allowlist unnamed _(since 2026-11-18)_
+- [.github#352](https://github.com/lentago/.github/issues/352) terraform plan-on-PR exposes FLEET_ADMIN_TOKEN to any same-repo branch _(since 2026-11-18)_
+- [.github#343](https://github.com/lentago/.github/issues/343) Disclosure surfaces that name only Claude, after ADR-0015 (peer worker runtimes) _(since 2026-11-13)_
+- [.github#335](https://github.com/lentago/.github/issues/335) Profile: review "a person always decides" after the ADR-0014 amendment _(since 2026-11-04)_
+- [.github#329](https://github.com/lentago/.github/issues/329) Census: surface a failed cloc run instead of skipping the repo; add --timeout 0 to the hand-run language-census recipe _(since 2026-11-04)_
+- [.github#201](https://github.com/lentago/.github/issues/201) terraform: creating a repo from repos.json fails on GitHub's default labels (422 already_exists) _(since 2026-10-03)_
+- [.github#175](https://github.com/lentago/.github/issues/175) A public repo entry with a null template_source cannot receive its first commit _(since 2026-08-28)_
+
+**epigaea** — 8
+
+- [epigaea#598](https://github.com/lentago/epigaea/issues/598) sms_answered is stale: replies are not being recorded _(since 2026-11-23)_
+- [epigaea#596](https://github.com/lentago/epigaea/issues/596) Signage: a 3 by 5 card form, or keep 3 by 5 prints off the books _(since 2026-11-20)_
+- [epigaea#581](https://github.com/lentago/epigaea/issues/581) gitops-sync: a change to dashboards/entity-allowlist.txt forces a full Core restart _(since 2026-11-15)_
+- [epigaea#552](https://github.com/lentago/epigaea/issues/552) Retired RDM001 office remote still registered in ZHA _(since 2026-10-31)_
+- [epigaea#551](https://github.com/lentago/epigaea/issues/551) Meeting button ESPHome config is not in git _(since 2026-10-31)_
+- [epigaea#544](https://github.com/lentago/epigaea/issues/544) Sonos entity ids inverted: media_player.office is the Basement Arc, media_player.office_office is the Office Playbar _(since 2026-10-31)_
+- [epigaea#542](https://github.com/lentago/epigaea/issues/542) Proxmox VE integration no longer creates button entities (113 restored orphans; #376 regressed) _(since 2026-10-31)_
+- [epigaea#541](https://github.com/lentago/epigaea/issues/541) UPS monitoring blind since ~2026-08-31: NUT connection refused at the NAS _(since 2026-10-31)_
+
 **uvularia** — 8
 
 - [uvularia#142](https://github.com/lentago/uvularia/issues/142) Template READMEs carry no co-authorship disclosure _(since 2026-11-04)_
@@ -1044,16 +1050,6 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 - [uvularia#126](https://github.com/lentago/uvularia/issues/126) demo: carry the public-at-once wording (#114) into the demo's own templates _(since 2026-11-02)_
 - [uvularia#125](https://github.com/lentago/uvularia/issues/125) template-sync: drift on push compares origin/main, so back-to-back merges fail the earlier run _(since 2026-11-02)_
 - [uvularia#123](https://github.com/lentago/uvularia/issues/123) Ask: make the unsourced-answer fallback reply a rules-side setting _(since 2026-11-02)_
-
-**.github** — 7
-
-- [.github#359](https://github.com/lentago/.github/issues/359) Merge gate: enforce_admins so org owners can't pass the push allowlist unnamed _(since 2026-11-18)_
-- [.github#352](https://github.com/lentago/.github/issues/352) terraform plan-on-PR exposes FLEET_ADMIN_TOKEN to any same-repo branch _(since 2026-11-18)_
-- [.github#343](https://github.com/lentago/.github/issues/343) Disclosure surfaces that name only Claude, after ADR-0015 (peer worker runtimes) _(since 2026-11-13)_
-- [.github#335](https://github.com/lentago/.github/issues/335) Profile: review "a person always decides" after the ADR-0014 amendment _(since 2026-11-04)_
-- [.github#329](https://github.com/lentago/.github/issues/329) Census: surface a failed cloc run instead of skipping the repo; add --timeout 0 to the hand-run language-census recipe _(since 2026-11-04)_
-- [.github#201](https://github.com/lentago/.github/issues/201) terraform: creating a repo from repos.json fails on GitHub's default labels (422 already_exists) _(since 2026-10-03)_
-- [.github#175](https://github.com/lentago/.github/issues/175) A public repo entry with a null template_source cannot receive its first commit _(since 2026-08-28)_
 
 **claytonia** — 7
 
@@ -1073,15 +1069,6 @@ The backlog the epics do not describe. Some of it is deliberately small and stan
 - [drosera#295](https://github.com/lentago/drosera/issues/295) Map-keyed dynamic rule blocks rewrite every later rule when a new key sorts mid-list _(since 2026-10-30)_
 - [drosera#264](https://github.com/lentago/drosera/issues/264) terraform: cloud_usage rule group shows a perpetual repeat_interval diff (1d vs 24h) _(since 2026-10-07)_
 - [drosera#199](https://github.com/lentago/drosera/issues/199) Error-budget monthly section in the fleet report _(since 2026-08-16)_
-
-**epigaea** — 6
-
-- [epigaea#581](https://github.com/lentago/epigaea/issues/581) gitops-sync: a change to dashboards/entity-allowlist.txt forces a full Core restart _(since 2026-11-15)_
-- [epigaea#552](https://github.com/lentago/epigaea/issues/552) Retired RDM001 office remote still registered in ZHA _(since 2026-10-31)_
-- [epigaea#551](https://github.com/lentago/epigaea/issues/551) Meeting button ESPHome config is not in git _(since 2026-10-31)_
-- [epigaea#544](https://github.com/lentago/epigaea/issues/544) Sonos entity ids inverted: media_player.office is the Basement Arc, media_player.office_office is the Office Playbar _(since 2026-10-31)_
-- [epigaea#542](https://github.com/lentago/epigaea/issues/542) Proxmox VE integration no longer creates button entities (113 restored orphans; #376 regressed) _(since 2026-10-31)_
-- [epigaea#541](https://github.com/lentago/epigaea/issues/541) UPS monitoring blind since ~2026-08-31: NUT connection refused at the NAS _(since 2026-10-31)_
 
 **shared-workflows** — 5
 
