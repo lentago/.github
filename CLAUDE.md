@@ -190,8 +190,8 @@ section. When refreshing, update **all three** together: the table, the
 ## Weekly fleet reports (automated)
 
 `metrics/generate-fleet-reports.py` regenerates a single GitHub-rendered report,
-**`fleet-reports/fleet-report.md`**, linked from the org profile under **Fleet in
-numbers**. It has three parts:
+**`fleet-reports/fleet-report.md`**, linked from the org profile's **Why you can trust it**
+section. It has three parts:
 
 - **Issues** — open issues by repo + a 30-day merge/close activity snapshot, from
   public GitHub metadata only. The public, auto-generated sibling of the LAN-only
@@ -271,8 +271,8 @@ its cap does the same.
 ## Incident register (the second periodic fleet report)
 
 `fleet-reports/incidents.md` is the incident sibling of `fleet-report.md`: a
-chronological register of post-mortems, linked from the org profile under **Fleet
-in numbers**. The full write-ups live under `fleet-reports/incidents/` as
+chronological register of post-mortems, linked from the org profile's **Why you can
+trust it** section. The full write-ups live under `fleet-reports/incidents/` as
 `<YYYY-MM-DD>-<slug>.md`, produced by the local **`/incident-digest`** playbook
 (harvested from `~/.claude/projects/` session transcripts — they cannot be
 generated in CI). The same `metrics/generate-fleet-reports.py` builds the register
