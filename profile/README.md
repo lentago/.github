@@ -1,199 +1,38 @@
-<div align="center">
+<a href="https://lentago.dev"><img src="./assets/banner.svg" alt="Lentago Labs: production that shows up when the need does." width="100%"></a>
 
-<a href="https://lentago.dev"><img src="./assets/banner.svg" alt="Lentago Labs — Production that shows up when the need does." width="100%"></a>
+Lentago Labs helps nonprofits and volunteer-run organizations run their technology on systems they own. The help is free for nonprofits and volunteer-run organizations, and everything we build is free to take.
 
-**Lentago Labs is a pro-bono operations practice for organizations that run on volunteers, donations, and one overworked tech person** — the nonprofit with one tech director, the all-volunteer org with one person who does the computers, the single technician covering a whole shop alone.
+Most small organizations rent their systems: donated software seats and free vendor plans they don't control and can't easily leave. When the volunteer who set things up moves on, the logins often leave with them. We help you move to the same free tools, set up in your own accounts and written down so anyone you trust can run them. Then we show your people how.
 
-Most mission-driven teams rent their systems: donated software seats and free vendor tiers they don't own and can't leave. We help you move to infrastructure you own outright — the same free tiers, in your own accounts, set up as code you can copy, run by people we've shown how. Everything here is free to take. Call when you need to, if you need to.
+### What we help with
 
-<sub>What you're looking at is our own estate — a small cluster of servers we own and a production-grade AWS account — run exactly the way we'd tell you to run yours: everything as code, every change a pull request, in the open. We publish it because a method you can watch working is worth more than one you're asked to trust.
+- **Your site and giving page.** A campaign page you own outright, with a donate button that goes straight to your payment processor.
+- **Your records and your proof.** Minutes, policies, and filings in one vault, the posting rules beside them, and a public board that shows what went up on time. When the board, the auditor, the funder, or the insurer asks, you send a link.
+- **Your machines and logins.** Every laptop set up the same way, every login with a named owner, and leaving is a pull request, a proposed change someone else reviews before it lands.
+- **Your alarms and status.** Know when something breaks before the executive director does, and a file that says who gets the call.
+- **Your help desk and runbooks.** Requests land in a list, answers come from runbooks you wrote once, and the front desk answers at 9 pm.
+- **Your data and your exit.** Every export you'd need to leave a vendor, on a schedule, into a repo you own, with a restore you've drilled.
 
-<b>We practice what we publish.</b></sub>
+When you need them, we also help with your building, cloud you own, and AI with receipts. Most of this already runs in our own shop, in public. Two pieces are still being built, and we say so: the scheduled exports and restore drill behind your data and your exit ([#123](https://github.com/lentago/.github/issues/123)), and a kit for your building ([#129](https://github.com/lentago/.github/issues/129)). [The picker](https://github.com/lentago/lupinus/blob/main/guide/picker.md) starts from what you need and tells you what each costs per month and how ready it is. If you're handing this to your tech person, [your first kit](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) puts a campaign site live in about an hour.
 
-<br/>
+### The pledge
 
-**[lentago.dev](https://lentago.dev)** &nbsp;·&nbsp; the practice, the pledge, and how to get in touch<br/>
-**This page** &nbsp;·&nbsp; the systems behind it, with receipts in git
+> We will never host your systems for you. You'll own every piece, we'll show your people how to run it, and firing us is a runbook.
 
-</div>
+A runbook is a written set of steps. If you ever want to stop working with us, you follow it and keep everything, with nothing to move off of. That's a [standing decision](https://github.com/lentago/.github/blob/main/docs/adr/0007-client-owned-delivery-no-multi-tenant-saas.md), not a slogan.
 
-> **The pledge** — We will never host your systems for you. You'll own every piece, we'll show your people how to run it, and firing us is a runbook.
->
-> <sub>Not a slogan — the standing delivery model, written down: [ADR-0007 · client-owned delivery, no multi-tenant SaaS](https://github.com/lentago/.github/blob/main/docs/adr/0007-client-owned-delivery-no-multi-tenant-saas.md).</sub>
+### Why you can trust it
 
-> **Heard the enterprise words but never seen them done small?** The [asclepias glossary](https://github.com/lentago/asclepias/blob/main/manual/glossary.md) translates CAB, CMDB, PIR and the rest into what we actually do here — and what you can do too.
+We run our own systems exactly the way we'd suggest you run yours, and we publish all of it. Every change is a pull request, so there's a written record of what changed, when, and why. Humans own the policy and direct every change. Every directed pull request gets an AI review. Opted-in scheduled routines, like routine software updates, merge on their deterministic gate alone: a fixed set of automatic checks, with no judgment call in it. [The merge promise](https://github.com/lentago/.github/blob/main/docs/adr/0014-merge-promise-humans-own-the-policy.md) spells out who approves what.
 
-### 📦 &nbsp; What we build
+When something breaks, we write it up and publish it in our [incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md), the embarrassing ones included. Our [lock-in ledger](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md) scores every vendor we depend on by how hard it would be to leave, and a [weekly fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md) shows what's open and what moved.
 
-<sub>Four things we deliver into estates you own. Each one is already running in the open, and each links to a live receipt: a public repo you can read, fork, and run today.</sub>
+### Who's behind it
 
-| | What you get | Receipt |
-| :-- | :-- | :-- |
-| **Public record** | Your minutes, notices, bylaws, and policies as plain files in a repository you own, with the posting rules next to them. Merge a change and the records publish, a public "Is it posted?" board updates, and a stamped receipt is left behind. One repository from one template on a free GitHub account; a branded site, an Ask box and an operator pane are optional further rungs. | [uvularia](https://github.com/lentago/uvularia) · [live board](https://lentago.github.io/uvularia-demo-records/) |
-| **Platform** | A complete AWS environment written entirely as code: private networking, containers behind a load balancer, a managed database, a firewall, budgets and alarms. No long-lived cloud passwords anywhere. It costs real money, so the runbook also says how to turn it off. | [solidago](https://github.com/lentago/solidago) |
-| **Observability** | Dashboards and alerts for everything you run, on Grafana Cloud's free tier. One small collector per machine; dashboards kept as files you review before they change. | [drosera](https://github.com/lentago/drosera) |
-| **Enablement** | The guide, in two volumes. Vol. 1 walks through how our estate works, with labs you can run against it for free. Vol. 2 gets a product into your accounts and running from an ops vault you own. | [asclepias](https://github.com/lentago/asclepias) · [lupinus](https://github.com/lentago/lupinus) |
+Lentago Labs is Chris, an operator who has kept production systems running around the clock since 1997, from overnight shifts in server rooms to cloud platforms defined entirely in code. Chris is an operator, not a software engineer, and directs and reviews the work while Claude, an AI model made by Anthropic, writes most of the code.
 
-<sub>Not a kit? Audits, migrations, incident response, pipeline hardening — sized to your constraints, delivered into your estate under the same pledge. Free for nonprofits and volunteer-run orgs; everyone else, ask. <a href="https://lentago.dev/#contact">Get in touch</a>.</sub>
+### Get in touch
 
-### 🔁 &nbsp; How everything moves
+The help is free for nonprofits and volunteer-run organizations; everyone else, ask. If you know what you need, say so. If you don't, describe what's going wrong. Write to **chris@lentago.dev** or use the form at **[lentago.dev](https://lentago.dev/#contact)**, and you'll usually hear back within a business day.
 
-Everything is code. Every change is a pull request — a proposed change that is checked before it lands. Merges apply automatically. A self-hosted fleet of AI coding agents does directed work. **Humans own the policy and direct every change. Every directed pull request gets an AI review. Opted-in scheduled routines merge on their deterministic gate alone.** That is the whole operating model: nothing here changes except through a pull request, and the merged PR *is* the change record. The [merge promise](https://github.com/lentago/.github/blob/main/docs/adr/0014-merge-promise-humans-own-the-policy.md) spells out who approves what.
-
-### ⚡ &nbsp; Every merge changes something real
-
-<sub>This is not a sandbox of toy YAML. Merge a PR in one of these repos and a live surface moves:</sub>
-
-| Merge here… | …and it moves |
-| :-- | :-- |
-| [**drosera**](https://github.com/lentago/drosera) | our Grafana Cloud dashboards and alerts |
-| [**kalmia**](https://github.com/lentago/kalmia) | every virtual machine and container on our own hardware |
-| [**claytonia**](https://github.com/lentago/claytonia) | the agent runner pool itself |
-| [**osmunda**](https://github.com/lentago/osmunda) | what runs on our Kubernetes cluster — the cluster pulls the change itself |
-| [**solidago**](https://github.com/lentago/solidago) | the AWS platform, and the live sites it serves |
-| [**uvularia-demo-records**](https://github.com/lentago/uvularia-demo-records) | the demonstration vault's published records, its receipts, and the [public board](https://lentago.github.io/uvularia-demo-records/) it publishes itself |
-| [**.github**](https://github.com/lentago/.github) | every repo's branch rules, required checks, and labels |
-
-### 🧰 &nbsp; What the estate is built on
-
-<sub><b>Emphatically free-tier, wherever possible.</b> When a service offers a free tier, that's the one we run — caps and retention windows are treated as real operating constraints to be managed, not something to buy past.</sub>
-
-<sub>Cloud & containers</sub><br/>
-![AWS](https://img.shields.io/badge/AWS-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTE4LjcgMTAuMmE2LjYgNi42IDAgMCAwLTEyLjktMS4yQTUuMSA1LjEgMCAwIDAgNi4xIDE5aDExLjZhNC42IDQuNiAwIDAgMCAxLTguOHoiLz48L3N2Zz4K)
-![ECS Fargate](https://img.shields.io/badge/ECS%20Fargate-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTIgMS41IDIxLjUgN3YxMEwxMiAyMi41IDIuNSAxN1Y3TDEyIDEuNXptMCAyLjNMNC41IDguMnY3LjZsNy41IDQuNCA3LjUtNC40VjguMkwxMiAzLjh6Ii8%2BPHBhdGggZmlsbD0iI0UwQTgxQyIgZD0iTTguNSA5LjVoN3Y3aC03eiIvPjwvc3ZnPgo%3D)
-![Docker](https://img.shields.io/badge/Docker-1b4b2e?style=flat-square&logo=docker&logoColor=E0A81C)
-
-<sub>Bare metal & virtualization</sub><br/>
-![Proxmox](https://img.shields.io/badge/Proxmox-1b4b2e?style=flat-square&logo=proxmox&logoColor=E0A81C)
-![Linux](https://img.shields.io/badge/Linux-1b4b2e?style=flat-square&logo=linux&logoColor=E0A81C)
-
-<sub>Infrastructure as code</sub><br/>
-![Terraform](https://img.shields.io/badge/Terraform-1b4b2e?style=flat-square&logo=terraform&logoColor=E0A81C)
-![Ansible](https://img.shields.io/badge/Ansible-1b4b2e?style=flat-square&logo=ansible&logoColor=E0A81C)
-
-<sub>CI/CD & supply chain</sub><br/>
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-1b4b2e?style=flat-square&logo=githubactions&logoColor=E0A81C)
-![OIDC](https://img.shields.io/badge/OIDC-E0A81C?style=flat-square&logoColor=white)
-
-<sub>Observability & on-call</sub><br/>
-![Grafana](https://img.shields.io/badge/Grafana-1b4b2e?style=flat-square&logo=grafana&logoColor=E0A81C)
-![Prometheus](https://img.shields.io/badge/Prometheus-1b4b2e?style=flat-square&logo=prometheus&logoColor=E0A81C)
-![CloudWatch](https://img.shields.io/badge/CloudWatch-1b4b2e?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRTBBODFDIiBzdHJva2Utd2lkdGg9IjIiPjxjaXJjbGUgY3g9IjEwLjUiIGN5PSIxMC41IiByPSI2LjciLz48cGF0aCBzdHJva2UtbGluZWNhcD0icm91bmQiIGQ9Im0xNS42IDE1LjYgNSA1Ii8%2BPHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNNi44IDEwLjVoMS45bDEuMi0yLjYgMS43IDUgMS4yLTIuNGgxLjUiLz48L2c%2BPC9zdmc%2BCg%3D%3D)
-
-### 🌿 &nbsp; The suite
-
-<sub>Six promises every shop needs, plus three for when you need them. Each part below sits under one promise, and its codename is the part's name. Named systems, honest parts. Each one splits a core that doesn't care where it runs from the pieces specific to us, so the parts specific to us swap out for yours. The current build is always <i>the first client</i> — a working reference, not a finished product. The codenames are New England native plants.</sub>
-
-<table>
-<tr>
-<td colspan="2"><b>Your site and giving page</b> — a campaign page you own outright, with a donate button that goes straight to your payment processor.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/monarda-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/monarda"><b>monarda</b></a></td>
-<td>Campaign page — a site template, a one-page intake, and a timed dry-run, deploying into the client's own GitHub Pages or AWS. Yours, not ours.</td>
-</tr>
-<tr>
-<td colspan="2"><b>Your records and your proof</b> — minutes, policies, and filings in one vault, the posting rules beside them, and a public board that shows what went up on time. When the board, the auditor, the funder, or the insurer asks, you send a link.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/uvularia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/uvularia"><b>uvularia</b></a></td>
-<td>Records and deadlines — your public records as plain files with the posting rules next to them; merge and the records publish, a public "Is it posted?" board updates, and a receipt is stamped. <a href="https://lentago.github.io/uvularia-demo-records/">Live demo board</a> for a fictional land trust, published by the vault itself; a branded site is an optional second rung.</td>
-</tr>
-<tr>
-<td colspan="2"><b>Your machines and logins</b> — every laptop set up the same way, every login with a named owner, and leaving is a pull request, a proposed change someone else reviews before it lands.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/kalmia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/kalmia"><b>kalmia</b></a></td>
-<td>Machine setup — turns a fresh Linux install into a fully set-up work machine with one command, and owns every virtual machine and container on our own hardware. Running it again is always safe.</td>
-</tr>
-<tr>
-<td colspan="2"><b>Your alarms and status</b> — know when something breaks before the executive director does, and a file that says who gets the call.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/drosera-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/drosera"><b>drosera</b></a></td>
-<td>Alerts and status — what your systems are doing right now, on dashboards anyone can read. One small collector per machine; every dashboard saved as code. If it isn't in the repo, it doesn't exist.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/betula-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/betula"><b>betula</b></a></td>
-<td>Capture and keep — a complete, searchable record of what happens on a network, kept longer than the vendor keeps it. Our firewall's logs go to a free tier, searchable at $0 a month.</td>
-</tr>
-<tr>
-<td colspan="2"><b>Your help desk and runbooks</b> — requests land in a list, answers come from runbooks you wrote once, and the front desk answers at 9 pm.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/mitchella-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/mitchella"><b>mitchella</b></a></td>
-<td>Front desk — a chat assistant that checks live state before answering from the docs, and drafts a ticket for a human when it can't.</td>
-</tr>
-<tr>
-<td colspan="2"><b>Your data and your exit</b> — every export you'd need to leave a vendor, on a schedule, into a repo you own, with a restore you've drilled. Today, <a href="https://github.com/lentago/betula"><b>betula</b></a> (above) keeps the logs longer than the vendor does, and <a href="https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md">our own lock-in ledger</a> shows what leaving each of our vendors would cost; the scheduled exports and the restore drill are on the roadmap (<a href="https://github.com/lentago/.github/issues/123">#123</a>).</td>
-</tr>
-<tr>
-<td colspan="2"><b>When you need them: your building</b> — sensors, and a lobby screen that says whether you're open.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/epigaea-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/epigaea"><b>epigaea</b></a></td>
-<td>Building sensors (temperatures, doors, power) — a production Home Assistant, the open-source smart-home hub, kept entirely as plain-text config (declarative YAML): every change is checked before it lands and rolls back if it fails. The base for a prospective kit for buildings and cold storage (refrigeration that must stay cold) (<a href="https://github.com/lentago/.github/issues/129">#129</a>).</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/brasenia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/brasenia"><b>brasenia</b></a></td>
-<td>Lobby screen — one always-on screen whose content is chosen by a rubric, not a remote: panes surface when something needs eyes and sink when it resolves. Roku and Chromecast today.</td>
-</tr>
-<tr>
-<td colspan="2"><b>When you need them: cloud you own</b> — a real AWS environment in your account, as code.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/solidago-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/solidago"><b>solidago</b></a></td>
-<td>Cloud you own — our AWS setup, written entirely as code: network, servers, database, web firewall, encryption keys. Serves lentago.dev and three more live sites.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/osmunda-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/osmunda"><b>osmunda</b></a></td>
-<td>Cloud you own — a standing cluster on our own hardware, plus a cloud cluster that exists only for the hours a job needs it. The cluster pulls each approved change itself; nothing pushes to it.</td>
-</tr>
-<tr>
-<td colspan="2"><b>When you need them: AI with receipts</b> — agents that open pull requests and never merge.</td>
-</tr>
-<tr>
-<td><img src="./assets/marks/claytonia-mark-square.svg" width="22" height="22" align="absmiddle" alt="" />&nbsp; <a href="https://github.com/lentago/claytonia"><b>claytonia</b></a></td>
-<td>AI with receipts — a small pool that works unattended on our own hardware. Drop a job, a worker does it on a fresh copy of the code and proposes the change for review. It can't approve its own work; a person always decides.</td>
-</tr>
-</table>
-
-<sub>Under all of it, the guide: <a href="https://github.com/lentago/asclepias"><b>asclepias</b></a> (vol. 1, how it all works, with labs) and <a href="https://github.com/lentago/lupinus"><b>lupinus</b></a> (vol. 2, pick a part and run it from an ops vault you own). The pledge above covers every part.</sub>
-
-### 🧭 &nbsp; Start here
-
-Three doors, depending on what you came for.
-
-**You run a nonprofit's tech and want something you can use today**
-
-1. [**The picker**](https://github.com/lentago/lupinus/blob/main/guide/picker.md) — start from what you need, not from what we built. Every row says what it costs per month and how ready it is.
-2. [**Your first kit**](https://github.com/lentago/lupinus/blob/main/guide/first-kit.md) — a campaign site with an optional donate button, live in about an hour, deployed into *your* GitHub account, for free.
-3. **The pledge** (above) — you own every piece, we show your people how, firing us is a runbook.
-4. Stuck? **chris@lentago.dev**. No invoice. You'll hear back inside a day on weekdays.
-
-**You want to see it working before you trust it**
-
-1. Pick a product repo above and read its **🛠️ Make a change yourself** section. Every vector links to a real merged PR.
-2. Run a [lab](https://github.com/lentago/asclepias/tree/main/labs) against our estate — they start with a first pull request and ladder up to breaking something on purpose (that last one is scheduled with us, not self-serve). A free GitHub account is all you need.
-3. Mention `@claude` on any issue or PR in a product repo and watch the agent fleet respond.
-
-**You want to kick the tires on us**
-
-1. [**solidago**](https://github.com/lentago/solidago) — the reference AWS platform, 100% Terraform.
-2. [**claytonia**](https://github.com/lentago/claytonia) — the self-hosted agent fleet that does the directed work, and never merges.
-3. [**Incident register**](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md) — our post-mortems, published verbatim, including the embarrassing ones.
-4. [**Lock-in ledger**](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md) — every vendor we depend on, scored on how hard it would be to leave. The receipt behind *"firing us is a runbook."*
-
-### 📊 &nbsp; Fleet in numbers
-
-<sub>Regenerated weekly from the repos themselves — we practice what we publish.</sub>
-
-- **[Fleet report](https://github.com/lentago/.github/blob/main/fleet-reports/fleet-report.md)** — open issues by repo, a 30-day activity snapshot, and a code census that counts the `CLAUDE.md`-family instruction files as natural-language code.
-- **[Epics report](https://github.com/lentago/.github/blob/main/fleet-reports/epics.md)** — what the open issues add up to: each tracking issue with its sub-issue progress, the month's merged PRs attributed to it, and the work no epic describes.
-- **[Language census](https://github.com/lentago/.github/blob/main/metrics/language-census.md)** — the canonical all-languages breakdown.
-- **[Incident register](https://github.com/lentago/.github/blob/main/fleet-reports/incidents.md)** — post-mortems from running our own estate, with what broke, what did *not*, and the governance lessons.
-- **[Lock-in ledger](https://github.com/lentago/.github/blob/main/fleet-reports/lock-in-ledger.md)** — our own vendor dependencies, each scored on export fidelity, format openness, custody, and a documented exit. The receipt behind *"firing us is a runbook."*
-
-<div align="center">
-<sub><b><a href="https://lentago.dev">lentago.dev</a></b> &nbsp;·&nbsp; <b>chris@lentago.dev</b> &nbsp;·&nbsp; New England, US &nbsp;·&nbsp; taking new work Q4 2026 forward</sub>
-</div>
+Lentago Labs · New England, US · We practice what we publish.
